@@ -12,12 +12,21 @@ public class GeneratorObjectNode implements GeneratorNode {
         this.parent = parent;
     }
 
-    public void addChild(String property, GeneratorNode generatorNode){
-        children.put(property, generatorNode);
+    @Override
+    public boolean addChild(String property, GeneratorNode value) {
+        children.put(property, value);
+        return true;
     }
 
     @Override
     public GeneratorNode getParent() {
         return parent;
+    }
+
+    @Override
+    public String toString() {
+        return "GeneratorObjectNode{" +
+                "children=" + children +
+                '}';
     }
 }

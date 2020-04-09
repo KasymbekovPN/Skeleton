@@ -39,7 +39,13 @@ public class SimpleGeneratorNode implements GeneratorNode {
         this.property = property;
         this.value = value;
     }
-//
+
+    @Override
+    public GeneratorNode getParent() {
+        return null;
+    }
+
+    //
 //    @Override
 //    public void write(Writer writer) {
 //
