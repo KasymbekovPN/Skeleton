@@ -16,6 +16,11 @@ public class GeneratorElementNode implements GeneratorNode {
     }
 
     @Override
+    public void write(Writer writer) {
+        writer.write(this);
+    }
+
+    @Override
     public String toString() {
         return "GeneratorElementNode{" +
                 "value=" + value +

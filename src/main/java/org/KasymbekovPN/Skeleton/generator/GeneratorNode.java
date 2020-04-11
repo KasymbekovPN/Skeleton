@@ -8,9 +8,6 @@ public interface GeneratorNode {
     default boolean addChild(GeneratorNode value){
         return false;
     };
-    //<
-//    void write(Writer writer);
-    //<
-//    void add(String property, GeneratorNode generatorNode);
-//    void add(GeneratorNode generatorNode);
+    default void write(Writer writer){
+    }
 }

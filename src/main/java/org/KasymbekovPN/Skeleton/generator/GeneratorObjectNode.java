@@ -8,6 +8,10 @@ public class GeneratorObjectNode implements GeneratorNode {
     private GeneratorNode parent;
     private Map<String, GeneratorNode> children = new HashMap<>();
 
+    public Map<String, GeneratorNode> getChildren() {
+        return children;
+    }
+
     public GeneratorObjectNode(GeneratorNode parent) {
         this.parent = parent;
     }
@@ -21,6 +25,11 @@ public class GeneratorObjectNode implements GeneratorNode {
     @Override
     public GeneratorNode getParent() {
         return parent;
+    }
+
+    @Override
+    public void write(Writer writer) {
+        writer.write(this);
     }
 
     @Override

@@ -10,9 +10,6 @@ public class SimpleGenerator implements Generator {
     private GeneratorNode root;
     private GeneratorNode target;
 
-    /* false - target is array */
-    private boolean targetIsObject;
-
     public SimpleGenerator() {
         reset();
     }
@@ -20,28 +17,21 @@ public class SimpleGenerator implements Generator {
     @Override
     public void reset() {
         target = root = new GeneratorObjectNode(null);
-        targetIsObject = true;
     }
 
     @Override
     public void beginObject(String property) {
-//        if (targetIsObject) {
-//            GeneratorObjectNode generatorObjectNode = new GeneratorObjectNode(target);
-//            ((GeneratorObjectNode) target).addChild(property, generatorObjectNode);
-//            target = generatorObjectNode;
-//        }
-        //<
         GeneratorNode node = new GeneratorObjectNode(target);
         if (target.addChild(property, node)){
             target = node;
         }
     }
 
-    //< may be only end() ???
     @Override
-    public void endObject() {
-        if (null != target.getParent()){
-            target = target.getParent();
+    public void beginObject() {
+        GeneratorNode node = new GeneratorObjectNode(target);
+        if (target.addChild(node)){
+            target = node;
         }
     }
 
@@ -65,13 +55,62 @@ public class SimpleGenerator implements Generator {
         addProperty(property, (Object)value);
     }
 
+    @Override
+    public void beginArray(String property) {
+        GeneratorNode node = new GeneratorArrayNode(target);
+        if (target.addChild(property, node)){
+            target = node;
+        }
+    }
+
+    @Override
+    public void beginArray() {
+        GeneratorNode node = new GeneratorArrayNode(target);
+        if (target.addChild(node)){
+            target = node;
+        }
+    }
+
+    @Override
+    public void addProperty(String value) {
+        addProperty((Object) value);
+    }
+
+    @Override
+    public void addProperty(Number value) {
+        addProperty((Object) value);
+    }
+
+    @Override
+    public void addProperty(Boolean value) {
+        addProperty((Object) value);
+    }
+
+    @Override
+    public void addProperty(Character value) {
+        addProperty((Object) value);
+    }
+
     private void addProperty(String property, Object value){
         GeneratorNode node = new GeneratorElementNode(target, value);
         target.addChild(property, node);
     }
 
+    private void addProperty(Object value){
+        GeneratorNode node = new GeneratorElementNode(target, value);
+        target.addChild(node);
+    }
+
+    @Override
+    public void end() {
+        if (null != target.getParent()){
+            target = target.getParent();
+        }
+    }
+
     @Override
     public void write(Writer writer) {
+        root.write(writer);
         //<
 //        if (root != null){
 //            root.write(writer);

@@ -1,5 +1,7 @@
 package org.KasymbekovPN.Skeleton.generator;
 
 public interface Writer {
-    String write(GeneratorNode generatorNode);
+    void write(GeneratorNode generatorNode);
+    void addHandler(Class<? extends GeneratorNode> clazz, GeneratorNodeWrHand handler);
+    StringBuilder getBuffer();
 }
