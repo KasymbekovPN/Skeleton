@@ -1,5 +1,7 @@
 package org.KasymbekovPN.Skeleton.generator;
 
+import org.KasymbekovPN.Skeleton.generator.writer.Writer;
+
 public interface Generator {
     void reset();
 

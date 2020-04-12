@@ -1,29 +1,31 @@
-package org.KasymbekovPN.Skeleton.generator;
+package org.KasymbekovPN.Skeleton.generator.node;
+
+import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GeneratorObjectNode implements GeneratorNode {
+public class ObjectNode implements Node {
 
-    private GeneratorNode parent;
-    private Map<String, GeneratorNode> children = new HashMap<>();
+    private Node parent;
+    private Map<String, Node> children = new HashMap<>();
 
-    public Map<String, GeneratorNode> getChildren() {
+    public Map<String, Node> getChildren() {
         return children;
     }
 
-    public GeneratorObjectNode(GeneratorNode parent) {
+    public ObjectNode(Node parent) {
         this.parent = parent;
     }
 
     @Override
-    public boolean addChild(String property, GeneratorNode value) {
+    public boolean addChild(String property, Node value) {
         children.put(property, value);
         return true;
     }
 
     @Override
-    public GeneratorNode getParent() {
+    public Node getParent() {
         return parent;
     }
 

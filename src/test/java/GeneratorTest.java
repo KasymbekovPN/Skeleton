@@ -1,4 +1,9 @@
-import org.KasymbekovPN.Skeleton.generator.*;
+import org.KasymbekovPN.Skeleton.generator.SimpleGenerator;
+import org.KasymbekovPN.Skeleton.generator.formatter.JsonFormatter;
+import org.KasymbekovPN.Skeleton.generator.node.*;
+import org.KasymbekovPN.Skeleton.generator.writeHandler.*;
+import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
+import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,8 +48,13 @@ public class GeneratorTest {
 
         System.out.println(simpleGenerator);
 
-        Writer writer = new JsonWriter();
-        new JsonObjectGenNodeWrHand(writer, GeneratorObjectNode.class);
+        Writer writer = new SimpleWriter(new JsonFormatter());
+        new ObjectWritingHandler(writer, ObjectNode.class);
+        new ArrayWritingHandler(writer, ArrayNode.class);
+        new StringWritingHandler(writer, StringNode.class);
+        new CharacterWritingHandler(writer, CharacterNode.class);
+        new BooleanWritingHandler(writer, BooleanNode.class);
+        new NumberWritingHandler(writer, NumberNode.class);
         simpleGenerator.write(writer);
 
         System.out.println(writer.getBuffer());

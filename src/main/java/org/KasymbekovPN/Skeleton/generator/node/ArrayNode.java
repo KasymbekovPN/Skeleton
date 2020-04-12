@@ -1,24 +1,30 @@
-package org.KasymbekovPN.Skeleton.generator;
+package org.KasymbekovPN.Skeleton.generator.node;
+
+import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneratorArrayNode implements GeneratorNode {
+public class ArrayNode implements Node {
 
-    private GeneratorNode parent;
-    private List<GeneratorNode> children = new ArrayList<>();
+    private Node parent;
+    private List<Node> children = new ArrayList<>();
 
-    public GeneratorArrayNode(GeneratorNode parent) {
+    public List<Node> getChildren() {
+        return children;
+    }
+
+    public ArrayNode(Node parent) {
         this.parent = parent;
     }
 
     @Override
-    public GeneratorNode getParent() {
+    public Node getParent() {
         return parent;
     }
 
     @Override
-    public boolean addChild(GeneratorNode value) {
+    public boolean addChild(Node value) {
         return children.add(value);
     }
 
