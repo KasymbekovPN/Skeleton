@@ -1,24 +1,31 @@
-import org.KasymbekovPN.Skeleton.serialization.serializer.JsonSerializer;
+import org.KasymbekovPN.Skeleton.generator.Generator;
+import org.KasymbekovPN.Skeleton.generator.SimpleGenerator;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
-import org.KasymbekovPN.Skeleton.serialization.visitor.JsonVisitor;
-import org.KasymbekovPN.Skeleton.serialization.visitor.Visitor;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.JsonHeadVisitorHandler;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.JsonHeaderVE;
+import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
+import org.KasymbekovPN.Skeleton.serialization.visitor.SerializationVisitor;
+import org.KasymbekovPN.Skeleton.serialization.visitor.SimpleSerializationVisitor;
+import org.KasymbekovPN.Skeleton.serialization.visitor.handler.HeaderSVEH;
+import org.KasymbekovPN.Skeleton.serialization.visitorElement.SimpleSHVE;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @DisplayName("Testing of JsonSerializer")
 public class JsonSerializerTest {
 
+    private static final Logger log = LoggerFactory.getLogger(JsonSerializerTest.class);
+
     @Test
     void test(){
 
-        JsonHeaderVE headVE = new JsonHeaderVE();
+        Generator generator = new SimpleGenerator();
+        SerializationVisitor visitor = new SimpleSerializationVisitor(generator);
+        visitor.addHandler(SimpleSHVE.class, new HeaderSVEH());
+        Serializer serializer = new SimpleSerializer(visitor, new SimpleSHVE());
 
-        Visitor visitor = new JsonVisitor();
-        visitor.addHandler(JsonHeaderVE.class, new JsonHeadVisitorHandler());
+        serializer.serialize(TestClass1.class);
 
-        Serializer ser = new JsonSerializer(visitor, headVE);
-        ser.serialize(TestClass1.class);
+        log.info("Generator : {}", generator);
     }
 }

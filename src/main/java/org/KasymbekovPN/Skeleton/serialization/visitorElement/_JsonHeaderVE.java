@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.visitorElement;
 
-import org.KasymbekovPN.Skeleton.serialization.visitor.Visitor;
+import org.KasymbekovPN.Skeleton.serialization.visitor._Visitor;
 
-public class JsonHeaderVE implements HeadVisitorElement {
+public class _JsonHeaderVE implements _HeadVisitorElement {
 
     private Class clazz;
 
@@ -12,7 +12,7 @@ public class JsonHeaderVE implements HeadVisitorElement {
     }
 
     @Override
-    public void accept(Visitor visitor) {
+    public void accept(_Visitor visitor) {
         visitor.visit(this);
     }
 

@@ -1,18 +1,18 @@
 package org.KasymbekovPN.Skeleton.serialization.serializer;
 
-import org.KasymbekovPN.Skeleton.serialization.visitor.Visitor;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.HeadVisitorElement;
+import org.KasymbekovPN.Skeleton.serialization.visitor._Visitor;
+import org.KasymbekovPN.Skeleton.serialization.visitorElement._HeadVisitorElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JsonSerializer implements Serializer {
+public class _JsonSerializer implements _Serializer {
 
-    private static final Logger log = LoggerFactory.getLogger(JsonSerializer.class);
+    private static final Logger log = LoggerFactory.getLogger(_JsonSerializer.class);
 
-    private Visitor visitor;
-    private HeadVisitorElement headVE;
+    private _Visitor visitor;
+    private _HeadVisitorElement headVE;
 
-    public JsonSerializer(Visitor visitor, HeadVisitorElement headVE) {
+    public _JsonSerializer(_Visitor visitor, _HeadVisitorElement headVE) {
         this.visitor = visitor;
         this.headVE = headVE;
     }
