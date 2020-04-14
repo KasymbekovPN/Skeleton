@@ -4,6 +4,6 @@ import org.KasymbekovPN.Skeleton.serialization.visitor.handler.SerializationVisi
 import org.KasymbekovPN.Skeleton.serialization.visitorElement.SerializationVE;
 
 public interface SerializationVisitor {
-    void visit(SerializationVE ve);
+    boolean visit(SerializationVE ve);
     SerializationVisitor addHandler(Class<? extends SerializationVE> clazz, SerializationVisitorElementHandler handler);
 }

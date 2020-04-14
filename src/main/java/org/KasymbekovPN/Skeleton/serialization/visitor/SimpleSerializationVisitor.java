@@ -21,12 +21,13 @@ public class SimpleSerializationVisitor implements SerializationVisitor {
     }
 
     @Override
-    public void visit(SerializationVE ve) {
+    public boolean visit(SerializationVE ve) {
         Class<? extends SerializationVE> clazz = ve.getClass();
         if (handlers.containsKey(clazz)){
-            handlers.get(clazz).handle(ve, generator);
+            return handlers.get(clazz).handle(ve, generator);
         } else {
             log.error("The handler for {} doesn't exist", clazz);
+            return false;
         }
     }
 

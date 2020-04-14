@@ -18,12 +18,6 @@ public class _JsonSerializer implements _Serializer {
     }
 
     public String serialize(Class clazz) {
-
-        //<
-        log.info("clazz : {}", clazz);
-        log.info("name : {}", clazz.getCanonicalName());
-        //<
-
         headVE.set(clazz);
         headVE.accept(visitor);
 

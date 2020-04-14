@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.serialization.visitorElement;
+package org.KasymbekovPN.Skeleton.serialization.visitorElement.header;
 
 import org.KasymbekovPN.Skeleton.serialization.visitor.SerializationVisitor;
 
