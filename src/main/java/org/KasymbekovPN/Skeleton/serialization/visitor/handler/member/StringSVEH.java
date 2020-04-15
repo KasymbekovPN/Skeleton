@@ -8,13 +8,14 @@ import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.StringSMVE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public class StringSVEH implements SerializationVisitorElementHandler {
 
     private static final Logger log = LoggerFactory.getLogger(StringSVEH.class);
-    private static final Class ANNOTATION = Skeleton.class;
-    private static final Class TARGET_TYPE = String.class;
+    private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
+    private static final Class<?> TARGET_TYPE = String.class;
     private static final String TYPE = TARGET_TYPE.getCanonicalName();
     private static final String ENTITY = "member";
 
