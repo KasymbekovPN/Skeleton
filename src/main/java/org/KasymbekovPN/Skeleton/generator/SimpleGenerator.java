@@ -15,12 +15,20 @@ public class SimpleGenerator implements Generator {
     private Node target;
 
     public SimpleGenerator() {
-        reset();
+        clear();
+    }
+
+    @Override
+    public void clear() {
+        target = root = new ObjectNode(null);
     }
 
     @Override
     public void reset() {
-        target = root = new ObjectNode(null);
+        while (target.getParent() != null){
+            target = target.getParent();
+            end();
+        }
     }
 
     @Override
@@ -97,7 +105,7 @@ public class SimpleGenerator implements Generator {
 
     @Override
     public void setTarget(List<String> path) {
-        target = root;
+        reset();
         setEachTarget(path);
     }
 
@@ -107,7 +115,6 @@ public class SimpleGenerator implements Generator {
         if (path.size() > 0){
             setEachTarget(path);
         }
-        end();
     }
 
     @Override

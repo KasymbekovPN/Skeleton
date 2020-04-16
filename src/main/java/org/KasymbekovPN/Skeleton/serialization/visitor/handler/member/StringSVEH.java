@@ -18,9 +18,7 @@ public class StringSVEH implements SerializationVisitorElementHandler {
     private static final Logger log = LoggerFactory.getLogger(StringSVEH.class);
     private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
     private static final Class<?> TYPE = String.class;
-//    private static final String TYPE = TARGET_TYPE.getCanonicalName();
-//    private static final String ENTITY = "member";
-    private static final List<String> TARGET_PATH = new ArrayList<>(){{add("members");}};
+    private static final List<String> PATH = new ArrayList<>(){{add("members");}};
 
     @Override
     public boolean handle(SerializationVE serializationVE, Generator generator) {
@@ -32,16 +30,11 @@ public class StringSVEH implements SerializationVisitorElementHandler {
             String name = field.getName();
             int modifiers = field.getModifiers();
 
-//            generator.setTarget(TARGET_PATH);
-
-//            String key = String.valueOf((ENTITY + String.valueOf(modifiers) + TYPE + name).hashCode());
-
-//            generator.beginObject(key);
-//            generator.addProperty("entity", ENTITY);
-//            generator.addProperty("type", TYPE);
-//            generator.addProperty("modifiers", modifiers);
-//            generator.addProperty("name", name);
-//            generator.end();
+            generator.setTarget(PATH);
+            generator.beginObject(name);
+            generator.addProperty("type", TYPE.getCanonicalName());
+            generator.addProperty("modifiers", modifiers);
+            generator.reset();
 
             return true;
         }

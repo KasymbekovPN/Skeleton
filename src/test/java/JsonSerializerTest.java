@@ -1,5 +1,10 @@
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.generator.SimpleGenerator;
+import org.KasymbekovPN.Skeleton.generator.formatter.JsonFormatter;
+import org.KasymbekovPN.Skeleton.generator.node.*;
+import org.KasymbekovPN.Skeleton.generator.writeHandler.*;
+import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
+import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.serialization.visitor.SerializationVisitor;
@@ -31,6 +36,17 @@ public class JsonSerializerTest {
 
         serializer.serialize(TestClass1.class);
 
-        log.info("Generator : {}", generator);
+//        log.info("Generator : {}", generator);
+
+        Writer writer = new SimpleWriter(new JsonFormatter());
+        new ObjectWritingHandler(writer, ObjectNode.class);
+        new ArrayWritingHandler(writer, ArrayNode.class);
+        new StringWritingHandler(writer, StringNode.class);
+        new CharacterWritingHandler(writer, CharacterNode.class);
+        new BooleanWritingHandler(writer, BooleanNode.class);
+        new NumberWritingHandler(writer, NumberNode.class);
+        generator.write(writer);
+
+        log.info("{}", writer.getBuffer());
     }
 }

@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import java.util.List;
 
 public interface Generator {
+    void clear();
     void reset();
 
     void beginObject(String property);

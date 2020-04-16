@@ -17,7 +17,7 @@ public class GeneratorTest {
     void test(){
 
         SimpleGenerator simpleGenerator = new SimpleGenerator();
-        simpleGenerator.reset();
+        simpleGenerator.clear();
         simpleGenerator.beginObject("test");
         simpleGenerator.beginObject("test_1");
         simpleGenerator.end();

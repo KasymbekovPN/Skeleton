@@ -9,12 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HeaderSVEH implements SerializationVisitorElementHandler {
 
     private static final Logger log = LoggerFactory.getLogger(HeaderSVEH.class);
     private static Class<? extends Annotation> ANNOTATION = Skeleton.class;
-    private static final String ENTITY = "class";
+    private static final List<String> PATH = new ArrayList<>(){{add("class");}};
 
     @Override
     public boolean handle(SerializationVE serializationVE, Generator generator) {
@@ -24,12 +26,12 @@ public class HeaderSVEH implements SerializationVisitorElementHandler {
         if (clazz.isAnnotationPresent(ANNOTATION)){
             String name = clazz.getCanonicalName();
             int modifiers = clazz.getModifiers();
-            String key = String.valueOf((ENTITY + String.valueOf(modifiers) + name).hashCode());
 
-            generator.beginObject(key);
-            generator.addProperty("name", name);
+            generator.setTarget(PATH);
+            generator.beginObject(name);
             generator.addProperty("modifiers", modifiers);
-            generator.end();
+            generator.reset();
+
             return true;
         }
         log.error("{} doesn't annotated of {}", clazz, ANNOTATION);
