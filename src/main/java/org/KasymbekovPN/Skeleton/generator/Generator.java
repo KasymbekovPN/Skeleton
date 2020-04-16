@@ -2,6 +2,8 @@ package org.KasymbekovPN.Skeleton.generator;
 
 import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 
+import java.util.List;
+
 public interface Generator {
     void reset();
 
@@ -24,4 +26,6 @@ public interface Generator {
     void end();
 
     void write(Writer writer);
+
+    void setTarget(List<String> path);
 }

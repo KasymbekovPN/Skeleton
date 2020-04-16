@@ -5,6 +5,8 @@ import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class SimpleGenerator implements Generator {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleGenerator.class);
@@ -23,18 +25,12 @@ public class SimpleGenerator implements Generator {
 
     @Override
     public void beginObject(String property) {
-        Node node = new ObjectNode(target);
-        if (target.addChild(property, node)){
-            target = node;
-        }
+        target.addChild(property, new ObjectNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
     public void beginObject() {
-        Node node = new ObjectNode(target);
-        if (target.addChild(node)){
-            target = node;
-        }
+        target.addChild(new ObjectNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
@@ -59,18 +55,12 @@ public class SimpleGenerator implements Generator {
 
     @Override
     public void beginArray(String property) {
-        Node node = new ArrayNode(target);
-        if (target.addChild(property, node)){
-            target = node;
-        }
+        target.addChild(property, new ArrayNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
     public void beginArray() {
-        Node node = new ArrayNode(target);
-        if (target.addChild(node)){
-            target = node;
-        }
+        target.addChild(new ArrayNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
@@ -103,6 +93,21 @@ public class SimpleGenerator implements Generator {
     @Override
     public void write(Writer writer) {
         root.write(writer);
+    }
+
+    @Override
+    public void setTarget(List<String> path) {
+        target = root;
+        setEachTarget(path);
+    }
+
+    private void setEachTarget(List<String> path){
+        String pathItem = path.remove(0);
+        beginObject(pathItem);
+        if (path.size() > 0){
+            setEachTarget(path);
+        }
+        end();
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ArrayNode implements Node {
 
@@ -24,8 +25,9 @@ public class ArrayNode implements Node {
     }
 
     @Override
-    public boolean addChild(Node value) {
-        return children.add(value);
+    public Optional<Node> addChild(Node value) {
+        children.add(value);
+        return Optional.of(value);
     }
 
     @Override

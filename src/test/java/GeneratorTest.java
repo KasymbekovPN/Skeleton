@@ -7,6 +7,8 @@ import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 @DisplayName("Testing ...")
 public class GeneratorTest {
 
@@ -58,5 +60,27 @@ public class GeneratorTest {
         simpleGenerator.write(writer);
 
         System.out.println(writer.getBuffer());
+    }
+
+    @Test
+    @DisplayName("Testing of 'setTarget' method")
+    void testSetTarget(){
+
+        ArrayList<String> path = new ArrayList<>() {{
+            add("class");
+            add("method");
+            add("expression");
+        }};
+        SimpleGenerator generator = new SimpleGenerator();
+        generator.setTarget(path);
+
+        ArrayList<String> path1 = new ArrayList<>() {{
+            add("class");
+            add("method1");
+            add("expression1");
+        }};
+        generator.setTarget(path1);
+
+        System.out.println(generator);
     }
 }
