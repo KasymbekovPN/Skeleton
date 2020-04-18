@@ -7,17 +7,12 @@ import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
-import org.KasymbekovPN.Skeleton.serialization.visitor.SerializationVisitor;
-import org.KasymbekovPN.Skeleton.serialization.visitor.SimpleSerializationVisitor;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.header.HeaderSVEH;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.member.ByteSVEH;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.member.NumberSVEH;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.member.StringSVEH;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.header.SimpleSHVE;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.ByteSMVE;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.NumberSMVE;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.SerializationMemberVE;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.StringSMVE;
+import org.KasymbekovPN.Skeleton.serialization.handler.header.HeaderSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.NumberSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.StringSEH;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.header.SimpleHSE;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -32,22 +27,12 @@ public class JsonSerializerTest {
     void test(){
 
         Generator generator = new SimpleGenerator();
-        SerializationVisitor visitor = new SimpleSerializationVisitor(generator);
-        visitor.addHandler(SimpleSHVE.class, new HeaderSVEH());
-        visitor.addHandler(StringSMVE.class, new StringSVEH());
-        visitor.addHandler(NumberSMVE.class, new NumberSVEH());
-        visitor.addHandler(ByteSMVE.class, new ByteSVEH());
+        SimpleHSE headerVE = new SimpleHSE(new HeaderSEH());
+        MemberSE memberVE = new SimpleMSE(new StringSEH()).
+                setNext(new SimpleMSE(new NumberSEH()));
 
-//        StringSMVE memberVE = new StringSMVE(null);
-        //<
-        SerializationMemberVE memberVE = new StringSMVE()
-                .setNext(new NumberSMVE())
-                .setNext(new ByteSMVE());
-        Serializer serializer = new SimpleSerializer(visitor, new SimpleSHVE(), memberVE);
-
+        Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
         serializer.serialize(TestClass1.class);
-
-//        log.info("Generator : {}", generator);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
         new ObjectWritingHandler(writer, ObjectNode.class);
