@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleGenerator implements Generator {
@@ -106,7 +107,7 @@ public class SimpleGenerator implements Generator {
     @Override
     public void setTarget(List<String> path) {
         reset();
-        setEachTarget(path);
+        setEachTarget(new ArrayList<>(path));
     }
 
     private void setEachTarget(List<String> path){

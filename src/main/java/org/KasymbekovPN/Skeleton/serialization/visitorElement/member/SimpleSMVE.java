@@ -6,9 +6,12 @@ import java.lang.reflect.Field;
 
 public abstract class SimpleSMVE implements SerializationMemberVE {
 
-    private final SerializationMemberVE next;
-
+    private SerializationMemberVE next;
     private Field field;
+
+    public SimpleSMVE() {
+        this.next = null;
+    }
 
     public SimpleSMVE(SerializationMemberVE next) {
         this.next = next;
@@ -26,10 +29,23 @@ public abstract class SimpleSMVE implements SerializationMemberVE {
     @Override
     public void setData(Field field) {
         this.field = field;
+        if (this.next != null){
+            this.next.setData(field);
+        }
     }
 
     @Override
     public Field getData() {
         return field;
+    }
+
+    @Override
+    public SerializationMemberVE setNext(SerializationMemberVE next) {
+        if (this.next == null){
+            this.next = next;
+        } else {
+            this.next.setNext(next);
+        }
+        return this;
     }
 }

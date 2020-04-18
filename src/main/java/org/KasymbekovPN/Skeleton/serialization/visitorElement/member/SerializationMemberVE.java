@@ -12,4 +12,5 @@ public interface SerializationMemberVE extends SerializationVE {
     void accept(SerializationVisitor visitor);
     void setData(Field field);
     Field getData();
+    SerializationMemberVE setNext(SerializationMemberVE next);
 }
