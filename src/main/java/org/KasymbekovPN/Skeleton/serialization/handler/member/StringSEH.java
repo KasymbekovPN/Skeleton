@@ -1,10 +1,12 @@
-package org.KasymbekovPN.Skeleton.serialization.visitor.handler.member;
+package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
 import org.KasymbekovPN.Skeleton.annotation.Skeleton;
 import org.KasymbekovPN.Skeleton.generator.Generator;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.SerializationVisitorElementHandler;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.SerializationVE;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.StringSMVE;
+import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
+//<
+//import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.StringSMVE;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,17 +15,19 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringSVEH implements SerializationVisitorElementHandler {
+/**
+ * SEH - Serialization Element Handler
+ */
+public class StringSEH implements SerializationElementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(StringSVEH.class);
+    private static final Logger log = LoggerFactory.getLogger(StringSEH.class);
     private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
     private static final Class<?> TYPE = String.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
 
     @Override
-    public boolean handle(SerializationVE serializationVE, Generator generator) {
-        StringSMVE ve = (StringSMVE) serializationVE;
-        Field field = ve.getData();
+    public boolean handle(SerializationElement serializationElement, Generator generator) {
+        Field field = ((SimpleMSE) serializationElement).getData();
 
         if (field.getType().equals(TYPE) && field.isAnnotationPresent(ANNOTATION)){
             String name = field.getName();

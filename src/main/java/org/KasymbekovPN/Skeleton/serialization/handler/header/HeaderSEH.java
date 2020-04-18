@@ -1,10 +1,10 @@
-package org.KasymbekovPN.Skeleton.serialization.visitor.handler.header;
+package org.KasymbekovPN.Skeleton.serialization.handler.header;
 
 import org.KasymbekovPN.Skeleton.annotation.Skeleton;
 import org.KasymbekovPN.Skeleton.generator.Generator;
-import org.KasymbekovPN.Skeleton.serialization.visitor.handler.SerializationVisitorElementHandler;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.SerializationVE;
-import org.KasymbekovPN.Skeleton.serialization.visitorElement.header.SimpleSHVE;
+import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.header.SimpleHSE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,15 +12,18 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeaderSVEH implements SerializationVisitorElementHandler {
+/**
+ * SEH - Serialization Element Handler
+ */
+public class HeaderSEH implements SerializationElementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(HeaderSVEH.class);
+    private static final Logger log = LoggerFactory.getLogger(HeaderSEH.class);
     private static Class<? extends Annotation> ANNOTATION = Skeleton.class;
     private static final List<String> PATH = new ArrayList<>(){{add("class");}};
 
     @Override
-    public boolean handle(SerializationVE serializationVE, Generator generator) {
-        SimpleSHVE ve = (SimpleSHVE) serializationVE;
+    public boolean handle(SerializationElement serializationElement, Generator generator) {
+        SimpleHSE ve = (SimpleHSE) serializationElement;
         Class<?> clazz = ve.getData();
 
         if (clazz.isAnnotationPresent(ANNOTATION)){
