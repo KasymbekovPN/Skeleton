@@ -10,9 +10,11 @@ import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.serialization.visitor.SerializationVisitor;
 import org.KasymbekovPN.Skeleton.serialization.visitor.SimpleSerializationVisitor;
 import org.KasymbekovPN.Skeleton.serialization.visitor.handler.header.HeaderSVEH;
+import org.KasymbekovPN.Skeleton.serialization.visitor.handler.member.ByteSVEH;
 import org.KasymbekovPN.Skeleton.serialization.visitor.handler.member.NumberSVEH;
 import org.KasymbekovPN.Skeleton.serialization.visitor.handler.member.StringSVEH;
 import org.KasymbekovPN.Skeleton.serialization.visitorElement.header.SimpleSHVE;
+import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.ByteSMVE;
 import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.NumberSMVE;
 import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.SerializationMemberVE;
 import org.KasymbekovPN.Skeleton.serialization.visitorElement.member.StringSMVE;
@@ -34,11 +36,13 @@ public class JsonSerializerTest {
         visitor.addHandler(SimpleSHVE.class, new HeaderSVEH());
         visitor.addHandler(StringSMVE.class, new StringSVEH());
         visitor.addHandler(NumberSMVE.class, new NumberSVEH());
+        visitor.addHandler(ByteSMVE.class, new ByteSVEH());
 
 //        StringSMVE memberVE = new StringSMVE(null);
         //<
         SerializationMemberVE memberVE = new StringSMVE()
-                .setNext(new NumberSMVE());
+                .setNext(new NumberSMVE())
+                .setNext(new ByteSMVE());
         Serializer serializer = new SimpleSerializer(visitor, new SimpleSHVE(), memberVE);
 
         serializer.serialize(TestClass1.class);
