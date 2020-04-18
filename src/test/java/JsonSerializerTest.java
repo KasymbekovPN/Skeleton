@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.generator.node.*;
 import org.KasymbekovPN.Skeleton.generator.writeHandler.*;
 import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.generator.writer.Writer;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.ByteSEH;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.serialization.handler.header.HeaderSEH;
@@ -28,8 +29,9 @@ public class JsonSerializerTest {
 
         Generator generator = new SimpleGenerator();
         SimpleHSE headerVE = new SimpleHSE(new HeaderSEH());
-        MemberSE memberVE = new SimpleMSE(new StringSEH()).
-                setNext(new SimpleMSE(new NumberSEH()));
+        MemberSE memberVE = new SimpleMSE(new StringSEH())
+                .setNext(new SimpleMSE(new NumberSEH()))
+                .setNext(new SimpleMSE(new ByteSEH()));
 
         Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
         serializer.serialize(TestClass1.class);
