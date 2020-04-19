@@ -16,29 +16,29 @@ import java.util.List;
 /**
  * SEH - Serialization Element Handler
  */
-public class SimpleMemberSEH implements SerializationElementHandler {
+public class SpecificTypeMemberSEH implements SerializationElementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(SimpleMemberSEH.class);
+    private static final Logger log = LoggerFactory.getLogger(SpecificTypeMemberSEH.class);
     private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
 
-    private final Class<?> type;
+    private final Class<?> specificType;
 
-    public SimpleMemberSEH(Class<?> type) {
-        this.type = type;
+    public SpecificTypeMemberSEH(Class<?> specificType) {
+        this.specificType = specificType;
     }
 
     @Override
     public boolean handle(SerializationElement serializationElement, Generator generator) {
         Field field = ((MemberSE) serializationElement).getData();
 
-        if (field.getType().equals(type) && field.isAnnotationPresent(ANNOTATION)){
+        if (field.getType().equals(specificType) && field.isAnnotationPresent(ANNOTATION)){
             String name = field.getName();
             int modifiers = field.getModifiers();
 
             generator.setTarget(PATH);
             generator.beginObject(name);
-            generator.addProperty("type", type.getCanonicalName());
+            generator.addProperty("type", specificType.getCanonicalName());
             generator.addProperty("modifiers", modifiers);
             generator.reset();
 

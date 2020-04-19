@@ -16,15 +16,15 @@ import java.util.List;
 /**
  * SEH - Serialization Element Handler
  */
-public class ExtendableMemberSEH implements SerializationElementHandler {
+public class ExtendedTypeMemberSEH implements SerializationElementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(ExtendableMemberSEH.class);
+    private static final Logger log = LoggerFactory.getLogger(ExtendedTypeMemberSEH.class);
     private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
 
     private final Class<?> extendableType;
 
-    public ExtendableMemberSEH(Class<?> extendableType) {
+    public ExtendedTypeMemberSEH(Class<?> extendableType) {
         this.extendableType = extendableType;
     }
 
