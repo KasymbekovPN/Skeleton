@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.annotation.Skeleton;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
-import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
+import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,19 +16,23 @@ import java.util.List;
 /**
  * SEH - Serialization Element Handler
  */
-public class NumberSEH implements SerializationElementHandler {
+public class SimpleMemberSEH implements SerializationElementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(NumberSEH.class);
+    private static final Logger log = LoggerFactory.getLogger(SimpleMemberSEH.class);
     private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
-    private static final Class<?> EXTENDED_TYPE = Number.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
+
+    private final Class<?> type;
+
+    public SimpleMemberSEH(Class<?> type) {
+        this.type = type;
+    }
 
     @Override
     public boolean handle(SerializationElement serializationElement, Generator generator) {
-        Field field = ((SimpleMSE) serializationElement).getData();
+        Field field = ((MemberSE) serializationElement).getData();
 
-        Class<?> type = field.getType();
-        if (EXTENDED_TYPE.isAssignableFrom(type) && field.isAnnotationPresent(ANNOTATION)){
+        if (field.getType().equals(type) && field.isAnnotationPresent(ANNOTATION)){
             String name = field.getName();
             int modifiers = field.getModifiers();
 
@@ -40,7 +44,6 @@ public class NumberSEH implements SerializationElementHandler {
 
             return true;
         }
-
         return false;
     }
 }

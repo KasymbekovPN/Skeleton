@@ -5,15 +5,14 @@ import org.KasymbekovPN.Skeleton.generator.node.*;
 import org.KasymbekovPN.Skeleton.generator.writeHandler.*;
 import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.generator.writer.Writer;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.ByteSEH;
-import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
-import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.serialization.handler.header.HeaderSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.NumberSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.StringSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendableMemberSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.SimpleMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.header.SimpleHSE;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
+import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -29,9 +28,9 @@ public class JsonSerializerTest {
 
         Generator generator = new SimpleGenerator();
         SimpleHSE headerVE = new SimpleHSE(new HeaderSEH());
-        MemberSE memberVE = new SimpleMSE(new StringSEH())
-                .setNext(new SimpleMSE(new NumberSEH()))
-                .setNext(new SimpleMSE(new ByteSEH()));
+        MemberSE memberVE = new SimpleMSE(new SimpleMemberSEH(String.class))
+                .setNext(new SimpleMSE(new ExtendableMemberSEH(Number.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(byte.class)));
 
         Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
         serializer.serialize(TestClass1.class);
