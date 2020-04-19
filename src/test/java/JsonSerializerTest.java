@@ -30,10 +30,19 @@ public class JsonSerializerTest {
         SimpleHSE headerVE = new SimpleHSE(new HeaderSEH());
         MemberSE memberVE = new SimpleMSE(new SimpleMemberSEH(String.class))
                 .setNext(new SimpleMSE(new ExtendableMemberSEH(Number.class)))
-                .setNext(new SimpleMSE(new SimpleMemberSEH(byte.class)));
+                .setNext(new SimpleMSE(new SimpleMemberSEH(byte.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(short.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(int.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(long.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(float.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(double.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(char.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(boolean.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(Boolean.class)))
+                .setNext(new SimpleMSE(new SimpleMemberSEH(Character.class)));
 
         Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
-        serializer.serialize(TestClass1.class);
+        serializer.serialize(TestClass2.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
         new ObjectWritingHandler(writer, ObjectNode.class);
