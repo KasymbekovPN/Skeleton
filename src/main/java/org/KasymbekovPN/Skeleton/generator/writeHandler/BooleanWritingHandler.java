@@ -10,7 +10,7 @@ public class BooleanWritingHandler implements WritingHandler {
     private final Writer writer;
     private final Formatter formatter;
 
-    public BooleanWritingHandler(Writer writer, Class clazz) {
+    public BooleanWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = this.writer.getBuffer();

@@ -11,7 +11,7 @@ public class CharacterWritingHandler implements WritingHandler {
     private final Writer writer;
     private final Formatter formatter;
 
-    public CharacterWritingHandler(Writer writer, Class clazz) {
+    public CharacterWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = this.writer.getBuffer();

@@ -16,7 +16,7 @@ public class ObjectWritingHandler implements WritingHandler {
     private final Writer writer;
     private final Formatter formatter;
 
-    public ObjectWritingHandler(Writer writer, Class clazz) {
+    public ObjectWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = writer.getBuffer();
@@ -33,14 +33,17 @@ public class ObjectWritingHandler implements WritingHandler {
         Iterator<String> iterator = delimiters.iterator();
 
         buffer.append(formatter.getBeginBorder(clazz));
+        formatter.incOffset();
         for (Map.Entry<String, Node> entry : entries) {
             buffer.append(iterator.next())
+                    .append(formatter.getOffset())
                     .append(formatter.getNameBorder())
                     .append(entry.getKey())
                     .append(formatter.getNameBorder())
                     .append(formatter.getNameValueSeparator());
             entry.getValue().write(writer);
         }
+        formatter.decOffset();
         buffer.append(formatter.getEndBorder(clazz));
     }
 }

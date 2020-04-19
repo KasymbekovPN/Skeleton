@@ -53,6 +53,6 @@ public class JsonSerializerTest {
         new NumberWritingHandler(writer, NumberNode.class);
         generator.write(writer);
 
-        log.info("{}", writer.getBuffer());
+        log.info("\n{}", writer.getBuffer());
     }
 }

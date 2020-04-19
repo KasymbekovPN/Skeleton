@@ -11,7 +11,7 @@ public class StringWritingHandler implements WritingHandler {
     private final Writer writer;
     private final Formatter formatter;
 
-    public StringWritingHandler(Writer writer, Class clazz) {
+    public StringWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = writer.getBuffer();

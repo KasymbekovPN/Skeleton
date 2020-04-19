@@ -11,7 +11,7 @@ public class NumberWritingHandler implements WritingHandler {
     private final Writer writer;
     private final Formatter formatter;
 
-    public NumberWritingHandler(Writer writer, Class clazz) {
+    public NumberWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = this.writer.getBuffer();

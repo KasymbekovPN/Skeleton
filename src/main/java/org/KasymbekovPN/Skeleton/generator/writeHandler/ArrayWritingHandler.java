@@ -14,7 +14,7 @@ public class ArrayWritingHandler implements WritingHandler {
     private final Writer writer;
     private final Formatter formatter;
 
-    public ArrayWritingHandler(Writer writer, Class clazz) {
+    public ArrayWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = writer.getBuffer();
@@ -26,14 +26,18 @@ public class ArrayWritingHandler implements WritingHandler {
         List<Node> children = ((ArrayNode) node).getChildren();
 
         Class<ArrayNode> clazz = ArrayNode.class;
+
+        buffer.append(formatter.getBeginBorder(clazz));
+        formatter.incOffset();
+
         List<String> delimiters = formatter.getDelimiters(clazz, children.size());
         Iterator<String> iterator = delimiters.iterator();
 
-        buffer.append(formatter.getBeginBorder(clazz));
         for (Node child : children) {
             buffer.append(iterator.next());
             child.write(writer);
         }
-        buffer.append(formatter.getEndBorder(clazz));
+        formatter.decOffset();
+        buffer.append(formatter.getOffset()).append(formatter.getEndBorder(clazz));
     }
 }
