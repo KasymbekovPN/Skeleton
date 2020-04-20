@@ -3,7 +3,9 @@ package org.KasymbekovPN.Skeleton.serialization.serializationElement.member;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * MSE - Member Serialization Element
@@ -50,6 +52,18 @@ public class SimpleMSE implements MemberSE {
         } else {
             this.next.setNext(next);
         }
+        return this;
+    }
+
+    @Override
+    public MemberSE setNativeNext(SerializationElementHandler seh) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        if (next == null){
+            Constructor<? extends MemberSE> constructor = getClass().getConstructor(SerializationElementHandler.class);
+            next = constructor.newInstance(seh);
+        } else {
+            next.setNativeNext(seh);
+        }
+
         return this;
     }
 }

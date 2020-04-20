@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
+
 @DisplayName("Testing of JsonSerializer")
 public class JsonSerializerTest {
 
@@ -42,6 +44,40 @@ public class JsonSerializerTest {
                 .setNext(new SimpleMSE(new SpecificTypeMemberSEH(Character.class)));
 
         Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
+        serializer.serialize(TestClass2.class);
+
+        Writer writer = new SimpleWriter(new JsonFormatter());
+        new ObjectWritingHandler(writer, ObjectNode.class);
+        new ArrayWritingHandler(writer, ArrayNode.class);
+        new StringWritingHandler(writer, StringNode.class);
+        new CharacterWritingHandler(writer, CharacterNode.class);
+        new BooleanWritingHandler(writer, BooleanNode.class);
+        new NumberWritingHandler(writer, NumberNode.class);
+        generator.write(writer);
+
+        log.info("\n{}", writer.getBuffer());
+    }
+
+    @Test
+    void test1() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+        Generator generator = new SimpleGenerator();
+        SimpleHSE headerSE = new SimpleHSE(new HeaderSEH());
+
+        MemberSE memberSE = new SimpleMSE(new SpecificTypeMemberSEH(String.class))
+                .setNativeNext(new ExtendedTypeMemberSEH(Number.class))
+                .setNativeNext(new SpecificTypeMemberSEH(byte.class))
+                .setNativeNext(new SpecificTypeMemberSEH(short.class))
+                .setNativeNext(new SpecificTypeMemberSEH(int.class))
+                .setNativeNext(new SpecificTypeMemberSEH(long.class))
+                .setNativeNext(new SpecificTypeMemberSEH(float.class))
+                .setNativeNext(new SpecificTypeMemberSEH(double.class))
+                .setNativeNext(new SpecificTypeMemberSEH(char.class))
+                .setNativeNext(new SpecificTypeMemberSEH(boolean.class))
+                .setNativeNext(new SpecificTypeMemberSEH(Boolean.class))
+                .setNativeNext(new SpecificTypeMemberSEH(Character.class));
+
+        Serializer serializer = new SimpleSerializer(headerSE, memberSE, generator);
         serializer.serialize(TestClass2.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
