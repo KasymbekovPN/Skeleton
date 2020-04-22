@@ -7,18 +7,24 @@ import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.KasymbekovPN.Skeleton.serialization.handler.header.HeaderSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.SimpleContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.header.SimpleHSE;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
+import org.KasymbekovPN.Skeleton.utils.TypeChecker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @DisplayName("Testing of JsonSerializer")
 public class JsonSerializerTest {
@@ -77,8 +83,15 @@ public class JsonSerializerTest {
                 .setNativeNext(new SpecificTypeMemberSEH(Boolean.class))
                 .setNativeNext(new SpecificTypeMemberSEH(Character.class));
 
+        TypeChecker checker = new TypeChecker(
+                new HashSet<>(Arrays.asList(Number.class)),
+                new HashSet<>(Arrays.asList(String.class, Boolean.class)));
+
+        memberSE.setNativeNext(new SimpleContainerMemberSEH(checker, List.class));
+        memberSE.setNativeNext(new SimpleContainerMemberSEH(checker, Set.class));
+
         Serializer serializer = new SimpleSerializer(headerSE, memberSE, generator);
-        serializer.serialize(TestClass2.class);
+        serializer.serialize(TestList.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
         new ObjectWritingHandler(writer, ObjectNode.class);
