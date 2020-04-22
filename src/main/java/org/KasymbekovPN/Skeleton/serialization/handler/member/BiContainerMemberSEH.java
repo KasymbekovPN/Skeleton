@@ -19,34 +19,46 @@ import java.util.List;
 /**
  * SEH - Serialization Element Handler
  */
-public class SimpleContainerMemberSEH implements SerializationElementHandler {
+public class BiContainerMemberSEH implements SerializationElementHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(SimpleContainerMemberSEH.class);
+    //<
+
+//    public class SimpleContainerMemberSEH implements SerializationElementHandler {
+//
+
+    private static final Logger log = LoggerFactory.getLogger(BiContainerMemberSEH.class);
     private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
+    private static final Integer ARGUMENTS_NUMBER = 2;
 
-    private final Checker<Class<?>> checker;
     private final Class<?> specificType;
+    private final Checker<Class<?>> firstArgumentChecker;
+    private final Checker<Class<?>> secondArgumentChecker;
 
-    public SimpleContainerMemberSEH(Class<?> specificType, Checker<Class<?>> checker) {
-        this.checker = checker;
+
+    public BiContainerMemberSEH(Class<?> specificType, Checker<Class<?>> firstArgumentChecker, Checker<Class<?>> secondArgumentChecker) {
+        this.firstArgumentChecker = firstArgumentChecker;
+        this.secondArgumentChecker = secondArgumentChecker;
         this.specificType = specificType;
+    }
+
+    public BiContainerMemberSEH(Class<?> specificType, Checker<Class<?>> argumentChecker) {
+        this.specificType = specificType;
+        this.firstArgumentChecker = argumentChecker;
+        this.secondArgumentChecker = argumentChecker;
     }
 
     @Override
     public boolean handle(SerializationElement serializationElement, Generator generator) {
-
         Field field = ((MemberSE) serializationElement).getData();
 
-        if (field.getType().equals(specificType) && field.isAnnotationPresent(ANNOTATION))
-        {
+        if (field.getType().equals(specificType) && field.isAnnotationPresent(ANNOTATION)) {
             Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
-            if (actualTypeArguments.length == 1)
-            {
-                Class<?> argClass = (Class<?>) actualTypeArguments[0];
+            if (ARGUMENTS_NUMBER.equals(actualTypeArguments.length)){
+                Class<?> firstArg = (Class<?>) actualTypeArguments[0];
+                Class<?> secondArg = (Class<?>) actualTypeArguments[1];
 
-                if (checker.check(argClass))
-                {
+                if (firstArgumentChecker.check(firstArg) && secondArgumentChecker.check(secondArg)){
                     String name = field.getName();
                     int modifiers = field.getModifiers();
 
@@ -55,7 +67,8 @@ public class SimpleContainerMemberSEH implements SerializationElementHandler {
                     generator.addProperty("type", field.getType().getCanonicalName());
                     generator.addProperty("modifiers", modifiers);
                     generator.beginArray("arguments");
-                    generator.addProperty(argClass.getCanonicalName());
+                    generator.addProperty(firstArg.getCanonicalName());
+                    generator.addProperty(secondArg.getCanonicalName());
                     generator.reset();
 
                     return true;

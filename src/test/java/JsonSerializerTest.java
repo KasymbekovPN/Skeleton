@@ -6,6 +6,7 @@ import org.KasymbekovPN.Skeleton.generator.writeHandler.*;
 import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.generator.writer.Writer;
 import org.KasymbekovPN.Skeleton.serialization.handler.header.HeaderSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.BiContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SimpleContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMemberSEH;
@@ -21,10 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @DisplayName("Testing of JsonSerializer")
 public class JsonSerializerTest {
@@ -87,11 +85,53 @@ public class JsonSerializerTest {
                 new HashSet<>(Arrays.asList(Number.class)),
                 new HashSet<>(Arrays.asList(String.class, Boolean.class)));
 
-        memberSE.setNativeNext(new SimpleContainerMemberSEH(checker, List.class));
-        memberSE.setNativeNext(new SimpleContainerMemberSEH(checker, Set.class));
+        memberSE.setNativeNext(new SimpleContainerMemberSEH(List.class, checker));
+        memberSE.setNativeNext(new SimpleContainerMemberSEH(Set.class, checker));
 
         Serializer serializer = new SimpleSerializer(headerSE, memberSE, generator);
         serializer.serialize(TestList.class);
+
+        Writer writer = new SimpleWriter(new JsonFormatter());
+        new ObjectWritingHandler(writer, ObjectNode.class);
+        new ArrayWritingHandler(writer, ArrayNode.class);
+        new StringWritingHandler(writer, StringNode.class);
+        new CharacterWritingHandler(writer, CharacterNode.class);
+        new BooleanWritingHandler(writer, BooleanNode.class);
+        new NumberWritingHandler(writer, NumberNode.class);
+        generator.write(writer);
+
+        log.info("\n{}", writer.getBuffer());
+    }
+
+    @Test
+    void test2() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+        Generator generator = new SimpleGenerator();
+        SimpleHSE headerSE = new SimpleHSE(new HeaderSEH());
+
+        MemberSE memberSE = new SimpleMSE(new SpecificTypeMemberSEH(String.class))
+                .setNativeNext(new ExtendedTypeMemberSEH(Number.class))
+                .setNativeNext(new SpecificTypeMemberSEH(byte.class))
+                .setNativeNext(new SpecificTypeMemberSEH(short.class))
+                .setNativeNext(new SpecificTypeMemberSEH(int.class))
+                .setNativeNext(new SpecificTypeMemberSEH(long.class))
+                .setNativeNext(new SpecificTypeMemberSEH(float.class))
+                .setNativeNext(new SpecificTypeMemberSEH(double.class))
+                .setNativeNext(new SpecificTypeMemberSEH(char.class))
+                .setNativeNext(new SpecificTypeMemberSEH(boolean.class))
+                .setNativeNext(new SpecificTypeMemberSEH(Boolean.class))
+                .setNativeNext(new SpecificTypeMemberSEH(Character.class));
+
+        TypeChecker checker = new TypeChecker(
+                new HashSet<>(Arrays.asList(Number.class)),
+                new HashSet<>(Arrays.asList(String.class, Boolean.class)));
+
+        memberSE.setNativeNext(new SimpleContainerMemberSEH(List.class, checker))
+                .setNativeNext(new SimpleContainerMemberSEH(Set.class, checker))
+                .setNativeNext(new BiContainerMemberSEH(Map.class, checker));
+
+        Serializer serializer = new SimpleSerializer(headerSE, memberSE, generator);
+        serializer.serialize(BiContainerTest.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
         new ObjectWritingHandler(writer, ObjectNode.class);
