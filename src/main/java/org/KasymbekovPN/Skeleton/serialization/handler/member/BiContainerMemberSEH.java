@@ -6,6 +6,7 @@ import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandl
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
 import org.KasymbekovPN.Skeleton.utils.Checker;
+import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,19 +50,21 @@ public class BiContainerMemberSEH implements SerializationElementHandler {
     }
 
     @Override
-    public boolean handle(SerializationElement serializationElement, Generator generator) {
+    public boolean handle(SerializationElement serializationElement, Generator generator, GeneralCondition generalCondition) {
         Field field = ((MemberSE) serializationElement).getData();
 
-        if (field.getType().equals(specificType) && field.isAnnotationPresent(ANNOTATION)) {
+        String name = field.getName();
+        int modifiers = field.getModifiers();
+
+        if (field.getType().equals(specificType) &&
+                (field.isAnnotationPresent(ANNOTATION) || generalCondition.check(name, modifiers))) {
+
             Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
             if (ARGUMENTS_NUMBER.equals(actualTypeArguments.length)){
                 Class<?> firstArg = (Class<?>) actualTypeArguments[0];
                 Class<?> secondArg = (Class<?>) actualTypeArguments[1];
 
                 if (firstArgumentChecker.check(firstArg) && secondArgumentChecker.check(secondArg)){
-                    String name = field.getName();
-                    int modifiers = field.getModifiers();
-
                     generator.setTarget(PATH);
                     generator.beginObject(name);
                     generator.addProperty("type", field.getType().getCanonicalName());

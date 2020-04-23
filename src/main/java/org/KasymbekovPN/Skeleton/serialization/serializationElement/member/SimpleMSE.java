@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.serialization.serializationElement.member;
 
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -13,17 +14,20 @@ import java.lang.reflect.InvocationTargetException;
 public class SimpleMSE implements MemberSE {
 
     private final SerializationElementHandler handler;
+    private final GeneralCondition generalCondition;
 
     private MemberSE next;
     private Field field;
 
-    public SimpleMSE(SerializationElementHandler handler) {
+
+    public SimpleMSE(SerializationElementHandler handler, GeneralCondition generalCondition) {
         this.handler = handler;
+        this.generalCondition = generalCondition;
     }
 
     @Override
     public boolean handle(Generator generator) {
-        if (handler.handle(this, generator)){
+        if (handler.handle(this, generator, generalCondition)){
             return true;
         } else if (next != null){
             return next.handle(generator);
@@ -58,8 +62,8 @@ public class SimpleMSE implements MemberSE {
     @Override
     public MemberSE setNativeNext(SerializationElementHandler seh) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         if (next == null){
-            Constructor<? extends MemberSE> constructor = getClass().getConstructor(SerializationElementHandler.class);
-            next = constructor.newInstance(seh);
+            Constructor<? extends MemberSE> constructor = getClass().getConstructor(SerializationElementHandler.class, GeneralCondition.class);
+            next = constructor.newInstance(seh, generalCondition);
         } else {
             next.setNativeNext(seh);
         }

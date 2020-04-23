@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.header.SimpleHSE;
+import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +23,13 @@ public class HeaderSEH implements SerializationElementHandler {
     private static final List<String> PATH = new ArrayList<>(){{add("class");}};
 
     @Override
-    public boolean handle(SerializationElement serializationElement, Generator generator) {
+    public boolean handle(SerializationElement serializationElement, Generator generator, GeneralCondition generalCondition) {
         SimpleHSE ve = (SimpleHSE) serializationElement;
         Class<?> clazz = ve.getData();
 
         if (clazz.isAnnotationPresent(ANNOTATION)){
+            generalCondition.setData(clazz.getAnnotation(ANNOTATION));
+
             String name = clazz.getCanonicalName();
             int modifiers = clazz.getModifiers();
 

@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
+import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,12 +30,14 @@ public class SpecificTypeMemberSEH implements SerializationElementHandler {
     }
 
     @Override
-    public boolean handle(SerializationElement serializationElement, Generator generator) {
+    public boolean handle(SerializationElement serializationElement, Generator generator, GeneralCondition generalCondition) {
         Field field = ((MemberSE) serializationElement).getData();
 
-        if (field.getType().equals(specificType) && field.isAnnotationPresent(ANNOTATION)){
-            String name = field.getName();
-            int modifiers = field.getModifiers();
+        String name = field.getName();
+        int modifiers = field.getModifiers();
+
+        if (field.getType().equals(specificType) &&
+                (field.isAnnotationPresent(ANNOTATION) || generalCondition.check(name, modifiers))){
 
             generator.setTarget(PATH);
             generator.beginObject(name);
@@ -44,6 +47,7 @@ public class SpecificTypeMemberSEH implements SerializationElementHandler {
 
             return true;
         }
+
         return false;
     }
 }

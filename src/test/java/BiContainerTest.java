@@ -2,7 +2,9 @@ import org.KasymbekovPN.Skeleton.annotation.Skeleton;
 
 import java.util.Map;
 
-@Skeleton
+@Skeleton(
+        includeByName = {"map", "list"}
+)
 public class BiContainerTest {
 
     @Skeleton

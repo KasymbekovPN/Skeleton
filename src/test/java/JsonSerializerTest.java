@@ -15,6 +15,8 @@ import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.Membe
 import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
+import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
+import org.KasymbekovPN.Skeleton.utils.SimpleGeneralCondition;
 import org.KasymbekovPN.Skeleton.utils.TypeChecker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,84 +34,85 @@ public class JsonSerializerTest {
     @Test
     void test(){
 
-        Generator generator = new SimpleGenerator();
-        SimpleHSE headerVE = new SimpleHSE(new HeaderSEH());
-        MemberSE memberVE = new SimpleMSE(new SpecificTypeMemberSEH(String.class))
-                .setNext(new SimpleMSE(new ExtendedTypeMemberSEH(Number.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(byte.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(short.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(int.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(long.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(float.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(double.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(char.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(boolean.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(Boolean.class)))
-                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(Character.class)));
-
-        Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
-        serializer.serialize(TestClass2.class);
-
-        Writer writer = new SimpleWriter(new JsonFormatter());
-        new ObjectWritingHandler(writer, ObjectNode.class);
-        new ArrayWritingHandler(writer, ArrayNode.class);
-        new StringWritingHandler(writer, StringNode.class);
-        new CharacterWritingHandler(writer, CharacterNode.class);
-        new BooleanWritingHandler(writer, BooleanNode.class);
-        new NumberWritingHandler(writer, NumberNode.class);
-        generator.write(writer);
-
-        log.info("\n{}", writer.getBuffer());
+//        Generator generator = new SimpleGenerator();
+//        SimpleHSE headerVE = new SimpleHSE(new HeaderSEH(), generalCondition);
+//        MemberSE memberVE = new SimpleMSE(new SpecificTypeMemberSEH(String.class), generalCondition)
+//                .setNext(new SimpleMSE(new ExtendedTypeMemberSEH(Number.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(byte.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(short.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(int.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(long.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(float.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(double.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(char.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(boolean.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(Boolean.class), generalCondition))
+//                .setNext(new SimpleMSE(new SpecificTypeMemberSEH(Character.class), generalCondition));
+//
+//        Serializer serializer = new SimpleSerializer(headerVE, memberVE, generator);
+//        serializer.serialize(TestClass2.class);
+//
+//        Writer writer = new SimpleWriter(new JsonFormatter());
+//        new ObjectWritingHandler(writer, ObjectNode.class);
+//        new ArrayWritingHandler(writer, ArrayNode.class);
+//        new StringWritingHandler(writer, StringNode.class);
+//        new CharacterWritingHandler(writer, CharacterNode.class);
+//        new BooleanWritingHandler(writer, BooleanNode.class);
+//        new NumberWritingHandler(writer, NumberNode.class);
+//        generator.write(writer);
+//
+//        log.info("\n{}", writer.getBuffer());
     }
 
     @Test
     void test1() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-        Generator generator = new SimpleGenerator();
-        SimpleHSE headerSE = new SimpleHSE(new HeaderSEH());
-
-        MemberSE memberSE = new SimpleMSE(new SpecificTypeMemberSEH(String.class))
-                .setNativeNext(new ExtendedTypeMemberSEH(Number.class))
-                .setNativeNext(new SpecificTypeMemberSEH(byte.class))
-                .setNativeNext(new SpecificTypeMemberSEH(short.class))
-                .setNativeNext(new SpecificTypeMemberSEH(int.class))
-                .setNativeNext(new SpecificTypeMemberSEH(long.class))
-                .setNativeNext(new SpecificTypeMemberSEH(float.class))
-                .setNativeNext(new SpecificTypeMemberSEH(double.class))
-                .setNativeNext(new SpecificTypeMemberSEH(char.class))
-                .setNativeNext(new SpecificTypeMemberSEH(boolean.class))
-                .setNativeNext(new SpecificTypeMemberSEH(Boolean.class))
-                .setNativeNext(new SpecificTypeMemberSEH(Character.class));
-
-        TypeChecker checker = new TypeChecker(
-                new HashSet<>(Arrays.asList(Number.class)),
-                new HashSet<>(Arrays.asList(String.class, Boolean.class)));
-
-        memberSE.setNativeNext(new SimpleContainerMemberSEH(List.class, checker));
-        memberSE.setNativeNext(new SimpleContainerMemberSEH(Set.class, checker));
-
-        Serializer serializer = new SimpleSerializer(headerSE, memberSE, generator);
-        serializer.serialize(TestList.class);
-
-        Writer writer = new SimpleWriter(new JsonFormatter());
-        new ObjectWritingHandler(writer, ObjectNode.class);
-        new ArrayWritingHandler(writer, ArrayNode.class);
-        new StringWritingHandler(writer, StringNode.class);
-        new CharacterWritingHandler(writer, CharacterNode.class);
-        new BooleanWritingHandler(writer, BooleanNode.class);
-        new NumberWritingHandler(writer, NumberNode.class);
-        generator.write(writer);
-
-        log.info("\n{}", writer.getBuffer());
+//        Generator generator = new SimpleGenerator();
+//        SimpleHSE headerSE = new SimpleHSE(new HeaderSEH(), generalCondition);
+//
+//        MemberSE memberSE = new SimpleMSE(new SpecificTypeMemberSEH(String.class), generalCondition)
+//                .setNativeNext(new ExtendedTypeMemberSEH(Number.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(byte.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(short.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(int.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(long.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(float.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(double.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(char.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(boolean.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(Boolean.class))
+//                .setNativeNext(new SpecificTypeMemberSEH(Character.class));
+//
+//        TypeChecker checker = new TypeChecker(
+//                new HashSet<>(Arrays.asList(Number.class)),
+//                new HashSet<>(Arrays.asList(String.class, Boolean.class)));
+//
+//        memberSE.setNativeNext(new SimpleContainerMemberSEH(List.class, checker));
+//        memberSE.setNativeNext(new SimpleContainerMemberSEH(Set.class, checker));
+//
+//        Serializer serializer = new SimpleSerializer(headerSE, memberSE, generator);
+//        serializer.serialize(TestList.class);
+//
+//        Writer writer = new SimpleWriter(new JsonFormatter());
+//        new ObjectWritingHandler(writer, ObjectNode.class);
+//        new ArrayWritingHandler(writer, ArrayNode.class);
+//        new StringWritingHandler(writer, StringNode.class);
+//        new CharacterWritingHandler(writer, CharacterNode.class);
+//        new BooleanWritingHandler(writer, BooleanNode.class);
+//        new NumberWritingHandler(writer, NumberNode.class);
+//        generator.write(writer);
+//
+//        log.info("\n{}", writer.getBuffer());
     }
 
     @Test
     void test2() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
+        GeneralCondition generalCondition = new SimpleGeneralCondition();
         Generator generator = new SimpleGenerator();
-        SimpleHSE headerSE = new SimpleHSE(new HeaderSEH());
+        SimpleHSE headerSE = new SimpleHSE(new HeaderSEH(), generalCondition);
 
-        MemberSE memberSE = new SimpleMSE(new SpecificTypeMemberSEH(String.class))
+        MemberSE memberSE = new SimpleMSE(new SpecificTypeMemberSEH(String.class), generalCondition)
                 .setNativeNext(new ExtendedTypeMemberSEH(Number.class))
                 .setNativeNext(new SpecificTypeMemberSEH(byte.class))
                 .setNativeNext(new SpecificTypeMemberSEH(short.class))
