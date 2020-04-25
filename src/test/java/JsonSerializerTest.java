@@ -1,3 +1,4 @@
+import org.KasymbekovPN.Skeleton.condition.SimpleCondition;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.generator.SimpleGenerator;
 import org.KasymbekovPN.Skeleton.generator.formatter.JsonFormatter;
@@ -14,8 +15,6 @@ import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMember
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.utils.Checker;
-import org.KasymbekovPN.Skeleton.utils.ClassCondition;
-import org.KasymbekovPN.Skeleton.utils.SimpleClassCondition;
 import org.KasymbekovPN.Skeleton.utils.TypeChecker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -155,9 +154,52 @@ public class JsonSerializerTest {
 ////    }
     //<
 
+//    @Test
+//    void test3(){
+//        ClassCondition condition = new SimpleClassCondition();
+//        Generator generator = new SimpleGenerator();
+//
+//        SerializationElementHandler classSEH = new SignatureClassSEH();
+//
+//        Checker<Class<?>> checker = new TypeChecker(
+//                new HashSet<>(Arrays.asList(Number.class)),
+//                new HashSet<>(Arrays.asList(String.class, Boolean.class)));
+//
+//        SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class)
+//                .setNext(new ExtendedTypeMemberSEH(Number.class))
+//                .setNext(new SpecificTypeMemberSEH(byte.class))
+//                .setNext(new SpecificTypeMemberSEH(short.class))
+//                .setNext(new SpecificTypeMemberSEH(int.class))
+//                .setNext(new SpecificTypeMemberSEH(long.class))
+//                .setNext(new SpecificTypeMemberSEH(float.class))
+//                .setNext(new SpecificTypeMemberSEH(double.class))
+//                .setNext(new SpecificTypeMemberSEH(char.class))
+//                .setNext(new SpecificTypeMemberSEH(boolean.class))
+//                .setNext(new SpecificTypeMemberSEH(Boolean.class))
+//                .setNext(new SpecificTypeMemberSEH(Character.class))
+//                .setNext(new SimpleContainerMemberSEH(List.class, checker))
+//                .setNext(new SimpleContainerMemberSEH(Set.class, checker))
+//                .setNext(new BiContainerMemberSEH(Map.class, checker));
+//
+//        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, generator, condition);
+//        serializer.serialize(BiContainerTest.class);
+//
+//        Writer writer = new SimpleWriter(new JsonFormatter());
+//        new ObjectWritingHandler(writer, ObjectNode.class);
+//        new ArrayWritingHandler(writer, ArrayNode.class);
+//        new StringWritingHandler(writer, StringNode.class);
+//        new CharacterWritingHandler(writer, CharacterNode.class);
+//        new BooleanWritingHandler(writer, BooleanNode.class);
+//        new NumberWritingHandler(writer, NumberNode.class);
+//        generator.write(writer);
+//
+//        log.info("\n{}", writer.getBuffer());
+//    }
+
     @Test
-    void test3(){
-        ClassCondition condition = new SimpleClassCondition();
+    void test4(){
+//        ClassCondition condition = new SimpleClassCondition();
+        SimpleCondition condition = new SimpleCondition();
         Generator generator = new SimpleGenerator();
 
         SerializationElementHandler classSEH = new SignatureClassSEH();
@@ -183,7 +225,7 @@ public class JsonSerializerTest {
                 .setNext(new BiContainerMemberSEH(Map.class, checker));
 
         Serializer serializer = new SimpleSerializer(classSEH, memberSEH, generator, condition);
-        serializer.serialize(BiContainerTest.class);
+        serializer.serialize(TestClass4.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
         new ObjectWritingHandler(writer, ObjectNode.class);

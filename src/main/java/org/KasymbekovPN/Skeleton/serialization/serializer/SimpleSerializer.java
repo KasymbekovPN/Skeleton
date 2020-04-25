@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.serializer;
 
+import org.KasymbekovPN.Skeleton.condition.Condition;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.utils.ClassCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +15,12 @@ public class SimpleSerializer implements Serializer {
     private final SerializationElementHandler classSEH;
     private final SerializationElementHandler memberSEH;
     private final Generator generator;
-    private final ClassCondition condition;
+    private final Condition condition;
 
     public SimpleSerializer(SerializationElementHandler classSEH,
                             SerializationElementHandler memberSEH,
                             Generator generator,
-                            ClassCondition condition) {
+                            Condition condition) {
         this.classSEH = classSEH;
         this.memberSEH = memberSEH;
         this.generator = generator;
