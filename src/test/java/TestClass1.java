@@ -1,77 +1,78 @@
-import org.KasymbekovPN.Skeleton.annotation.Skeleton;
+import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.*;
 
-@Skeleton
+@SkeletonClass
 public class TestClass1 {
 
-    @Skeleton
+    @SkeletonClass
     private String stringObject;
 
-    @Skeleton
+    @SkeletonClass
     private Byte byteObject;
 
-    @Skeleton
+    @SkeletonClass
     private Short shortObject;
 
-    @Skeleton
+    @SkeletonClass
     private Integer integerObject;
 
-    @Skeleton
+    @SkeletonClass
     private AtomicInteger atomicInteger;
 
-    @Skeleton
+    @SkeletonClass
     private Double doubleObject;
 
-    @Skeleton
+    @SkeletonClass
     private DoubleAccumulator doubleAccumulatorObject;
 
-    @Skeleton
+    @SkeletonClass
     private DoubleAdder doubleAdderObject;
 
-    @Skeleton
+    @SkeletonClass
     private Float floatObject;
 
-    @Skeleton
+    @SkeletonClass
     private Long longObject;
 
-    @Skeleton
+    @SkeletonClass
     private LongAccumulator longAccumulatorObject;
 
-    @Skeleton
+    @SkeletonClass
     private LongAdder longAdderObject;
 
-    @Skeleton
+    @SkeletonClass
     private AtomicLong atomicLongObject;
 
-    @Skeleton
+    @SkeletonClass
     private BigDecimal bigDecimalObject;
 
-    @Skeleton
+    @SkeletonClass
     private BigInteger bigIntegerObject;
 
-    @Skeleton
+    @SkeletonClass
     private byte bytePrimitive;
 
-    @Skeleton
+    @SkeletonClass
     private short shortPrimitive;
 
-    @Skeleton
+    @SkeletonClass
     private int intPrimitive;
 
-    @Skeleton
+    @SkeletonClass
     private long longPrimitive;
 
-    @Skeleton
+    @SkeletonClass
     private float floatPrimitive;
 
-    @Skeleton
+    @SkeletonClass
     private double doublePrimitive;
 
-    @Skeleton
+    @SkeletonClass
     private char charPrimitive;
 
-    @Skeleton boolean booleanPrimitive;
+    @SkeletonClass
+    boolean booleanPrimitive;
 }

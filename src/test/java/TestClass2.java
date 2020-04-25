@@ -1,11 +1,11 @@
-import org.KasymbekovPN.Skeleton.annotation.Skeleton;
+import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 
-@Skeleton
+@SkeletonClass
 public class TestClass2 {
 
-    @Skeleton
+    @SkeletonClass
     private Boolean booleanObject;
 
-    @Skeleton
+    @SkeletonClass
     private Character characterObject;
 }

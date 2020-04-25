@@ -1,29 +1,29 @@
-import org.KasymbekovPN.Skeleton.annotation.Skeleton;
+import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 
 import java.util.List;
 import java.util.Set;
 
-@Skeleton
+@SkeletonClass
 public class TestList {
 
-    @Skeleton
+    @SkeletonClass
     protected List<Integer> integerList;
 
-    @Skeleton
+    @SkeletonClass
     private List<Double> doubleList;
 
-    @Skeleton
+    @SkeletonClass
     public  List<Object> objectList;
 
-    @Skeleton
+    @SkeletonClass
     protected Set<Integer> integerSet;
 
-    @Skeleton
+    @SkeletonClass
     private Set<Double> doubleSet;
 
-    @Skeleton
+    @SkeletonClass
     public  Set<Object> objectSet;
 
-    @Skeleton
+    @SkeletonClass
     Set<Boolean> booleanSet;
 }

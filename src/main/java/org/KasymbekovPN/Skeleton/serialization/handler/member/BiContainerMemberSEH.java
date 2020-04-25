@@ -1,12 +1,10 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
-import org.KasymbekovPN.Skeleton.annotation.Skeleton;
+import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.generator.Generator;
-import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
-import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
+import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.KasymbekovPN.Skeleton.utils.Checker;
-import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
+import org.KasymbekovPN.Skeleton.utils.ClassCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,18 +15,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SEH - Serialization Element Handler
- */
-public class BiContainerMemberSEH implements SerializationElementHandler {
-
-    //<
-
-//    public class SimpleContainerMemberSEH implements SerializationElementHandler {
-//
+public class BiContainerMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(BiContainerMemberSEH.class);
-    private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
+    private static final Class<? extends Annotation> ANNOTATION = SkeletonClass.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
     private static final Integer ARGUMENTS_NUMBER = 2;
 
@@ -37,7 +27,9 @@ public class BiContainerMemberSEH implements SerializationElementHandler {
     private final Checker<Class<?>> secondArgumentChecker;
 
 
-    public BiContainerMemberSEH(Class<?> specificType, Checker<Class<?>> firstArgumentChecker, Checker<Class<?>> secondArgumentChecker) {
+    public BiContainerMemberSEH(Class<?> specificType,
+                                Checker<Class<?>> firstArgumentChecker,
+                                Checker<Class<?>> secondArgumentChecker) {
         this.firstArgumentChecker = firstArgumentChecker;
         this.secondArgumentChecker = secondArgumentChecker;
         this.specificType = specificType;
@@ -50,14 +42,12 @@ public class BiContainerMemberSEH implements SerializationElementHandler {
     }
 
     @Override
-    public boolean handle(SerializationElement serializationElement, Generator generator, GeneralCondition generalCondition) {
-        Field field = ((MemberSE) serializationElement).getData();
-
+    protected boolean runHandlingImplementation(Field field, Generator generator, ClassCondition condition) {
         String name = field.getName();
         int modifiers = field.getModifiers();
 
         if (field.getType().equals(specificType) &&
-                (field.isAnnotationPresent(ANNOTATION) || generalCondition.check(name, modifiers))) {
+                (field.isAnnotationPresent(ANNOTATION) || condition.check(name, modifiers))) {
 
             Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
             if (ARGUMENTS_NUMBER.equals(actualTypeArguments.length)){

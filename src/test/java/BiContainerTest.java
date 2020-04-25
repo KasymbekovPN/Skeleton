@@ -1,12 +1,18 @@
-import org.KasymbekovPN.Skeleton.annotation.Skeleton;
+import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 
+import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.Map;
 
-@Skeleton(
-        includeByName = {"map", "list"}
+@SkeletonClass(
+        includeByName = {"map", "list"},
+        includeByModifiers = Modifier.PRIVATE,
+        excludeByName = {"list", "map1"}
 )
 public class BiContainerTest {
 
-    @Skeleton
-    private Map<String, Integer> map;
+    private static Map<String, Integer> map;
+    private Map<String, Integer> map1;
+    private List<Integer> list;
+    private List<Boolean> boolList;
 }

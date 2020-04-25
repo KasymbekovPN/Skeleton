@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Skeleton {
+public @interface SkeletonClass {
     int includeByModifiers() default -1;
     int excludeByModifiers() default -1;
     String[] includeByName() default {};

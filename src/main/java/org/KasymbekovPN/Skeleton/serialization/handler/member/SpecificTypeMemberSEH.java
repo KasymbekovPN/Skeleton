@@ -1,11 +1,9 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
-import org.KasymbekovPN.Skeleton.annotation.Skeleton;
+import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.generator.Generator;
-import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.serialization.serializationElement.SerializationElement;
-import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
-import org.KasymbekovPN.Skeleton.utils.GeneralCondition;
+import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
+import org.KasymbekovPN.Skeleton.utils.ClassCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +12,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SEH - Serialization Element Handler
- */
-public class SpecificTypeMemberSEH implements SerializationElementHandler {
+public class SpecificTypeMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(SpecificTypeMemberSEH.class);
-    private static final Class<? extends Annotation> ANNOTATION = Skeleton.class;
+    private static final Class<? extends Annotation> ANNOTATION = SkeletonClass.class;
     private static final List<String> PATH = new ArrayList<>(){{add("members");}};
 
     private final Class<?> specificType;
@@ -30,14 +25,12 @@ public class SpecificTypeMemberSEH implements SerializationElementHandler {
     }
 
     @Override
-    public boolean handle(SerializationElement serializationElement, Generator generator, GeneralCondition generalCondition) {
-        Field field = ((MemberSE) serializationElement).getData();
-
+    protected boolean runHandlingImplementation(Field field, Generator generator, ClassCondition condition) {
         String name = field.getName();
         int modifiers = field.getModifiers();
 
         if (field.getType().equals(specificType) &&
-                (field.isAnnotationPresent(ANNOTATION) || generalCondition.check(name, modifiers))){
+                (field.isAnnotationPresent(ANNOTATION) || condition.check(name, modifiers))){
 
             generator.setTarget(PATH);
             generator.beginObject(name);
