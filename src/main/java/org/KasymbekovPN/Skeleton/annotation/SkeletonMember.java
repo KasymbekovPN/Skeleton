@@ -5,5 +5,5 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SkeletonMember {
-    String[] parent() default {"member"};
+    String[] memberParent() default {"member"};
 }

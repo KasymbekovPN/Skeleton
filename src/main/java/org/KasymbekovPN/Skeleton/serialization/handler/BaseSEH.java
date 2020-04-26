@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.serialization.handler;
 
-import org.KasymbekovPN.Skeleton.condition.Condition;
+import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
 import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 
@@ -25,24 +25,26 @@ public class BaseSEH implements SerializationElementHandler {
     }
 
     @Override
-    public void handle(Class<?> clazz, Generator generator, Condition condition) {
-        if (!runHandlingImplementation(clazz, generator, condition) && next != null){
-            next.handle(clazz, generator, condition);
+    public void handle(Class<?> clazz, Generator generator, AnnotationConditionHandler annotationConditionHandler) {
+        if (!runHandlingImplementation(clazz, generator, annotationConditionHandler) && next != null){
+            next.handle(clazz, generator, annotationConditionHandler);
         }
     }
 
     @Override
-    public void handle(Field field, Generator generator, Condition condition) {
-        if (!runHandlingImplementation(field, generator, condition) && next != null){
-            next.handle(field, generator, condition);
+    public void handle(Field field, Generator generator, AnnotationConditionHandler annotationConditionHandler) {
+        if (!runHandlingImplementation(field, generator, annotationConditionHandler) && next != null){
+            next.handle(field, generator, annotationConditionHandler);
         }
     }
 
-    protected boolean runHandlingImplementation(Class<?> clazz, Generator generator, Condition condition){
+    protected boolean runHandlingImplementation(Class<?> clazz, Generator generator,
+                                                AnnotationConditionHandler annotationConditionHandler){
         return false;
     }
 
-    protected boolean runHandlingImplementation(Field field, Generator generator, Condition condition){
+    protected boolean runHandlingImplementation(Field field, Generator generator,
+                                                AnnotationConditionHandler annotationConditionHandler){
         return false;
     }
 

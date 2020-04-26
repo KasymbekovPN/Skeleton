@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
-import org.KasymbekovPN.Skeleton.condition.Condition;
+import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
 import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
@@ -11,6 +11,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public class SpecificTypeMemberSEH extends BaseSEH {
 
@@ -23,7 +24,8 @@ public class SpecificTypeMemberSEH extends BaseSEH {
     }
 
     @Override
-    protected boolean runHandlingImplementation(Field field, Generator generator, Condition condition) {
+    protected boolean runHandlingImplementation(Field field, Generator generator,
+                                                AnnotationConditionHandler annotationConditionHandler) {
 
         Class<?> type = field.getType();
         if (type.equals(specificType)){
@@ -32,14 +34,14 @@ public class SpecificTypeMemberSEH extends BaseSEH {
             Annotation[] annotations = field.getDeclaredAnnotations();
 
             HashSet<MemberCheckResult> results = new HashSet<>() {{
-                add(condition.checkMember(name));
-                add(condition.checkMember(modifiers));
-                add(condition.checkMember(annotations));
+                add(annotationConditionHandler.check(name));
+                add(annotationConditionHandler.check(modifiers));
+                add(annotationConditionHandler.check(annotations));
             }};
             if(resumeCheckResults(results).equals(INCLUDE)){
-                List<String> path = condition.getMemberPath(annotations);
-                if (path.size() > 0){
-                    generator.setTarget(path);
+                Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
+                if (maybePath.isPresent()){
+                    generator.setTarget(maybePath.get());
                     generator.beginObject(name);
                     generator.addProperty("type", specificType.getCanonicalName());
                     generator.addProperty("modifiers", modifiers);

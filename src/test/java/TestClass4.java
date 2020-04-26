@@ -4,13 +4,15 @@ import org.KasymbekovPN.Skeleton.annotation.SkeletonMember;
 import java.util.Map;
 import java.util.Set;
 
-@SkeletonClass
+@SkeletonClass(
+        includeByName = {"map"}
+)
 public class TestClass4 {
 
-    @SkeletonMember
+//    @SkeletonMember
     private int intMember;
 
-    @SkeletonMember
+//    @SkeletonMember
     private Map<Integer, Integer> map;
 
     @SkeletonMember

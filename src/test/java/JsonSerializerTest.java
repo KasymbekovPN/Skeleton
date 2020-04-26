@@ -1,4 +1,6 @@
-import org.KasymbekovPN.Skeleton.condition.SimpleCondition;
+import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
+import org.KasymbekovPN.Skeleton.condition.ClassACH;
+import org.KasymbekovPN.Skeleton.condition.MemberACH;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.generator.SimpleGenerator;
 import org.KasymbekovPN.Skeleton.generator.formatter.JsonFormatter;
@@ -23,12 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-
-//<
-//import org.KasymbekovPN.Skeleton.serialization.serializationElement.header.SimpleHSE;
-//import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.MemberSE;
-//import org.KasymbekovPN.Skeleton.serialization.serializationElement.member.SimpleMSE;
-//<
 
 @DisplayName("Testing of JsonSerializer")
 public class JsonSerializerTest {
@@ -199,7 +195,9 @@ public class JsonSerializerTest {
     @Test
     void test4(){
 //        ClassCondition condition = new SimpleClassCondition();
-        SimpleCondition condition = new SimpleCondition();
+//        SimpleCondition condition = new SimpleCondition();
+        AnnotationConditionHandler classACH = new ClassACH();
+        AnnotationConditionHandler memberACH = new MemberACH(classACH);
         Generator generator = new SimpleGenerator();
 
         SerializationElementHandler classSEH = new SignatureClassSEH();
@@ -224,7 +222,7 @@ public class JsonSerializerTest {
                 .setNext(new SimpleContainerMemberSEH(Set.class, checker))
                 .setNext(new BiContainerMemberSEH(Map.class, checker));
 
-        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, generator, condition);
+        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, generator, classACH, memberACH);
         serializer.serialize(TestClass4.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());

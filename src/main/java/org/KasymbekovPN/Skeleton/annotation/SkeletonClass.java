@@ -9,5 +9,6 @@ public @interface SkeletonClass {
     int excludeByModifiers() default -1;
     String[] includeByName() default {};
     String[] excludeByName() default {};
-    String[] parent() default {"class"};
+    String[] classParent() default {"class"};
+    String[] memberParent() default {"member"};
 }
