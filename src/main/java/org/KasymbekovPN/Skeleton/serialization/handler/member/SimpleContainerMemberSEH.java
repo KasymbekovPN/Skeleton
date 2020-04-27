@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
 import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
-import org.KasymbekovPN.Skeleton.utils.Checker;
+import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.ContainerArgumentChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,12 +20,12 @@ public class SimpleContainerMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleContainerMemberSEH.class);
 
-    private final Checker<Class<?>> checker;
     private final Class<?> specificType;
+    private final ContainerArgumentChecker containerArgumentChecker;
 
-    public SimpleContainerMemberSEH(Class<?> specificType, Checker<Class<?>> checker) {
-        this.checker = checker;
+    public SimpleContainerMemberSEH(Class<?> specificType, ContainerArgumentChecker containerArgumentChecker) {
         this.specificType = specificType;
+        this.containerArgumentChecker = containerArgumentChecker;
     }
 
     @Override
@@ -45,22 +45,23 @@ public class SimpleContainerMemberSEH extends BaseSEH {
             }};
             if (resumeCheckResults(results).equals(INCLUDE)) {
                 Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
-                if (actualTypeArguments.length == 1)
-                {
-                    Class<?> argClass = (Class<?>) actualTypeArguments[0];
-                    Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
-                    if (checker.check(argClass) && maybePath.isPresent())
-                    {
-                        generator.setTarget(maybePath.get());
-                        generator.beginObject(name);
-                        generator.addProperty("type", type.getCanonicalName());
-                        generator.addProperty("modifiers", modifiers);
-                        generator.beginArray("arguments");
-                        generator.addProperty(argClass.getCanonicalName());
-                        generator.reset();
+                Optional<List<Class<?>>> maybeArguments = containerArgumentChecker.check(actualTypeArguments);
+                Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
 
-                        return true;
+                if (maybeArguments.isPresent() && maybePath.isPresent()){
+                    generator.setTarget(maybePath.get());
+                    generator.beginObject(name);
+                    generator.addProperty("type", type.getCanonicalName());
+                    generator.addProperty("modifiers", modifiers);
+                    generator.beginArray("arguments");
+
+                    for (Class<?> argumentType : maybeArguments.get()) {
+                        generator.addProperty(argumentType.getCanonicalName());
                     }
+
+                    generator.reset();
+
+                    return true;
                 }
             }
         }

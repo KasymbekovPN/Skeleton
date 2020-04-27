@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
 import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
 import org.KasymbekovPN.Skeleton.generator.Generator;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
-import org.KasymbekovPN.Skeleton.utils.Checker;
+import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.ContainerArgumentChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,25 +19,13 @@ import java.util.Optional;
 public class BiContainerMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(BiContainerMemberSEH.class);
-    private static final Integer ARGUMENTS_NUMBER = 2;
 
     private final Class<?> specificType;
-    private final Checker<Class<?>> firstArgumentChecker;
-    private final Checker<Class<?>> secondArgumentChecker;
+    private final ContainerArgumentChecker containerArgumentChecker;
 
-
-    public BiContainerMemberSEH(Class<?> specificType,
-                                Checker<Class<?>> firstArgumentChecker,
-                                Checker<Class<?>> secondArgumentChecker) {
-        this.firstArgumentChecker = firstArgumentChecker;
-        this.secondArgumentChecker = secondArgumentChecker;
+    public BiContainerMemberSEH(Class<?> specificType, ContainerArgumentChecker containerArgumentChecker) {
         this.specificType = specificType;
-    }
-
-    public BiContainerMemberSEH(Class<?> specificType, Checker<Class<?>> argumentChecker) {
-        this.specificType = specificType;
-        this.firstArgumentChecker = argumentChecker;
-        this.secondArgumentChecker = argumentChecker;
+        this.containerArgumentChecker = containerArgumentChecker;
     }
 
     @Override
@@ -58,25 +46,23 @@ public class BiContainerMemberSEH extends BaseSEH {
             MemberCheckResult result = resumeCheckResults(results);
             if (result.equals(INCLUDE)){
                 Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
-                if (ARGUMENTS_NUMBER.equals(actualTypeArguments.length)){
-                    Class<?> firstArg = (Class<?>) actualTypeArguments[0];
-                    Class<?> secondArg = (Class<?>) actualTypeArguments[1];
+                Optional<List<Class<?>>> maybeArguments = containerArgumentChecker.check(actualTypeArguments);
+                Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
 
-                    if (firstArgumentChecker.check(firstArg) && secondArgumentChecker.check(secondArg)){
-                        Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
-                        if (maybePath.isPresent()){
-                            generator.setTarget(maybePath.get());
-                            generator.beginObject(name);
-                            generator.addProperty("type", type.getCanonicalName());
-                            generator.addProperty("modifiers", modifiers);
-                            generator.beginArray("arguments");
-                            generator.addProperty(firstArg.getCanonicalName());
-                            generator.addProperty(secondArg.getCanonicalName());
-                            generator.reset();
+                if (maybeArguments.isPresent() && maybePath.isPresent()){
+                    generator.setTarget(maybePath.get());
+                    generator.beginObject(name);
+                    generator.addProperty("type", type.getCanonicalName());
+                    generator.addProperty("modifiers", modifiers);
+                    generator.beginArray("arguments");
 
-                            return true;
-                        }
+                    for (Class<?> argumentType : maybeArguments.get()) {
+                        generator.addProperty(argumentType.getCanonicalName());
                     }
+
+                    generator.reset();
+
+                    return true;
                 }
             }
         }

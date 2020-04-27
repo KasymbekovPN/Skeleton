@@ -18,6 +18,7 @@ import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.utils.Checker;
 import org.KasymbekovPN.Skeleton.utils.TypeChecker;
+import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.SimpleCAC;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -206,6 +207,9 @@ public class JsonSerializerTest {
                 new HashSet<>(Arrays.asList(Number.class)),
                 new HashSet<>(Arrays.asList(String.class, Boolean.class)));
 
+        SimpleCAC oneArg = new SimpleCAC(checker);
+        SimpleCAC twoArgs = new SimpleCAC(checker, checker);
+
         SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class)
                 .setNext(new ExtendedTypeMemberSEH(Number.class))
                 .setNext(new SpecificTypeMemberSEH(byte.class))
@@ -218,9 +222,9 @@ public class JsonSerializerTest {
                 .setNext(new SpecificTypeMemberSEH(boolean.class))
                 .setNext(new SpecificTypeMemberSEH(Boolean.class))
                 .setNext(new SpecificTypeMemberSEH(Character.class))
-                .setNext(new SimpleContainerMemberSEH(List.class, checker))
-                .setNext(new SimpleContainerMemberSEH(Set.class, checker))
-                .setNext(new BiContainerMemberSEH(Map.class, checker));
+                .setNext(new SimpleContainerMemberSEH(List.class, oneArg))
+                .setNext(new SimpleContainerMemberSEH(Set.class, oneArg))
+                .setNext(new BiContainerMemberSEH(Map.class, twoArgs));
 
         Serializer serializer = new SimpleSerializer(classSEH, memberSEH, generator, classACH, memberACH);
         serializer.serialize(TestClass4.class);

@@ -13,7 +13,7 @@ public class TestClass4 {
     private int intMember;
 
 //    @SkeletonMember
-    private Map<Integer, Integer> map;
+    private Map<Integer, Character> map;
 
     @SkeletonMember
     private static Integer integerObject;
