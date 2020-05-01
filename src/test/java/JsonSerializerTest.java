@@ -1,13 +1,11 @@
-import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
-import org.KasymbekovPN.Skeleton.condition.ClassACH;
-import org.KasymbekovPN.Skeleton.condition.MemberACH;
-import org.KasymbekovPN.Skeleton.generator.Generator;
-import org.KasymbekovPN.Skeleton.generator.SimpleGenerator;
-import org.KasymbekovPN.Skeleton.generator.formatter.JsonFormatter;
-import org.KasymbekovPN.Skeleton.generator.node.*;
-import org.KasymbekovPN.Skeleton.generator.writeHandler.*;
-import org.KasymbekovPN.Skeleton.generator.writer.SimpleWriter;
-import org.KasymbekovPN.Skeleton.generator.writer.Writer;
+import org.KasymbekovPN.Skeleton.condition.*;
+import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
+import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
+import org.KasymbekovPN.Skeleton.collector.node.*;
+import org.KasymbekovPN.Skeleton.collector.writeHandler.*;
+import org.KasymbekovPN.Skeleton.collector.writer.SimpleWriter;
+import org.KasymbekovPN.Skeleton.collector.writer.Writer;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.SignatureClassSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.BiContainerMemberSEH;
@@ -197,9 +195,14 @@ public class JsonSerializerTest {
     void test4(){
 //        ClassCondition condition = new SimpleClassCondition();
 //        SimpleCondition condition = new SimpleCondition();
-        AnnotationConditionHandler classACH = new ClassACH();
-        AnnotationConditionHandler memberACH = new MemberACH(classACH);
-        Generator generator = new SimpleGenerator();
+//        AnnotationConditionHandler classACH = new ClassACH();
+//        AnnotationConditionHandler memberACH = new MemberACH(classACH);
+
+        AnnotationHandlerContainer simpleAHC = new SimpleAHC();
+        ClassAH classAH = new ClassAH(simpleAHC);
+        MemberAH memberAH = new MemberAH(simpleAHC);
+
+        Collector collector = new SimpleCollector();
 
         SerializationElementHandler classSEH = new SignatureClassSEH();
 
@@ -226,7 +229,7 @@ public class JsonSerializerTest {
                 .setNext(new SimpleContainerMemberSEH(Set.class, oneArg))
                 .setNext(new BiContainerMemberSEH(Map.class, twoArgs));
 
-        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, generator, classACH, memberACH);
+        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, collector, classAH, memberAH);
         serializer.serialize(TestClass4.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());
@@ -236,7 +239,7 @@ public class JsonSerializerTest {
         new CharacterWritingHandler(writer, CharacterNode.class);
         new BooleanWritingHandler(writer, BooleanNode.class);
         new NumberWritingHandler(writer, NumberNode.class);
-        generator.write(writer);
+        collector.write(writer);
 
         log.info("\n{}", writer.getBuffer());
     }

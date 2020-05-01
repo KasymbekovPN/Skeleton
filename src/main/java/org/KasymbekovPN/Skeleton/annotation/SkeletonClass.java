@@ -11,4 +11,6 @@ public @interface SkeletonClass {
     String[] excludeByName() default {};
     String[] classParent() default {"class"};
     String[] memberParent() default {"member"};
+    String[] constructorParent() default {"constructor"};
+    String[] methodParent() default {"method"};
 }

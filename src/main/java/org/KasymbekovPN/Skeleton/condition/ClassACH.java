@@ -12,14 +12,14 @@ public class ClassACH implements AnnotationConditionHandler {
     private SkeletonClass annotation;
 
     @Override
-    public MemberCheckResult check(Annotation[] annotations) {
+    public SkeletonCheckResult check(Annotation[] annotations) {
         Optional<SkeletonClass> maybeAnnotation = extractAnnotation(annotations);
         if (maybeAnnotation.isPresent()){
             annotation = maybeAnnotation.get();
-            return MemberCheckResult.INCLUDE;
+            return SkeletonCheckResult.INCLUDE;
         }
 
-        return MemberCheckResult.EXCLUDE;
+        return SkeletonCheckResult.EXCLUDE;
     }
 
     @Override

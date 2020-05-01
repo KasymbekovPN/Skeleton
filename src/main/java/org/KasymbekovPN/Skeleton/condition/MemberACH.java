@@ -2,6 +2,8 @@ package org.KasymbekovPN.Skeleton.condition;
 
 import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonMember;
+import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.collector.node.Node;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -20,17 +22,17 @@ public class MemberACH implements AnnotationConditionHandler {
     }
 
     @Override
-    public MemberCheckResult check(String name) {
+    public SkeletonCheckResult check(String name) {
 
-        MemberCheckResult result = checkParent();
-        if (result.equals(MemberCheckResult.NONE)){
+        SkeletonCheckResult result = checkParent();
+        if (result.equals(SkeletonCheckResult.NONE)){
             SkeletonClass parentAnnotation = (SkeletonClass) parent.getAnnotation();
             if (checkName(name, parentAnnotation.excludeByName())){
-                result = MemberCheckResult.EXCLUDE;
+                result = SkeletonCheckResult.EXCLUDE;
             }
-            if (!result.equals(MemberCheckResult.EXCLUDE) &&
+            if (!result.equals(SkeletonCheckResult.EXCLUDE) &&
                     checkName(name, parentAnnotation.includeByName())){
-                result = MemberCheckResult.INCLUDE;
+                result = SkeletonCheckResult.INCLUDE;
             }
         }
 
@@ -38,17 +40,17 @@ public class MemberACH implements AnnotationConditionHandler {
     }
 
     @Override
-    public MemberCheckResult check(int modifiers) {
+    public SkeletonCheckResult check(int modifiers) {
 
-        MemberCheckResult result = checkParent();
-        if (result.equals(MemberCheckResult.NONE)){
+        SkeletonCheckResult result = checkParent();
+        if (result.equals(SkeletonCheckResult.NONE)){
             SkeletonClass parentAnnotation = (SkeletonClass) parent.getAnnotation();
             if (checkModifiers(modifiers, parentAnnotation.excludeByModifiers())){
-                result = MemberCheckResult.EXCLUDE;
+                result = SkeletonCheckResult.EXCLUDE;
             }
-            if (!result.equals(MemberCheckResult.EXCLUDE) &&
+            if (!result.equals(SkeletonCheckResult.EXCLUDE) &&
                     checkModifiers(modifiers, parentAnnotation.includeByModifiers())){
-                result = MemberCheckResult.INCLUDE;
+                result = SkeletonCheckResult.INCLUDE;
             }
         }
 
@@ -56,14 +58,22 @@ public class MemberACH implements AnnotationConditionHandler {
     }
 
     @Override
-    public MemberCheckResult check(Annotation[] annotations) {
+    public SkeletonCheckResult check(Annotation[] annotations) {
 
-        MemberCheckResult result = checkParent();
-        if (result.equals(MemberCheckResult.NONE) && extractAnnotation(annotations).isPresent()){
-            result = MemberCheckResult.INCLUDE;
+        SkeletonCheckResult result = checkParent();
+        if (result.equals(SkeletonCheckResult.NONE) && extractAnnotation(annotations).isPresent()){
+            result = SkeletonCheckResult.INCLUDE;
         }
 
         return result;
+    }
+
+    @Override
+    public SkeletonCheckResult check(Collector collector) {
+
+        Node root = collector.getRoot();
+
+        return null;
     }
 
     @Override
@@ -73,7 +83,7 @@ public class MemberACH implements AnnotationConditionHandler {
             return Optional.of(Arrays.asList(maybeAnnotation.get().memberParent()));
         }
 
-        if (checkParent().equals(MemberCheckResult.NONE)){
+        if (checkParent().equals(SkeletonCheckResult.NONE)){
             SkeletonClass parentAnnotation = (SkeletonClass) parent.getAnnotation();
             if (parentAnnotation.memberParent().length != 0){
                 return Optional.of(Arrays.asList(parentAnnotation.memberParent()));
@@ -106,7 +116,7 @@ public class MemberACH implements AnnotationConditionHandler {
         return false;
     }
 
-    private MemberCheckResult checkParent(){
-        return null == parent ? MemberCheckResult.EXCLUDE : MemberCheckResult.NONE;
+    private SkeletonCheckResult checkParent(){
+        return null == parent ? SkeletonCheckResult.EXCLUDE : SkeletonCheckResult.NONE;
     }
 }

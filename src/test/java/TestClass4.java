@@ -9,11 +9,11 @@ import java.util.Set;
 )
 public class TestClass4 {
 
-//    @SkeletonMember
+    @SkeletonMember
     private int intMember;
 
-//    @SkeletonMember
-    private Map<Integer, Character> map;
+    @SkeletonMember
+    private Map<Integer, String> map;
 
     @SkeletonMember
     private static Integer integerObject;

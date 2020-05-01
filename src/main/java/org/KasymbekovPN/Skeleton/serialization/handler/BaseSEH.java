@@ -1,15 +1,14 @@
 package org.KasymbekovPN.Skeleton.serialization.handler;
 
-import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
-import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
-import org.KasymbekovPN.Skeleton.generator.Generator;
+import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
 
 import java.lang.reflect.Field;
-import java.util.Set;
 
 public class BaseSEH implements SerializationElementHandler {
 
-    protected static final MemberCheckResult INCLUDE = MemberCheckResult.INCLUDE;
+    protected static final SkeletonCheckResult INCLUDE = SkeletonCheckResult.INCLUDE;
 
     private SerializationElementHandler next;
 
@@ -25,33 +24,26 @@ public class BaseSEH implements SerializationElementHandler {
     }
 
     @Override
-    public void handle(Class<?> clazz, Generator generator, AnnotationConditionHandler annotationConditionHandler) {
-        if (!runHandlingImplementation(clazz, generator, annotationConditionHandler) && next != null){
-            next.handle(clazz, generator, annotationConditionHandler);
+    public void handle(Class<?> clazz, Collector collector, AnnotationHandler annotationHandler) {
+        if (!runHandlingImplementation(clazz, collector, annotationHandler) && next != null){
+            next.handle(clazz, collector, annotationHandler);
         }
     }
 
     @Override
-    public void handle(Field field, Generator generator, AnnotationConditionHandler annotationConditionHandler) {
-        if (!runHandlingImplementation(field, generator, annotationConditionHandler) && next != null){
-            next.handle(field, generator, annotationConditionHandler);
+    public void handle(Field field, Collector collector, AnnotationHandler annotationHandler) {
+        if (!runHandlingImplementation(field, collector, annotationHandler) && next != null){
+            next.handle(field, collector, annotationHandler);
         }
     }
 
-    protected boolean runHandlingImplementation(Class<?> clazz, Generator generator,
-                                                AnnotationConditionHandler annotationConditionHandler){
+    protected boolean runHandlingImplementation(Class<?> clazz, Collector collector,
+                                                AnnotationHandler annotationHandler){
         return false;
     }
 
-    protected boolean runHandlingImplementation(Field field, Generator generator,
-                                                AnnotationConditionHandler annotationConditionHandler){
+    protected boolean runHandlingImplementation(Field field, Collector collector,
+                                                AnnotationHandler annotationHandler){
         return false;
-    }
-
-    protected MemberCheckResult resumeCheckResults(Set<MemberCheckResult> results){
-        return !results.contains(MemberCheckResult.EXCLUDE)
-                && results.contains(MemberCheckResult.INCLUDE)
-                ? MemberCheckResult.INCLUDE
-                : MemberCheckResult.EXCLUDE;
     }
 }

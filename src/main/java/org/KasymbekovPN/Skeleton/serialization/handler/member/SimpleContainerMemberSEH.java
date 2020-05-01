@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
-import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
-import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
-import org.KasymbekovPN.Skeleton.generator.Generator;
+import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.ContainerArgumentChecker;
 import org.slf4j.Logger;
@@ -12,7 +12,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +28,8 @@ public class SimpleContainerMemberSEH extends BaseSEH {
     }
 
     @Override
-    protected boolean runHandlingImplementation(Field field, Generator generator,
-                                                AnnotationConditionHandler annotationConditionHandler) {
+    protected boolean runHandlingImplementation(Field field, Collector collector,
+                                                AnnotationHandler annotationHandler) {
 
         final Class<?> type = field.getType();
         if (type.equals(specificType)){
@@ -38,31 +37,29 @@ public class SimpleContainerMemberSEH extends BaseSEH {
             int modifiers = field.getModifiers();
             Annotation[] annotations = field.getDeclaredAnnotations();
 
-            HashSet<MemberCheckResult> results = new HashSet<>() {{
-                add(annotationConditionHandler.check(name));
-                add(annotationConditionHandler.check(modifiers));
-                add(annotationConditionHandler.check(annotations));
-            }};
-            if (resumeCheckResults(results).equals(INCLUDE)) {
-                Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
-                Optional<List<Class<?>>> maybeArguments = containerArgumentChecker.check(actualTypeArguments);
-                Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
+            Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
+            Optional<List<Class<?>>> maybeArguments = containerArgumentChecker.check(actualTypeArguments);
 
-                if (maybeArguments.isPresent() && maybePath.isPresent()){
-                    generator.setTarget(maybePath.get());
-                    generator.beginObject(name);
-                    generator.addProperty("type", type.getCanonicalName());
-                    generator.addProperty("modifiers", modifiers);
-                    generator.beginArray("arguments");
+            annotationHandler.check(name);
+            annotationHandler.check(modifiers);
+            annotationHandler.check(annotations);
+
+            if (annotationHandler.getCheckResult().equals(SkeletonCheckResult.INCLUDE) &&
+                maybeArguments.isPresent()){
+
+                    collector.setTarget(annotationHandler.getPath());
+                    collector.beginObject(name);
+                    collector.addProperty("type", type.getCanonicalName());
+                    collector.addProperty("modifiers", modifiers);
+                    collector.beginArray("arguments");
 
                     for (Class<?> argumentType : maybeArguments.get()) {
-                        generator.addProperty(argumentType.getCanonicalName());
+                        collector.addProperty(argumentType.getCanonicalName());
                     }
 
-                    generator.reset();
+                    collector.reset();
 
                     return true;
-                }
             }
         }
 

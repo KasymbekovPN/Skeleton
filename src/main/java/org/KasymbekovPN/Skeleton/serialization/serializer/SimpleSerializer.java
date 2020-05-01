@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.serialization.serializer;
 
-import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
-import org.KasymbekovPN.Skeleton.generator.Generator;
+import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,27 +14,27 @@ public class SimpleSerializer implements Serializer {
 
     private final SerializationElementHandler classSEH;
     private final SerializationElementHandler memberSEH;
-    private final Generator generator;
-    private final AnnotationConditionHandler classACH;
-    private final AnnotationConditionHandler memberACH;
+    private final Collector collector;
+    private final AnnotationHandler classAH;
+    private final AnnotationHandler memberAH;
 
     public SimpleSerializer(SerializationElementHandler classSEH,
                             SerializationElementHandler memberSEH,
-                            Generator generator,
-                            AnnotationConditionHandler classACH,
-                            AnnotationConditionHandler memberACH) {
+                            Collector collector,
+                            AnnotationHandler classAH,
+                            AnnotationHandler memberAH) {
         this.classSEH = classSEH;
         this.memberSEH = memberSEH;
-        this.generator = generator;
-        this.classACH = classACH;
-        this.memberACH = memberACH;
+        this.collector = collector;
+        this.classAH = classAH;
+        this.memberAH = memberAH;
     }
 
     @Override
     public void serialize(Class<?> clazz) {
-        classSEH.handle(clazz, generator, classACH);
+        classSEH.handle(clazz, collector, classAH);
         for (Field field : clazz.getDeclaredFields()) {
-            memberSEH.handle(field, generator, memberACH);
+            memberSEH.handle(field, collector, memberAH);
         }
     }
 }

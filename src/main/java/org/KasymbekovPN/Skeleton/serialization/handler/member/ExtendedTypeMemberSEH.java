@@ -1,17 +1,14 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
-import org.KasymbekovPN.Skeleton.condition.AnnotationConditionHandler;
-import org.KasymbekovPN.Skeleton.condition.MemberCheckResult;
-import org.KasymbekovPN.Skeleton.generator.Generator;
+import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 
 public class ExtendedTypeMemberSEH extends BaseSEH {
 
@@ -24,8 +21,8 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
     }
 
     @Override
-    protected boolean runHandlingImplementation(Field field, Generator generator,
-                                                AnnotationConditionHandler annotationConditionHandler) {
+    protected boolean runHandlingImplementation(Field field, Collector collector,
+                                                AnnotationHandler annotationHandler) {
 
         Class<?> type = field.getType();
         if (extendableType.isAssignableFrom(type)) {
@@ -33,23 +30,36 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
             int modifiers = field.getModifiers();
             Annotation[] annotations = field.getDeclaredAnnotations();
 
-            HashSet<MemberCheckResult> results = new HashSet<>() {{
-                add(annotationConditionHandler.check(name));
-                add(annotationConditionHandler.check(modifiers));
-                add(annotationConditionHandler.check(annotations));
-            }};
-            if (resumeCheckResults(results).equals(INCLUDE)){
-                Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
-                if (maybePath.isPresent()){
-                    generator.setTarget(maybePath.get());
-                    generator.beginObject(name);
-                    generator.addProperty("type", type.getCanonicalName());
-                    generator.addProperty("modifiers", modifiers);
-                    generator.reset();
+            annotationHandler.check(name);
+            annotationHandler.check(modifiers);
+            annotationHandler.check(annotations);
+            if (annotationHandler.getCheckResult().equals(SkeletonCheckResult.INCLUDE)){
+                collector.setTarget(annotationHandler.getPath());
+                collector.beginObject(name);
+                collector.addProperty("type", type.getCanonicalName());
+                collector.addProperty("modifiers", modifiers);
+                collector.reset();
 
-                    return true;
-                }
+                return true;
             }
+
+//            HashSet<SkeletonCheckResult> results = new HashSet<>() {{
+//                add(annotationConditionHandler.check(name));
+//                add(annotationConditionHandler.check(modifiers));
+//                add(annotationConditionHandler.check(annotations));
+//            }};
+//            if (resumeCheckResults(results).equals(INCLUDE)){
+//                Optional<List<String>> maybePath = annotationConditionHandler.getParentPath(annotations);
+//                if (maybePath.isPresent()){
+//                    collector.setTarget(maybePath.get());
+//                    collector.beginObject(name);
+//                    collector.addProperty("type", type.getCanonicalName());
+//                    collector.addProperty("modifiers", modifiers);
+//                    collector.reset();
+//
+//                    return true;
+//                }
+//            }
         }
 
         return false;
