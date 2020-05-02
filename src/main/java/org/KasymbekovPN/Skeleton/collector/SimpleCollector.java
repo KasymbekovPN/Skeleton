@@ -111,6 +111,11 @@ public class SimpleCollector implements Collector {
     }
 
     @Override
+    public Node getTarget() {
+        return target;
+    }
+
+    @Override
     public Node getRoot() {
         return root;
     }

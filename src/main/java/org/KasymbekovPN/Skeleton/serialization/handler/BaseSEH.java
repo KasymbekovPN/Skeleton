@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.handler;
 
 import org.KasymbekovPN.Skeleton.collector.Collector;
-import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
-import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
+import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
 
 import java.lang.reflect.Field;
 

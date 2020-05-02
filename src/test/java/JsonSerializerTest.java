@@ -1,13 +1,18 @@
-import org.KasymbekovPN.Skeleton.condition.*;
+import org.KasymbekovPN.Skeleton.annotation.handler.clazz.ClassAH;
+import org.KasymbekovPN.Skeleton.annotation.handler.constructor.ConstructorAH;
+import org.KasymbekovPN.Skeleton.annotation.handler.member.MemberAH;
+import org.KasymbekovPN.Skeleton.annotation.handlerContainer.AnnotationHandlerContainer;
+import org.KasymbekovPN.Skeleton.annotation.handlerContainer.SimpleAHC;
 import org.KasymbekovPN.Skeleton.collector.Collector;
 import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
 import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
 import org.KasymbekovPN.Skeleton.collector.node.*;
-import org.KasymbekovPN.Skeleton.collector.writeHandler.*;
+import org.KasymbekovPN.Skeleton.collector.writeHandler.write.*;
 import org.KasymbekovPN.Skeleton.collector.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.collector.writer.Writer;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.SignatureClassSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.constructor.ConstructorClassSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.BiContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SimpleContainerMemberSEH;
@@ -201,10 +206,12 @@ public class JsonSerializerTest {
         AnnotationHandlerContainer simpleAHC = new SimpleAHC();
         ClassAH classAH = new ClassAH(simpleAHC);
         MemberAH memberAH = new MemberAH(simpleAHC);
+        ConstructorAH constructorAH = new ConstructorAH(simpleAHC);
 
         Collector collector = new SimpleCollector();
 
         SerializationElementHandler classSEH = new SignatureClassSEH();
+        SerializationElementHandler constructorSEH = new ConstructorClassSEH();
 
         Checker<Class<?>> checker = new TypeChecker(
                 new HashSet<>(Arrays.asList(Number.class)),
@@ -229,7 +236,7 @@ public class JsonSerializerTest {
                 .setNext(new SimpleContainerMemberSEH(Set.class, oneArg))
                 .setNext(new BiContainerMemberSEH(Map.class, twoArgs));
 
-        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, collector, classAH, memberAH);
+        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, constructorSEH, collector, classAH, memberAH, constructorAH);
         serializer.serialize(TestClass4.class);
 
         Writer writer = new SimpleWriter(new JsonFormatter());

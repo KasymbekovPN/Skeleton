@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.clazz;
 
+import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.collector.Collector;
-import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
-import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

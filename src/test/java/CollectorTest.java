@@ -1,7 +1,7 @@
 import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
 import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
 import org.KasymbekovPN.Skeleton.collector.node.*;
-import org.KasymbekovPN.Skeleton.collector.writeHandler.*;
+import org.KasymbekovPN.Skeleton.collector.writeHandler.write.*;
 import org.KasymbekovPN.Skeleton.collector.writer.SimpleWriter;
 import org.KasymbekovPN.Skeleton.collector.writer.Writer;
 import org.junit.jupiter.api.DisplayName;

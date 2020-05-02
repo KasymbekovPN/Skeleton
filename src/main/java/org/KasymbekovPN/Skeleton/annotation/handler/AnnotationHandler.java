@@ -1,4 +1,6 @@
-package org.KasymbekovPN.Skeleton.condition;
+package org.KasymbekovPN.Skeleton.annotation.handler;
+
+import org.KasymbekovPN.Skeleton.annotation.handlerContainer.AnnotationHandlerContainer;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -11,4 +13,5 @@ public interface AnnotationHandler {
     SkeletonCheckResult getCheckResult();
     void resetCheckResult();
     List<String> getPath();
+    AnnotationHandlerContainer getContainer();
 }

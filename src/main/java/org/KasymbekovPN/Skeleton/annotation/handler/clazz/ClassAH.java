@@ -1,6 +1,10 @@
-package org.KasymbekovPN.Skeleton.condition;
+package org.KasymbekovPN.Skeleton.annotation.handler.clazz;
 
 import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
+import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
+import org.KasymbekovPN.Skeleton.annotation.handlerContainer.AnnotationHandlerContainer;
+import org.KasymbekovPN.Skeleton.annotation.handlerContainer.Entity;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -8,13 +12,18 @@ import java.util.List;
 
 public class ClassAH implements AnnotationHandler {
 
-    private SkeletonCheckResult nameChecking;
+    private final AnnotationHandlerContainer annotationHandlerContainer;
+
+    private SkeletonCheckResult annotationChecking;
     private SkeletonCheckResult pathChecking;
     private SkeletonClass annotation;
     private List<String> path;
 
     public ClassAH(AnnotationHandlerContainer annotationHandlerContainer) {
-        annotationHandlerContainer.setClassAnnotationHandler(this);
+//        annotationHandlerContainer.setClassAnnotationHandler(this);
+        //<
+        this.annotationHandlerContainer = annotationHandlerContainer;
+        this.annotationHandlerContainer.setAnnotationHandler(Entity.CLASS, this);
         resetCheckResult();
     }
 
@@ -22,7 +31,7 @@ public class ClassAH implements AnnotationHandler {
     public void check(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
             if (annotation.annotationType().equals(SkeletonClass.class)) {
-                nameChecking = SkeletonCheckResult.INCLUDE;
+                annotationChecking = SkeletonCheckResult.INCLUDE;
                 this.annotation = (SkeletonClass) annotation;
             }
         }
@@ -37,14 +46,14 @@ public class ClassAH implements AnnotationHandler {
     public SkeletonCheckResult getCheckResult() {
         extractPath();
 
-        return nameChecking.equals(SkeletonCheckResult.INCLUDE) && pathChecking.equals(SkeletonCheckResult.INCLUDE)
+        return annotationChecking.equals(SkeletonCheckResult.INCLUDE) && pathChecking.equals(SkeletonCheckResult.INCLUDE)
                 ? SkeletonCheckResult.INCLUDE
                 : SkeletonCheckResult.EXCLUDE;
     }
 
     @Override
     public void resetCheckResult() {
-        nameChecking = SkeletonCheckResult.NONE;
+        annotationChecking = SkeletonCheckResult.NONE;
         pathChecking = SkeletonCheckResult.NONE;
     }
 
@@ -53,8 +62,13 @@ public class ClassAH implements AnnotationHandler {
         return path;
     }
 
+    @Override
+    public AnnotationHandlerContainer getContainer() {
+        return annotationHandlerContainer;
+    }
+
     private void extractPath(){
-        if (nameChecking.equals(SkeletonCheckResult.INCLUDE)){
+        if (annotationChecking.equals(SkeletonCheckResult.INCLUDE)){
             path = Arrays.asList(annotation.classParent());
             pathChecking = path.size() == 0 ? SkeletonCheckResult.EXCLUDE : SkeletonCheckResult.INCLUDE;
         } else {

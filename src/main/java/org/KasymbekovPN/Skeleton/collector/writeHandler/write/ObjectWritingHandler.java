@@ -1,8 +1,9 @@
-package org.KasymbekovPN.Skeleton.collector.writeHandler;
+package org.KasymbekovPN.Skeleton.collector.writeHandler.write;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
 import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.collector.writeHandler.WritingHandler;
 import org.KasymbekovPN.Skeleton.collector.writer.Writer;
 
 import java.util.Iterator;

@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
+import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.collector.Collector;
-import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
-import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.ContainerArgumentChecker;
 import org.slf4j.Logger;
@@ -46,6 +46,8 @@ public class BiContainerMemberSEH extends BaseSEH {
 
             if (annotationHandler.getCheckResult().equals(SkeletonCheckResult.INCLUDE) &&
                     maybeArguments.isPresent()){
+
+                annotationHandler.getContainer().addMemberName(name);
 
                 collector.setTarget(annotationHandler.getPath());
                 collector.beginObject(name);

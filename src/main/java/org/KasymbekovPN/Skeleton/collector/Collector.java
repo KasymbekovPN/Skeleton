@@ -30,6 +30,7 @@ public interface Collector {
     void write(Writer writer);
 
     void setTarget(List<String> path);
+    Node getTarget();
 
     Node getRoot();
 }

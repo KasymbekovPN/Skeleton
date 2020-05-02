@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.member;
 
+import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
+import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.collector.Collector;
-import org.KasymbekovPN.Skeleton.condition.AnnotationHandler;
-import org.KasymbekovPN.Skeleton.condition.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +34,9 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
             annotationHandler.check(modifiers);
             annotationHandler.check(annotations);
             if (annotationHandler.getCheckResult().equals(SkeletonCheckResult.INCLUDE)){
+
+                annotationHandler.getContainer().addMemberName(name);
+
                 collector.setTarget(annotationHandler.getPath());
                 collector.beginObject(name);
                 collector.addProperty("type", type.getCanonicalName());
@@ -43,6 +46,7 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
                 return true;
             }
 
+            //<
 //            HashSet<SkeletonCheckResult> results = new HashSet<>() {{
 //                add(annotationConditionHandler.check(name));
 //                add(annotationConditionHandler.check(modifiers));

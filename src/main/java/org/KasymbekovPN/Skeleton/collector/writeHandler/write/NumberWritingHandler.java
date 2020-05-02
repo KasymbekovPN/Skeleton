@@ -1,16 +1,18 @@
-package org.KasymbekovPN.Skeleton.collector.writeHandler;
+package org.KasymbekovPN.Skeleton.collector.writeHandler.write;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
-import org.KasymbekovPN.Skeleton.collector.node.BooleanNode;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
+import org.KasymbekovPN.Skeleton.collector.node.NumberNode;
+import org.KasymbekovPN.Skeleton.collector.writeHandler.WritingHandler;
 import org.KasymbekovPN.Skeleton.collector.writer.Writer;
 
-public class BooleanWritingHandler implements WritingHandler {
+public class NumberWritingHandler implements WritingHandler {
+
     private final StringBuilder buffer;
     private final Writer writer;
     private final Formatter formatter;
 
-    public BooleanWritingHandler(Writer writer, Class<? extends Node> clazz) {
+    public NumberWritingHandler(Writer writer, Class<? extends Node> clazz) {
         this.writer = writer;
         this.writer.addHandler(clazz, this);
         this.buffer = this.writer.getBuffer();
@@ -19,8 +21,8 @@ public class BooleanWritingHandler implements WritingHandler {
 
     @Override
     public void handle(Node node) {
-        Boolean value = ((BooleanNode) node).getValue();
-        Class<BooleanNode> clazz = BooleanNode.class;
+        Number value = ((NumberNode) node).getValue();
+        Class<NumberNode> clazz = NumberNode.class;
         buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
     }
 }
