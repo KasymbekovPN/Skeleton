@@ -1,9 +1,9 @@
 import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
 import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing.*;
 import org.KasymbekovPN.Skeleton.collector.node.*;
-import org.KasymbekovPN.Skeleton.collector.writeHandler.write.*;
-import org.KasymbekovPN.Skeleton.collector.writer.SimpleWriter;
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -50,16 +50,16 @@ public class CollectorTest {
 
         System.out.println(simpleGenerator);
 
-        Writer writer = new SimpleWriter(new JsonFormatter());
-        new ObjectWritingHandler(writer, ObjectNode.class);
-        new ArrayWritingHandler(writer, ArrayNode.class);
-        new StringWritingHandler(writer, StringNode.class);
-        new CharacterWritingHandler(writer, CharacterNode.class);
-        new BooleanWritingHandler(writer, BooleanNode.class);
-        new NumberWritingHandler(writer, NumberNode.class);
-        simpleGenerator.write(writer);
+        CollectorWritingProcess collectorWritingProcess = new SimpleCollectorWritingProcess(new JsonFormatter());
+        new ObjectWritingHandler(collectorWritingProcess, ObjectNode.class);
+        new ArrayWritingHandler(collectorWritingProcess, ArrayNode.class);
+        new StringWritingHandler(collectorWritingProcess, StringNode.class);
+        new CharacterWritingHandler(collectorWritingProcess, CharacterNode.class);
+        new BooleanWritingHandler(collectorWritingProcess, BooleanNode.class);
+        new NumberWritingHandler(collectorWritingProcess, NumberNode.class);
+        simpleGenerator.doIt(collectorWritingProcess);
 
-        System.out.println(writer.getBuffer());
+        System.out.println(collectorWritingProcess.getBuffer());
     }
 
     @Test

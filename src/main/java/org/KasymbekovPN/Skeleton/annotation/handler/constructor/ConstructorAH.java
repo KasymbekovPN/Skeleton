@@ -1,40 +1,49 @@
 package org.KasymbekovPN.Skeleton.annotation.handler.constructor;
 
-import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonConstructor;
 import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
 import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
-import org.KasymbekovPN.Skeleton.annotation.handlerContainer.AnnotationHandlerContainer;
-import org.KasymbekovPN.Skeleton.annotation.handlerContainer.Entity;
 
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+//import org.KasymbekovPN.Skeleton.annotation.handlerContainer.AnnotationHandlerContainer;
+//<
+
 public class ConstructorAH implements AnnotationHandler {
 
-    private final AnnotationHandlerContainer annotationHandlerContainer;
+//    private final AnnotationHandlerContainer annotationHandlerContainer;
+    //<
 
     private SkeletonCheckResult annotationChecking = SkeletonCheckResult.NONE;
     private SkeletonCheckResult pathChecking = SkeletonCheckResult.NONE;
     private SkeletonConstructor annotation;
     private List<String> path;
 
-    public ConstructorAH(AnnotationHandlerContainer annotationHandlerContainer) {
-        this.annotationHandlerContainer = annotationHandlerContainer;
-        this.annotationHandlerContainer.setAnnotationHandler(Entity.CONSTRUCTOR, this);
+    public ConstructorAH() {
         resetCheckResult();
     }
 
+    //<
+//    public ConstructorAH(AnnotationHandlerContainer annotationHandlerContainer) {
+//        this.annotationHandlerContainer = annotationHandlerContainer;
+//        this.annotationHandlerContainer.setAnnotationHandler(Entity.CONSTRUCTOR, this);
+//        resetCheckResult();
+//    }
+
     @Override
-    public void check(Annotation[] annotations) {
+    public Optional<Annotation> check(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
             if (annotation.annotationType().equals(SkeletonConstructor.class)) {
                 annotationChecking = SkeletonCheckResult.INCLUDE;
                 this.annotation = (SkeletonConstructor) annotation;
+
+                return Optional.of(this.annotation);
             }
         }
+
+        return Optional.empty();
     }
 
     @Override
@@ -62,31 +71,34 @@ public class ConstructorAH implements AnnotationHandler {
         return path;
     }
 
-    @Override
-    public AnnotationHandlerContainer getContainer() {
-        return annotationHandlerContainer;
-    }
+    //<
+//    @Override
+//    public AnnotationHandlerContainer getContainer() {
+//        return annotationHandlerContainer;
+//    }
 
     private void extractPath(){
-        if (annotationChecking.equals(SkeletonCheckResult.INCLUDE)){
-            if (annotation.constructorParent().length != 0){
-                path = Arrays.asList(annotation.constructorParent());
-                pathChecking = SkeletonCheckResult.INCLUDE;
-            }
-        }
 
-        if (!pathChecking.equals(SkeletonCheckResult.INCLUDE)){
-            Optional<AnnotationHandler> maybeAH = annotationHandlerContainer.getAnnotationHandler(Entity.CLASS);
-            if (maybeAH.isPresent()){
-                AnnotationHandler classAnnotationHandler = maybeAH.get();
-                if (classAnnotationHandler.getCheckResult().equals(SkeletonCheckResult.INCLUDE)){
-                    SkeletonClass classAnnotation = (SkeletonClass) classAnnotationHandler.getAnnotation();
-                    if (classAnnotation.memberParent().length != 0){
-                        path = Arrays.asList(classAnnotation.constructorParent());
-                        pathChecking = SkeletonCheckResult.INCLUDE;
-                    }
-                }
-            }
-        }
+        //<
+//        if (annotationChecking.equals(SkeletonCheckResult.INCLUDE)){
+//            if (annotation.constructorParent().length != 0){
+//                path = Arrays.asList(annotation.constructorParent());
+//                pathChecking = SkeletonCheckResult.INCLUDE;
+//            }
+//        }
+//
+//        if (!pathChecking.equals(SkeletonCheckResult.INCLUDE)){
+//            Optional<AnnotationHandler> maybeAH = annotationHandlerContainer.getAnnotationHandler(Entity.CLASS);
+//            if (maybeAH.isPresent()){
+//                AnnotationHandler classAnnotationHandler = maybeAH.get();
+//                if (classAnnotationHandler.getCheckResult().equals(SkeletonCheckResult.INCLUDE)){
+//                    SkeletonClass classAnnotation = (SkeletonClass) classAnnotationHandler.getAnnotation();
+//                    if (classAnnotation.memberParent().length != 0){
+//                        path = Arrays.asList(classAnnotation.constructorParent());
+//                        pathChecking = SkeletonCheckResult.INCLUDE;
+//                    }
+//                }
+//            }
+//        }
     }
 }

@@ -1,10 +1,11 @@
 package org.KasymbekovPN.Skeleton.collector.node;
 
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 
 import java.util.Optional;
 
 public interface Node {
+    void doIt(CollectorHandingProcess collectorHandingProcess);
     Node getParent();
     default Optional<Node> addChild(String property, Node value) {
         return Optional.empty();
@@ -12,6 +13,7 @@ public interface Node {
     default Optional<Node> addChild(Node value){
         return Optional.empty();
     };
-    default void write(Writer writer){}
+//    default void write(Writer writer){}
+    //<
     default boolean containsKey(String key) {return false;};
 }

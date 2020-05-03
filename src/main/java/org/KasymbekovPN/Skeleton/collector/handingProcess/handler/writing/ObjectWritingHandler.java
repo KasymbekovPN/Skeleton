@@ -1,27 +1,29 @@
-package org.KasymbekovPN.Skeleton.collector.writeHandler.write;
+package org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
 import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.collector.writeHandler.WritingHandler;
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ObjectWritingHandler implements WritingHandler {
+//public class ObjectWritingHandler implements WritingHandler {
+//<
+public class ObjectWritingHandler implements CollectorHandlingProcessHandler {
 
     private final StringBuilder buffer;
-    private final Writer writer;
+    private final CollectorWritingProcess collectorWritingProcess;
     private final Formatter formatter;
 
-    public ObjectWritingHandler(Writer writer, Class<? extends Node> clazz) {
-        this.writer = writer;
-        this.writer.addHandler(clazz, this);
-        this.buffer = writer.getBuffer();
-        this.formatter = writer.getFormatter();
+    public ObjectWritingHandler(CollectorWritingProcess collectorWritingProcess, Class<? extends Node> clazz) {
+        this.collectorWritingProcess = collectorWritingProcess;
+        this.collectorWritingProcess.addHandler(clazz, this);
+        this.buffer = collectorWritingProcess.getBuffer();
+        this.formatter = collectorWritingProcess.getFormatter();
     }
 
     @Override
@@ -42,7 +44,9 @@ public class ObjectWritingHandler implements WritingHandler {
                     .append(entry.getKey())
                     .append(formatter.getNameBorder())
                     .append(formatter.getNameValueSeparator());
-            entry.getValue().write(writer);
+//            entry.getValue().write(writer);
+            //<
+            entry.getValue().doIt(collectorWritingProcess);
         }
         formatter.decOffset();
         buffer.append(formatter.getEndBorder(clazz));

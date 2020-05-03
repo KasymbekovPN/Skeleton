@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.collector.node;
 
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +38,16 @@ public class ObjectNode implements Node {
         return parent;
     }
 
+//    @Override
+//    public void write(Writer writer) {
+//        writer.write(this);
+//    }
+    //<
+
+
     @Override
-    public void write(Writer writer) {
-        writer.write(this);
+    public void doIt(CollectorHandingProcess collectorHandingProcess) {
+        collectorHandingProcess.doIt(this);
     }
 
     @Override

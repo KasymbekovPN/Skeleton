@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.collector;
 
 import org.KasymbekovPN.Skeleton.collector.node.*;
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,9 +99,16 @@ public class SimpleCollector implements Collector {
         }
     }
 
+//    @Override
+//    public void write(Writer writer) {
+//        root.write(writer);
+//    }
+    //<
+
+
     @Override
-    public void write(Writer writer) {
-        root.write(writer);
+    public void doIt(CollectorHandingProcess collectorHandingProcess) {
+        root.doIt(collectorHandingProcess);
     }
 
     @Override

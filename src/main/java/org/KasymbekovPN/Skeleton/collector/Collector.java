@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.collector;
 
 import org.KasymbekovPN.Skeleton.collector.node.Node;
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 
 import java.util.List;
 
@@ -27,7 +27,9 @@ public interface Collector {
 
     void end();
 
-    void write(Writer writer);
+//    void write(Writer writer);
+    //<
+    void doIt(CollectorHandingProcess collectorHandingProcess);
 
     void setTarget(List<String> path);
     Node getTarget();

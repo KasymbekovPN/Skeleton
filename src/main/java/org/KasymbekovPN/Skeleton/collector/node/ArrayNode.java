@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.collector.node;
 
-import org.KasymbekovPN.Skeleton.collector.writer.Writer;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,14 @@ public class ArrayNode implements Node {
         return Optional.of(value);
     }
 
+//    @Override
+//    public void write(Writer writer) {
+//        writer.write(this);
+//    }
+    //<
     @Override
-    public void write(Writer writer) {
-        writer.write(this);
+    public void doIt(CollectorHandingProcess collectorHandingProcess) {
+        collectorHandingProcess.doIt(this);
     }
 
     @Override
