@@ -9,8 +9,6 @@ import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProces
 import java.util.Iterator;
 import java.util.List;
 
-//public class ArrayWritingHandler implements WritingHandler {
-//<
 public class ArrayWritingHandler implements CollectorHandlingProcessHandler {
 
     private final StringBuilder buffer;
@@ -38,8 +36,6 @@ public class ArrayWritingHandler implements CollectorHandlingProcessHandler {
 
         for (Node child : children) {
             buffer.append(iterator.next());
-//            child.write(writer);
-            //<
             child.doIt(collectorWritingProcess);
         }
         formatter.decOffset();

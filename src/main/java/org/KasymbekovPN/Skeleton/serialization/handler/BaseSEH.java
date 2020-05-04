@@ -37,10 +37,30 @@ public class BaseSEH implements SerializationElementHandler {
     }
 
     protected boolean runHandlingImplementation(Class<?> clazz, Collector collector){
+        if (checkData(clazz, collector)){
+            return fillCollector(collector);
+        }
+
         return false;
     }
 
     protected boolean runHandlingImplementation(Field field, Collector collector){
+        if (checkData(field, collector)){
+            return fillCollector(collector);
+        }
+
+        return false;
+    }
+
+    protected boolean checkData(Class<?> clazz, Collector collector){
+        return false;
+    }
+
+    protected boolean checkData(Field field, Collector collector){
+        return false;
+    }
+
+    protected boolean fillCollector(Collector collector){
         return false;
     }
 }

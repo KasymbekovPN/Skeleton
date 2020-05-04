@@ -6,8 +6,6 @@ import org.KasymbekovPN.Skeleton.collector.node.NumberNode;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 
-//public class NumberWritingHandler implements WritingHandler {
-//<
 public class NumberWritingHandler implements CollectorHandlingProcessHandler {
 
     private final StringBuilder buffer;

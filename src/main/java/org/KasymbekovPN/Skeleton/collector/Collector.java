@@ -27,8 +27,7 @@ public interface Collector {
 
     void end();
 
-//    void write(Writer writer);
-    //<
+    //< ?? rename with apply
     void doIt(CollectorHandingProcess collectorHandingProcess);
 
     void setTarget(List<String> path);

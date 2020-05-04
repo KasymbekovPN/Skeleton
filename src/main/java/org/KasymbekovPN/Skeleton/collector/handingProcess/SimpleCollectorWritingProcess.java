@@ -13,8 +13,6 @@ public class SimpleCollectorWritingProcess implements CollectorWritingProcess {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleCollectorWritingProcess.class);
 
-//    private Map<Class<? extends Node>, WritingHandler> handlers = new HashMap<>();
-    //<
     private Map<Class<? extends Node>, CollectorHandlingProcessHandler> handlers = new HashMap<>();
     private StringBuilder buffer = new StringBuilder();
 
@@ -34,18 +32,6 @@ public class SimpleCollectorWritingProcess implements CollectorWritingProcess {
         return formatter;
     }
 
-//    @Override
-//    public void write(Node node) {
-//        Class<? extends Node> clazz = node.getClass();
-//        if (handlers.containsKey(clazz)){
-//            handlers.get(clazz).handle(node);
-//        } else {
-//            log.error("The handler for {} doesn't exist", clazz.getCanonicalName());
-//        }
-//    }
-    //<
-
-
     @Override
     public void doIt(Node node) {
         Class<? extends Node> clazz = node.getClass();
@@ -60,9 +46,4 @@ public class SimpleCollectorWritingProcess implements CollectorWritingProcess {
     public void addHandler(Class<? extends Node> clazz, CollectorHandlingProcessHandler collectorHandlingProcessHandler) {
         handlers.put(clazz, collectorHandlingProcessHandler);
     }
-    //<
-//    @Override
-//    public void addHandler(Class<? extends Node> clazz, WritingHandler handler) {
-//        handlers.put(clazz, handler);
-//    }
 }

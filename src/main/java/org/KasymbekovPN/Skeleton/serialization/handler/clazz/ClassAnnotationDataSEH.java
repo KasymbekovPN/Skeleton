@@ -21,33 +21,49 @@ public class ClassAnnotationDataSEH extends BaseSEH {
 
     private final AnnotationHandler annotationHandler;
 
+    private int excludeByModifiers;
+    private int includeByModifiers;
+    private String[] includeByName;
+    private String[] excludeByName;
+
     public ClassAnnotationDataSEH(AnnotationHandler annotationHandler) {
         this.annotationHandler = annotationHandler;
     }
 
     @Override
-    protected boolean runHandlingImplementation(Class<?> clazz, Collector collector) {
-
-        Optional<Annotation> maybeAnnotation = annotationHandler.check(clazz.getDeclaredAnnotations());
+    protected boolean checkData(Class<?> clazz, Collector collector) {
+        boolean result = false;
+        Optional<Annotation> maybeAnnotation = annotationHandler.check(clazz.getDeclaredAnnotations(), SkeletonClass.class);
         if (maybeAnnotation.isPresent()){
+            result = true;
 
             SkeletonClass annotation = (SkeletonClass) maybeAnnotation.get();
-            collector.setTarget(PATH);
-            collector.addProperty("excludeByModifiers", annotation.excludeByModifiers());
-            collector.addProperty("includeByModifiers", annotation.includeByModifiers());
-
-            collector.beginArray("excludeByName");
-            for (String excludedName : annotation.excludeByName()) {
-                collector.addProperty(excludedName);
-            }
-            collector.end();
-
-            collector.beginArray("includeByName");
-            for (String includedName : annotation.includeByName()) {
-                collector.addProperty(includedName);
-            }
-            collector.reset();
+            includeByName = annotation.includeByName();
+            excludeByName = annotation.excludeByName();
+            includeByModifiers = annotation.includeByModifiers();
+            excludeByModifiers = annotation.excludeByModifiers();
         }
+
+        return result;
+    }
+
+    @Override
+    protected boolean fillCollector(Collector collector) {
+        collector.setTarget(PATH);
+        collector.addProperty("excludeByModifiers", excludeByModifiers);
+        collector.addProperty("includeByModifiers", includeByModifiers);
+
+        collector.beginArray("excludeByName");
+        for (String name : excludeByName) {
+            collector.addProperty(name);
+        }
+        collector.end();
+
+        collector.beginArray("includeByName");
+        for (String name : includeByName) {
+            collector.addProperty(name);
+        }
+        collector.reset();
 
         return false;
     }

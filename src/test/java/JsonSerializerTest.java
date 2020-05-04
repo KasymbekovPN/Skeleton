@@ -1,23 +1,21 @@
-import org.KasymbekovPN.Skeleton.annotation.handler.clazz.ClassAH;
-import org.KasymbekovPN.Skeleton.annotation.handler.constructor.ConstructorAH;
-import org.KasymbekovPN.Skeleton.annotation.handler.member.MemberAH;
+import org.KasymbekovPN.Skeleton.annotation.handler.SimpleAnnotationHandler;
 import org.KasymbekovPN.Skeleton.collector.Collector;
 import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
 import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.ClassExistingCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorWritingProcess;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.checking.ClassExistCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing.*;
-import org.KasymbekovPN.Skeleton.collector.handler.ClassCollectorCheckingHandler;
+import org.KasymbekovPN.Skeleton.collector.handler.CollectorCheckingHandler;
+import org.KasymbekovPN.Skeleton.collector.handler.SimpleCollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.node.*;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassAnnotationDataSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassSignatureSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.constructor.ConstructorClassSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.BiContainerMemberSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.ContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.SimpleContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
@@ -205,26 +203,27 @@ public class JsonSerializerTest {
 //        AnnotationConditionHandler classACH = new ClassACH();
 //        AnnotationConditionHandler memberACH = new MemberACH(classACH);
 
-        ClassExistingCollectorCheckingProcess collectorChecker = new ClassExistingCollectorCheckingProcess();
-        new ClassExistCheckingHandler(collectorChecker, ObjectNode.class);
+//        SimpleCollectorCheckingProcess collectorChecker = new SimpleCollectorCheckingProcess();
+//        new ClassExistCheckingHandler(collectorChecker, ObjectNode.class);
 
-        ClassCollectorCheckingHandler classCollectorCheckingHandler = new ClassCollectorCheckingHandler();
-        classCollectorCheckingHandler.addProcess(collectorChecker);
+//        SimpleCollectorCheckingHandler simpleCollectorCheckingHandler = new SimpleCollectorCheckingHandler();
+//        simpleCollectorCheckingHandler.addProcess(collectorChecker);
 
 //        AnnotationHandlerContainer simpleAHC = new SimpleAHC();
 //        ClassAH classAH = new ClassAH(simpleAHC);
 //        MemberAH memberAH = new MemberAH(simpleAHC, collectorChecker);
 //        ConstructorAH constructorAH = new ConstructorAH(simpleAHC);
         //<
-        ClassAH classAH = new ClassAH();
-        MemberAH memberAH = new MemberAH();
-        ConstructorAH constructorAH = new ConstructorAH();
+//        ClassAH classAH = new ClassAH();
+//        MemberAH memberAH = new MemberAH();
+//        ConstructorAH constructorAH = new ConstructorAH();
 
         Collector collector = new SimpleCollector();
 
-        SerializationElementHandler classSEH = new ClassSignatureSEH(classAH)
-                .setNext(new ClassAnnotationDataSEH(classAH));
-        SerializationElementHandler constructorSEH = new ConstructorClassSEH();
+        SimpleAnnotationHandler simpleAnnotationHandler = new SimpleAnnotationHandler();
+
+        SerializationElementHandler classSEH = new ClassSignatureSEH(simpleAnnotationHandler)
+                .setNext(new ClassAnnotationDataSEH(simpleAnnotationHandler));
 
         Checker<Class<?>> checker = new TypeChecker(
                 new HashSet<>(Arrays.asList(Number.class)),
@@ -233,21 +232,35 @@ public class JsonSerializerTest {
         SimpleCAC oneArg = new SimpleCAC(checker);
         SimpleCAC twoArgs = new SimpleCAC(checker, checker);
 
-        SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class)
-                .setNext(new ExtendedTypeMemberSEH(Number.class))
-                .setNext(new SpecificTypeMemberSEH(byte.class))
-                .setNext(new SpecificTypeMemberSEH(short.class))
-                .setNext(new SpecificTypeMemberSEH(int.class))
-                .setNext(new SpecificTypeMemberSEH(long.class))
-                .setNext(new SpecificTypeMemberSEH(float.class))
-                .setNext(new SpecificTypeMemberSEH(double.class))
-                .setNext(new SpecificTypeMemberSEH(char.class))
-                .setNext(new SpecificTypeMemberSEH(boolean.class))
-                .setNext(new SpecificTypeMemberSEH(Boolean.class))
-                .setNext(new SpecificTypeMemberSEH(Character.class))
-                .setNext(new SimpleContainerMemberSEH(List.class, oneArg))
-                .setNext(new SimpleContainerMemberSEH(Set.class, oneArg))
-                .setNext(new BiContainerMemberSEH(Map.class, twoArgs, memberAH, new ClassExistingCollectorCheckingProcess()));
+        SimpleCollectorCheckingProcess checkingProcess = new SimpleCollectorCheckingProcess();
+
+
+        CollectorCheckingProcess existSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();
+        CollectorCheckingProcess annotationSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();
+        CollectorCheckingHandler simpleCollectorCheckingHandler = new SimpleCollectorCheckingHandler();
+        simpleCollectorCheckingHandler.addProcess("exist", existSimpleCollectorCheckingProcess);
+        simpleCollectorCheckingHandler.addProcess("annotation", annotationSimpleCollectorCheckingProcess);
+
+        SimpleCollectorCheckingHandler ctrSimpleCollectorCheckingHandler = new SimpleCollectorCheckingHandler();
+        ctrSimpleCollectorCheckingHandler.addProcess("members", new SimpleCollectorCheckingProcess());
+
+        SerializationElementHandler constructorSEH = new ConstructorClassSEH(new SimpleAnnotationHandler(), ctrSimpleCollectorCheckingHandler);
+
+        SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class, simpleAnnotationHandler, simpleCollectorCheckingHandler)
+                .setNext(new ExtendedTypeMemberSEH(Number.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(byte.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(short.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(int.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(long.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(float.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(double.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(char.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(boolean.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(Boolean.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new SpecificTypeMemberSEH(Character.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new ContainerMemberSEH(List.class, oneArg, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new ContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, simpleCollectorCheckingHandler))
+                .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, simpleCollectorCheckingHandler));
 
         Serializer serializer = new SimpleSerializer(classSEH, memberSEH, constructorSEH, collector);
         serializer.serialize(TestClass4.class);

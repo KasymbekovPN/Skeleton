@@ -99,13 +99,6 @@ public class SimpleCollector implements Collector {
         }
     }
 
-//    @Override
-//    public void write(Writer writer) {
-//        root.write(writer);
-//    }
-    //<
-
-
     @Override
     public void doIt(CollectorHandingProcess collectorHandingProcess) {
         root.doIt(collectorHandingProcess);

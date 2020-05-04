@@ -30,11 +30,6 @@ public class ArrayNode implements Node {
         return Optional.of(value);
     }
 
-//    @Override
-//    public void write(Writer writer) {
-//        writer.write(this);
-//    }
-    //<
     @Override
     public void doIt(CollectorHandingProcess collectorHandingProcess) {
         collectorHandingProcess.doIt(this);

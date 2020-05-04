@@ -29,8 +29,6 @@ public class SimpleCAC implements ContainerArgumentChecker {
                 Class<?> argument = (Class<?>) arguments[i];
                 if (checkers[i].check(argument)){
                     argTypes.add(argument);
-                } else {
-                    return Optional.empty();
                 }
             }
         }

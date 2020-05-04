@@ -13,7 +13,5 @@ public interface Node {
     default Optional<Node> addChild(Node value){
         return Optional.empty();
     };
-//    default void write(Writer writer){}
-    //<
     default boolean containsKey(String key) {return false;};
 }

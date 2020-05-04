@@ -21,12 +21,6 @@ public abstract class PrimitiveNode<T> implements Node {
         return parent;
     }
 
-//    @Override
-//    public void write(Writer writer) {
-//        writer.write(this);
-//    }
-    //<
-
     @Override
     public void doIt(CollectorHandingProcess collectorHandingProcess) {
         collectorHandingProcess.doIt(this);

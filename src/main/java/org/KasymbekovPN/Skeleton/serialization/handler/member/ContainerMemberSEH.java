@@ -10,19 +10,22 @@ import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.checking.Class
 import org.KasymbekovPN.Skeleton.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
+import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.ContainerArgumentChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class SpecificTypeMemberSEH extends BaseSEH {
+public class ContainerMemberSEH extends BaseSEH {
 
-    private static final Logger log = LoggerFactory.getLogger(SpecificTypeMemberSEH.class);
+    private static final Logger log = LoggerFactory.getLogger(ContainerMemberSEH.class);
 
     //< SKEL-30
     private static List<String> PATH = new ArrayList<>(){{add("member");}};
@@ -30,28 +33,31 @@ public class SpecificTypeMemberSEH extends BaseSEH {
     private static String ANNOTATION_PROCESS = "annotation";
 
     private final Class<?> specificType;
+    private final ContainerArgumentChecker containerArgumentChecker;
     private final AnnotationHandler annotationHandler;
     private final CollectorCheckingHandler collectorCheckingHandler;
 
     private String name;
     private String typeName;
     private int modifiers;
+    private List<String> argumentTypes;
 
-    public SpecificTypeMemberSEH(Class<?> specificType,
-                                 AnnotationHandler annotationHandler,
-                                 CollectorCheckingHandler collectorCheckingHandler) {
+    public ContainerMemberSEH(Class<?> specificType,
+                              ContainerArgumentChecker containerArgumentChecker,
+                              AnnotationHandler annotationHandler,
+                              CollectorCheckingHandler collectorCheckingHandler) {
         this.specificType = specificType;
+        this.containerArgumentChecker = containerArgumentChecker;
         this.annotationHandler = annotationHandler;
         this.collectorCheckingHandler = collectorCheckingHandler;
     }
 
     @Override
     protected boolean checkData(Field field, Collector collector) {
-
         boolean result = false;
-
         Class<?> type = field.getType();
         if (type.equals(specificType)){
+
             Optional<CollectorCheckingProcess> maybeExistProcess = collectorCheckingHandler.getProcess(EXIST_PROCESS);
             Optional<CollectorCheckingProcess> maybeAnnotationProcess = collectorCheckingHandler.getProcess(ANNOTATION_PROCESS);
 
@@ -68,15 +74,24 @@ public class SpecificTypeMemberSEH extends BaseSEH {
 
                 Optional<Annotation> maybeAnnotation = annotationHandler.check(field.getDeclaredAnnotations(), SkeletonMember.class);
 
-                if (collectorCheckingResults.get(EXIST_PROCESS).equals(SkeletonCheckResult.INCLUDE)){
+                Type[] actualTypeArguments = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
+                Optional<List<Class<?>>> maybeArguments = containerArgumentChecker.check(actualTypeArguments);
+
+                if (maybeArguments.isPresent() &&
+                        collectorCheckingResults.get(EXIST_PROCESS).equals(SkeletonCheckResult.INCLUDE)){
 
                     if (collectorCheckingResults.get(ANNOTATION_PROCESS).equals(SkeletonCheckResult.INCLUDE) ||
-                            (!collectorCheckingResults.get(ANNOTATION_PROCESS).equals(SkeletonCheckResult.EXCLUDE) &&
-                                    maybeAnnotation.isPresent())){
+                        (!collectorCheckingResults.get(ANNOTATION_PROCESS).equals(SkeletonCheckResult.EXCLUDE) &&
+                                maybeAnnotation.isPresent())){
                         result = true;
                         name = field.getName();
                         typeName = type.getCanonicalName();
                         modifiers = field.getModifiers();
+
+                        argumentTypes = new ArrayList<>();
+                        for (Class<?> argType : maybeArguments.get()) {
+                            argumentTypes.add(argType.getCanonicalName());
+                        }
                     }
                 }
             }
@@ -87,10 +102,15 @@ public class SpecificTypeMemberSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
+
         collector.setTarget(PATH);
         collector.beginObject(name);
         collector.addProperty("type", typeName);
         collector.addProperty("modifiers", modifiers);
+        collector.beginArray("arguments");
+        for (String argumentType : argumentTypes) {
+            collector.addProperty(argumentType);
+        }
         collector.reset();
 
         return true;

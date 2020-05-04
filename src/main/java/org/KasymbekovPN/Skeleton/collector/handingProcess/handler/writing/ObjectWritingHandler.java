@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//public class ObjectWritingHandler implements WritingHandler {
-//<
 public class ObjectWritingHandler implements CollectorHandlingProcessHandler {
 
     private final StringBuilder buffer;
@@ -44,8 +42,6 @@ public class ObjectWritingHandler implements CollectorHandlingProcessHandler {
                     .append(entry.getKey())
                     .append(formatter.getNameBorder())
                     .append(formatter.getNameValueSeparator());
-//            entry.getValue().write(writer);
-            //<
             entry.getValue().doIt(collectorWritingProcess);
         }
         formatter.decOffset();
