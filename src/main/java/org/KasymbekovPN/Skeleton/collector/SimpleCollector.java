@@ -100,8 +100,8 @@ public class SimpleCollector implements Collector {
     }
 
     @Override
-    public void doIt(CollectorHandingProcess collectorHandingProcess) {
-        root.doIt(collectorHandingProcess);
+    public void apply(CollectorHandingProcess collectorHandingProcess) {
+        root.apply(collectorHandingProcess);
     }
 
     @Override
@@ -110,15 +110,16 @@ public class SimpleCollector implements Collector {
         setEachTarget(new ArrayList<>(path));
     }
 
-    @Override
-    public Node getTarget() {
-        return target;
-    }
-
-    @Override
-    public Node getRoot() {
-        return root;
-    }
+    //<
+//    @Override
+//    public Node getTarget() {
+//        return target;
+//    }
+//
+//    @Override
+//    public Node getRoot() {
+//        return root;
+//    }
 
     private void setEachTarget(List<String> path){
         String pathItem = path.remove(0);

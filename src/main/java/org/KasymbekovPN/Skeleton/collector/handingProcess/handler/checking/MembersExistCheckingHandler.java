@@ -15,10 +15,12 @@ public class MembersExistCheckingHandler implements CollectorHandlingProcessHand
 
     private final CollectorCheckingProcess collectorCheckingProcess;
     private final List<String> members;
+    private final Class<? extends Node> clazz;
 
     public MembersExistCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
                                        Class<? extends Node> clazz,
                                        List<String> members) {
+        this.clazz = clazz;
         this.collectorCheckingProcess = collectorCheckingProcess;
         this.collectorCheckingProcess.addHandler(clazz, this);
         this.members = members;
@@ -43,6 +45,7 @@ public class MembersExistCheckingHandler implements CollectorHandlingProcessHand
         }
 
         collectorCheckingProcess.setResult(
+                clazz,
                 members.size() == counter ? SkeletonCheckResult.EXCLUDE : SkeletonCheckResult.INCLUDE
         );
     }

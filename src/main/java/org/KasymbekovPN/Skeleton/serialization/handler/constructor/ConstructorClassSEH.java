@@ -28,9 +28,12 @@ public class ConstructorClassSEH extends BaseSEH {
 
     private List<String> members;
 
-    public ConstructorClassSEH(AnnotationHandler annotationHandler, CollectorCheckingHandler collectorCheckingHandler) {
+    public ConstructorClassSEH(AnnotationHandler annotationHandler,
+                               CollectorCheckingHandler collectorCheckingHandler) {
         this.annotationHandler = annotationHandler;
         this.collectorCheckingHandler = collectorCheckingHandler;
+
+        this.collectorCheckingHandler.add(MEMBERS_PROCESS);
     }
 
     @Override
@@ -39,17 +42,15 @@ public class ConstructorClassSEH extends BaseSEH {
         boolean result = false;
 
         Optional<Annotation> maybeAnnotation = annotationHandler.check(clazz.getDeclaredAnnotations(), SkeletonConstructor.class);
-        Optional<CollectorCheckingProcess> maybeMembersProcess = collectorCheckingHandler.getProcess(MEMBERS_PROCESS);
+        Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.get(MEMBERS_PROCESS);
+        if (maybeAnnotation.isPresent() && maybeProcess.isPresent()){
 
-        if (maybeAnnotation.isPresent() && maybeMembersProcess.isPresent()){
             SkeletonConstructor annotation = (SkeletonConstructor) maybeAnnotation.get();
-            CollectorCheckingProcess process = maybeMembersProcess.get();
-
             members = Arrays.asList(annotation.members());
-            new MembersExistCheckingHandler(process, ObjectNode.class, members);
 
-            collectorCheckingHandler.doIt(collector, true);
-            Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.getResults();
+            CollectorCheckingProcess process = maybeProcess.get();
+            new MembersExistCheckingHandler(process, ObjectNode.class, members);
+            Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.doIt(collector, true);
 
             result = collectorCheckingResults.get(MEMBERS_PROCESS).equals(SkeletonCheckResult.INCLUDE);
         }

@@ -14,11 +14,13 @@ public class SimpleCollectorCheckingProcess implements CollectorCheckingProcess 
     private static final Logger log = LoggerFactory.getLogger(SimpleCollectorCheckingProcess.class);
 
     private final Map<Class<? extends Node>, CollectorHandlingProcessHandler> handlers = new HashMap<>();
+    private final Map<Class<? extends Node>, SkeletonCheckResult> results = new HashMap<>();
 
-    private SkeletonCheckResult result = SkeletonCheckResult.NONE;
+    public SimpleCollectorCheckingProcess() {
+    }
 
     @Override
-    public void doIt(Node node) {
+    public void handle(Node node) {
         Class<? extends Node> clazz = node.getClass();
         if (handlers.containsKey(clazz)){
             handlers.get(clazz).handle(node);
@@ -33,18 +35,17 @@ public class SimpleCollectorCheckingProcess implements CollectorCheckingProcess 
     }
 
     @Override
-    public void setResult(SkeletonCheckResult result) {
-        this.result = result;
-    }
-
-    @Override
-    public SkeletonCheckResult getResult() {
-        return result;
+    public void setResult(Class<? extends Node> clazz, SkeletonCheckResult result) {
+        results.put(clazz, result);
     }
 
     @Override
     public SkeletonCheckResult getResult(boolean cleanHandlers) {
-        handlers.clear();
-        return result;
+        if (results.containsValue(SkeletonCheckResult.EXCLUDE)){
+            return SkeletonCheckResult.EXCLUDE;
+        } else if (results.containsValue(SkeletonCheckResult.INCLUDE)) {
+            return SkeletonCheckResult.INCLUDE;
+        }
+        return SkeletonCheckResult.NONE;
     }
 }

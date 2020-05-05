@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProces
 import java.util.Optional;
 
 public interface Node {
-    void doIt(CollectorHandingProcess collectorHandingProcess);
+    void apply(CollectorHandingProcess collectorHandingProcess);
     Node getParent();
     default Optional<Node> addChild(String property, Node value) {
         return Optional.empty();

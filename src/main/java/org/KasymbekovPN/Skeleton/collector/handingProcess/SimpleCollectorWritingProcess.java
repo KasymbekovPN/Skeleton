@@ -33,7 +33,7 @@ public class SimpleCollectorWritingProcess implements CollectorWritingProcess {
     }
 
     @Override
-    public void doIt(Node node) {
+    public void handle(Node node) {
         Class<? extends Node> clazz = node.getClass();
         if (handlers.containsKey(clazz)){
             handlers.get(clazz).handle(node);

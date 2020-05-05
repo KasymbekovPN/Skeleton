@@ -24,6 +24,7 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
     private final String name;
     private final int modifiers;
     private final CollectorCheckingProcess collectorCheckingProcess;
+    private final Class<? extends Node> clazz;
 
     public ClassAnnotationCheckingHandler(int modifiers,
                                           String name,
@@ -32,7 +33,7 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
 
         this.name = name;
         this.modifiers = modifiers;
-
+        this.clazz = clazz;
         this.collectorCheckingProcess = collectorCheckingProcess;
         this.collectorCheckingProcess.addHandler(clazz, this);
     }
@@ -58,7 +59,7 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
             }
         }
 
-        collectorCheckingProcess.setResult(result);
+        collectorCheckingProcess.setResult(clazz, result);
     }
 
     private int extractIntProperty(ObjectNode node, String property){

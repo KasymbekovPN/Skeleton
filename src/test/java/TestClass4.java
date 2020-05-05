@@ -5,9 +5,10 @@ import org.KasymbekovPN.Skeleton.annotation.SkeletonMember;
 import java.util.Map;
 import java.util.Set;
 
-@SkeletonClass(
-        includeByName = {"map"}
-)
+//@SkeletonClass(
+//        includeByName = {"map"}
+//)
+@SkeletonClass
 @SkeletonConstructor(
         members = {"set", "map"}
 )

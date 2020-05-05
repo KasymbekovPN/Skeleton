@@ -16,8 +16,10 @@ public class ClassExistCheckingHandler implements CollectorHandlingProcessHandle
     private static final String CLASS_OBJECT_PROPERTY = "class";
 
     private final CollectorCheckingProcess collectorCheckingProcess;
+    private final Class<? extends Node> clazz;
 
     public ClassExistCheckingHandler(CollectorCheckingProcess collectorCheckingProcess, Class<? extends Node> clazz) {
+        this.clazz = clazz;
         this.collectorCheckingProcess = collectorCheckingProcess;
         this.collectorCheckingProcess.addHandler(clazz, this);
     }
@@ -27,6 +29,6 @@ public class ClassExistCheckingHandler implements CollectorHandlingProcessHandle
         SkeletonCheckResult checkResult = ((ObjectNode) node).getChildren().containsKey(CLASS_OBJECT_PROPERTY)
                 ? SkeletonCheckResult.INCLUDE
                 : SkeletonCheckResult.EXCLUDE;
-        collectorCheckingProcess.setResult(checkResult);
+        collectorCheckingProcess.setResult(clazz, checkResult);
     }
 }

@@ -42,7 +42,10 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
                                  CollectorCheckingHandler collectorCheckingHandler) {
         this.extendableType = extendableType;
         this.annotationHandler = annotationHandler;
+
         this.collectorCheckingHandler = collectorCheckingHandler;
+        this.collectorCheckingHandler.add(EXIST_PROCESS);
+        this.collectorCheckingHandler.add(ANNOTATION_PROCESS);
     }
 
     @Override
@@ -53,8 +56,8 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
         Class<?> type = field.getType();
         if (extendableType.isAssignableFrom(type)) {
 
-            Optional<CollectorCheckingProcess> maybeExistProcess = collectorCheckingHandler.getProcess(EXIST_PROCESS);
-            Optional<CollectorCheckingProcess> maybeAnnotationProcess = collectorCheckingHandler.getProcess(ANNOTATION_PROCESS);
+            Optional<CollectorCheckingProcess> maybeExistProcess = collectorCheckingHandler.get(EXIST_PROCESS);
+            Optional<CollectorCheckingProcess> maybeAnnotationProcess = collectorCheckingHandler.get(ANNOTATION_PROCESS);
 
             if (maybeAnnotationProcess.isPresent() && maybeExistProcess.isPresent()){
 
@@ -64,8 +67,7 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
                 new ClassAnnotationCheckingHandler(field.getModifiers(), field.getName(), annotationProcess, ObjectNode.class);
 
-                collectorCheckingHandler.doIt(collector, true);
-                Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.getResults();
+                Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.doIt(collector, true);
 
                 Optional<Annotation> maybeAnnotation = annotationHandler.check(field.getDeclaredAnnotations(), SkeletonMember.class);
 

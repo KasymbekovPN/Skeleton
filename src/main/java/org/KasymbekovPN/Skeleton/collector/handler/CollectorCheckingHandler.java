@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface CollectorCheckingHandler {
-    void doIt(Collector collector);
-    void doIt(Collector collector, boolean cleanHandlers);
-    void addProcess(String key, CollectorCheckingProcess collectorCheckingProcess);
-    Optional<CollectorCheckingProcess> getProcess(String key);
-    SkeletonCheckResult getCheckingResult();
-    Map<String, SkeletonCheckResult> getResults();
+    boolean isExisting(String processName);
+    Optional<CollectorCheckingProcess> add(String processName, CollectorCheckingProcess collectorCheckingProcess);
+    Optional<CollectorCheckingProcess> add(String processName);
+    Optional<CollectorCheckingProcess> remove(String processName);
+    Optional<CollectorCheckingProcess> get(String processName);
+    Map<String, SkeletonCheckResult> doIt(Collector collector, boolean cleanHandles);
 }

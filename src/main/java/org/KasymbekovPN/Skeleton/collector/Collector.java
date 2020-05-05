@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.collector;
 
-import org.KasymbekovPN.Skeleton.collector.node.Node;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 
 import java.util.List;
@@ -27,11 +26,7 @@ public interface Collector {
 
     void end();
 
-    //< ?? rename with apply
-    void doIt(CollectorHandingProcess collectorHandingProcess);
+    void apply(CollectorHandingProcess collectorHandingProcess);
 
     void setTarget(List<String> path);
-    Node getTarget();
-
-    Node getRoot();
 }

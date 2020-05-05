@@ -37,7 +37,7 @@ public class ArrayWritingHandler implements CollectorHandlingProcessHandler {
 
             for (Node child : children) {
                 buffer.append(iterator.next());
-                child.doIt(collectorWritingProcess);
+                child.apply(collectorWritingProcess);
             }
             formatter.decOffset();
             buffer.append(formatter.getOffset()).append(formatter.getEndBorder(clazz));

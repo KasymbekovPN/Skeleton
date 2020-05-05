@@ -39,8 +39,8 @@ public class ObjectNode implements Node {
     }
 
     @Override
-    public void doIt(CollectorHandingProcess collectorHandingProcess) {
-        collectorHandingProcess.doIt(this);
+    public void apply(CollectorHandingProcess collectorHandingProcess) {
+        collectorHandingProcess.handle(this);
     }
 
     @Override

@@ -2,12 +2,10 @@ import org.KasymbekovPN.Skeleton.annotation.handler.SimpleAnnotationHandler;
 import org.KasymbekovPN.Skeleton.collector.Collector;
 import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
 import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing.*;
-import org.KasymbekovPN.Skeleton.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.handler.SimpleCollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.node.*;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
@@ -235,32 +233,32 @@ public class JsonSerializerTest {
         SimpleCollectorCheckingProcess checkingProcess = new SimpleCollectorCheckingProcess();
 
 
-        CollectorCheckingProcess existSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();
-        CollectorCheckingProcess annotationSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();
-        CollectorCheckingHandler simpleCollectorCheckingHandler = new SimpleCollectorCheckingHandler();
-        simpleCollectorCheckingHandler.addProcess("exist", existSimpleCollectorCheckingProcess);
-        simpleCollectorCheckingHandler.addProcess("annotation", annotationSimpleCollectorCheckingProcess);
+//        CollectorCheckingProcess existSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();
+//        CollectorCheckingProcess annotationSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();
+//        OldCollectorCheckingHandler simpleOldCollectorCheckingHandler = new SimpleOldCollectorCheckingHandler();
+//        simpleOldCollectorCheckingHandler.addProcess("exist", existSimpleCollectorCheckingProcess);
+//        simpleOldCollectorCheckingHandler.addProcess("annotation", annotationSimpleCollectorCheckingProcess);
+//
+//        SimpleOldCollectorCheckingHandler ctrSimpleCollectorCheckingHandler = new SimpleOldCollectorCheckingHandler();
+//        ctrSimpleCollectorCheckingHandler.addProcess("members", new SimpleCollectorCheckingProcess());
 
-        SimpleCollectorCheckingHandler ctrSimpleCollectorCheckingHandler = new SimpleCollectorCheckingHandler();
-        ctrSimpleCollectorCheckingHandler.addProcess("members", new SimpleCollectorCheckingProcess());
+        SerializationElementHandler constructorSEH = new ConstructorClassSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class));
 
-        SerializationElementHandler constructorSEH = new ConstructorClassSEH(new SimpleAnnotationHandler(), ctrSimpleCollectorCheckingHandler);
-
-        SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class, simpleAnnotationHandler, simpleCollectorCheckingHandler)
-                .setNext(new ExtendedTypeMemberSEH(Number.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(byte.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(short.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(int.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(long.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(float.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(double.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(char.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(boolean.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(Boolean.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new SpecificTypeMemberSEH(Character.class, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new ContainerMemberSEH(List.class, oneArg, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new ContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, simpleCollectorCheckingHandler))
-                .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, simpleCollectorCheckingHandler));
+        SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class))
+                .setNext(new ExtendedTypeMemberSEH(Number.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(byte.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(short.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(int.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(long.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(float.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(double.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(char.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(boolean.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(Boolean.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new SpecificTypeMemberSEH(Character.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new ContainerMemberSEH(List.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new ContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)));
 
         Serializer serializer = new SimpleSerializer(classSEH, memberSEH, constructorSEH, collector);
         serializer.serialize(TestClass4.class);
@@ -272,7 +270,7 @@ public class JsonSerializerTest {
         new CharacterWritingHandler(collectorWritingProcess, CharacterNode.class);
         new BooleanWritingHandler(collectorWritingProcess, BooleanNode.class);
         new NumberWritingHandler(collectorWritingProcess, NumberNode.class);
-        collector.doIt(collectorWritingProcess);
+        collector.apply(collectorWritingProcess);
 
         log.info("\n{}", collectorWritingProcess.getBuffer());
     }

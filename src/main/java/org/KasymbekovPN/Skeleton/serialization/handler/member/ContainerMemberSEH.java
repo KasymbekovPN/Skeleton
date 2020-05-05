@@ -49,7 +49,10 @@ public class ContainerMemberSEH extends BaseSEH {
         this.specificType = specificType;
         this.containerArgumentChecker = containerArgumentChecker;
         this.annotationHandler = annotationHandler;
+
         this.collectorCheckingHandler = collectorCheckingHandler;
+        this.collectorCheckingHandler.add(EXIST_PROCESS);
+        this.collectorCheckingHandler.add(ANNOTATION_PROCESS);
     }
 
     @Override
@@ -58,19 +61,16 @@ public class ContainerMemberSEH extends BaseSEH {
         Class<?> type = field.getType();
         if (type.equals(specificType)){
 
-            Optional<CollectorCheckingProcess> maybeExistProcess = collectorCheckingHandler.getProcess(EXIST_PROCESS);
-            Optional<CollectorCheckingProcess> maybeAnnotationProcess = collectorCheckingHandler.getProcess(ANNOTATION_PROCESS);
-
-            if (maybeExistProcess.isPresent() && maybeAnnotationProcess.isPresent()){
-
+            Optional<CollectorCheckingProcess> maybeExistProcess = collectorCheckingHandler.get(EXIST_PROCESS);
+            Optional<CollectorCheckingProcess> maybeAnnotationProcess = collectorCheckingHandler.get(ANNOTATION_PROCESS);
+            if (maybeAnnotationProcess.isPresent() && maybeExistProcess.isPresent()){
                 CollectorCheckingProcess existProcess = maybeExistProcess.get();
                 new ClassExistCheckingHandler(existProcess, ObjectNode.class);
 
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
                 new ClassAnnotationCheckingHandler(field.getModifiers(), field.getName(), annotationProcess, ObjectNode.class);
 
-                collectorCheckingHandler.doIt(collector, true);
-                Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.getResults();
+                Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.doIt(collector, true);
 
                 Optional<Annotation> maybeAnnotation = annotationHandler.check(field.getDeclaredAnnotations(), SkeletonMember.class);
 
@@ -94,6 +94,7 @@ public class ContainerMemberSEH extends BaseSEH {
                         }
                     }
                 }
+
             }
         }
 

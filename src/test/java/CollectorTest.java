@@ -57,7 +57,7 @@ public class CollectorTest {
         new CharacterWritingHandler(collectorWritingProcess, CharacterNode.class);
         new BooleanWritingHandler(collectorWritingProcess, BooleanNode.class);
         new NumberWritingHandler(collectorWritingProcess, NumberNode.class);
-        simpleGenerator.doIt(collectorWritingProcess);
+        simpleGenerator.apply(collectorWritingProcess);
 
         System.out.println(collectorWritingProcess.getBuffer());
     }

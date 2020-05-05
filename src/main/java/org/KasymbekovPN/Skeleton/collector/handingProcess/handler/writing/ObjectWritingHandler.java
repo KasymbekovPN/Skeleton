@@ -43,7 +43,7 @@ public class ObjectWritingHandler implements CollectorHandlingProcessHandler {
                         .append(entry.getKey())
                         .append(formatter.getNameBorder())
                         .append(formatter.getNameValueSeparator());
-                entry.getValue().doIt(collectorWritingProcess);
+                entry.getValue().apply(collectorWritingProcess);
             }
             formatter.decOffset();
             buffer.append(formatter.getEndBorder(clazz));
