@@ -1,10 +1,10 @@
 package org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
 import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,25 +26,27 @@ public class ObjectWritingHandler implements CollectorHandlingProcessHandler {
 
     @Override
     public void handle(Node node) {
-        Map<String, Node> children = ((ObjectNode) node).getChildren();
+        if (node.isObject()){
+            Map<String, Node> children = ((ObjectNode) node).getChildren();
 
-        Class<ObjectNode> clazz = ObjectNode.class;
-        Set<Map.Entry<String, Node>> entries = children.entrySet();
-        List<String> delimiters = formatter.getDelimiters(clazz, entries.size());
-        Iterator<String> iterator = delimiters.iterator();
+            Class<ObjectNode> clazz = ObjectNode.class;
+            Set<Map.Entry<String, Node>> entries = children.entrySet();
+            List<String> delimiters = formatter.getDelimiters(clazz, entries.size());
+            Iterator<String> iterator = delimiters.iterator();
 
-        buffer.append(formatter.getBeginBorder(clazz));
-        formatter.incOffset();
-        for (Map.Entry<String, Node> entry : entries) {
-            buffer.append(iterator.next())
-                    .append(formatter.getOffset())
-                    .append(formatter.getNameBorder())
-                    .append(entry.getKey())
-                    .append(formatter.getNameBorder())
-                    .append(formatter.getNameValueSeparator());
-            entry.getValue().doIt(collectorWritingProcess);
+            buffer.append(formatter.getBeginBorder(clazz));
+            formatter.incOffset();
+            for (Map.Entry<String, Node> entry : entries) {
+                buffer.append(iterator.next())
+                        .append(formatter.getOffset())
+                        .append(formatter.getNameBorder())
+                        .append(entry.getKey())
+                        .append(formatter.getNameBorder())
+                        .append(formatter.getNameValueSeparator());
+                entry.getValue().doIt(collectorWritingProcess);
+            }
+            formatter.decOffset();
+            buffer.append(formatter.getEndBorder(clazz));
         }
-        formatter.decOffset();
-        buffer.append(formatter.getEndBorder(clazz));
     }
 }

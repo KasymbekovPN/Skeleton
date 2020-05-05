@@ -49,6 +49,11 @@ public class ObjectNode implements Node {
     }
 
     @Override
+    public boolean isObject() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "GeneratorObjectNode{" +
                 "children=" + children +

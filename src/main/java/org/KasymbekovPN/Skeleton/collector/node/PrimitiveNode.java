@@ -25,4 +25,9 @@ public abstract class PrimitiveNode<T> implements Node {
     public void doIt(CollectorHandingProcess collectorHandingProcess) {
         collectorHandingProcess.doIt(this);
     }
+
+    @Override
+    public boolean isPrimitive() {
+        return true;
+    }
 }

@@ -40,18 +40,21 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
     @Override
     public void handle(Node node) {
         SkeletonCheckResult result = SkeletonCheckResult.NONE;
-        ObjectNode objectNode = (ObjectNode) node;
-        if (objectNode.containsKey(ANNOTATION_OBJECT_PROPERTY)){
-            ObjectNode annotationNode = (ObjectNode) objectNode.getChildren().get(ANNOTATION_OBJECT_PROPERTY);
 
-            int includeByModifiers = extractIntProperty(annotationNode, "includeByModifiers");
-            int excludeByModifiers = extractIntProperty(annotationNode, "excludeByModifiers");
-            List<String> includeByName = extractStringArrayProperty(annotationNode, "includeByName");
-            List<String> excludeByName = extractStringArrayProperty(annotationNode, "excludeByName");
+        if (node.isObject()){
+            ObjectNode objectNode = (ObjectNode) node;
+            if (objectNode.containsKey(ANNOTATION_OBJECT_PROPERTY)){
+                ObjectNode annotationNode = (ObjectNode) objectNode.getChildren().get(ANNOTATION_OBJECT_PROPERTY);
 
-            result = checkByModifiers(modifiers, includeByModifiers, excludeByModifiers);
-            if (result.equals(SkeletonCheckResult.NONE)){
-                result = checkByName(name, includeByName, excludeByName);
+                int includeByModifiers = extractIntProperty(annotationNode, "includeByModifiers");
+                int excludeByModifiers = extractIntProperty(annotationNode, "excludeByModifiers");
+                List<String> includeByName = extractStringArrayProperty(annotationNode, "includeByName");
+                List<String> excludeByName = extractStringArrayProperty(annotationNode, "excludeByName");
+
+                result = checkByModifiers(modifiers, includeByModifiers, excludeByModifiers);
+                if (result.equals(SkeletonCheckResult.NONE)){
+                    result = checkByName(name, includeByName, excludeByName);
+                }
             }
         }
 
@@ -60,9 +63,10 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
 
     private int extractIntProperty(ObjectNode node, String property){
         int result = -1;
+
         if (node.containsKey(property)){
             Node child = node.getChildren().get(property);
-            if (child.getClass().equals(NumberNode.class)){
+            if (child.isNumber()){
                 result = (int) ((NumberNode) child).getValue();
             }
         }
@@ -74,9 +78,9 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
         List<String> result = new ArrayList<>();
         if (node.containsKey(property)){
             Node child = node.getChildren().get(property);
-            if (child.getClass().equals(ArrayNode.class)){
+            if (child.isArray()){
                 for (Node childItem : ((ArrayNode) child).getChildren()) {
-                    if (childItem.getClass().equals(StringNode.class)){
+                    if (childItem.isString()){
                         result.add(((StringNode) childItem).getValue());
                     }
                 }

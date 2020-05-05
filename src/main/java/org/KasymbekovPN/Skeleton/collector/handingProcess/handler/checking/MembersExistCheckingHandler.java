@@ -28,14 +28,16 @@ public class MembersExistCheckingHandler implements CollectorHandlingProcessHand
     public void handle(Node node) {
 
         int counter = 0;
-        ObjectNode objectNode = (ObjectNode) node;
-        if (objectNode.containsKey(MEMBERS) && objectNode.getChildren().get(MEMBERS).getClass().equals(ObjectNode.class)){
-            ObjectNode membersNode = (ObjectNode) objectNode.getChildren().get(MEMBERS);
 
+        if (node.isObject()){
+            ObjectNode objectNode = (ObjectNode) node;
+            if (objectNode.containsKey(MEMBERS) && objectNode.getChildren().get(MEMBERS).isObject()){
+                ObjectNode membersNode = (ObjectNode) objectNode.getChildren().get(MEMBERS);
 
-            for (String member : members) {
-                if (membersNode.containsKey(member)){
-                    counter++;
+                for (String member : members) {
+                    if (membersNode.containsKey(member)){
+                        counter++;
+                    }
                 }
             }
         }

@@ -1,10 +1,10 @@
 package org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
 import org.KasymbekovPN.Skeleton.collector.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,21 +24,23 @@ public class ArrayWritingHandler implements CollectorHandlingProcessHandler {
 
     @Override
     public void handle(Node node) {
-        List<Node> children = ((ArrayNode) node).getChildren();
+        if (node.isArray()){
+            List<Node> children = ((ArrayNode) node).getChildren();
 
-        Class<ArrayNode> clazz = ArrayNode.class;
+            Class<ArrayNode> clazz = ArrayNode.class;
 
-        buffer.append(formatter.getBeginBorder(clazz));
-        formatter.incOffset();
+            buffer.append(formatter.getBeginBorder(clazz));
+            formatter.incOffset();
 
-        List<String> delimiters = formatter.getDelimiters(clazz, children.size());
-        Iterator<String> iterator = delimiters.iterator();
+            List<String> delimiters = formatter.getDelimiters(clazz, children.size());
+            Iterator<String> iterator = delimiters.iterator();
 
-        for (Node child : children) {
-            buffer.append(iterator.next());
-            child.doIt(collectorWritingProcess);
+            for (Node child : children) {
+                buffer.append(iterator.next());
+                child.doIt(collectorWritingProcess);
+            }
+            formatter.decOffset();
+            buffer.append(formatter.getOffset()).append(formatter.getEndBorder(clazz));
         }
-        formatter.decOffset();
-        buffer.append(formatter.getOffset()).append(formatter.getEndBorder(clazz));
     }
 }

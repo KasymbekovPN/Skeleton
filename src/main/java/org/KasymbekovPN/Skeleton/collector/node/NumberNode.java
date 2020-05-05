@@ -7,6 +7,11 @@ public class NumberNode extends PrimitiveNode<Number> {
     }
 
     @Override
+    public boolean isNumber() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "NumberNode{" +
                 "value=" + value +

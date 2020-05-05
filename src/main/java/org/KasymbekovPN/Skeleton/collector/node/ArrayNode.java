@@ -36,6 +36,11 @@ public class ArrayNode implements Node {
     }
 
     @Override
+    public boolean isArray() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "GeneratorArrayNode{" +
                 "children=" + children +

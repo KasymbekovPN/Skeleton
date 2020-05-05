@@ -21,8 +21,10 @@ public class CharacterWritingHandler implements CollectorHandlingProcessHandler 
 
     @Override
     public void handle(Node node) {
-        Character value = ((CharacterNode) node).getValue();
-        Class<CharacterNode> clazz = CharacterNode.class;
-        buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        if (node.isCharacter()){
+            Character value = ((CharacterNode) node).getValue();
+            Class<CharacterNode> clazz = CharacterNode.class;
+            buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        }
     }
 }

@@ -7,6 +7,11 @@ public class CharacterNode extends PrimitiveNode<Character> {
     }
 
     @Override
+    public boolean isCharacter() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "CharacterNode{" +
                 "value=" + value +

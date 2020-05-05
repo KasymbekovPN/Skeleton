@@ -1,10 +1,10 @@
 package org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
 import org.KasymbekovPN.Skeleton.collector.node.StringNode;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 
 public class StringWritingHandler implements CollectorHandlingProcessHandler {
 
@@ -21,8 +21,10 @@ public class StringWritingHandler implements CollectorHandlingProcessHandler {
 
     @Override
     public void handle(Node node) {
-        String value = ((StringNode) node).getValue();
-        Class<StringNode> clazz = StringNode.class;
-        buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        if (node.isString()){
+            String value = ((StringNode) node).getValue();
+            Class<StringNode> clazz = StringNode.class;
+            buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        }
     }
 }

@@ -7,6 +7,11 @@ public class BooleanNode extends PrimitiveNode<Boolean> {
     }
 
     @Override
+    public boolean isBoolean() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "BooleanNode{" +
                 "value=" + value +

@@ -21,8 +21,10 @@ public class NumberWritingHandler implements CollectorHandlingProcessHandler {
 
     @Override
     public void handle(Node node) {
-        Number value = ((NumberNode) node).getValue();
-        Class<NumberNode> clazz = NumberNode.class;
-        buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        if (node.isNumber()){
+            Number value = ((NumberNode) node).getValue();
+            Class<NumberNode> clazz = NumberNode.class;
+            buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        }
     }
 }

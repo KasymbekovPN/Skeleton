@@ -7,6 +7,11 @@ public class StringNode extends PrimitiveNode<String> {
     }
 
     @Override
+    public boolean isString() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "StringNode{" +
                 "value='" + value + '\'' +

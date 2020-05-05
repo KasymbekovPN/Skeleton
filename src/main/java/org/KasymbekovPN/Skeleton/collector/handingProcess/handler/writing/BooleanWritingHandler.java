@@ -1,10 +1,10 @@
 package org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing;
 
 import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
 import org.KasymbekovPN.Skeleton.collector.node.BooleanNode;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 
 public class BooleanWritingHandler implements CollectorHandlingProcessHandler {
     private final StringBuilder buffer;
@@ -20,8 +20,10 @@ public class BooleanWritingHandler implements CollectorHandlingProcessHandler {
 
     @Override
     public void handle(Node node) {
-        Boolean value = ((BooleanNode) node).getValue();
-        Class<BooleanNode> clazz = BooleanNode.class;
-        buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        if (node.isBoolean()){
+            Boolean value = ((BooleanNode) node).getValue();
+            Class<BooleanNode> clazz = BooleanNode.class;
+            buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
+        }
     }
 }

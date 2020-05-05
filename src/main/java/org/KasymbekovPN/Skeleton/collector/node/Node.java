@@ -14,4 +14,11 @@ public interface Node {
         return Optional.empty();
     };
     default boolean containsKey(String key) {return false;};
+    default boolean isArray() {return false;}
+    default boolean isBoolean() {return false;}
+    default boolean isCharacter() {return false;}
+    default boolean isNumber() {return false;}
+    default boolean isObject() {return false;}
+    default boolean isPrimitive() {return false;}
+    default boolean isString() {return false;}
 }
