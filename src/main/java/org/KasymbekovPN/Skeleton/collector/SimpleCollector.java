@@ -110,17 +110,6 @@ public class SimpleCollector implements Collector {
         setEachTarget(new ArrayList<>(path));
     }
 
-    //<
-//    @Override
-//    public Node getTarget() {
-//        return target;
-//    }
-//
-//    @Override
-//    public Node getRoot() {
-//        return root;
-//    }
-
     private void setEachTarget(List<String> path){
         String pathItem = path.remove(0);
         beginObject(pathItem);

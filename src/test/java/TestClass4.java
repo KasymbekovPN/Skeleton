@@ -1,3 +1,4 @@
+import org.KasymbekovPN.Skeleton.annotation.SkeletonArguments;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonConstructor;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonMember;
@@ -10,7 +11,10 @@ import java.util.Set;
 //)
 @SkeletonClass
 @SkeletonConstructor(
-        members = {"set", "map"}
+        constructor = {
+                @SkeletonArguments(arguments = {"map"}),
+                @SkeletonArguments(arguments = {"map", "set"})
+        }
 )
 public class TestClass4 {
 

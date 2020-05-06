@@ -70,7 +70,7 @@ public class ContainerMemberSEH extends BaseSEH {
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
                 new ClassAnnotationCheckingHandler(field.getModifiers(), field.getName(), annotationProcess, ObjectNode.class);
 
-                Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.doIt(collector, true);
+                Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.handle(collector, true);
 
                 Optional<Annotation> maybeAnnotation = annotationHandler.check(field.getDeclaredAnnotations(), SkeletonMember.class);
 

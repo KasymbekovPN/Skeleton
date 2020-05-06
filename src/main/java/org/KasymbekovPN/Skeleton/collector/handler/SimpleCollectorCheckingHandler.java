@@ -3,6 +3,9 @@ package org.KasymbekovPN.Skeleton.collector.handler;
 import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
 import org.KasymbekovPN.Skeleton.collector.Collector;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorCheckingProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -10,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SimpleCollectorCheckingHandler implements CollectorCheckingHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(SimpleCollectorCheckingProcess.class);
 
     private final Class<? extends CollectorCheckingProcess> defaultProcessType;
     private final Map<String, CollectorCheckingProcess> processes = new HashMap<>();
@@ -32,7 +37,8 @@ public class SimpleCollectorCheckingHandler implements CollectorCheckingHandler 
     public Optional<CollectorCheckingProcess> add(String processName) {
         try {
             CollectorCheckingProcess collectorHandingProcess = defaultProcessType.getConstructor().newInstance();
-            return Optional.ofNullable(processes.put(processName, collectorHandingProcess));
+            processes.put(processName, collectorHandingProcess);
+            return Optional.of(collectorHandingProcess);
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -57,7 +63,7 @@ public class SimpleCollectorCheckingHandler implements CollectorCheckingHandler 
     }
 
     @Override
-    public Map<String, SkeletonCheckResult> doIt(Collector collector, boolean cleanHandles) {
+    public Map<String, SkeletonCheckResult> handle(Collector collector, boolean cleanHandles) {
         Map<String, SkeletonCheckResult> results = new HashMap<>();
         for (Map.Entry<String, CollectorCheckingProcess> entry : processes.entrySet()) {
             collector.apply(entry.getValue());

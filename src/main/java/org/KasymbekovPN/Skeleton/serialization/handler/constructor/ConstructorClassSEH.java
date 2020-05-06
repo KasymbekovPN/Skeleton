@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.serialization.handler.constructor;
 
+import org.KasymbekovPN.Skeleton.annotation.SkeletonArguments;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonConstructor;
 import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
 import org.KasymbekovPN.Skeleton.annotation.handler.SkeletonCheckResult;
@@ -21,19 +22,15 @@ public class ConstructorClassSEH extends BaseSEH {
 
     //< skel-30
     private static List<String> PATH = new ArrayList<>(){{add("constructor");}};
-    private static String MEMBERS_PROCESS = "members";
 
     private final AnnotationHandler annotationHandler;
     private final CollectorCheckingHandler collectorCheckingHandler;
-
-    private List<String> members;
+    private final Map<String, List<String>> constructorArguments = new HashMap<>();
 
     public ConstructorClassSEH(AnnotationHandler annotationHandler,
                                CollectorCheckingHandler collectorCheckingHandler) {
         this.annotationHandler = annotationHandler;
         this.collectorCheckingHandler = collectorCheckingHandler;
-
-        this.collectorCheckingHandler.add(MEMBERS_PROCESS);
     }
 
     @Override
@@ -42,17 +39,26 @@ public class ConstructorClassSEH extends BaseSEH {
         boolean result = false;
 
         Optional<Annotation> maybeAnnotation = annotationHandler.check(clazz.getDeclaredAnnotations(), SkeletonConstructor.class);
-        Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.get(MEMBERS_PROCESS);
-        if (maybeAnnotation.isPresent() && maybeProcess.isPresent()){
+        if (maybeAnnotation.isPresent()){
 
-            SkeletonConstructor annotation = (SkeletonConstructor) maybeAnnotation.get();
-            members = Arrays.asList(annotation.members());
+            constructorArguments.clear();
+            SkeletonArguments[] arguments = ((SkeletonConstructor) maybeAnnotation.get()).constructor();
 
-            CollectorCheckingProcess process = maybeProcess.get();
-            new MembersExistCheckingHandler(process, ObjectNode.class, members);
-            Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.doIt(collector, true);
+            for (int i = 0; i < arguments.length; i++) {
+                Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.add(String.valueOf(i));
+                if (maybeProcess.isPresent()){
+                    new MembersExistCheckingHandler(maybeProcess.get(), ObjectNode.class, Arrays.asList(arguments[i].arguments()));
+                }
+            }
 
-            result = collectorCheckingResults.get(MEMBERS_PROCESS).equals(SkeletonCheckResult.INCLUDE);
+            Map<String, SkeletonCheckResult> results = collectorCheckingHandler.handle(collector, true);
+            for (Map.Entry<String, SkeletonCheckResult> entry : results.entrySet()) {
+                if (entry.getValue().equals(SkeletonCheckResult.INCLUDE)){
+                    int key = Integer.parseInt(entry.getKey());
+                    constructorArguments.put(entry.getKey(), Arrays.asList(arguments[key].arguments()));
+                    result = true;
+                }
+            }
         }
 
         return result;
@@ -60,10 +66,14 @@ public class ConstructorClassSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
+
         collector.setTarget(PATH);
-        collector.beginArray("arguments");
-        for (String member : members) {
-            collector.addProperty(member);
+        for (Map.Entry<String, List<String>> entry : constructorArguments.entrySet()) {
+            collector.beginArray(entry.getKey());
+            for (String arg : entry.getValue()) {
+                collector.addProperty(arg);
+            }
+            collector.end();
         }
         collector.reset();
 
