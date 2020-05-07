@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.collector.handingProcess;
 
-import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
+import org.KasymbekovPN.Skeleton.format.writing.Formatter;
 
 public interface CollectorWritingProcess extends CollectorHandingProcess {
     StringBuilder getBuffer();

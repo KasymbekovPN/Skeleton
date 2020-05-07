@@ -1,8 +1,11 @@
-package org.KasymbekovPN.Skeleton.collector.formatter;
+package org.KasymbekovPN.Skeleton.format.writing;
 
 import org.KasymbekovPN.Skeleton.collector.node.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JsonFormatter implements Formatter {
 

@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing;
 
-import org.KasymbekovPN.Skeleton.collector.formatter.Formatter;
+import org.KasymbekovPN.Skeleton.format.writing.Formatter;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandlingProcessHandler;
 import org.KasymbekovPN.Skeleton.collector.node.BooleanNode;

@@ -1,13 +1,15 @@
 import org.KasymbekovPN.Skeleton.annotation.handler.SimpleAnnotationHandler;
 import org.KasymbekovPN.Skeleton.collector.Collector;
 import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
-import org.KasymbekovPN.Skeleton.collector.formatter.JsonFormatter;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing.*;
 import org.KasymbekovPN.Skeleton.collector.handler.SimpleCollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.node.*;
+import org.KasymbekovPN.Skeleton.format.collector.CollectorStructure;
+import org.KasymbekovPN.Skeleton.format.collector.SimpleCollectorStructure;
+import org.KasymbekovPN.Skeleton.format.writing.JsonFormatter;
 import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassAnnotationDataSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassSignatureSEH;
@@ -195,7 +197,7 @@ public class JsonSerializerTest {
 //    }
 
     @Test
-    void test4(){
+    void test4() throws Exception {
 //        ClassCondition condition = new SimpleClassCondition();
 //        SimpleCondition condition = new SimpleCondition();
 //        AnnotationConditionHandler classACH = new ClassACH();
@@ -215,8 +217,18 @@ public class JsonSerializerTest {
 //        ClassAH classAH = new ClassAH();
 //        MemberAH memberAH = new MemberAH();
 //        ConstructorAH constructorAH = new ConstructorAH();
+        //<
 
-        Collector collector = new SimpleCollector();
+        CollectorStructure collectorStructure = new SimpleCollectorStructure.Builder()
+                .setClassPath("class")
+                .setMembersPath("members")
+                .setAnnotationPath("annotation")
+                .setConstructorPath("constructor")
+                .build();
+
+        log.info("{}", collectorStructure);
+
+        Collector collector = new SimpleCollector(collectorStructure);
 
         SimpleAnnotationHandler simpleAnnotationHandler = new SimpleAnnotationHandler();
 
@@ -230,7 +242,7 @@ public class JsonSerializerTest {
         SimpleCAC oneArg = new SimpleCAC(checker);
         SimpleCAC twoArgs = new SimpleCAC(checker, checker);
 
-        SimpleCollectorCheckingProcess checkingProcess = new SimpleCollectorCheckingProcess();
+//        SimpleCollectorCheckingProcess checkingProcess = new SimpleCollectorCheckingProcess();
 
 
 //        CollectorCheckingProcess existSimpleCollectorCheckingProcess = new SimpleCollectorCheckingProcess();

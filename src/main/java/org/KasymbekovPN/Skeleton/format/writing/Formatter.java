@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.collector.formatter;
+package org.KasymbekovPN.Skeleton.format.writing;
 
 import org.KasymbekovPN.Skeleton.collector.node.Node;
 

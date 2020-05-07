@@ -15,6 +15,7 @@ import java.util.Optional;
 public class ClassSignatureSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ClassSignatureSEH.class);
+    //<
     private static final List<String> PATH = new ArrayList<>(){{add("class");}};
 
     private final AnnotationHandler annotationHandler;
