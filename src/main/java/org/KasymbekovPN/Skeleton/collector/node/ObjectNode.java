@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -51,6 +52,28 @@ public class ObjectNode implements Node {
     @Override
     public boolean isObject() {
         return true;
+    }
+
+    @Override
+    public Optional<Node> getChild(List<String> path, Class<? extends Node> clazz) {
+        Node bufferNode = this;
+        for (String s : path) {
+            if (bufferNode.isObject()) {
+                if (((ObjectNode) bufferNode).containsKey(s)) {
+                    bufferNode = ((ObjectNode) bufferNode).getChildren().get(s);
+                } else {
+                    bufferNode = null;
+                    break;
+                }
+            } else {
+                bufferNode = null;
+                break;
+            }
+        }
+
+        return bufferNode != null && bufferNode.getClass().equals(clazz)
+                ? Optional.of(bufferNode)
+                : Optional.empty();
     }
 
     @Override

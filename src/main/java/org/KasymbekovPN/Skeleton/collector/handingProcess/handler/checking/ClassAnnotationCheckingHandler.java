@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessHandler {
 
@@ -16,24 +17,22 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
     private static final int UNCHECKABLE_MODIFIERS = -1;
     private static final int INVALID_INTERSECTION = 0;
 
-    //< skel-30
-    private static final String ANNOTATION_OBJECT_PROPERTY = "annotation";
-
-
-
     private final String name;
     private final int modifiers;
     private final CollectorCheckingProcess collectorCheckingProcess;
     private final Class<? extends Node> clazz;
+    private final List<String> path;
 
     public ClassAnnotationCheckingHandler(int modifiers,
                                           String name,
                                           CollectorCheckingProcess collectorCheckingProcess,
-                                          Class<? extends Node> clazz) {
+                                          Class<? extends Node> clazz,
+                                          List<String> path) {
 
         this.name = name;
         this.modifiers = modifiers;
         this.clazz = clazz;
+        this.path = path;
         this.collectorCheckingProcess = collectorCheckingProcess;
         this.collectorCheckingProcess.addHandler(clazz, this);
     }
@@ -44,8 +43,10 @@ public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessH
 
         if (node.isObject()){
             ObjectNode objectNode = (ObjectNode) node;
-            if (objectNode.containsKey(ANNOTATION_OBJECT_PROPERTY)){
-                ObjectNode annotationNode = (ObjectNode) objectNode.getChildren().get(ANNOTATION_OBJECT_PROPERTY);
+            Optional<Node> maybeChild = objectNode.getChild(path, ObjectNode.class);
+
+            if (maybeChild.isPresent()){
+                ObjectNode annotationNode = (ObjectNode) maybeChild.get();
 
                 int includeByModifiers = extractIntProperty(annotationNode, "includeByModifiers");
                 int excludeByModifiers = extractIntProperty(annotationNode, "excludeByModifiers");

@@ -3,21 +3,17 @@ package org.KasymbekovPN.Skeleton.serialization.handler.clazz;
 import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.annotation.handler.AnnotationHandler;
 import org.KasymbekovPN.Skeleton.collector.Collector;
+import org.KasymbekovPN.Skeleton.format.collector.CollectorStructureItem;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class ClassAnnotationDataSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ClassAnnotationDataSEH.class);
-
-    //< skel-30
-    private static final List<String> PATH = new ArrayList<>(){{add("annotation");}};
 
     private final AnnotationHandler annotationHandler;
 
@@ -49,7 +45,7 @@ public class ClassAnnotationDataSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(PATH);
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.ANNOTATION));
         collector.addProperty("excludeByModifiers", excludeByModifiers);
         collector.addProperty("includeByModifiers", includeByModifiers);
 

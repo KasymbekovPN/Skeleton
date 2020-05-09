@@ -9,6 +9,7 @@ import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorCheckingProce
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.checking.MembersExistCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.format.collector.CollectorStructureItem;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,6 @@ import java.util.*;
 public class ConstructorClassSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ConstructorClassSEH.class);
-
-    //< skel-30
-    private static List<String> PATH = new ArrayList<>(){{add("constructor");}};
 
     private final AnnotationHandler annotationHandler;
     private final CollectorCheckingHandler collectorCheckingHandler;
@@ -47,7 +45,11 @@ public class ConstructorClassSEH extends BaseSEH {
             for (int i = 0; i < arguments.length; i++) {
                 Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.add(String.valueOf(i));
                 if (maybeProcess.isPresent()){
-                    new MembersExistCheckingHandler(maybeProcess.get(), ObjectNode.class, Arrays.asList(arguments[i].arguments()));
+                    new MembersExistCheckingHandler(
+                            maybeProcess.get(),
+                            ObjectNode.class,
+                            Arrays.asList(arguments[i].arguments()),
+                            collector.getCollectorStructure().getPath(CollectorStructureItem.MEMBERS));
                 }
             }
 
@@ -66,8 +68,7 @@ public class ConstructorClassSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-
-        collector.setTarget(PATH);
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.CONSTRUCTOR));
         for (Map.Entry<String, List<String>> entry : constructorArguments.entrySet()) {
             collector.beginArray(entry.getKey());
             for (String arg : entry.getValue()) {

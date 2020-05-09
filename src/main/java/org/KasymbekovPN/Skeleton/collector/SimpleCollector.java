@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SimpleCollector implements Collector {
 
@@ -117,6 +118,47 @@ public class SimpleCollector implements Collector {
     @Override
     public CollectorStructure getCollectorStructure() {
         return collectorStructure;
+    }
+
+    @Override
+    public Optional<Node> getNodeByPath(Node node, List<String> path, Class<? extends Node> clazz) {
+
+        Node bufferNode = null;
+        if (node.isObject()){
+            bufferNode = node;
+            for (String s : path) {
+                if (bufferNode.isObject()) {
+                    if (((ObjectNode) bufferNode).containsKey(s)) {
+                        bufferNode = ((ObjectNode) bufferNode).getChildren().get(s);
+                    } else {
+                        bufferNode = null;
+                        break;
+                    }
+                } else {
+                    bufferNode = null;
+                    break;
+                }
+            }
+        }
+
+        return bufferNode != null && bufferNode.getClass().equals(clazz)
+                ? Optional.of(bufferNode)
+                : Optional.empty();
+
+        //<
+//        ObjectNode membersNode = null;
+//        int counter = -1;
+//        if (node.isObject()){
+//            membersNode = (ObjectNode) node;
+//            for (String pathItem : path) {
+//                if (membersNode.containsKey(pathItem)) {
+//                    Node bufferNode = membersNode.getChildren().get(pathItem);
+//                    membersNode = bufferNode.isObject() ? (ObjectNode) bufferNode : null;
+//                } else {
+//                    membersNode = null;
+//                }
+//            }
+//        }
     }
 
     private void setEachTarget(List<String> path){

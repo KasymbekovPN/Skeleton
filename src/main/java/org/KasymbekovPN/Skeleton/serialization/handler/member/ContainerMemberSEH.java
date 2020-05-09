@@ -9,6 +9,7 @@ import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.checking.Class
 import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.checking.ClassExistCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.format.collector.CollectorStructureItem;
 import org.KasymbekovPN.Skeleton.serialization.handler.BaseSEH;
 import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.ContainerArgumentChecker;
 import org.slf4j.Logger;
@@ -27,8 +28,6 @@ public class ContainerMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ContainerMemberSEH.class);
 
-    //< SKEL-30
-    private static List<String> PATH = new ArrayList<>(){{add("member");}};
     private static String EXIST_PROCESS = "exist";
     private static String ANNOTATION_PROCESS = "annotation";
 
@@ -65,10 +64,17 @@ public class ContainerMemberSEH extends BaseSEH {
             Optional<CollectorCheckingProcess> maybeAnnotationProcess = collectorCheckingHandler.get(ANNOTATION_PROCESS);
             if (maybeAnnotationProcess.isPresent() && maybeExistProcess.isPresent()){
                 CollectorCheckingProcess existProcess = maybeExistProcess.get();
-                new ClassExistCheckingHandler(existProcess, ObjectNode.class);
+                new ClassExistCheckingHandler(
+                        existProcess,
+                        ObjectNode.class,
+                        collector.getCollectorStructure().getPath(CollectorStructureItem.CLASS));
 
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
-                new ClassAnnotationCheckingHandler(field.getModifiers(), field.getName(), annotationProcess, ObjectNode.class);
+                new ClassAnnotationCheckingHandler(
+                        field.getModifiers(),
+                        field.getName(),
+                        annotationProcess, ObjectNode.class,
+                        collector.getCollectorStructure().getPath(CollectorStructureItem.ANNOTATION));
 
                 Map<String, SkeletonCheckResult> collectorCheckingResults = collectorCheckingHandler.handle(collector, true);
 
@@ -103,8 +109,7 @@ public class ContainerMemberSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-
-        collector.setTarget(PATH);
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.MEMBERS));
         collector.beginObject(name);
         collector.addProperty("type", typeName);
         collector.addProperty("modifiers", modifiers);

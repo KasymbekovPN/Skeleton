@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.collector.node;
 
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface Node {
@@ -21,4 +22,5 @@ public interface Node {
     default boolean isObject() {return false;}
     default boolean isPrimitive() {return false;}
     default boolean isString() {return false;}
+    default Optional<Node> getChild(List<String> path, Class<? extends  Node> clazz) {return Optional.empty();}
 }

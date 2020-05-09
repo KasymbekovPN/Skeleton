@@ -1,9 +1,11 @@
 package org.KasymbekovPN.Skeleton.collector;
 
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
+import org.KasymbekovPN.Skeleton.collector.node.Node;
 import org.KasymbekovPN.Skeleton.format.collector.CollectorStructure;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Collector {
     void clear();
@@ -32,4 +34,6 @@ public interface Collector {
     void setTarget(List<String> path);
 
     CollectorStructure getCollectorStructure();
+
+    Optional<Node> getNodeByPath(Node node, List<String> path, Class<? extends Node> clazz);
 }
