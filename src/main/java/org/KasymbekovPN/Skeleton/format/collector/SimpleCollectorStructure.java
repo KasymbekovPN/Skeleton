@@ -51,6 +51,10 @@ public class SimpleCollectorStructure implements CollectorStructure {
             return setPath(CollectorStructureItem.METHOD, Arrays.asList(path));
         }
 
+        public Builder setProtocolPath(String... path){
+            return setPath(CollectorStructureItem.PROTOCOL, Arrays.asList(path));
+        }
+
         public Builder setPath(CollectorStructureItem item, List<String> path){
             paths.put(item, path);
             return this;

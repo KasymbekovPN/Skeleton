@@ -1,8 +1,10 @@
 package org.KasymbekovPN.Skeleton.collector;
 
-import org.KasymbekovPN.Skeleton.collector.node.*;
 import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorHandingProcess;
+import org.KasymbekovPN.Skeleton.collector.node.*;
 import org.KasymbekovPN.Skeleton.format.collector.CollectorStructure;
+import org.KasymbekovPN.Skeleton.format.collector.CollectorStructureItem;
+import org.KasymbekovPN.Skeleton.protocol.SkeletonProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,7 @@ public class SimpleCollector implements Collector {
     @Override
     public void clear() {
         target = root = new ObjectNode(null);
+        addProtocolObject();
     }
 
     @Override
@@ -145,21 +148,6 @@ public class SimpleCollector implements Collector {
         return bufferNode != null && bufferNode.getClass().equals(clazz)
                 ? Optional.of(bufferNode)
                 : Optional.empty();
-
-        //<
-//        ObjectNode membersNode = null;
-//        int counter = -1;
-//        if (node.isObject()){
-//            membersNode = (ObjectNode) node;
-//            for (String pathItem : path) {
-//                if (membersNode.containsKey(pathItem)) {
-//                    Node bufferNode = membersNode.getChildren().get(pathItem);
-//                    membersNode = bufferNode.isObject() ? (ObjectNode) bufferNode : null;
-//                } else {
-//                    membersNode = null;
-//                }
-//            }
-//        }
     }
 
     private void setEachTarget(List<String> path){
@@ -168,6 +156,12 @@ public class SimpleCollector implements Collector {
         if (path.size() > 0){
             setEachTarget(path);
         }
+    }
+
+    private void addProtocolObject(){
+        setTarget(collectorStructure.getPath(CollectorStructureItem.PROTOCOL));
+        addProperty("version", SkeletonProtocol.getInstance().getVersion());
+        reset();
     }
 
     @Override

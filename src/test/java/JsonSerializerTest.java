@@ -226,6 +226,7 @@ public class JsonSerializerTest {
                 .setAnnotationPath("annotation")
                 .setConstructorPath("constructors")
                 .setMethodPath("methods")
+                .setProtocolPath("protocol")
                 .build();
 
         log.info("{}", collectorStructure);

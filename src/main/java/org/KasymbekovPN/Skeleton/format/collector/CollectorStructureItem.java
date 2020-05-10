@@ -5,5 +5,6 @@ public enum CollectorStructureItem {
     MEMBERS,
     ANNOTATION,
     CONSTRUCTOR,
-    METHOD
+    METHOD,
+    PROTOCOL
 }
