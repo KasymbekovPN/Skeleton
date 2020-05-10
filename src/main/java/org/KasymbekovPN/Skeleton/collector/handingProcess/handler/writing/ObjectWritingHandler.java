@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+//< SKEL-31
 public class ObjectWritingHandler implements CollectorHandlingProcessHandler {
 
     private final StringBuilder buffer;

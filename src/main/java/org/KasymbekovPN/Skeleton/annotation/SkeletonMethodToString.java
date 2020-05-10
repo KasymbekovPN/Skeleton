@@ -5,8 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
+//< SKEL-31
+@SkeletonMethod
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SkeletonArguments {
-    String[] arguments() default {};
+public @interface SkeletonMethodToString{
+    String name() default "toString";
+    SkeletonArguments[] arguments() default {};
 }

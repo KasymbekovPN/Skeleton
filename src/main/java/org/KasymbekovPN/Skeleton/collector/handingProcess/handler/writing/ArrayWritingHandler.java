@@ -9,6 +9,7 @@ import org.KasymbekovPN.Skeleton.collector.node.Node;
 import java.util.Iterator;
 import java.util.List;
 
+//< SKEL-31
 public class ArrayWritingHandler implements CollectorHandlingProcessHandler {
 
     private final StringBuilder buffer;

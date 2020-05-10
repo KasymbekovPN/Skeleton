@@ -14,4 +14,17 @@ public class SimpleAnnotationHandler implements AnnotationHandler {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Annotation> check(Annotation[] annotations, Class<? extends Annotation> annotationType, Class<? extends Annotation> annotatingType) {
+        Optional<Annotation> maybeAnnotation = check(annotations, annotationType);
+        if (maybeAnnotation.isPresent()){
+            Annotation annotation = maybeAnnotation.get();
+            if (annotation.annotationType().isAnnotationPresent(annotatingType)){
+                return maybeAnnotation;
+            }
+        }
+
+        return Optional.empty();
+    }
 }

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
+//< SKEL-31
 public class ClassExistCheckingHandler implements CollectorHandlingProcessHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ClassExistCheckingHandler.class);

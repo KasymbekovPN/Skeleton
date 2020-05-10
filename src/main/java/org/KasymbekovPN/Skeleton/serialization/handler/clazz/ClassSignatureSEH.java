@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 
+//< SKEL-31
 public class ClassSignatureSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ClassSignatureSEH.class);

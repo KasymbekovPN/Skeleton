@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//< SKEL-31
 public class ClassAnnotationCheckingHandler implements CollectorHandlingProcessHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ClassAnnotationCheckingHandler.class);

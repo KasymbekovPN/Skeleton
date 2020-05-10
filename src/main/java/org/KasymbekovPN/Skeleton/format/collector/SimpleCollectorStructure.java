@@ -47,6 +47,10 @@ public class SimpleCollectorStructure implements CollectorStructure {
             return setPath(CollectorStructureItem.CONSTRUCTOR, Arrays.asList(path));
         }
 
+        public Builder setMethodPath(String... path){
+            return setPath(CollectorStructureItem.METHOD, Arrays.asList(path));
+        }
+
         public Builder setPath(CollectorStructureItem item, List<String> path){
             paths.put(item, path);
             return this;

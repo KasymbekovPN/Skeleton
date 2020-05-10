@@ -1,7 +1,4 @@
-import org.KasymbekovPN.Skeleton.annotation.SkeletonArguments;
-import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
-import org.KasymbekovPN.Skeleton.annotation.SkeletonConstructor;
-import org.KasymbekovPN.Skeleton.annotation.SkeletonMember;
+import org.KasymbekovPN.Skeleton.annotation.*;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,9 +8,15 @@ import java.util.Set;
 //)
 @SkeletonClass
 @SkeletonConstructor(
-        constructor = {
+        arguments = {
                 @SkeletonArguments(arguments = {"map"}),
                 @SkeletonArguments(arguments = {"map", "set"})
+        }
+)
+@SkeletonMethodToString(
+        arguments = {
+                @SkeletonArguments(arguments = {"map", "set"}),
+                @SkeletonArguments(arguments = {"set"})
         }
 )
 public class TestClass4 {

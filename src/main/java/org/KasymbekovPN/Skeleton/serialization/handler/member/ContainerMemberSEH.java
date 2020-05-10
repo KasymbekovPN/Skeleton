@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+//< SKEL-31
 public class ContainerMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ContainerMemberSEH.class);

@@ -19,6 +19,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Optional;
 
+//< SKEL-31
 public class ExtendedTypeMemberSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ExtendedTypeMemberSEH.class);

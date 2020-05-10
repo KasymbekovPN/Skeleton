@@ -6,6 +6,7 @@ import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.CollectorHandl
 import org.KasymbekovPN.Skeleton.collector.node.BooleanNode;
 import org.KasymbekovPN.Skeleton.collector.node.Node;
 
+//< SKEL-31
 public class BooleanWritingHandler implements CollectorHandlingProcessHandler {
     private final StringBuilder buffer;
     private final CollectorWritingProcess collectorWritingProcess;

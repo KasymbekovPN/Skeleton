@@ -9,6 +9,7 @@ import org.KasymbekovPN.Skeleton.collector.node.ObjectNode;
 import java.util.List;
 import java.util.Optional;
 
+//< SKEL-31
 public class MembersExistCheckingHandler implements CollectorHandlingProcessHandler {
 
     private final CollectorCheckingProcess collectorCheckingProcess;

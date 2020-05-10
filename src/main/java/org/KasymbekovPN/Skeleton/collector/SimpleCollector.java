@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//< SKEL-31 --- may be replace simple with skeleton
 public class SimpleCollector implements Collector {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleCollector.class);

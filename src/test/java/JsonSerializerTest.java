@@ -17,6 +17,7 @@ import org.KasymbekovPN.Skeleton.serialization.handler.constructor.ConstructorCl
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMemberSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.method.ToStringMethodSEH;
 import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
 import org.KasymbekovPN.Skeleton.utils.Checker;
@@ -223,7 +224,8 @@ public class JsonSerializerTest {
                 .setClassPath("class")
                 .setMembersPath("members")
                 .setAnnotationPath("annotation")
-                .setConstructorPath("constructor")
+                .setConstructorPath("constructors")
+                .setMethodPath("methods")
                 .build();
 
         log.info("{}", collectorStructure);
@@ -256,6 +258,7 @@ public class JsonSerializerTest {
 
         SerializationElementHandler constructorSEH = new ConstructorClassSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class));
 
+
         SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class))
                 .setNext(new ExtendedTypeMemberSEH(Number.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
                 .setNext(new SpecificTypeMemberSEH(byte.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
@@ -272,7 +275,9 @@ public class JsonSerializerTest {
                 .setNext(new ContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
                 .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)));
 
-        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, constructorSEH, collector);
+        SerializationElementHandler methodSEH = new ToStringMethodSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class));
+
+        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, constructorSEH, methodSEH, collector);
         serializer.serialize(TestClass4.class);
 
         CollectorWritingProcess collectorWritingProcess = new SimpleCollectorWritingProcess(new JsonFormatter());

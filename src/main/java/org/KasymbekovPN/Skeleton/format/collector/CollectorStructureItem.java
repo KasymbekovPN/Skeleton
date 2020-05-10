@@ -4,5 +4,6 @@ public enum CollectorStructureItem {
     CLASS,
     MEMBERS,
     ANNOTATION,
-    CONSTRUCTOR
+    CONSTRUCTOR,
+    METHOD
 }

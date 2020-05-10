@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 
+//< SKEL-31
 public class SimpleSerializer implements Serializer {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleSerializer.class);
@@ -14,15 +15,19 @@ public class SimpleSerializer implements Serializer {
     private final SerializationElementHandler classSEH;
     private final SerializationElementHandler memberSEH;
     private final SerializationElementHandler constructorSEH;
+    private final SerializationElementHandler methodSEH;
     private final Collector collector;
 
+    //< add buidler
     public SimpleSerializer(SerializationElementHandler classSEH,
                             SerializationElementHandler memberSEH,
                             SerializationElementHandler constructorSEH,
+                            SerializationElementHandler methodSEH,
                             Collector collector) {
         this.classSEH = classSEH;
         this.memberSEH = memberSEH;
         this.constructorSEH = constructorSEH;
+        this.methodSEH = methodSEH;
         this.collector = collector;
     }
 
@@ -33,5 +38,6 @@ public class SimpleSerializer implements Serializer {
             memberSEH.handle(field, collector);
         }
         constructorSEH.handle(clazz, collector);
+        methodSEH.handle(clazz, collector);
     }
 }
