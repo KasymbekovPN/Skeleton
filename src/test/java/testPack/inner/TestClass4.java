@@ -1,3 +1,5 @@
+package testPack.inner;
+
 import org.KasymbekovPN.Skeleton.annotation.*;
 
 import java.util.Map;
@@ -32,4 +34,7 @@ public class TestClass4 {
 
     @SkeletonMember
     public Set<Integer> set;
+
+    @SkeletonMember
+    public TestClass41 custom;
 }

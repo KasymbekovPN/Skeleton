@@ -4,5 +4,6 @@ import org.KasymbekovPN.Skeleton.format.writing.Formatter;
 
 public interface CollectorWritingProcess extends CollectorHandingProcess {
     StringBuilder getBuffer();
+    void clearBuffer();
     Formatter getFormatter();
 }

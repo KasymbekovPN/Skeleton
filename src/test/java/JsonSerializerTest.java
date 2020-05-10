@@ -15,6 +15,7 @@ import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassAnnotationData
 import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassSignatureSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.constructor.ConstructorClassSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ContainerMemberSEH;
+import org.KasymbekovPN.Skeleton.serialization.handler.member.CustomMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.serialization.handler.method.ToStringMethodSEH;
@@ -27,6 +28,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import testPack.inner.TestClass4;
+import testPack.inner.TestClass41;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -229,8 +232,6 @@ public class JsonSerializerTest {
                 .setProtocolPath("protocol")
                 .build();
 
-        log.info("{}", collectorStructure);
-
         Collector collector = new SimpleCollector(collectorStructure);
 
         SimpleAnnotationHandler simpleAnnotationHandler = new SimpleAnnotationHandler();
@@ -274,7 +275,8 @@ public class JsonSerializerTest {
                 .setNext(new SpecificTypeMemberSEH(Character.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
                 .setNext(new ContainerMemberSEH(List.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
                 .setNext(new ContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)));
+                .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
+                .setNext(new CustomMemberSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)));
 
         SerializationElementHandler methodSEH = new ToStringMethodSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class));
 
@@ -290,6 +292,20 @@ public class JsonSerializerTest {
         new NumberWritingHandler(collectorWritingProcess, NumberNode.class);
         collector.apply(collectorWritingProcess);
 
+        log.info("{}", collector);
+
+        collector.clear();
+
+        log.info("{}", collector);
+
+        log.info("\n{}", collectorWritingProcess.getBuffer());
+
+        collectorWritingProcess.clearBuffer();
+
+        serializer.serialize(TestClass41.class);
+        collector.apply(collectorWritingProcess);
+
+        log.info("--------------------");
         log.info("\n{}", collectorWritingProcess.getBuffer());
     }
 }

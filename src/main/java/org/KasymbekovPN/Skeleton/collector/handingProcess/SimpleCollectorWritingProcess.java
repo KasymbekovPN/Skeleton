@@ -12,6 +12,7 @@ import java.util.Map;
 public class SimpleCollectorWritingProcess implements CollectorWritingProcess {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleCollectorWritingProcess.class);
+    private static final int CLEARING_SIZE = 0;
 
     private Map<Class<? extends Node>, CollectorHandlingProcessHandler> handlers = new HashMap<>();
     private StringBuilder buffer = new StringBuilder();
@@ -25,6 +26,11 @@ public class SimpleCollectorWritingProcess implements CollectorWritingProcess {
     @Override
     public StringBuilder getBuffer() {
         return buffer;
+    }
+
+    @Override
+    public void clearBuffer() {
+        buffer.setLength(CLEARING_SIZE);
     }
 
     @Override
