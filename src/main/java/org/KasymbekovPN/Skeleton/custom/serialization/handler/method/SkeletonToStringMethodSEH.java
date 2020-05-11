@@ -10,7 +10,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckin
 import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.SkeletonMembersExistCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonObjectNode;
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructureItem;
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public class SkeletonToStringMethodSEH extends BaseSEH {
                         collectorCheckingProcess,
                         SkeletonObjectNode.class,
                         args,
-                        collector.getCollectorStructure().getPath(CollectorStructureItem.MEMBERS)
+                        collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI())
                 ));
             }
 
@@ -78,7 +78,7 @@ public class SkeletonToStringMethodSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.METHOD));
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.methodEI()));
         for (Map.Entry<String, MethodSignature> entry : methods.entrySet()) {
             String key = entry.getKey();
             if (validKeys.contains(key)){

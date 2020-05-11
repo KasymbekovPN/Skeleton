@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.Skele
 import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.SkeletonClassExistCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonObjectNode;
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructureItem;
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class SkeletonExtendedTypeMemberSEH extends BaseSEH {
                 new SkeletonClassExistCheckingHandler(
                         existProcess,
                         SkeletonObjectNode.class,
-                        collector.getCollectorStructure().getPath(CollectorStructureItem.CLASS));
+                        collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
 
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
                 new SkeletonClassAnnotationCheckingHandler(
@@ -70,7 +70,7 @@ public class SkeletonExtendedTypeMemberSEH extends BaseSEH {
                         field.getName(),
                         annotationProcess,
                         SkeletonObjectNode.class,
-                        collector.getCollectorStructure().getPath(CollectorStructureItem.ANNOTATION));
+                        collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
 
                 Map<String, CollectorCheckingResult> collectorCheckingResults = collectorCheckingHandler.handle(collector, true);
 
@@ -96,7 +96,7 @@ public class SkeletonExtendedTypeMemberSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.MEMBERS));
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
         collector.beginObject(name);
         collector.addProperty("type", typeName);
         collector.addProperty("modifiers", modifiers);

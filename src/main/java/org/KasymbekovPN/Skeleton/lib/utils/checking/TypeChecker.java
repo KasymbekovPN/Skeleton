@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.utils;
+package org.KasymbekovPN.Skeleton.lib.utils.checking;
 
 import java.util.Set;
 

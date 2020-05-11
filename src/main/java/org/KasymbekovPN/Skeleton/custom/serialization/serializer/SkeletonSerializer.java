@@ -1,7 +1,9 @@
-package org.KasymbekovPN.Skeleton.lib.serialization.serializer;
+package org.KasymbekovPN.Skeleton.custom.serialization.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,46 +15,39 @@ public class SkeletonSerializer implements Serializer {
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonSerializer.class);
 
-    private final Map<Entity, SerializationElementHandler> handlers;
+    private final Map<EntityItem, SerializationElementHandler> handlers;
     private final Collector collector;
 
-    private SkeletonSerializer(Map<Entity, SerializationElementHandler> handlers, Collector collector) {
+    private SkeletonSerializer(Map<EntityItem, SerializationElementHandler> handlers, Collector collector) {
         this.handlers = handlers;
         this.collector = collector;
     }
 
     @Override
     public void serialize(Class<?> clazz) {
-        handlers.get(Entity.CLASS).handle(clazz, collector);
+        handlers.get(SkeletonSerializerEI.classEI()).handle(clazz, collector);
         for (Field field : clazz.getDeclaredFields()) {
-            handlers.get(Entity.MEMBER).handle(field, collector);
+            handlers.get(SkeletonSerializerEI.memberEI()).handle(field, collector);
         }
-        handlers.get(Entity.CONSTRUCTOR).handle(clazz, collector);
-        handlers.get(Entity.METHOD).handle(clazz, collector);
-    }
-
-    public enum Entity{
-        CLASS,
-        MEMBER,
-        CONSTRUCTOR,
-        METHOD
+        handlers.get(SkeletonSerializerEI.constructorEI()).handle(clazz, collector);
+        handlers.get(SkeletonSerializerEI.memberEI()).handle(clazz, collector);
     }
 
     static public class Builder{
 
         private final Collector collector;
-        private final Map<Entity, SerializationElementHandler> handlers = new HashMap<>();
+        private final Map<EntityItem, SerializationElementHandler> handlers = new HashMap<>();
 
         public Builder(Collector collector) {
             this.collector = collector;
         }
 
-        public Builder addHandler(Entity entity, SerializationElementHandler seh){
-            if (entity != null && seh != null){
-                if (handlers.containsKey(entity)){
-                    handlers.get(entity).setNext(seh);
+        public Builder addHandler(EntityItem entityItem, SerializationElementHandler seh){
+            if (entityItem != null && seh != null){
+                if (handlers.containsKey(entityItem)){
+                    handlers.get(entityItem).setNext(seh);
                 } else {
-                    handlers.put(entity, seh);
+                    handlers.put(entityItem, seh);
                 }
             }
 
@@ -60,19 +55,19 @@ public class SkeletonSerializer implements Serializer {
         }
 
         public Builder addClassHandler(SerializationElementHandler seh){
-            return addHandler(Entity.CLASS, seh);
+            return addHandler(SkeletonSerializerEI.classEI(), seh);
         }
 
         public Builder addMemberHandler(SerializationElementHandler seh){
-            return addHandler(Entity.MEMBER, seh);
+            return addHandler(SkeletonSerializerEI.memberEI(), seh);
         }
 
         public Builder addConstructorHandler(SerializationElementHandler seh){
-            return addHandler(Entity.CONSTRUCTOR, seh);
+            return addHandler(SkeletonSerializerEI.constructorEI(), seh);
         }
 
         public Builder addMethodHandler(SerializationElementHandler seh){
-            return addHandler(Entity.METHOD, seh);
+            return addHandler(SkeletonSerializerEI.methodEI(), seh);
         }
 
         public Serializer build() throws Exception {
@@ -80,7 +75,7 @@ public class SkeletonSerializer implements Serializer {
                 throw new Exception("The collector instance is null");
             }
 
-            if (handlers.size() != Entity.values().length){
+            if (handlers.size() != SkeletonSerializerEI.Entity.values().length){
                 throw new Exception("Handlers are not setting completely");
             }
 

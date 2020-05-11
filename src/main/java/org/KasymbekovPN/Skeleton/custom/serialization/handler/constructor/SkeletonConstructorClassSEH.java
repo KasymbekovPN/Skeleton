@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckin
 import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.SkeletonMembersExistCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonObjectNode;
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructureItem;
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class SkeletonConstructorClassSEH extends BaseSEH {
                         collectorCheckingProcess,
                         SkeletonObjectNode.class,
                         args,
-                        collector.getCollectorStructure().getPath(CollectorStructureItem.MEMBERS)));
+                        collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI())));
             }
 
             Map<String, CollectorCheckingResult> results = collectorCheckingHandler.handle(collector, true);
@@ -70,7 +70,7 @@ public class SkeletonConstructorClassSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.CONSTRUCTOR));
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.constructorEI()));
         for (Map.Entry<String, List<String>> entry : constructorArguments.entrySet()) {
             String key = entry.getKey();
             if (validKeys.contains(key)){

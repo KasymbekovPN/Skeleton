@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructureItem;
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.serialization.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class SkeletonClassAnnotationDataSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureItem.ANNOTATION));
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
         collector.addProperty("excludeByModifiers", excludeByModifiers);
         collector.addProperty("includeByModifiers", includeByModifiers);
 

@@ -1,4 +1,5 @@
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.*;
+import org.KasymbekovPN.Skeleton.custom.format.collector.SkeletonCollectorStructure;
 import org.KasymbekovPN.Skeleton.custom.format.writing.SkeletonJsonFormatter;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.SkeletonClassAnnotationDataSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.SkeletonClassSignatureSEH;
@@ -8,6 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonCus
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonExtendedTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonSpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.method.SkeletonToStringMethodSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.serializer.SkeletonSerializer;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
@@ -17,12 +19,10 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollecto
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonCollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
-import org.KasymbekovPN.Skeleton.lib.format.collector.SkeletonCollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
-import org.KasymbekovPN.Skeleton.lib.serialization.serializer.SkeletonSerializer;
-import org.KasymbekovPN.Skeleton.lib.utils.Checker;
-import org.KasymbekovPN.Skeleton.lib.utils.TypeChecker;
-import org.KasymbekovPN.Skeleton.lib.utils.containerArgumentChecker.SkeletonCAC;
+import org.KasymbekovPN.Skeleton.lib.utils.checking.Checker;
+import org.KasymbekovPN.Skeleton.lib.utils.checking.TypeChecker;
+import org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker.SkeletonCAC;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
-package org.KasymbekovPN.Skeleton.lib.utils.containerArgumentChecker;
+package org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker;
 
-import org.KasymbekovPN.Skeleton.lib.utils.Checker;
+import org.KasymbekovPN.Skeleton.lib.utils.checking.Checker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
