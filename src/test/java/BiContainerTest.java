@@ -1,4 +1,4 @@
-import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 
 import java.lang.reflect.Modifier;
 import java.util.List;

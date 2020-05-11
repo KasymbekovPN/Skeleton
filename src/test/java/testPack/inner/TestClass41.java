@@ -1,7 +1,7 @@
 package testPack.inner;
 
-import org.KasymbekovPN.Skeleton.annotation.SkeletonClass;
-import org.KasymbekovPN.Skeleton.annotation.SkeletonMember;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 
 @SkeletonClass
 public class TestClass41 {

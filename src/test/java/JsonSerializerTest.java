@@ -1,29 +1,29 @@
-import org.KasymbekovPN.Skeleton.annotation.handler.SimpleAnnotationHandler;
-import org.KasymbekovPN.Skeleton.collector.Collector;
-import org.KasymbekovPN.Skeleton.collector.SimpleCollector;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.CollectorWritingProcess;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.SimpleCollectorWritingProcess;
-import org.KasymbekovPN.Skeleton.collector.handingProcess.handler.writing.*;
-import org.KasymbekovPN.Skeleton.collector.handler.SimpleCollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.collector.node.*;
-import org.KasymbekovPN.Skeleton.format.collector.CollectorStructure;
-import org.KasymbekovPN.Skeleton.format.collector.SimpleCollectorStructure;
-import org.KasymbekovPN.Skeleton.format.writing.JsonFormatter;
-import org.KasymbekovPN.Skeleton.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassAnnotationDataSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.clazz.ClassSignatureSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.constructor.ConstructorClassSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.ContainerMemberSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.CustomMemberSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.ExtendedTypeMemberSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.member.SpecificTypeMemberSEH;
-import org.KasymbekovPN.Skeleton.serialization.handler.method.ToStringMethodSEH;
-import org.KasymbekovPN.Skeleton.serialization.serializer.Serializer;
-import org.KasymbekovPN.Skeleton.serialization.serializer.SimpleSerializer;
-import org.KasymbekovPN.Skeleton.utils.Checker;
-import org.KasymbekovPN.Skeleton.utils.TypeChecker;
-import org.KasymbekovPN.Skeleton.utils.containerArgumentChecker.SimpleCAC;
+import org.KasymbekovPN.Skeleton.custom.format.writing.SkeletonJsonFormatter;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.*;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.SkeletonClassAnnotationDataSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.SkeletonClassSignatureSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor.SkeletonConstructorClassSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonContainerMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonCustomMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonExtendedTypeMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonSpecificTypeMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.method.SkeletonToStringMethodSEH;
+import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
+import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.node.*;
+import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonCollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
+import org.KasymbekovPN.Skeleton.lib.format.collector.SkeletonCollectorStructure;
+import org.KasymbekovPN.Skeleton.lib.serialization.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.lib.serialization.serializer.SkeletonSerializer;
+import org.KasymbekovPN.Skeleton.lib.utils.Checker;
+import org.KasymbekovPN.Skeleton.lib.utils.TypeChecker;
+import org.KasymbekovPN.Skeleton.lib.utils.containerArgumentChecker.SkeletonCAC;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -223,7 +223,7 @@ public class JsonSerializerTest {
 //        ConstructorAH constructorAH = new ConstructorAH();
         //<
 
-        CollectorStructure collectorStructure = new SimpleCollectorStructure.Builder()
+        CollectorStructure collectorStructure = new SkeletonCollectorStructure.Builder()
                 .setClassPath("class")
                 .setMembersPath("members")
                 .setAnnotationPath("annotation")
@@ -232,19 +232,19 @@ public class JsonSerializerTest {
                 .setProtocolPath("protocol")
                 .build();
 
-        Collector collector = new SimpleCollector(collectorStructure);
+        Collector collector = new SkeletonCollector(collectorStructure);
 
-        SimpleAnnotationHandler simpleAnnotationHandler = new SimpleAnnotationHandler();
+        SkeletonAnnotationChecker simpleAnnotationHandler = new SkeletonAnnotationChecker();
 
-        SerializationElementHandler classSEH = new ClassSignatureSEH(simpleAnnotationHandler)
-                .setNext(new ClassAnnotationDataSEH(simpleAnnotationHandler));
+        SerializationElementHandler classSEH = new SkeletonClassSignatureSEH(simpleAnnotationHandler)
+                .setNext(new SkeletonClassAnnotationDataSEH(simpleAnnotationHandler));
 
         Checker<Class<?>> checker = new TypeChecker(
                 new HashSet<>(Arrays.asList(Number.class)),
                 new HashSet<>(Arrays.asList(String.class, Boolean.class)));
 
-        SimpleCAC oneArg = new SimpleCAC(checker);
-        SimpleCAC twoArgs = new SimpleCAC(checker, checker);
+        SkeletonCAC oneArg = new SkeletonCAC(checker);
+        SkeletonCAC twoArgs = new SkeletonCAC(checker, checker);
 
 //        SimpleCollectorCheckingProcess checkingProcess = new SimpleCollectorCheckingProcess();
 
@@ -258,38 +258,38 @@ public class JsonSerializerTest {
 //        SimpleOldCollectorCheckingHandler ctrSimpleCollectorCheckingHandler = new SimpleOldCollectorCheckingHandler();
 //        ctrSimpleCollectorCheckingHandler.addProcess("members", new SimpleCollectorCheckingProcess());
 
-        SerializationElementHandler constructorSEH = new ConstructorClassSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class));
+        SerializationElementHandler constructorSEH = new SkeletonConstructorClassSEH(new SkeletonAnnotationChecker(), new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class));
 
 
-        SerializationElementHandler memberSEH = new SpecificTypeMemberSEH(String.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class))
-                .setNext(new ExtendedTypeMemberSEH(Number.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(byte.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(short.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(int.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(long.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(float.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(double.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(char.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(boolean.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(Boolean.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new SpecificTypeMemberSEH(Character.class, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new ContainerMemberSEH(List.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new ContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new ContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)))
-                .setNext(new CustomMemberSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class)));
+        SerializationElementHandler memberSEH = new SkeletonSpecificTypeMemberSEH(String.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class))
+                .setNext(new SkeletonExtendedTypeMemberSEH(Number.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(byte.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(short.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(int.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(long.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(float.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(double.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(char.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(boolean.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(Boolean.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonSpecificTypeMemberSEH(Character.class, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonContainerMemberSEH(List.class, oneArg, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonContainerMemberSEH(Set.class, oneArg, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonContainerMemberSEH(Map.class, twoArgs, simpleAnnotationHandler, new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)))
+                .setNext(new SkeletonCustomMemberSEH(new SkeletonAnnotationChecker(), new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class)));
 
-        SerializationElementHandler methodSEH = new ToStringMethodSEH(new SimpleAnnotationHandler(), new SimpleCollectorCheckingHandler(SimpleCollectorCheckingProcess.class));
+        SerializationElementHandler methodSEH = new SkeletonToStringMethodSEH(new SkeletonAnnotationChecker(), new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class));
 
-        Serializer serializer = new SimpleSerializer(classSEH, memberSEH, constructorSEH, methodSEH, collector);
+        Serializer serializer = new SkeletonSerializer(classSEH, memberSEH, constructorSEH, methodSEH, collector);
         serializer.serialize(TestClass4.class);
 
-        CollectorWritingProcess collectorWritingProcess = new SimpleCollectorWritingProcess(new JsonFormatter());
-        new ObjectWritingHandler(collectorWritingProcess, ObjectNode.class);
-        new ArrayWritingHandler(collectorWritingProcess, ArrayNode.class);
-        new StringWritingHandler(collectorWritingProcess, StringNode.class);
-        new CharacterWritingHandler(collectorWritingProcess, CharacterNode.class);
-        new BooleanWritingHandler(collectorWritingProcess, BooleanNode.class);
-        new NumberWritingHandler(collectorWritingProcess, NumberNode.class);
+        CollectorWritingProcess collectorWritingProcess = new SkeletonCollectorWritingProcess(new SkeletonJsonFormatter());
+        new SkeletonObjectWritingHandler(collectorWritingProcess, SkeletonObjectNode.class);
+        new SkeletonArrayWritingHandler(collectorWritingProcess, SkeletonArrayNode.class);
+        new StringWritingHandler(collectorWritingProcess, SkeletonStringNodeSkeleton.class);
+        new SkeletonCharacterWritingHandler(collectorWritingProcess, SkeletonCharacterNodeSkeleton.class);
+        new SkeletonBooleanWritingHandler(collectorWritingProcess, SkeletonBooleanNodeSkeleton.class);
+        new SkeletonNumberWritingHandler(collectorWritingProcess, SkeletonNumberNodeSkeleton.class);
         collector.apply(collectorWritingProcess);
 
         log.info("{}", collector);

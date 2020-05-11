@@ -1,6 +1,6 @@
 package testPack.inner;
 
-import org.KasymbekovPN.Skeleton.annotation.*;
+import org.KasymbekovPN.Skeleton.lib.annotation.*;
 
 import java.util.Map;
 import java.util.Set;
