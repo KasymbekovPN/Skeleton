@@ -49,6 +49,13 @@ public class CollectorStructureEI implements EntityItem {
         return Objects.hash(entity);
     }
 
+    @Override
+    public String toString() {
+        return "CollectorStructureEI{" +
+                "entity=" + entity +
+                '}';
+    }
+
     public enum Entity {
         CLASS,
         MEMBERS,
