@@ -14,7 +14,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("Corrector Structure Entity Item class. Testing of:")
+@DisplayName("Collector Structure Entity Item class. Testing of:")
 public class CollectorStructureEITest {
 
     private static final Logger log = LoggerFactory.getLogger(CollectorStructureEITest.class);
@@ -46,7 +46,7 @@ public class CollectorStructureEITest {
                     EntityItem entityItem = (EntityItem) declaredMethod.invoke(CollectorStructureEI.classEI());
                     assertThat(entityItem).isEqualTo(new CollectorStructureEI(creationMethodNames.get(methodName)));
                     creationMethodNames.remove(methodName);
-                    log.info("Method '{}' checked.", methodName);
+                    log.info("Method '{}' is checked.", methodName);
                 }
             }
         }

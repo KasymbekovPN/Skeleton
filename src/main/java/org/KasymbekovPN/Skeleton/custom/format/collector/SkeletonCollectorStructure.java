@@ -50,7 +50,7 @@ public class SkeletonCollectorStructure implements CollectorStructure {
             return setPath(CollectorStructureEI.protocolEI(), Arrays.asList(path));
         }
 
-        public Builder setPath(EntityItem entityItem, List<String> path){
+        private Builder setPath(EntityItem entityItem, List<String> path){
             paths.put(entityItem, path);
             return this;
         }
@@ -59,7 +59,7 @@ public class SkeletonCollectorStructure implements CollectorStructure {
             Set<Integer> checkingSet = new HashSet<>();
             for (Map.Entry<EntityItem, List<String>> entry : paths.entrySet()) {
                 if (entry.getValue() == null || entry.getValue().size() == 0){
-                    throw new Exception("Argument is null or its size is 1");
+                    throw new Exception("Argument is null or empty");
                 }
                 checkingSet.add(entry.getValue().hashCode());
             }
