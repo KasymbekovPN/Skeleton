@@ -40,7 +40,7 @@ public class SkeletonCollectorCheckingProcess implements CollectorCheckingProces
     }
 
     @Override
-    public CollectorCheckingResult getResult(boolean cleanHandlers) {
+    public CollectorCheckingResult getResult() {
         if (results.containsValue(CollectorCheckingResult.EXCLUDE)){
             return CollectorCheckingResult.EXCLUDE;
         } else if (results.containsValue(CollectorCheckingResult.INCLUDE)) {

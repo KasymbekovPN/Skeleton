@@ -63,11 +63,11 @@ public class SkeletonCollectorCheckingHandler implements CollectorCheckingHandle
     }
 
     @Override
-    public Map<String, CollectorCheckingResult> handle(Collector collector, boolean cleanHandles) {
+    public Map<String, CollectorCheckingResult> handle(Collector collector) {
         Map<String, CollectorCheckingResult> results = new HashMap<>();
         for (Map.Entry<String, CollectorCheckingProcess> entry : processes.entrySet()) {
             collector.apply(entry.getValue());
-            results.put(entry.getKey(), entry.getValue().getResult(cleanHandles));
+            results.put(entry.getKey(), entry.getValue().getResult());
         }
 
         return results;

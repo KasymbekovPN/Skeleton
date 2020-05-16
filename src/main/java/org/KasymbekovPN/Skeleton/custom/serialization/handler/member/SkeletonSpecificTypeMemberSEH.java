@@ -71,7 +71,7 @@ public class SkeletonSpecificTypeMemberSEH extends BaseSEH {
                         SkeletonObjectNode.class,
                         collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
 
-                Map<String, CollectorCheckingResult> collectorCheckingResults = collectorCheckingHandler.handle(collector, true);
+                Map<String, CollectorCheckingResult> collectorCheckingResults = collectorCheckingHandler.handle(collector);
 
                 Optional<Annotation> maybeAnnotation = annotationChecker.check(field.getDeclaredAnnotations(), SkeletonMember.class);
 

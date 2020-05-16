@@ -56,7 +56,7 @@ public class SkeletonConstructorClassSEH extends BaseSEH {
                         collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI())));
             }
 
-            Map<String, CollectorCheckingResult> results = collectorCheckingHandler.handle(collector, true);
+            Map<String, CollectorCheckingResult> results = collectorCheckingHandler.handle(collector);
             for (Map.Entry<String, CollectorCheckingResult> entry : results.entrySet()) {
                 if (entry.getValue().equals(CollectorCheckingResult.INCLUDE)){
                     validKeys.add(entry.getKey());

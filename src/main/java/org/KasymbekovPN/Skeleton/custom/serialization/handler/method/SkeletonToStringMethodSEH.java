@@ -64,7 +64,7 @@ public class SkeletonToStringMethodSEH extends BaseSEH {
                 ));
             }
 
-            Map<String, CollectorCheckingResult> results = collectorCheckingHandler.handle(collector, true);
+            Map<String, CollectorCheckingResult> results = collectorCheckingHandler.handle(collector);
             for (Map.Entry<String, CollectorCheckingResult> entry : results.entrySet()) {
                 if (entry.getValue().equals(CollectorCheckingResult.INCLUDE)){
                     validKeys.add(entry.getKey());

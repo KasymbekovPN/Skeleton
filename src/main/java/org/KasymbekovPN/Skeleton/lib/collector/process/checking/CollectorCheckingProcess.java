@@ -9,5 +9,5 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
  */
 public interface CollectorCheckingProcess extends CollectorProcess {
     void setResult(Class<? extends Node> clazz, CollectorCheckingResult result);
-    CollectorCheckingResult getResult(boolean cleanHandlers);
+    CollectorCheckingResult getResult();
 }

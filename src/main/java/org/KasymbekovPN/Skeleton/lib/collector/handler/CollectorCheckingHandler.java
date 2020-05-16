@@ -13,5 +13,5 @@ public interface CollectorCheckingHandler {
     Optional<CollectorCheckingProcess> add(String processName);
     Optional<CollectorCheckingProcess> remove(String processName);
     Optional<CollectorCheckingProcess> get(String processName);
-    Map<String, CollectorCheckingResult> handle(Collector collector, boolean cleanHandles);
+    Map<String, CollectorCheckingResult> handle(Collector collector);
 }

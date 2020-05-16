@@ -1,15 +1,13 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.*;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessHandler {
 
@@ -41,6 +39,8 @@ public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessH
     public void handle(Node node) {
         CollectorCheckingResult result = CollectorCheckingResult.NONE;
 
+        Map<String, CollectorCheckingResult> results = new HashMap<>();
+
         if (node.isObject()){
             SkeletonObjectNode skeletonObjectNode = (SkeletonObjectNode) node;
             Optional<Node> maybeChild = skeletonObjectNode.getChild(path, SkeletonObjectNode.class);
@@ -53,11 +53,15 @@ public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessH
                 List<String> includeByName = extractStringArrayProperty(annotationNode, "includeByName");
                 List<String> excludeByName = extractStringArrayProperty(annotationNode, "excludeByName");
 
-                result = checkByModifiers(modifiers, includeByModifiers, excludeByModifiers);
-                if (result.equals(CollectorCheckingResult.NONE)){
-                    result = checkByName(name, includeByName, excludeByName);
-                }
+                results.put("modifiers", checkByModifiers(modifiers, includeByModifiers, excludeByModifiers));
+                results.put("name", checkByName(name, includeByName, excludeByName));
             }
+        }
+
+        if (results.containsValue(CollectorCheckingResult.EXCLUDE)){
+            result = CollectorCheckingResult.EXCLUDE;
+        } else if (results.containsValue(CollectorCheckingResult.INCLUDE)){
+            result = CollectorCheckingResult.INCLUDE;
         }
 
         collectorCheckingProcess.setResult(clazz, result);
@@ -93,7 +97,6 @@ public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessH
     }
 
     private CollectorCheckingResult checkByModifiers(int modifiers, int includeModifiers, int excludeModifiers){
-
         if (UNCHECKABLE_MODIFIERS != excludeModifiers &&
                 INVALID_INTERSECTION != (modifiers & excludeModifiers)){
             return CollectorCheckingResult.EXCLUDE;
@@ -105,8 +108,7 @@ public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessH
         return CollectorCheckingResult.NONE;
     }
 
-    private CollectorCheckingResult checkByName(String name, List<String> includeNames, List<String> excludeNames)
-    {
+    private CollectorCheckingResult checkByName(String name, List<String> includeNames, List<String> excludeNames) {
         if (excludeNames.contains(name)){
             return CollectorCheckingResult.EXCLUDE;
         } else if (includeNames.contains(name)){
