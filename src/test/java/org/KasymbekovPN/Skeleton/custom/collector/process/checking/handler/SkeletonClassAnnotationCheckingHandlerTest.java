@@ -173,7 +173,7 @@ public class SkeletonClassAnnotationCheckingHandlerTest {
         SkeletonObjectNode result = new SkeletonObjectNode(null);
         SkeletonObjectNode buffer = result;
         for (String pathItem : PATH) {
-            result.getChildren().put(pathItem, new SkeletonObjectNode(buffer));
+            buffer.getChildren().put(pathItem, new SkeletonObjectNode(buffer));
             buffer = (SkeletonObjectNode) result.getChildren().get(pathItem);
         }
 
