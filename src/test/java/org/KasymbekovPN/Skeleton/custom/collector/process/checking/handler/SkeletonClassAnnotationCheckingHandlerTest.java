@@ -1,9 +1,10 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-import org.KasymbekovPN.Skeleton.lib.collector.node.*;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonArrayNode;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonNumberNodeSkeleton;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonObjectNode;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonStringNodeSkeleton;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,9 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -174,7 +173,7 @@ public class SkeletonClassAnnotationCheckingHandlerTest {
         SkeletonObjectNode buffer = result;
         for (String pathItem : PATH) {
             buffer.getChildren().put(pathItem, new SkeletonObjectNode(buffer));
-            buffer = (SkeletonObjectNode) result.getChildren().get(pathItem);
+            buffer = (SkeletonObjectNode) buffer.getChildren().get(pathItem);
         }
 
         buffer.getChildren().put("includeByModifiers",new SkeletonNumberNodeSkeleton(buffer, includeModifiers));
@@ -194,40 +193,5 @@ public class SkeletonClassAnnotationCheckingHandlerTest {
         buffer.getChildren().put("excludeByName", excludeByNameArr);
 
         return result;
-    }
-
-    private static class TestCollectorCheckingProcess implements CollectorCheckingProcess {
-
-        private final Map<Class<? extends Node>, CollectorProcessHandler> handlers = new HashMap<>();
-        private final Map<Class<? extends Node>, CollectorCheckingResult> results = new HashMap<>();
-
-        @Override
-        public void handle(Node node) {
-            Class<? extends Node> clazz = node.getClass();
-            if (handlers.containsKey(clazz)){
-                handlers.get(clazz).handle(node);
-            }
-        }
-
-        @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-            handlers.put(clazz, collectorProcessHandler);
-        }
-
-        @Override
-        public void setResult(Class<? extends Node> clazz, CollectorCheckingResult result) {
-            results.put(clazz, result);
-        }
-
-        @Override
-        public CollectorCheckingResult getResult() {
-            if (results.containsValue(CollectorCheckingResult.EXCLUDE)){
-                return CollectorCheckingResult.EXCLUDE;
-            } else if (results.containsValue(CollectorCheckingResult.INCLUDE)) {
-                return CollectorCheckingResult.INCLUDE;
-            }
-            return CollectorCheckingResult.NONE;
-        }
-
     }
 }
