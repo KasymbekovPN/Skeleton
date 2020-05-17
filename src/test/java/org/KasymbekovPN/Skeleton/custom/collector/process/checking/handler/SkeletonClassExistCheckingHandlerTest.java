@@ -82,11 +82,7 @@ public class SkeletonClassExistCheckingHandlerTest {
     private SkeletonObjectNode create(List<String> path){
 
         SkeletonObjectNode result = new SkeletonObjectNode(null);
-        SkeletonObjectNode buffer = result;
-        for (String pathItem : path) {
-            buffer.getChildren().put(pathItem, new SkeletonObjectNode(buffer));
-            buffer = (SkeletonObjectNode) buffer.getChildren().get(pathItem);
-        }
+        SkeletonNodeObjectCreator.create(path, result);
         return result;
     }
 }

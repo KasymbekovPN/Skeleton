@@ -170,11 +170,7 @@ public class SkeletonClassAnnotationCheckingHandlerTest {
                                       List<String> excludeByName){
 
         SkeletonObjectNode result = new SkeletonObjectNode(null);
-        SkeletonObjectNode buffer = result;
-        for (String pathItem : PATH) {
-            buffer.getChildren().put(pathItem, new SkeletonObjectNode(buffer));
-            buffer = (SkeletonObjectNode) buffer.getChildren().get(pathItem);
-        }
+        SkeletonObjectNode buffer = SkeletonNodeObjectCreator.create(PATH, result);
 
         buffer.getChildren().put("includeByModifiers",new SkeletonNumberNodeSkeleton(buffer, includeModifiers));
         buffer.getChildren().put("excludeByModifiers", new SkeletonNumberNodeSkeleton(buffer, excludeModifiers));
