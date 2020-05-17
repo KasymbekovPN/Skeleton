@@ -17,15 +17,15 @@ public class SkeletonJsonFormatter implements Formatter {
     private Map<Class<? extends Node>, String> beginBorder = new HashMap<>(){{
         put(SkeletonObjectNode.class, "{\n");
         put(SkeletonArrayNode.class, "[\n");
-        put(SkeletonStringNodeSkeleton.class, "\"");
-        put(SkeletonCharacterNodeSkeleton.class, "'");
+        put(SkeletonStringNode.class, "\"");
+        put(SkeletonCharacterNode.class, "'");
     }};
 
     private Map<Class<? extends Node>, String> endBorder = new HashMap<>(){{
         put(SkeletonObjectNode.class, "\n%offset%}");
         put(SkeletonArrayNode.class, "\n%offset%]");
-        put(SkeletonStringNodeSkeleton.class, "\"");
-        put(SkeletonCharacterNodeSkeleton.class, "'");
+        put(SkeletonStringNode.class, "\"");
+        put(SkeletonCharacterNode.class, "'");
     }};
 
     private Map<Class<? extends Node>, String> firstDelimiters = new HashMap<>(){{

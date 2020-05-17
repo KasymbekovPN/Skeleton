@@ -49,7 +49,7 @@ public class JsonSerializerTest {
                 .setProtocolPath("protocol")
                 .build();
 
-        Collector collector = new SkeletonCollector(collectorStructure);
+        Collector collector = new SkeletonCollector(collectorStructure, true);
         SkeletonAnnotationChecker ah = new SkeletonAnnotationChecker();
         SkeletonCollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
 
@@ -90,10 +90,10 @@ public class JsonSerializerTest {
         CollectorWritingProcess collectorWritingProcess = new SkeletonCollectorWritingProcess(new SkeletonJsonFormatter());
         new SkeletonObjectWritingHandler(collectorWritingProcess, SkeletonObjectNode.class);
         new SkeletonArrayWritingHandler(collectorWritingProcess, SkeletonArrayNode.class);
-        new StringWritingHandler(collectorWritingProcess, SkeletonStringNodeSkeleton.class);
-        new SkeletonCharacterWritingHandler(collectorWritingProcess, SkeletonCharacterNodeSkeleton.class);
-        new SkeletonBooleanWritingHandler(collectorWritingProcess, SkeletonBooleanNodeSkeleton.class);
-        new SkeletonNumberWritingHandler(collectorWritingProcess, SkeletonNumberNodeSkeleton.class);
+        new SkeletonStringWritingHandler(collectorWritingProcess, SkeletonStringNode.class);
+        new SkeletonCharacterWritingHandler(collectorWritingProcess, SkeletonCharacterNode.class);
+        new SkeletonBooleanWritingHandler(collectorWritingProcess, SkeletonBooleanNode.class);
+        new SkeletonNumberWritingHandler(collectorWritingProcess, SkeletonNumberNode.class);
         collector.apply(collectorWritingProcess);
 
         log.info("{}", collector);

@@ -2,9 +2,9 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonArrayNode;
-import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonNumberNodeSkeleton;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonNumberNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonObjectNode;
-import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonStringNodeSkeleton;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonStringNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -172,17 +172,17 @@ public class SkeletonClassAnnotationCheckingHandlerTest {
         SkeletonObjectNode result = new SkeletonObjectNode(null);
         SkeletonObjectNode buffer = SkeletonNodeObjectCreator.create(PATH, result);
 
-        buffer.getChildren().put("includeByModifiers",new SkeletonNumberNodeSkeleton(buffer, includeModifiers));
-        buffer.getChildren().put("excludeByModifiers", new SkeletonNumberNodeSkeleton(buffer, excludeModifiers));
+        buffer.getChildren().put("includeByModifiers",new SkeletonNumberNode(buffer, includeModifiers));
+        buffer.getChildren().put("excludeByModifiers", new SkeletonNumberNode(buffer, excludeModifiers));
 
         SkeletonArrayNode includeByNameArr = new SkeletonArrayNode(buffer);
         for (String name : includeByName) {
-            includeByNameArr.getChildren().add(new SkeletonStringNodeSkeleton(includeByNameArr, name));
+            includeByNameArr.getChildren().add(new SkeletonStringNode(includeByNameArr, name));
         }
 
         SkeletonArrayNode excludeByNameArr = new SkeletonArrayNode(buffer);
         for (String name : excludeByName) {
-            excludeByNameArr.getChildren().add(new SkeletonStringNodeSkeleton(excludeByNameArr, name));
+            excludeByNameArr.getChildren().add(new SkeletonStringNode(excludeByNameArr, name));
         }
 
         buffer.getChildren().put("includeByName", includeByNameArr);

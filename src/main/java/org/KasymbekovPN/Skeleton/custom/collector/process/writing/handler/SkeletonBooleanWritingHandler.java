@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 import org.KasymbekovPN.Skeleton.lib.format.writing.Formatter;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonBooleanNodeSkeleton;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonBooleanNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 
 public class SkeletonBooleanWritingHandler implements CollectorProcessHandler {
@@ -19,8 +19,8 @@ public class SkeletonBooleanWritingHandler implements CollectorProcessHandler {
     @Override
     public void handle(Node node) {
         if (node.isBoolean()){
-            Boolean value = ((SkeletonBooleanNodeSkeleton) node).getValue();
-            Class<SkeletonBooleanNodeSkeleton> clazz = SkeletonBooleanNodeSkeleton.class;
+            Boolean value = ((SkeletonBooleanNode) node).getValue();
+            Class<SkeletonBooleanNode> clazz = SkeletonBooleanNode.class;
             buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
         }
     }

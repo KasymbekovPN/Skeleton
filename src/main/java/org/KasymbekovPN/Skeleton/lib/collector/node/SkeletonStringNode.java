@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.collector.node;
 
-public class SkeletonStringNodeSkeleton extends SkeletonPrimitiveNode<String> {
+public class SkeletonStringNode extends SkeletonPrimitiveNode<String> {
 
-    public SkeletonStringNodeSkeleton(Node parent, String value) {
+    public SkeletonStringNode(Node parent, String value) {
         super(parent, value);
     }
 

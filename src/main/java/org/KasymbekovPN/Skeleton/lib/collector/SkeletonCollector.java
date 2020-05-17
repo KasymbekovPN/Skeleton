@@ -17,19 +17,23 @@ public class SkeletonCollector implements Collector {
     private static final Logger log = LoggerFactory.getLogger(SkeletonCollector.class);
 
     private final CollectorStructure collectorStructure;
+    private final boolean defaultProtocolData;
 
     private Node root;
     private Node target;
 
-    public SkeletonCollector(CollectorStructure collectorStructure) {
+    public SkeletonCollector(CollectorStructure collectorStructure, boolean defaultProtocolData) {
         this.collectorStructure = collectorStructure;
+        this.defaultProtocolData = defaultProtocolData;
         clear();
     }
 
     @Override
     public void clear() {
         target = root = new SkeletonObjectNode(null);
-        addProtocolObject();
+        if (defaultProtocolData){
+            addProtocolObject();
+        }
     }
 
     @Override
@@ -52,22 +56,22 @@ public class SkeletonCollector implements Collector {
 
     @Override
     public void addProperty(String property, String value) {
-        target.addChild(property, new SkeletonStringNodeSkeleton(target, value));
+        target.addChild(property, new SkeletonStringNode(target, value));
     }
 
     @Override
     public void addProperty(String property, Number value) {
-        target.addChild(property, new SkeletonNumberNodeSkeleton(target, value));
+        target.addChild(property, new SkeletonNumberNode(target, value));
     }
 
     @Override
     public void addProperty(String property, Boolean value) {
-        target.addChild(property, new SkeletonBooleanNodeSkeleton(target, value));
+        target.addChild(property, new SkeletonBooleanNode(target, value));
     }
 
     @Override
     public void addProperty(String property, Character value) {
-        target.addChild(property, new SkeletonCharacterNodeSkeleton(target, value));
+        target.addChild(property, new SkeletonCharacterNode(target, value));
     }
 
     @Override
@@ -82,22 +86,22 @@ public class SkeletonCollector implements Collector {
 
     @Override
     public void addProperty(String value) {
-        target.addChild(new SkeletonStringNodeSkeleton(target,value));
+        target.addChild(new SkeletonStringNode(target,value));
     }
 
     @Override
     public void addProperty(Number value) {
-        target.addChild(new SkeletonNumberNodeSkeleton(target, value));
+        target.addChild(new SkeletonNumberNode(target, value));
     }
 
     @Override
     public void addProperty(Boolean value) {
-        target.addChild(new SkeletonBooleanNodeSkeleton(target, value));
+        target.addChild(new SkeletonBooleanNode(target, value));
     }
 
     @Override
     public void addProperty(Character value) {
-        target.addChild(new SkeletonCharacterNodeSkeleton(target, value));
+        target.addChild(new SkeletonCharacterNode(target, value));
     }
 
     @Override

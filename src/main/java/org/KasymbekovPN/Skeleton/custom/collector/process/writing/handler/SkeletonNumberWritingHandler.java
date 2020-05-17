@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 
 import org.KasymbekovPN.Skeleton.lib.format.writing.Formatter;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonNumberNodeSkeleton;
+import org.KasymbekovPN.Skeleton.lib.collector.node.SkeletonNumberNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 
@@ -20,8 +20,8 @@ public class SkeletonNumberWritingHandler implements CollectorProcessHandler {
     @Override
     public void handle(Node node) {
         if (node.isNumber()){
-            Number value = ((SkeletonNumberNodeSkeleton) node).getValue();
-            Class<SkeletonNumberNodeSkeleton> clazz = SkeletonNumberNodeSkeleton.class;
+            Number value = ((SkeletonNumberNode) node).getValue();
+            Class<SkeletonNumberNode> clazz = SkeletonNumberNode.class;
             buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
         }
     }

@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.collector.node;
 
-public class SkeletonBooleanNodeSkeleton extends SkeletonPrimitiveNode<Boolean> {
+public class SkeletonBooleanNode extends SkeletonPrimitiveNode<Boolean> {
 
-    public SkeletonBooleanNodeSkeleton(Node parent, Boolean value) {
+    public SkeletonBooleanNode(Node parent, Boolean value) {
         super(parent, value);
     }
 

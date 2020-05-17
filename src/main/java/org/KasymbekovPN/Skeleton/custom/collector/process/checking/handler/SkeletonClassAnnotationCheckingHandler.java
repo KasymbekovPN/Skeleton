@@ -73,7 +73,7 @@ public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessH
         if (node.containsKey(property)){
             Node child = node.getChildren().get(property);
             if (child.isNumber()){
-                result = (int) ((SkeletonNumberNodeSkeleton) child).getValue();
+                result = (int) ((SkeletonNumberNode) child).getValue();
             }
         }
 
@@ -87,7 +87,7 @@ public class SkeletonClassAnnotationCheckingHandler implements CollectorProcessH
             if (child.isArray()){
                 for (Node childItem : ((SkeletonArrayNode) child).getChildren()) {
                     if (childItem.isString()){
-                        result.add(((SkeletonStringNodeSkeleton) childItem).getValue());
+                        result.add(((SkeletonStringNode) childItem).getValue());
                     }
                 }
             }
