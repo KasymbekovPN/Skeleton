@@ -11,6 +11,7 @@ import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import java.util.Map;
 import java.util.Set;
 
+//< !!! replace
 public class Utils {
 
     public static Collector createCollector() throws Exception {
