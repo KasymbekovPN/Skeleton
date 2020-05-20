@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils;
 
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.format.collector.SkeletonCollectorStructure;
 import org.KasymbekovPN.Skeleton.custom.format.writing.SkeletonJsonFormatter;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -89,5 +90,14 @@ public class Utils {
         for (Map.Entry<String, String> entry : objects.entrySet()) {
             collector.addProperty(entry.getKey(), entry.getValue());
         }
+    }
+
+    public static void fillCollectorMembersPath(Collector collector, String[] memberNames){
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
+        for (String memberName : memberNames) {
+            collector.beginObject(memberName);
+            collector.end();
+        }
+        collector.reset();
     }
 }

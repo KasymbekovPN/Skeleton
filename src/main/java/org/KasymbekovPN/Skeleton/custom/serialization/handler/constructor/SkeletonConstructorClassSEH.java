@@ -45,10 +45,10 @@ public class SkeletonConstructorClassSEH extends BaseSEH {
             SkeletonArguments[] arguments = ((SkeletonConstructor) maybeAnnotation.get()).arguments();
 
             for (SkeletonArguments argumentsItem : arguments) {
-                String uuid = UUID.randomUUID().toString();
-                Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.add(uuid);
                 List<String> args = Arrays.asList(argumentsItem.arguments());
-                constructorArguments.put(uuid, args);
+                String hash = String.valueOf(args.hashCode());
+                Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.add(hash);
+                constructorArguments.put(hash, args);
                 maybeProcess.ifPresent(collectorCheckingProcess -> new SkeletonMembersExistCheckingHandler(
                         collectorCheckingProcess,
                         SkeletonObjectNode.class,

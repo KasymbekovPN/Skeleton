@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SkeletonConstructor {
-    SkeletonArguments[] arguments() default {};
+    SkeletonArguments[] arguments() default {@SkeletonArguments};
 }
