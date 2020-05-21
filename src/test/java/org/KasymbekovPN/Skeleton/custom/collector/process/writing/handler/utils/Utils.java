@@ -92,12 +92,16 @@ public class Utils {
         }
     }
 
-    public static void fillCollectorMembersPath(Collector collector, String[] memberNames){
+    public static void fillCollectorMembersPart(Collector collector, String[] memberNames){
         collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
         for (String memberName : memberNames) {
             collector.beginObject(memberName);
             collector.end();
         }
         collector.reset();
+    }
+
+    public static void fillCollectorClassPath(Collector collector){
+        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
     }
 }

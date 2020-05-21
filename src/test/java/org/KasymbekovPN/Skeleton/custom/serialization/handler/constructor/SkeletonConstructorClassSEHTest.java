@@ -63,7 +63,7 @@ public class SkeletonConstructorClassSEHTest {
     void test(Class<?> clazz, String[] memberNames, String[][] constructorArgs, boolean result) throws Exception {
 
         Collector collector = Utils.createCollector();
-        Utils.fillCollectorMembersPath(collector, memberNames);
+        Utils.fillCollectorMembersPart(collector, memberNames);
 
         SkeletonConstructorClassSEH seh = new SkeletonConstructorClassSEH(
                 new SkeletonAnnotationChecker(),
