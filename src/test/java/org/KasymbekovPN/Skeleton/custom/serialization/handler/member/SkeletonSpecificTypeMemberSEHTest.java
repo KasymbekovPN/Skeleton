@@ -116,10 +116,10 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -130,10 +130,10 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -144,9 +144,9 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
                         }},
                         false
                 },
@@ -166,9 +166,9 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
                         }},
                         false
                 },
@@ -179,8 +179,8 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -191,10 +191,10 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -203,13 +203,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         -1,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -217,13 +217,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         -1,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -231,13 +231,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PUBLIC | Modifier.STATIC,
                         -1,
-                        new String[]{"intProperty", "booleanProperty"},
+                        new String[]{"privateProperty", "protectedProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -245,13 +245,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PUBLIC | Modifier.STATIC,
                         -1,
-                        new String[]{"intProperty"},
+                        new String[]{"privateProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -259,11 +259,11 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         Modifier.PRIVATE | Modifier.PROTECTED,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -271,13 +271,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         Modifier.PRIVATE | Modifier.PROTECTED,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -285,11 +285,11 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PRIVATE | Modifier.STATIC | Modifier.PROTECTED,
                         Modifier.PRIVATE | Modifier.PROTECTED,
-                        new String[]{"booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"protectedProperty", "publicProperty", "staticProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -297,13 +297,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PRIVATE | Modifier.STATIC | Modifier.PROTECTED,
                         Modifier.PRIVATE | Modifier.PROTECTED,
-                        new String[]{"booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"protectedProperty", "publicProperty", "staticProperty"},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -312,7 +312,7 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         -1,
                         -1,
                         new String[]{},
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
                         new HashMap<String, Pair>(),
                         true
                 },
@@ -321,12 +321,12 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         -1,
                         -1,
                         new String[]{},
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -335,10 +335,10 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
                         -1,
                         new String[]{},
-                        new String[]{"intProperty", "booleanProperty"},
+                        new String[]{"privateProperty", "protectedProperty"},
                         new HashMap<String, Pair>(){{
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -347,12 +347,12 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
                         -1,
                         new String[]{},
-                        new String[]{"intProperty", "booleanProperty"},
+                        new String[]{"privateProperty", "protectedProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -361,7 +361,7 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         -1,
                         Modifier.PRIVATE | Modifier.PROTECTED,
                         new String[]{},
-                        new String[]{"floatProperty", "doubleProperty"},
+                        new String[]{"publicProperty", "staticProperty"},
                         new HashMap<String, Pair>(),
                         true
                 },
@@ -372,10 +372,10 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         new String[]{},
                         new String[]{},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -384,10 +384,10 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
                         Modifier.PRIVATE,
                         new String[]{},
-                        new String[]{"floatProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -396,12 +396,12 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
                         Modifier.PRIVATE | Modifier.PROTECTED,
                         new String[]{},
-                        new String[]{"floatProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -409,12 +409,12 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         -1,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
-                        new String[]{"floatProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -422,13 +422,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         -1,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
-                        new String[]{"floatProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -436,11 +436,11 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PUBLIC | Modifier.STATIC,
                         -1,
-                        new String[]{"intProperty", "booleanProperty"},
-                        new String[]{"floatProperty", "intProperty"},
+                        new String[]{"privateProperty", "protectedProperty"},
+                        new String[]{"publicProperty", "privateProperty"},
                         new HashMap<String, Pair>(){{
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -448,13 +448,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PUBLIC | Modifier.STATIC,
                         -1,
-                        new String[]{"intProperty", "booleanProperty"},
-                        new String[]{"floatProperty", "intProperty"},
+                        new String[]{"privateProperty", "protectedProperty"},
+                        new String[]{"publicProperty", "privateProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -462,11 +462,11 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         Modifier.PRIVATE,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
-                        new String[]{"floatProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -474,13 +474,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         -1,
                         Modifier.PRIVATE,
-                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
-                        new String[]{"floatProperty"},
+                        new String[]{"privateProperty", "protectedProperty", "publicProperty", "staticProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 },
@@ -488,11 +488,11 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PRIVATE | Modifier.PROTECTED,
                         Modifier.PRIVATE,
-                        new String[]{"floatProperty", "doubleProperty"},
-                        new String[]{"floatProperty"},
+                        new String[]{"publicProperty", "staticProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         true
                 },
@@ -500,13 +500,13 @@ public class SkeletonSpecificTypeMemberSEHTest {
                         TC1.class,
                         Modifier.PRIVATE | Modifier.PROTECTED,
                         Modifier.PRIVATE,
-                        new String[]{"floatProperty", "doubleProperty"},
-                        new String[]{"floatProperty"},
+                        new String[]{"publicProperty", "staticProperty"},
+                        new String[]{"publicProperty"},
                         new HashMap<String, Pair>(){{
-                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
-                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
-                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
-                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                            put("privateProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("protectedProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("publicProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("staticProperty", new Pair(double.class, Modifier.STATIC));
                         }},
                         false
                 }
