@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.specific.TC0;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.specific.TC1;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -25,12 +26,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("SkeletonSpecificTypeMemberSEH. Testing of:")
 public class SkeletonSpecificTypeMemberSEHTest {
 
-    private static Object[][] getTestData(){
+    private static Object[][] getDataForMemberAnnotationTesting(){
         return new Object[][]{
                 {
                     TC0.class,
@@ -47,14 +48,490 @@ public class SkeletonSpecificTypeMemberSEHTest {
                     }},
                     true
                 },
+                {
+                    TC0.class,
+                    new HashMap<String, Pair>(){{
+                        put("floatProperty", new Pair(float.class, Modifier.STATIC | Modifier.PUBLIC));
+                        put("doubleProperty", new Pair(double.class, Modifier.STATIC | Modifier.PROTECTED));
+                        put("charProperty", new Pair(char.class, Modifier.STATIC | Modifier.PROTECTED));
+                        put("booleanProperty", new Pair(boolean.class, Modifier.STATIC | Modifier.PRIVATE));
+                    }},
+                    false
+                },
+                {
+                    TC0.class,
+                    new HashMap<String, Pair>(){{
+                        put("stringObjectProperty", new Pair(String.class, Modifier.STATIC));
+                        put("byteProperty", new Pair(byte.class, 0));
+                        put("shortProperty", new Pair(short.class, Modifier.PUBLIC));
+                        put("intProperty", new Pair(int.class, Modifier.PROTECTED));
+                        put("longProperty", new Pair(long.class, Modifier.PRIVATE));
+                        put("floatProperty", new Pair(float.class, Modifier.STATIC | Modifier.PUBLIC));
+                        put("doubleProperty", new Pair(double.class, Modifier.STATIC ));
+                        put("charProperty", new Pair(char.class, Modifier.STATIC ));
+                        put("booleanProperty", new Pair(boolean.class, Modifier.STATIC));
+                        put("stringObjectPropertyNA", new Pair(String.class, Modifier.STATIC));
+                    }},
+                    false
+                }
         };
     }
 
     @ParameterizedTest
-    @MethodSource("getTestData")
-    void test(Class<?> clazz, Map<String, Pair> members, boolean result) throws Exception {
+    @MethodSource("getDataForMemberAnnotationTesting")
+    @DisplayName("member annotation handling")
+    void testMemberAnnotation(Class<?> clazz, Map<String, Pair> members, boolean result) throws Exception {
         Collector collector = Utils.createCollector();
         Utils.fillCollectorClassPath(collector);
+        SkeletonAnnotationChecker ah = new SkeletonAnnotationChecker();
+        SkeletonCollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
+
+        TestSerializer serializer = new TestSerializer(collector, ah, cch,
+                String.class, byte.class, short.class, int.class, long.class, float.class, double.class,
+                char.class, boolean.class, Boolean.class, Character.class
+        );
+        serializer.serialize(clazz);
+
+        TestCollectorProcess process = new TestCollectorProcess(members, collector);
+        collector.apply(process);
+
+        assertThat(process.isValid()).isEqualTo(result);
+    }
+
+    private static Object[][] getDataForClassAnnotationTesting(){
+        return new Object[][]{
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(),
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(),
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{"intProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.STATIC | Modifier.PROTECTED,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{"booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.STATIC | Modifier.PROTECTED,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{"booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{},
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new HashMap<String, Pair>(),
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{},
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{},
+                        new String[]{"intProperty", "booleanProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{},
+                        new String[]{"intProperty", "booleanProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{},
+                        new String[]{"floatProperty", "doubleProperty"},
+                        new HashMap<String, Pair>(),
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        new String[]{},
+                        new String[]{},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        Modifier.PRIVATE,
+                        new String[]{},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC | Modifier.STATIC,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        new String[]{},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty"},
+                        new String[]{"floatProperty", "intProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PUBLIC | Modifier.STATIC,
+                        -1,
+                        new String[]{"intProperty", "booleanProperty"},
+                        new String[]{"floatProperty", "intProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        -1,
+                        Modifier.PRIVATE,
+                        new String[]{"intProperty", "booleanProperty", "floatProperty", "doubleProperty"},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        Modifier.PRIVATE,
+                        new String[]{"floatProperty", "doubleProperty"},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        true
+                },
+                {
+                        TC1.class,
+                        Modifier.PRIVATE | Modifier.PROTECTED,
+                        Modifier.PRIVATE,
+                        new String[]{"floatProperty", "doubleProperty"},
+                        new String[]{"floatProperty"},
+                        new HashMap<String, Pair>(){{
+                            put("intProperty", new Pair(int.class, Modifier.PRIVATE));
+                            put("booleanProperty", new Pair(boolean.class, Modifier.PROTECTED));
+                            put("floatProperty", new Pair(float.class, Modifier.PUBLIC));
+                            put("doubleProperty", new Pair(double.class, Modifier.STATIC));
+                        }},
+                        false
+                }
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("getDataForClassAnnotationTesting")
+    @DisplayName("class annotation handling")
+    void testClassAnnotation(Class<?> clazz,
+                             int annotationIncludeByModifiers,
+                             int annotationExcludeByModifiers,
+                             String[] annotationIncludeByName,
+                             String[] annotationExcludeByName,
+                             Map<String, Pair> members,
+                             boolean result) throws Exception {
+        Collector collector = Utils.createCollector();
+        Utils.fillCollectorClassPath(collector);
+        Utils.fillCollectorAnnotationPart(
+                collector,
+                annotationIncludeByModifiers,
+                annotationExcludeByModifiers,
+                annotationIncludeByName,
+                annotationExcludeByName);
+
         SkeletonAnnotationChecker ah = new SkeletonAnnotationChecker();
         SkeletonCollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
 
@@ -153,6 +630,8 @@ public class SkeletonSpecificTypeMemberSEHTest {
                 if (members.size() == 0 && notExistMembers.size() == 0){
                     valid = true;
                 }
+            } else if (members.size() == 0){
+                valid = true;
             }
         }
 
