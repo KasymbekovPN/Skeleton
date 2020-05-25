@@ -30,7 +30,7 @@ public class SkeletonSerializer implements Serializer {
             handlers.get(SkeletonSerializerEI.memberEI()).handle(field, collector);
         }
         handlers.get(SkeletonSerializerEI.constructorEI()).handle(clazz, collector);
-        handlers.get(SkeletonSerializerEI.memberEI()).handle(clazz, collector);
+        handlers.get(SkeletonSerializerEI.methodEI()).handle(clazz, collector);
     }
 
     static public class Builder{

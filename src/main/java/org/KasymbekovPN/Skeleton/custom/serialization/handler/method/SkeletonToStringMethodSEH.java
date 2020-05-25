@@ -43,7 +43,6 @@ public class SkeletonToStringMethodSEH extends BaseSEH {
                 SkeletonMethod.class);
 
         if (maybeAnnotation.isPresent()){
-
             methods.clear();
             validKeys.clear();
 
@@ -52,10 +51,10 @@ public class SkeletonToStringMethodSEH extends BaseSEH {
             String name = annotation.name();
 
             for (SkeletonArguments argumentsItem : arguments) {
-                String uuid = UUID.randomUUID().toString();
-                Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.add(uuid);
                 List<String> args = Arrays.asList(argumentsItem.arguments());
-                methods.put(uuid, new MethodSignature(name, args));
+                String hash = String.valueOf(args.hashCode());
+                Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.add(hash);
+                methods.put(hash, new MethodSignature(name, args));
                 maybeProcess.ifPresent(collectorCheckingProcess -> new SkeletonMembersExistCheckingHandler(
                         collectorCheckingProcess,
                         SkeletonObjectNode.class,

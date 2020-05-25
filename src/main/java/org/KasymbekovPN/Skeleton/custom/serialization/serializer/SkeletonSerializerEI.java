@@ -41,6 +41,13 @@ public class SkeletonSerializerEI implements EntityItem {
         return Objects.hash(entity);
     }
 
+    @Override
+    public String toString() {
+        return "SkeletonSerializerEI{" +
+                "entity=" + entity +
+                '}';
+    }
+
     public enum Entity{
         CLASS,
         MEMBER,
