@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils
 
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.format.collector.SkeletonCollectorStructure;
-import org.KasymbekovPN.Skeleton.custom.format.writing.SkeletonJsonFormatter;
+import org.KasymbekovPN.Skeleton.custom.format.writing.JsonFormatter;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
@@ -29,7 +29,7 @@ public class Utils {
     }
 
     public static CollectorWritingProcess createCollectorWritingProcess(){
-        return new SkeletonCollectorWritingProcess(new SkeletonJsonFormatter());
+        return new SkeletonCollectorWritingProcess(new JsonFormatter());
     }
 
     public static void fillCollectorWithObjectLevel0(Collector collector, Set<String> subObjectNames){

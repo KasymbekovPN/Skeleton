@@ -30,7 +30,7 @@ public class SkeletonCollector implements Collector {
 
     @Override
     public void clear() {
-        target = root = new SkeletonObjectNode(null);
+        target = root = new ObjectNode(null);
         if (defaultProtocolData){
             addProtocolObject();
         }
@@ -46,62 +46,62 @@ public class SkeletonCollector implements Collector {
 
     @Override
     public void beginObject(String property) {
-        target.addChild(property, new SkeletonObjectNode(target)).ifPresent(value -> target = value);
+        target.addChild(property, new ObjectNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
     public void beginObject() {
-        target.addChild(new SkeletonObjectNode(target)).ifPresent(value -> target = value);
+        target.addChild(new ObjectNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
     public void addProperty(String property, String value) {
-        target.addChild(property, new SkeletonStringNode(target, value));
+        target.addChild(property, new StringNode(target, value));
     }
 
     @Override
     public void addProperty(String property, Number value) {
-        target.addChild(property, new SkeletonNumberNode(target, value));
+        target.addChild(property, new NumberNode(target, value));
     }
 
     @Override
     public void addProperty(String property, Boolean value) {
-        target.addChild(property, new SkeletonBooleanNode(target, value));
+        target.addChild(property, new BooleanNode(target, value));
     }
 
     @Override
     public void addProperty(String property, Character value) {
-        target.addChild(property, new SkeletonCharacterNode(target, value));
+        target.addChild(property, new CharacterNode(target, value));
     }
 
     @Override
     public void beginArray(String property) {
-        target.addChild(property, new SkeletonArrayNode(target)).ifPresent(value -> target = value);
+        target.addChild(property, new ArrayNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
     public void beginArray() {
-        target.addChild(new SkeletonArrayNode(target)).ifPresent(value -> target = value);
+        target.addChild(new ArrayNode(target)).ifPresent(value -> target = value);
     }
 
     @Override
     public void addProperty(String value) {
-        target.addChild(new SkeletonStringNode(target,value));
+        target.addChild(new StringNode(target,value));
     }
 
     @Override
     public void addProperty(Number value) {
-        target.addChild(new SkeletonNumberNode(target, value));
+        target.addChild(new NumberNode(target, value));
     }
 
     @Override
     public void addProperty(Boolean value) {
-        target.addChild(new SkeletonBooleanNode(target, value));
+        target.addChild(new BooleanNode(target, value));
     }
 
     @Override
     public void addProperty(Character value) {
-        target.addChild(new SkeletonCharacterNode(target, value));
+        target.addChild(new CharacterNode(target, value));
     }
 
     @Override
@@ -135,8 +135,8 @@ public class SkeletonCollector implements Collector {
             bufferNode = node;
             for (String s : path) {
                 if (bufferNode.isObject()) {
-                    if (((SkeletonObjectNode) bufferNode).containsKey(s)) {
-                        bufferNode = ((SkeletonObjectNode) bufferNode).getChildren().get(s);
+                    if (((ObjectNode) bufferNode).containsKey(s)) {
+                        bufferNode = ((ObjectNode) bufferNode).getChildren().get(s);
                     } else {
                         bufferNode = null;
                         break;

@@ -1,14 +1,14 @@
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.*;
 import org.KasymbekovPN.Skeleton.custom.format.collector.SkeletonCollectorStructure;
-import org.KasymbekovPN.Skeleton.custom.format.writing.SkeletonJsonFormatter;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.SkeletonClassAnnotationDataSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.SkeletonClassSignatureSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor.SkeletonConstructorClassSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonContainerMemberSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonCustomMemberSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonExtendedTypeMemberSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SkeletonSpecificTypeMemberSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.handler.method.SkeletonToStringMethodSEH;
+import org.KasymbekovPN.Skeleton.custom.format.writing.JsonFormatter;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.ClassAnnotationDataSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.ClassSignatureSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor.ConstructorClassSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.ContainerMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.CustomMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.ExtendedTypeMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.SpecificTypeMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.method.ToStringMethodSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.serializer.SkeletonSerializer;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -61,39 +61,39 @@ public class JsonSerializerTest {
         SkeletonCAC twoArgs = new SkeletonCAC(checker, checker);
 
         Serializer serializer = new SkeletonSerializer.Builder(collector)
-                .addClassHandler(new SkeletonClassSignatureSEH(ah))
-                .addClassHandler(new SkeletonClassAnnotationDataSEH(ah))
-                .addConstructorHandler(new SkeletonConstructorClassSEH(ah, cch))
-                .addMethodHandler(new SkeletonToStringMethodSEH(ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(String.class, ah, cch))
-                .addMemberHandler(new SkeletonExtendedTypeMemberSEH(Number.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(byte.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(short.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(int.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(long.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(float.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(double.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(char.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(boolean.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(Boolean.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(Character.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(byte.class, ah, cch))
-                .addMemberHandler(new SkeletonSpecificTypeMemberSEH(byte.class, ah, cch))
-                .addMemberHandler(new SkeletonContainerMemberSEH(List.class, oneArg, ah, cch))
-                .addMemberHandler(new SkeletonContainerMemberSEH(Set.class, oneArg, ah, cch))
-                .addMemberHandler(new SkeletonContainerMemberSEH(Map.class, twoArgs, ah, cch))
-                .addMemberHandler(new SkeletonCustomMemberSEH(ah, cch))
+                .addClassHandler(new ClassSignatureSEH(ah))
+                .addClassHandler(new ClassAnnotationDataSEH(ah))
+                .addConstructorHandler(new ConstructorClassSEH(ah, cch))
+                .addMethodHandler(new ToStringMethodSEH(ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(String.class, ah, cch))
+                .addMemberHandler(new ExtendedTypeMemberSEH(Number.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(byte.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(short.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(int.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(long.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(float.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(double.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(char.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(boolean.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(Boolean.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(Character.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(byte.class, ah, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(byte.class, ah, cch))
+                .addMemberHandler(new ContainerMemberSEH(List.class, oneArg, ah, cch))
+                .addMemberHandler(new ContainerMemberSEH(Set.class, oneArg, ah, cch))
+                .addMemberHandler(new ContainerMemberSEH(Map.class, twoArgs, ah, cch))
+                .addMemberHandler(new CustomMemberSEH(ah, cch))
                 .build();
 
         serializer.serialize(TestClass4.class);
 
-        CollectorWritingProcess collectorWritingProcess = new SkeletonCollectorWritingProcess(new SkeletonJsonFormatter());
-        new SkeletonObjectWritingHandler(collectorWritingProcess, SkeletonObjectNode.class);
-        new SkeletonArrayWritingHandler(collectorWritingProcess, SkeletonArrayNode.class);
-        new SkeletonStringWritingHandler(collectorWritingProcess, SkeletonStringNode.class);
-        new SkeletonCharacterWritingHandler(collectorWritingProcess, SkeletonCharacterNode.class);
-        new SkeletonBooleanWritingHandler(collectorWritingProcess, SkeletonBooleanNode.class);
-        new SkeletonNumberWritingHandler(collectorWritingProcess, SkeletonNumberNode.class);
+        CollectorWritingProcess collectorWritingProcess = new SkeletonCollectorWritingProcess(new JsonFormatter());
+        new ObjectWritingHandler(collectorWritingProcess, ObjectNode.class);
+        new ArrayWritingHandler(collectorWritingProcess, ArrayNode.class);
+        new StringWritingHandler(collectorWritingProcess, StringNode.class);
+        new CharacterWritingHandler(collectorWritingProcess, CharacterNode.class);
+        new BooleanWritingHandler(collectorWritingProcess, BooleanNode.class);
+        new NumberWritingHandler(collectorWritingProcess, NumberNode.class);
         collector.apply(collectorWritingProcess);
 
         log.info("{}", collector);

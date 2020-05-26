@@ -25,12 +25,12 @@ public class SkeletonSerializer implements Serializer {
 
     @Override
     public void serialize(Class<?> clazz) {
-        handlers.get(SkeletonSerializerEI.classEI()).handle(clazz, collector);
+        handlers.get(SerializerEI.classEI()).handle(clazz, collector);
         for (Field field : clazz.getDeclaredFields()) {
-            handlers.get(SkeletonSerializerEI.memberEI()).handle(field, collector);
+            handlers.get(SerializerEI.memberEI()).handle(field, collector);
         }
-        handlers.get(SkeletonSerializerEI.constructorEI()).handle(clazz, collector);
-        handlers.get(SkeletonSerializerEI.methodEI()).handle(clazz, collector);
+        handlers.get(SerializerEI.constructorEI()).handle(clazz, collector);
+        handlers.get(SerializerEI.methodEI()).handle(clazz, collector);
     }
 
     static public class Builder{
@@ -55,19 +55,19 @@ public class SkeletonSerializer implements Serializer {
         }
 
         public Builder addClassHandler(SerializationElementHandler seh){
-            return addHandler(SkeletonSerializerEI.classEI(), seh);
+            return addHandler(SerializerEI.classEI(), seh);
         }
 
         public Builder addMemberHandler(SerializationElementHandler seh){
-            return addHandler(SkeletonSerializerEI.memberEI(), seh);
+            return addHandler(SerializerEI.memberEI(), seh);
         }
 
         public Builder addConstructorHandler(SerializationElementHandler seh){
-            return addHandler(SkeletonSerializerEI.constructorEI(), seh);
+            return addHandler(SerializerEI.constructorEI(), seh);
         }
 
         public Builder addMethodHandler(SerializationElementHandler seh){
-            return addHandler(SkeletonSerializerEI.methodEI(), seh);
+            return addHandler(SerializerEI.methodEI(), seh);
         }
 
         public Serializer build() throws Exception {
@@ -75,7 +75,7 @@ public class SkeletonSerializer implements Serializer {
                 throw new Exception("The collector instance is null");
             }
 
-            if (handlers.size() != SkeletonSerializerEI.Entity.values().length){
+            if (handlers.size() != SerializerEI.Entity.values().length){
                 throw new Exception("Handlers are not setting completely");
             }
 
