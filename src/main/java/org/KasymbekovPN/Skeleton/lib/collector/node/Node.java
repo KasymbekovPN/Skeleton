@@ -23,4 +23,5 @@ public interface Node {
     default boolean isPrimitive() {return false;}
     default boolean isString() {return false;}
     default Optional<Node> getChild(List<String> path, Class<? extends  Node> clazz) {return Optional.empty();}
+    default Optional<Node> get(String property, Class<? extends Node> clazz) {return Optional.empty();}
 }

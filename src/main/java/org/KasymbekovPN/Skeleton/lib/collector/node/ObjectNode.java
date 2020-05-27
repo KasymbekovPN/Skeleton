@@ -50,6 +50,18 @@ public class ObjectNode implements Node {
     }
 
     @Override
+    public Optional<Node> get(String property, Class<? extends Node> clazz) {
+        if (children.containsKey(property)){
+            Node node = children.get(property);
+            if (node.getClass().equals(clazz)){
+                return Optional.of(node);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public boolean isObject() {
         return true;
     }
