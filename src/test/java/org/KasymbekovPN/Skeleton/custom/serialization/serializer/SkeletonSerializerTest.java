@@ -231,15 +231,60 @@ public class SkeletonSerializerTest {
 
     private static Object[][] getTestData(){
         return new Object[][]{
-                {TC0.class, new String[]{"intProperty", "booleanProperty"}, true},
-                {TC0.class, new String[]{"intProperty", "booleanProperty", "booleanProperty1"}, false}
+                {
+                        TC0.class,
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        new String[]{"intProperty", "booleanProperty"},
+                        true
+                },
+                {
+                        TC0.class,
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC01",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        new String[]{"intProperty", "booleanProperty"},
+                        false
+                },
+                {
+                        TC0.class,
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC01",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        new String[]{"intProperty", "booleanProperty"},
+                        false
+                },
+                {
+                        TC0.class,
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC01",
+                        new String[]{"intProperty", "booleanProperty"},
+                        false
+                },
+                {
+                        TC0.class,
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        "org.KasymbekovPN.Skeleton.custom.serialization.serializer.classes.TC0",
+                        new String[]{"intProperty", "booleanProperty", "xyz"},
+                        false
+                }
         };
     }
 
     @ParameterizedTest
     @MethodSource("getTestData")
     @DisplayName("Serialization Handlers")
-    void testSerialization(Class<?> clazz, String[] memberNames, boolean result) throws Exception {
+    void testSerialization(
+            Class<?> clazz,
+            String classValue,
+            String constructorValue,
+            String methodValue,
+            String[] memberNames,
+            boolean result
+    ) throws Exception {
         Collector collector = Utils.createCollector();
         Serializer serializer = new SkeletonSerializer.Builder(collector)
                 .addClassHandler(new ClassConstructorMethodHandler(CollectorStructureEI.classEI()))
@@ -250,9 +295,13 @@ public class SkeletonSerializerTest {
 
         serializer.serialize(clazz);
 
-        System.out.println(collector);
-
-        TestCollectorProcess process = new TestCollectorProcess(collector, memberNames, clazz.getName());
+        TestCollectorProcess process = new TestCollectorProcess(
+                collector,
+                classValue,
+                constructorValue,
+                methodValue,
+                memberNames
+        );
         collector.apply(process);
 
         assertThat(process.isValid()).isEqualTo(result);
@@ -307,36 +356,35 @@ public class SkeletonSerializerTest {
     private static class TestCollectorProcess implements CollectorProcess{
 
         private final Collector collector;
+        private final String classValue;
+        private final String constructorValue;
+        private final String methodValue;
         private final String[] memberNames;
-        private final String name;
 
-        private boolean valid = false;
+        private AtomicBoolean valid = new AtomicBoolean(true);
 
-        public TestCollectorProcess(Collector collector, String[] memberNames, String name) {
+        public TestCollectorProcess(Collector collector, String classValue, String constructorValue, String methodValue, String[] memberNames) {
             this.collector = collector;
+            this.classValue = classValue;
+            this.constructorValue = constructorValue;
+            this.methodValue = methodValue;
             this.memberNames = memberNames;
-            this.name = name;
         }
 
         @Override
         public void handle(Node node) {
 
-            valid = true;
-
             Optional<Node> maybeClassNode = node.getChild(
                     collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()), ObjectNode.class
             );
-            AtomicBoolean concreteValid = new AtomicBoolean(false);
             if (maybeClassNode.isPresent()){
                 ObjectNode classNode = (ObjectNode) maybeClassNode.get();
                 classNode.get(PROPERTY, StringNode.class).ifPresent(value -> {
-                    if (((StringNode)value).getValue().equals(name)){
-                        concreteValid.set(true);
+                    if (!((StringNode)value).getValue().equals(classValue)){
+                        valid.set(false);
                     }
                 });
             }
-            valid &= concreteValid.get();
-            concreteValid.set(false);
 
             Optional<Node> maybeConstructorNode = node.getChild(
                     collector.getCollectorStructure().getPath(CollectorStructureEI.constructorEI()), ObjectNode.class
@@ -344,13 +392,11 @@ public class SkeletonSerializerTest {
             if (maybeConstructorNode.isPresent()){
                 ObjectNode constructorNode = (ObjectNode) maybeConstructorNode.get();
                 constructorNode.get(PROPERTY, StringNode.class).ifPresent(value -> {
-                    if (((StringNode)value).getValue().equals(name)){
-                        concreteValid.set(true);
+                    if (!((StringNode)value).getValue().equals(constructorValue)){
+                        valid.set(false);
                     }
                 });
             }
-            valid &= concreteValid.get();
-            concreteValid.set(false);
 
             Optional<Node> maybeMethodNode = node.getChild(
                     collector.getCollectorStructure().getPath(CollectorStructureEI.methodEI()), ObjectNode.class
@@ -358,13 +404,11 @@ public class SkeletonSerializerTest {
             if (maybeMethodNode.isPresent()){
                 ObjectNode methodNode = (ObjectNode) maybeMethodNode.get();
                 methodNode.get(PROPERTY, StringNode.class).ifPresent(value -> {
-                    if (((StringNode)value).getValue().equals(name)){
-                        concreteValid.set(true);
+                    if (!((StringNode)value).getValue().equals(methodValue)){
+                        valid.set(false);
                     }
                 });
             }
-            valid &= concreteValid.get();
-            concreteValid.set(false);
 
             Optional<Node> maybeMembersNode = node.getChild(
                     collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()), ObjectNode.class
@@ -373,15 +417,9 @@ public class SkeletonSerializerTest {
                 ObjectNode membersNode = (ObjectNode) maybeMembersNode.get();
                 for (String memberName : memberNames) {
                     Optional<Node> memberNode = membersNode.get(memberName, StringNode.class);
-                    memberNode.ifPresent(value -> {
-                        if (((StringNode)value).getValue().equals(memberName)){
-                            concreteValid.set(true);
-                        } else {
-                            concreteValid.set(false);
-                        }
-                    });
-
-                    valid &= concreteValid.get();
+                    if (memberNode.isEmpty()){
+                        valid.set(false);
+                    }
                 }
             }
         }
@@ -390,7 +428,7 @@ public class SkeletonSerializerTest {
         public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
 
         public boolean isValid() {
-            return valid;
+            return valid.get();
         }
     }
 }
