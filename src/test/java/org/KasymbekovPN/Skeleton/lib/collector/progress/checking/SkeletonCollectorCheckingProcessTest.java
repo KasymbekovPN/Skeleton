@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.collector.progress.checking;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
@@ -24,24 +25,24 @@ public class SkeletonCollectorCheckingProcessTest {
     private static Object[][] getTestDataForHandleAdd() {
         return new Object[][]{
                 {
-                        new HashMap<String, Pair>(){{
-                            put("array", new Pair(ArrayNode.class, ArrayNode.class));
-                            put("boolean", new Pair(BooleanNode.class, BooleanNode.class));
-                            put("character", new Pair(CharacterNode.class, CharacterNode.class));
-                            put("number", new Pair(NumberNode.class, NumberNode.class));
-                            put("object", new Pair(ObjectNode.class, ObjectNode.class));
-                            put("string", new Pair(StringNode.class, StringNode.class));
+                        new HashMap<String, Pair<Class<? extends Node>, Class<? extends Node>>>(){{
+                            put("array", new Pair<>(ArrayNode.class, ArrayNode.class));
+                            put("boolean", new Pair<>(BooleanNode.class, BooleanNode.class));
+                            put("character", new Pair<>(CharacterNode.class, CharacterNode.class));
+                            put("number", new Pair<>(NumberNode.class, NumberNode.class));
+                            put("object", new Pair<>(ObjectNode.class, ObjectNode.class));
+                            put("string", new Pair<>(StringNode.class, StringNode.class));
                         }},
                         true
                 },
                 {
-                        new HashMap<String, Pair>(){{
-                            put("array", new Pair(ArrayNode.class, ArrayNode.class));
-                            put("boolean", new Pair(BooleanNode.class, BooleanNode.class));
-                            put("character", new Pair(CharacterNode.class, CharacterNode.class));
-                            put("number", new Pair(NumberNode.class, NumberNode.class));
-                            put("object", new Pair(ObjectNode.class, ObjectNode.class));
-                            put("string", new Pair(StringNode.class, NumberNode.class));
+                        new HashMap<String, Pair<Class<? extends Node>, Class<? extends Node>>>(){{
+                            put("array", new Pair<>(ArrayNode.class, ArrayNode.class));
+                            put("boolean", new Pair<>(BooleanNode.class, BooleanNode.class));
+                            put("character", new Pair<>(CharacterNode.class, CharacterNode.class));
+                            put("number", new Pair<>(NumberNode.class, NumberNode.class));
+                            put("object", new Pair<>(ObjectNode.class, ObjectNode.class));
+                            put("string", new Pair<>(StringNode.class, NumberNode.class));
                         }},
                         false
                 },
@@ -52,23 +53,23 @@ public class SkeletonCollectorCheckingProcessTest {
     @ParameterizedTest
     @MethodSource("getTestDataForHandleAdd")
     void testHandleAndAdd(
-            Map<String, Pair> data,
+            Map<String, Pair<Class<? extends Node>, Class<? extends Node>>> data,
             boolean result
     ){
         Map<String, Class<? extends Node>> results = new HashMap<>();
         SkeletonCollectorCheckingProcess process = new SkeletonCollectorCheckingProcess();
-        for (Map.Entry<String, Pair> entry : data.entrySet()) {
-            process.addHandler(entry.getValue().init, new NodeProcessHandler(entry.getKey(), results, process));
+        for (Map.Entry<String, Pair<Class<? extends Node>, Class<? extends Node>>> entry : data.entrySet()) {
+            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
         }
 
         Collector collector = createCollector();
         collector.apply(process);
 
         boolean check = true;
-        for (Map.Entry<String, Pair> entry : data.entrySet()) {
+        for (Map.Entry<String, Pair<Class<? extends Node>, Class<? extends Node>>> entry : data.entrySet()) {
             String key = entry.getKey();
             if (results.containsKey(key)){
-                if (!results.get(key).equals(entry.getValue().check)){
+                if (!results.get(key).equals(entry.getValue().second)){
                     check = false;
                     break;
                 } else {
@@ -83,6 +84,88 @@ public class SkeletonCollectorCheckingProcessTest {
         check &= results.size() == 0;
 
         assertThat(check).isEqualTo(result);
+    }
+
+    private static Object[][] getTestDataSetResult(){
+        return new Object[][]{
+                {
+                        new HashMap<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>>(){{
+                            put(ArrayNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, ArrayNode.class));
+                            put(BooleanNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, BooleanNode.class));
+                            put(CharacterNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, CharacterNode.class));
+                            put(NumberNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, NumberNode.class));
+                            put(ObjectNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, ObjectNode.class));
+                            put(StringNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, StringNode.class));
+                        }},
+                        CollectorCheckingResult.INCLUDE
+                },
+                {
+                        new HashMap<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>>(){{
+                            put(ArrayNode.class, new Pair<>(CollectorCheckingResult.EXCLUDE, ArrayNode.class));
+                            put(BooleanNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, BooleanNode.class));
+                            put(CharacterNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, CharacterNode.class));
+                            put(NumberNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, NumberNode.class));
+                            put(ObjectNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, ObjectNode.class));
+                            put(StringNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, StringNode.class));
+                        }},
+                        CollectorCheckingResult.EXCLUDE
+                },
+                {
+                        new HashMap<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>>(){{
+                            put(ArrayNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, ArrayNode.class));
+                            put(BooleanNode.class, new Pair<>(CollectorCheckingResult.NONE, BooleanNode.class));
+                            put(CharacterNode.class, new Pair<>(CollectorCheckingResult.NONE, CharacterNode.class));
+                            put(NumberNode.class, new Pair<>(CollectorCheckingResult.NONE, NumberNode.class));
+                            put(ObjectNode.class, new Pair<>(CollectorCheckingResult.NONE, ObjectNode.class));
+                            put(StringNode.class, new Pair<>(CollectorCheckingResult.NONE, StringNode.class));
+                        }},
+                        CollectorCheckingResult.INCLUDE
+                },
+                {
+                        new HashMap<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>>(){{
+                            put(ArrayNode.class, new Pair<>(CollectorCheckingResult.EXCLUDE, ArrayNode.class));
+                            put(BooleanNode.class, new Pair<>(CollectorCheckingResult.INCLUDE, BooleanNode.class));
+                            put(CharacterNode.class, new Pair<>(CollectorCheckingResult.NONE, CharacterNode.class));
+                            put(NumberNode.class, new Pair<>(CollectorCheckingResult.NONE, NumberNode.class));
+                            put(ObjectNode.class, new Pair<>(CollectorCheckingResult.NONE, ObjectNode.class));
+                            put(StringNode.class, new Pair<>(CollectorCheckingResult.NONE, StringNode.class));
+                        }},
+                        CollectorCheckingResult.EXCLUDE
+                },
+                {
+                        new HashMap<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>>(){{
+                            put(ArrayNode.class, new Pair<>(CollectorCheckingResult.NONE, ArrayNode.class));
+                            put(BooleanNode.class, new Pair<>(CollectorCheckingResult.NONE, BooleanNode.class));
+                            put(CharacterNode.class, new Pair<>(CollectorCheckingResult.NONE, CharacterNode.class));
+                            put(NumberNode.class, new Pair<>(CollectorCheckingResult.NONE, NumberNode.class));
+                            put(ObjectNode.class, new Pair<>(CollectorCheckingResult.NONE, ObjectNode.class));
+                            put(StringNode.class, new Pair<>(CollectorCheckingResult.NONE, StringNode.class));
+                        }},
+                        CollectorCheckingResult.NONE
+                }
+        };
+    }
+
+    @DisplayName(" setResult")
+    @ParameterizedTest
+    @MethodSource("getTestDataSetResult")
+    void testSetResult(
+            Map<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>> data,
+            CollectorCheckingResult result
+    ){
+        Map<String, Class<? extends Node>> results = new HashMap<>();
+        SkeletonCollectorCheckingProcess process = new SkeletonCollectorCheckingProcess();
+        for (Map.Entry<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>> entry : data.entrySet()) {
+            process.addHandler(
+                    entry.getKey(),
+                    new SetterProgressHandler(entry.getValue().first, process, entry.getValue().second)
+            );
+        }
+
+        Collector collector = createCollector();
+        collector.apply(process);
+
+        assertThat(process.getResult()).isEqualTo(result);
     }
 
     private static Collector createCollector(){
@@ -127,6 +210,30 @@ public class SkeletonCollectorCheckingProcessTest {
         }
     }
 
+    private static class SetterProgressHandler implements CollectorProcessHandler {
+
+        private final CollectorCheckingResult result;
+        private final CollectorCheckingProcess process;
+        private final Class<? extends Node> clazz;
+
+        public SetterProgressHandler(CollectorCheckingResult result, CollectorCheckingProcess process, Class<? extends Node> clazz) {
+            this.result = result;
+            this.process = process;
+            this.clazz = clazz;
+        }
+
+        @Override
+        public void handle(Node node) {
+            process.setResult(clazz, result);
+            if (node.isObject()){
+                ObjectNode objectNode = (ObjectNode) node;
+                for (Map.Entry<String, Node> entry : objectNode.getChildren().entrySet()) {
+                    entry.getValue().apply(process);
+                }
+            }
+        }
+    }
+
     private static class TestCollectorStructure implements CollectorStructure{
         @Override
         public List<String> getPath(EntityItem entityItem) {
@@ -134,13 +241,13 @@ public class SkeletonCollectorCheckingProcessTest {
         }
     }
 
-    private static class Pair{
-        Class<? extends Node> init;
-        Class<? extends Node> check;
+    private static class Pair<T, K>{
+        T first;
+        K second;
 
-        public Pair(Class<? extends Node> init, Class<? extends Node> check) {
-            this.init = init;
-            this.check = check;
+        public Pair(T first, K second) {
+            this.first = first;
+            this.second = second;
         }
     }
 }
