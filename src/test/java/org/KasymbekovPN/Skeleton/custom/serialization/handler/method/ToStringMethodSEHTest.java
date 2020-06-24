@@ -80,6 +80,11 @@ public class ToStringMethodSEHTest {
         public void serialize(Class<?> clazz) {
             handler.handle(clazz, collector);
         }
+
+        @Override
+        public void apply(CollectorProcess collectorProcess) {
+
+        }
     }
 
     private static class TestCollectorProcess implements CollectorProcess{

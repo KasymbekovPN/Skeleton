@@ -547,6 +547,11 @@ public class ExtendedTypeMemberSEHTest {
                 handler.handle(field, collector);
             }
         }
+
+        @Override
+        public void apply(CollectorProcess collectorProcess) {
+
+        }
     }
 
     private static class TestCollectorProcess implements CollectorProcess {

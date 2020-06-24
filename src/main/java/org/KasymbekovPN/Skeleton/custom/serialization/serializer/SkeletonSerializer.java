@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
@@ -31,6 +32,11 @@ public class SkeletonSerializer implements Serializer {
         }
         handlers.get(SerializerEI.constructorEI()).handle(clazz, collector);
         handlers.get(SerializerEI.methodEI()).handle(clazz, collector);
+    }
+
+    @Override
+    public void apply(CollectorProcess collectorProcess) {
+        collector.apply(collectorProcess);
     }
 
     static public class Builder{

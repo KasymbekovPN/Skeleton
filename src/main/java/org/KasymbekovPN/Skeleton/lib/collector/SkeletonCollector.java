@@ -40,7 +40,8 @@ public class SkeletonCollector implements Collector {
     public void reset() {
         while (target.getParent() != null){
             target = target.getParent();
-            end();
+            //<
+//            end();
         }
     }
 
@@ -151,6 +152,14 @@ public class SkeletonCollector implements Collector {
         return bufferNode != null && bufferNode.getClass().equals(clazz)
                 ? Optional.of(bufferNode)
                 : Optional.empty();
+    }
+
+    @Override
+    public Node getRoot() {
+        Node root = this.root;
+        clear();
+
+        return root;
     }
 
     private void setEachTarget(List<String> path){

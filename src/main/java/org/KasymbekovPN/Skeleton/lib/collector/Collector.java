@@ -36,4 +36,6 @@ public interface Collector {
     CollectorStructure getCollectorStructure();
 
     Optional<Node> getNodeByPath(Node node, List<String> path, Class<? extends Node> clazz);
+
+    Node getRoot();
 }
