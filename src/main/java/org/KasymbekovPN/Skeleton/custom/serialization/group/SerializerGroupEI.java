@@ -9,7 +9,7 @@ public class SerializerGroupEI implements EntityItem {
 
     private Entity entity;
 
-    private static EntityItem commonEI(){
+    public static EntityItem commonEI(){
         return new SerializerGroupEI(Entity.COMMON);
     }
 

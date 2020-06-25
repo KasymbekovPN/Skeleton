@@ -42,11 +42,11 @@ public class SkeletonSerializerGroup implements SerializerGroup {
     public void handle(EntityItem serializerKey, Class<?> clazz) {
         saveSerializedData(
                 clazz,
-                serializerAndGet(serializerKey, clazz)
+                serializeAndGet(serializerKey, clazz)
         );
     }
 
-    private Serializer serializerAndGet(EntityItem serializerKey, Class<?> clazz){
+    private Serializer serializeAndGet(EntityItem serializerKey, Class<?> clazz){
         Serializer serializer = serializers.get(serializerKey);
         serializer.serialize(clazz);
 
@@ -60,9 +60,14 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         prepareClasses.put(clazz, root);
     }
 
+    //< rename method
     @Override
-    public void visit(SerializerGroupHandler handler) {
+    public void accept(SerializerGroupHandler handler) {
+        handler.visit(this);
+    }
 
+    public Map<Class<?>, Node> getPrepareClasses() {
+        return prepareClasses;
     }
 
     public static class Builder{
@@ -76,8 +81,10 @@ public class SkeletonSerializerGroup implements SerializerGroup {
             this.extractionCollectorProcess = extractionCollectorProcess;
         }
 
-        void addSerializer(EntityItem serializerKey, Serializer serializer){
+        public Builder addSerializer(EntityItem serializerKey, Serializer serializer){
             serializers.put(serializerKey, serializer);
+
+            return this;
         }
 
         public SerializerGroup build() throws Exception {

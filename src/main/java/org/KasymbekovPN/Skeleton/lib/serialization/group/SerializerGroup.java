@@ -5,5 +5,5 @@ import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroup
 
 public interface SerializerGroup {
     void handle(EntityItem serializerKey, Class<?> clazz);
-    void visit(SerializerGroupHandler handler);
+    void accept(SerializerGroupHandler handler);
 }
