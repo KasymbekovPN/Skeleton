@@ -25,6 +25,16 @@ public class ArrayNode implements Node {
     }
 
     @Override
+    public Node deepCopy(Node parent) {
+        ArrayNode arrayNode = new ArrayNode(parent);
+        for (Node child : children) {
+            arrayNode.children.add(child.deepCopy(arrayNode));
+        }
+
+        return arrayNode;
+    }
+
+    @Override
     public Optional<Node> addChild(Node value) {
         children.add(value);
         return Optional.of(value);

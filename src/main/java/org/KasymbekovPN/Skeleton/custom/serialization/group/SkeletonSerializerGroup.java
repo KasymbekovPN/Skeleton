@@ -7,7 +7,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.SerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.exceptions.SerializerGroupBuildException;
-import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupVisitor;
 import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
 
 import java.util.HashMap;
@@ -57,13 +57,14 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         Node root = new ObjectNode(null);
         new RootNodeExtractionHandler(root, extractionCollectorProcess, ObjectNode.class);
         serializer.apply(extractionCollectorProcess);
+        serializer.clear();
         prepareClasses.put(clazz, root);
     }
 
     //< rename method
     @Override
-    public void accept(SerializerGroupHandler handler) {
-        handler.visit(this);
+    public void accept(SerializerGroupVisitor visitor) {
+        visitor.visit(this);
     }
 
     public Map<Class<?>, Node> getPrepareClasses() {

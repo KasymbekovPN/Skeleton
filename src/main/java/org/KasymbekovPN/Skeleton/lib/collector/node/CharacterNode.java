@@ -7,6 +7,11 @@ public class CharacterNode extends PrimitiveNode<Character> {
     }
 
     @Override
+    public Node deepCopy(Node parent) {
+        return new CharacterNode(parent, value);
+    }
+
+    @Override
     public boolean isCharacter() {
         return true;
     }

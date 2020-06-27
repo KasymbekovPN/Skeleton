@@ -1,13 +1,17 @@
 package org.KasymbekovPN.Skeleton.custom.serialization;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
+import org.KasymbekovPN.Skeleton.custom.serialization.classes.TC0;
+import org.KasymbekovPN.Skeleton.custom.serialization.classes.TC1;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.SerializerGroupEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.SkeletonSerializerGroup;
+import org.KasymbekovPN.Skeleton.custom.serialization.group.handler.SkeletonSerializerGroupVisitor;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.ClassAnnotationDataSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.ClassSignatureSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor.ConstructorClassSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.ContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.CustomMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.method.ToStringMethodSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.serializer.SkeletonSerializer;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
@@ -16,6 +20,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.SkeletonCollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.SerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.utils.checking.TypeChecker;
@@ -49,10 +54,26 @@ public class SkeletonSerializerGroupTest {
                 .addConstructorHandler(new ConstructorClassSEH(sac, cch))
                 .addMemberHandler(new ContainerMemberSEH(Set.class, skeletonCAC, sac, cch))
                 .addMemberHandler(new CustomMemberSEH(sac, cch))
+                .addMethodHandler(new ToStringMethodSEH(sac, cch))
                 .build();
 
+        EntityItem sgKey = SerializerGroupEI.commonEI();
+
         SerializerGroup serializerGroup = new SkeletonSerializerGroup.Builder(new SkeletonCollectorProcess())
-                .addSerializer(SerializerGroupEI.commonEI(), serializer)
+                .addSerializer(sgKey, serializer)
                 .build();
+
+        serializerGroup.handle(sgKey, TC0.class);
+        serializerGroup.handle(sgKey, TC1.class);
+
+        Set<String> systemTypes = new HashSet<>(){{
+            add("int");
+        }};
+
+        SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
+                new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
+                systemTypes
+        );
+        serializerGroup.accept(visitor);
     }
 }

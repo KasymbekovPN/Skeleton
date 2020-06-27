@@ -5,9 +5,14 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementations of Node must implement constructor:
+ *  1. ImplementationName(Node parent)
+ */
 public interface Node {
     void apply(CollectorProcess collectorProcess);
     Node getParent();
+    Node deepCopy(Node parent);
     default Optional<Node> addChild(String property, Node value) {
         return Optional.empty();
     };
@@ -24,4 +29,5 @@ public interface Node {
     default boolean isString() {return false;}
     default Optional<Node> getChild(List<String> path, Class<? extends  Node> clazz) {return Optional.empty();}
     default Optional<Node> get(String property, Class<? extends Node> clazz) {return Optional.empty();}
+    default void deepSet(Node node){}
 }

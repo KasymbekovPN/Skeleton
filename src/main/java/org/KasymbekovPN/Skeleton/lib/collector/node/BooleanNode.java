@@ -7,6 +7,11 @@ public class BooleanNode extends PrimitiveNode<Boolean> {
     }
 
     @Override
+    public Node deepCopy(Node parent) {
+        return new BooleanNode(parent, value);
+    }
+
+    @Override
     public boolean isBoolean() {
         return true;
     }

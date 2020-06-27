@@ -7,6 +7,11 @@ public class StringNode extends PrimitiveNode<String> {
     }
 
     @Override
+    public Node deepCopy(Node parent) {
+        return new StringNode(parent, value);
+    }
+
+    @Override
     public boolean isString() {
         return true;
     }

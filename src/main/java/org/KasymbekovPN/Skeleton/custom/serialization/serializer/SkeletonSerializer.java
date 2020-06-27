@@ -39,6 +39,11 @@ public class SkeletonSerializer implements Serializer {
         collector.apply(collectorProcess);
     }
 
+    @Override
+    public void clear() {
+        collector.clear();
+    }
+
     static public class Builder{
 
         private final Collector collector;

@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.collector.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.slf4j.Logger;
@@ -67,6 +68,17 @@ public class SkeletonCollectorCheckingHandler implements CollectorCheckingHandle
         Map<String, CollectorCheckingResult> results = new HashMap<>();
         for (Map.Entry<String, CollectorCheckingProcess> entry : processes.entrySet()) {
             collector.apply(entry.getValue());
+            results.put(entry.getKey(), entry.getValue().getResult());
+        }
+
+        return results;
+    }
+
+    @Override
+    public Map<String, CollectorCheckingResult> handle(Node node) {
+        Map<String, CollectorCheckingResult> results = new HashMap<>();
+        for (Map.Entry<String, CollectorCheckingProcess> entry : processes.entrySet()) {
+            node.apply(entry.getValue());
             results.put(entry.getKey(), entry.getValue().getResult());
         }
 

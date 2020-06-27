@@ -40,6 +40,16 @@ public class ObjectNode implements Node {
     }
 
     @Override
+    public Node deepCopy(Node parent) {
+        ObjectNode objectNode = new ObjectNode(parent);
+        for (Map.Entry<String, Node> entry : children.entrySet()) {
+            objectNode.children.put(entry.getKey(), entry.getValue().deepCopy(objectNode));
+        }
+
+        return objectNode;
+    }
+
+    @Override
     public void apply(CollectorProcess collectorProcess) {
         collectorProcess.handle(this);
     }
@@ -86,6 +96,15 @@ public class ObjectNode implements Node {
         return bufferNode != null && bufferNode.getClass().equals(clazz)
                 ? Optional.of(bufferNode)
                 : Optional.empty();
+    }
+
+    @Override
+    public void deepSet(Node node) {
+        if (node.isObject()){
+            ObjectNode objectNode = (ObjectNode) node;
+            parent = objectNode.getParent();
+            children = objectNode.getChildren();
+        }
     }
 
     @Override

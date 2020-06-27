@@ -7,6 +7,11 @@ public class NumberNode extends PrimitiveNode<Number> {
     }
 
     @Override
+    public Node deepCopy(Node parent) {
+        return new NumberNode(parent, value);
+    }
+
+    @Override
     public boolean isNumber() {
         return true;
     }

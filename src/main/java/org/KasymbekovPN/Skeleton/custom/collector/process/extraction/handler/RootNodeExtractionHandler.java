@@ -3,8 +3,12 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.extraction.handler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RootNodeExtractionHandler implements CollectorProcessHandler {
+
+    static private final Logger log = LoggerFactory.getLogger(RootNodeExtractionHandler.class);
 
     private Node root;
 
@@ -16,7 +20,7 @@ public class RootNodeExtractionHandler implements CollectorProcessHandler {
     @Override
     public void handle(Node node) {
         if (node.isObject()) {
-            //< deepcopy to root
+            root.deepSet(node.deepCopy(root.getParent()));
         }
     }
 }

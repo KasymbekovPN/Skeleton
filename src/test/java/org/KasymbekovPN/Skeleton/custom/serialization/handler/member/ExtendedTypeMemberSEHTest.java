@@ -552,6 +552,11 @@ public class ExtendedTypeMemberSEHTest {
         public void apply(CollectorProcess collectorProcess) {
 
         }
+
+        @Override
+        public void clear() {
+
+        }
     }
 
     private static class TestCollectorProcess implements CollectorProcess {
