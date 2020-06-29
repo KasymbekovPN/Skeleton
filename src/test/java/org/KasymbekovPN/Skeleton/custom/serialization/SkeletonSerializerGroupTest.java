@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.serialization;
 
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.*;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.TC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.TC1;
@@ -18,8 +19,10 @@ import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecke
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.SkeletonCollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.SerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
@@ -30,6 +33,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @DisplayName("SkeletonSerializerGroup: Testing of:")
@@ -70,10 +74,24 @@ public class SkeletonSerializerGroupTest {
             add("int");
         }};
 
+        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
+        new ObjectWritingHandler(process, ObjectNode.class);
+        new ArrayWritingHandler(process, ArrayNode.class);
+        new BooleanWritingHandler(process, BooleanNode.class);
+        new CharacterWritingHandler(process, CharacterNode.class);
+        new NumberWritingHandler(process, NumberNode.class);
+        new StringWritingHandler(process, StringNode.class);
+
         SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
                 new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
+                process,
                 systemTypes
         );
         serializerGroup.accept(visitor);
+
+        //<
+        Optional<String> mayBeData = visitor.getData();
+        mayBeData.ifPresent(System.out::println);
+        //<
     }
 }
