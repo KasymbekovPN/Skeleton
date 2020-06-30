@@ -16,4 +16,6 @@ public interface CollectorCheckingHandler {
     Optional<CollectorCheckingProcess> get(String processName);
     Map<String, CollectorCheckingResult> handle(Collector collector);
     Map<String, CollectorCheckingResult> handle(Node node);
+    CollectorCheckingResult handle(String processId, Collector collector);
+    CollectorCheckingResult handle(String processId, Node node);
 }

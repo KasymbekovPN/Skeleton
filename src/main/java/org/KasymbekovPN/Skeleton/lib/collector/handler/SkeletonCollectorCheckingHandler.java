@@ -84,4 +84,26 @@ public class SkeletonCollectorCheckingHandler implements CollectorCheckingHandle
 
         return results;
     }
+
+    @Override
+    public CollectorCheckingResult handle(String processId, Collector collector) {
+        CollectorCheckingResult result = CollectorCheckingResult.NONE;
+        if (processes.containsKey(processId)){
+            collector.apply(processes.get(processId));
+            result = processes.get(processId).getResult();
+        }
+
+        return result;
+    }
+
+    @Override
+    public CollectorCheckingResult handle(String processId, Node node) {
+        CollectorCheckingResult result = CollectorCheckingResult.NONE;
+        if (processes.containsKey(processId)){
+            node.apply(processes.get(processId));
+            result = processes.get(processId).getResult();
+        }
+
+        return result;
+    }
 }

@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.group.handler;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.MemberTypeCheckingHandler;
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.SkeletonSerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
@@ -8,6 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupVisitor;
 
 import java.util.*;
@@ -16,7 +18,8 @@ import java.util.stream.Collectors;
 //< need test
 public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
 
-    private final static String MEMBER_TYPE_CHECKING = "MEMBER_TYPE_CHECKING";
+//    private final static String MEMBER_TYPE_CHECKING = "MEMBER_TYPE_CHECKING";
+    //<
 
     private final CollectorCheckingHandler collectorCheckingHandler;
     private final CollectorWritingProcess collectorWritingProcess;
@@ -32,7 +35,9 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
         this.collectorWritingProcess = collectorWritingProcess;
         this.systemTypes = systemTypes;
 
-        this.collectorCheckingHandler.add(MEMBER_TYPE_CHECKING);
+        //<
+//        this.collectorCheckingHandler.add(MEMBER_TYPE_CHECKING);
+        //<
 
         this.data = "";
         this.dataIsValid = false;
@@ -45,15 +50,15 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
     @Override
     public void visit(SkeletonSerializerGroup skeletonSerializerGroup) {
         Map<Class<?>, Node> prepareClasses = skeletonSerializerGroup.getPrepareClasses();
-        //<
-        List<String> path = new ArrayList<>(){{add("members");}};
-        //<
+        Map<Class<?>, CollectorStructure> collectorStructureByClasses
+                = skeletonSerializerGroup.getCollectorStructureByClasses();
         dataIsValid = false;
 
         Set<String> knownTypes = getKnownTypes(prepareClasses);
-        addProcessHandler(knownTypes, path);
-        dataIsValid = checkPrepareClasses(prepareClasses);
-        if (dataIsValid){
+        Map<Class<?>, String> processIdByClass = addCheckingProcesses(knownTypes, collectorStructureByClasses);
+
+        dataIsValid = checkPrepareClasses(prepareClasses, processIdByClass);
+        if (dataIsValid) {
             ObjectNode allClassesObjectNode = collectAllPreparedClasses(prepareClasses);
             allClassesObjectNode.apply(collectorWritingProcess);
             data = collectorWritingProcess.getBuffer().toString();
@@ -68,23 +73,44 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
         return knownTypes;
     }
 
-    private void addProcessHandler(Set<String> knownTypes, List<String> path){
-        Optional<CollectorCheckingProcess> maybeProcess = collectorCheckingHandler.get(MEMBER_TYPE_CHECKING);
-        maybeProcess.ifPresent(process -> {
-            new MemberTypeCheckingHandler(
-                    process,
-                    knownTypes,
-                    ObjectNode.class,
-                    path
-            );
-        });
+    private Map<Class<?>, String> addCheckingProcesses(Set<String> knownTypes,
+                                                       Map<Class<?>, CollectorStructure> collectorStructureByClasses){
+        Map<Class<?>, String> processIdByClass = new HashMap<>();
+        Set<String> processIds = new HashSet<>();
+
+        for (Map.Entry<Class<?>, CollectorStructure> entry : collectorStructureByClasses.entrySet()) {
+            List<String> path = entry.getValue().getPath(CollectorStructureEI.membersEI());
+            String processId = String.valueOf(path.hashCode());
+
+            processIdByClass.put(entry.getKey(), processId);
+
+            if (!processIds.contains(processId)){
+                processIds.add(processId);
+
+                Optional<CollectorCheckingProcess> mayBeProcess = collectorCheckingHandler.add(processId);
+                mayBeProcess.ifPresent(process -> {
+                    new MemberTypeCheckingHandler(
+                            process,
+                            knownTypes,
+                            ObjectNode.class,
+                            path
+                    );
+                });
+            }
+        }
+
+        return processIdByClass;
     }
 
-    private boolean checkPrepareClasses(Map<Class<?>, Node> prepareClasses){
+    private boolean checkPrepareClasses(Map<Class<?>, Node> prepareClasses, Map<Class<?>, String> processIdByClass){
+
         for (Map.Entry<Class<?>, Node> entry : prepareClasses.entrySet()) {
-            Map<String, CollectorCheckingResult> results = collectorCheckingHandler.handle(entry.getValue());
-            if (!results.containsKey(MEMBER_TYPE_CHECKING) ||
-                results.get(MEMBER_TYPE_CHECKING) != CollectorCheckingResult.INCLUDE){
+            Class<?> clazz = entry.getKey();
+            Node node = entry.getValue();
+            String processId = processIdByClass.get(clazz);
+
+            CollectorCheckingResult result = collectorCheckingHandler.handle(processId, node);
+            if (!result.equals(CollectorCheckingResult.INCLUDE)){
                 return false;
             }
         }

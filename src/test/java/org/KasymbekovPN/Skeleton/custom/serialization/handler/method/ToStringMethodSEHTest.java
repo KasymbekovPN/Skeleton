@@ -90,6 +90,16 @@ public class ToStringMethodSEHTest {
         public void clear() {
 
         }
+
+        @Override
+        public void setCollector(Collector collector) {
+
+        }
+
+        @Override
+        public Collector getCollector() {
+            return null;
+        }
     }
 
     private static class TestCollectorProcess implements CollectorProcess{

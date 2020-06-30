@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.collector.process.extraction.handler.Roo
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.SerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.exceptions.SerializerGroupBuildException;
@@ -17,33 +18,22 @@ import java.util.Optional;
 //< need test
 public class SkeletonSerializerGroup implements SerializerGroup {
 
-//    private final Collector collector;
-    //<
     private final Map<EntityItem, Serializer> serializers;
     private final CollectorProcess extractionCollectorProcess;
-    //<
-//    private final CollectorWritingProcess collectorWritingProcess;
 
     private Map<Class<?>, Node> prepareClasses = new HashMap<>();
+    private Map<Class<?>, CollectorStructure> collectorStructureByClasses = new HashMap<>();
 
     private SkeletonSerializerGroup(Map<EntityItem, Serializer> serializers, CollectorProcess extractionCollectorProcess) {
         this.serializers = serializers;
         this.extractionCollectorProcess = extractionCollectorProcess;
     }
-    //<
-//    private SkeletonSerializerGroup(Collector collector, Map<EntityItem, Serializer> serializers, CollectorWritingProcess collectorWritingProcess) {
-//        this.collector = collector;
-//        this.serializers = serializers;
-//        this.collectorWritingProcess = collectorWritingProcess;
-//    }
 
-    //< may be rename - serializeAndSave
     @Override
     public void handle(EntityItem serializerKey, Class<?> clazz) {
-        saveSerializedData(
-                clazz,
-                serializeAndGet(serializerKey, clazz)
-        );
+        Serializer serializer = serializeAndGet(serializerKey, clazz);
+        Node extractedData = extractPreparedData(serializer);
+        saveDataForClazz(clazz, extractedData, serializer.getCollector().getCollectorStructure());
     }
 
     private Serializer serializeAndGet(EntityItem serializerKey, Class<?> clazz){
@@ -53,15 +43,20 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         return serializer;
     }
 
-    private void saveSerializedData(Class<?> clazz, Serializer serializer){
-        Node root = new ObjectNode(null);
-        new RootNodeExtractionHandler(root, extractionCollectorProcess, ObjectNode.class);
+    private Node extractPreparedData(Serializer serializer){
+        Node extractedData = new ObjectNode(null);
+        new RootNodeExtractionHandler(extractedData, extractionCollectorProcess, ObjectNode.class);
         serializer.apply(extractionCollectorProcess);
         serializer.clear();
-        prepareClasses.put(clazz, root);
+
+        return extractedData;
     }
 
-    //< rename method
+    void saveDataForClazz(Class<?> clazz, Node extractedData, CollectorStructure collectorStructure){
+        prepareClasses.put(clazz, extractedData);
+        collectorStructureByClasses.put(clazz, collectorStructure);
+    }
+
     @Override
     public void accept(SerializerGroupVisitor visitor) {
         visitor.visit(this);
@@ -71,10 +66,12 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         return prepareClasses;
     }
 
+    public Map<Class<?>, CollectorStructure> getCollectorStructureByClasses() {
+        return collectorStructureByClasses;
+    }
+
     public static class Builder{
 
-//        private final Collector collector;
-        //<
         private final CollectorProcess extractionCollectorProcess;
         private final Map<EntityItem, Serializer> serializers = new HashMap<>();
 
@@ -84,7 +81,6 @@ public class SkeletonSerializerGroup implements SerializerGroup {
 
         public Builder addSerializer(EntityItem serializerKey, Serializer serializer){
             serializers.put(serializerKey, serializer);
-
             return this;
         }
 

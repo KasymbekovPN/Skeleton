@@ -17,7 +17,8 @@ public class SkeletonSerializer implements Serializer {
     private static final Logger log = LoggerFactory.getLogger(SkeletonSerializer.class);
 
     private final Map<EntityItem, SerializationElementHandler> handlers;
-    private final Collector collector;
+
+    private Collector collector;
 
     private SkeletonSerializer(Map<EntityItem, SerializationElementHandler> handlers, Collector collector) {
         this.handlers = handlers;
@@ -42,6 +43,16 @@ public class SkeletonSerializer implements Serializer {
     @Override
     public void clear() {
         collector.clear();
+    }
+
+    @Override
+    public void setCollector(Collector collector) {
+        this.collector = collector;
+    }
+
+    @Override
+    public Collector getCollector() {
+        return collector;
     }
 
     static public class Builder{
