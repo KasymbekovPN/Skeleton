@@ -40,8 +40,6 @@ public class SkeletonCollector implements Collector {
     public void reset() {
         while (target.getParent() != null){
             target = target.getParent();
-            //<
-//            end();
         }
     }
 

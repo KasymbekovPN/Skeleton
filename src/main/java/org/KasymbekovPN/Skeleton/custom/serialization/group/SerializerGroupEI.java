@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 
 import java.util.Objects;
 
-//< need test
 public class SerializerGroupEI implements EntityItem {
 
     private Entity entity;

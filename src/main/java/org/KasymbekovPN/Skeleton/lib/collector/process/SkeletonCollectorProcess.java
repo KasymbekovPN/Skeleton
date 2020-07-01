@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-//< need test
 public class SkeletonCollectorProcess implements CollectorProcess{
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonCollectorProcess.class);

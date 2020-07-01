@@ -89,9 +89,7 @@ public class SkeletonSerializerGroupTest {
         );
         serializerGroup.accept(visitor);
 
-        //<
         Optional<String> mayBeData = visitor.getData();
         mayBeData.ifPresent(System.out::println);
-        //<
     }
 }

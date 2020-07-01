@@ -15,11 +15,7 @@ import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroup
 import java.util.*;
 import java.util.stream.Collectors;
 
-//< need test
 public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
-
-//    private final static String MEMBER_TYPE_CHECKING = "MEMBER_TYPE_CHECKING";
-    //<
 
     private final CollectorCheckingHandler collectorCheckingHandler;
     private final CollectorWritingProcess collectorWritingProcess;
@@ -34,10 +30,6 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
         this.collectorCheckingHandler = collectorCheckingHandler;
         this.collectorWritingProcess = collectorWritingProcess;
         this.systemTypes = systemTypes;
-
-        //<
-//        this.collectorCheckingHandler.add(MEMBER_TYPE_CHECKING);
-        //<
 
         this.data = "";
         this.dataIsValid = false;
