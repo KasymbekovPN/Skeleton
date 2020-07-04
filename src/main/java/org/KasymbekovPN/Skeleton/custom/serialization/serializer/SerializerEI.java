@@ -24,6 +24,10 @@ public class SerializerEI implements EntityItem {
         return new SerializerEI(Entity.METHOD);
     }
 
+    public SerializerEI() {
+        this.entity = Entity.CLASS;
+    }
+
     public SerializerEI(Entity entity) {
         this.entity = entity;
     }

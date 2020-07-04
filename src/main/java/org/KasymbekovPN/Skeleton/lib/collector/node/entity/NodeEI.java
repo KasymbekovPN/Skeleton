@@ -3,7 +3,8 @@ package org.KasymbekovPN.Skeleton.lib.collector.node.entity;
 import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class NodeEI implements EntityItem {
 
@@ -39,6 +40,18 @@ public class NodeEI implements EntityItem {
 
     public NodeEI(Entity entity) {
         this.entity = entity;
+    }
+
+    @Override
+    public boolean checkInstance(EntityItem instance) {
+        Set<NodeEI> collect = Arrays.stream(Entity.values()).map(NodeEI::new).collect(Collectors.toSet());
+        return collect.contains(instance);
+    }
+
+    @Override
+    public boolean checkInstancesStrict(Collection<EntityItem> instances) {
+        Set<NodeEI> collect = Arrays.stream(Entity.values()).map(NodeEI::new).collect(Collectors.toSet());
+        return collect.equals(instances);
     }
 
     @Override

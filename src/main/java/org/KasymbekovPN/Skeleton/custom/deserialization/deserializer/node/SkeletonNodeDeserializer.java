@@ -2,9 +2,12 @@ package org.KasymbekovPN.Skeleton.custom.deserialization.deserializer.node;
 
 import org.KasymbekovPN.Skeleton.exception.deserialization.deserializer.node.BuildException;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.SerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeDeserializer;
 import org.KasymbekovPN.Skeleton.lib.deserialization.handler.node.NodeDeserializerHandler;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -13,20 +16,44 @@ import java.util.Optional;
 
 public class SkeletonNodeDeserializer implements NodeDeserializer {
 
-    private final Map<EntityItem, NodeDeserializerHandler> handlers;
+    static private final Logger log = LoggerFactory.getLogger(SkeletonNodeDeserializer.class);
 
-    private SkeletonNodeDeserializer(Map<EntityItem, NodeDeserializerHandler> handlers) {
+    private final Map<EntityItem, NodeDeserializerHandler> handlers;
+    private final EntityItem checkingEI;
+
+    private SkeletonNodeDeserializer(Map<EntityItem, NodeDeserializerHandler> handlers,
+                                     EntityItem checkingEI) {
         this.handlers = handlers;
+        this.checkingEI = checkingEI;
     }
 
     @Override
-    public Node handle(String rawData) {
+    public Node handle(SerializedDataWrapper serializedDataWrapper) {
+        for (Map.Entry<EntityItem, NodeDeserializerHandler> entry : handlers.entrySet()) {
+            NodeDeserializerHandler handler = entry.getValue();
+            Optional<Node> mayBeNode = handler.handle(serializedDataWrapper);
+            if (mayBeNode.isPresent()){
+                return mayBeNode.get();
+            }
+        }
+
+        //< ??????
         return null;
     }
 
     @Override
     public void addHandler(EntityItem handlerId, NodeDeserializerHandler handler) {
+        if (checkEntityItemInstance(handlerId)){
+            handlers.put(handlerId, handler);
+        }
+    }
 
+    private boolean checkEntityItemInstance(EntityItem instance){
+        boolean checkingResult = checkingEI.checkInstance(instance);
+        if (!checkingResult){
+            log.info("{} is invalid ID", instance);
+        }
+        return checkingResult;
     }
 
     public static class Builder{
@@ -60,7 +87,7 @@ public class SkeletonNodeDeserializer implements NodeDeserializer {
             }
 
             if (message.isEmpty()){
-                return new SkeletonNodeDeserializer(handlers);
+                return new SkeletonNodeDeserializer(handlers, mayBeCheckingEI.get());
             } else {
                 throw new BuildException(message);
             }

@@ -6,10 +6,14 @@ import java.util.Objects;
 
 public class SerializerGroupEI implements EntityItem {
 
-    private Entity entity;
+    private final Entity entity;
 
     public static EntityItem commonEI(){
         return new SerializerGroupEI(Entity.COMMON);
+    }
+
+    public SerializerGroupEI() {
+        this.entity = Entity.COMMON;
     }
 
     public SerializerGroupEI(Entity entity) {

@@ -32,6 +32,10 @@ public class CollectorStructureEI implements EntityItem {
         return new CollectorStructureEI(Entity.PROTOCOL);
     }
 
+    public CollectorStructureEI() {
+        this.entity = Entity.CLASS;
+    }
+
     public CollectorStructureEI(Entity entity) {
         this.entity = entity;
     }
