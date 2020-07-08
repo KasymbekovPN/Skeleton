@@ -6,11 +6,16 @@ import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeSeria
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class SkeletonNodeDeserializer implements NodeDeserializer {
 
     static private final Logger log = LoggerFactory.getLogger(SkeletonNodeDeserializer.class);
 
     private final NodeSerializedDataWrapper dataWrapper;
+
+    private Deque<Handler> handlerStack = new ArrayDeque<>();
 
     public SkeletonNodeDeserializer(NodeSerializedDataWrapper dataWrapper) {
         this.dataWrapper = dataWrapper;
@@ -19,6 +24,61 @@ public class SkeletonNodeDeserializer implements NodeDeserializer {
     @Override
     public void deserialize(Collector collector) {
 
+    }
+
+    private interface Handler{
+        //< replace 'int' with more informative entity
+        int run();
+    }
+
+    private static class BaseHandlerImpl implements Handler{
+
+        protected final NodeSerializedDataWrapper dataWrapper;
+
+        public BaseHandlerImpl(NodeSerializedDataWrapper dataWrapper) {
+            this.dataWrapper = dataWrapper;
+        }
+
+        @Override
+        public int run() {
+            return 0;
+        }
+    }
+
+    private static class InitialHandler extends BaseHandlerImpl{
+
+        public InitialHandler(NodeSerializedDataWrapper dataWrapper) {
+            super(dataWrapper);
+        }
+
+        @Override
+        public int run() {
+            return 0;
+        }
+    }
+
+    private static class InnerJsonObjectHandler extends BaseHandlerImpl {
+
+        public InnerJsonObjectHandler(NodeSerializedDataWrapper dataWrapper) {
+            super(dataWrapper);
+        }
+
+        @Override
+        public int run() {
+            return 0;
+        }
+    }
+
+    private static class InnerJsonArrayHandler extends BaseHandlerImpl{
+
+        public InnerJsonArrayHandler(NodeSerializedDataWrapper dataWrapper) {
+            super(dataWrapper);
+        }
+
+        @Override
+        public int run() {
+            return super.run();
+        }
     }
 
 //<
