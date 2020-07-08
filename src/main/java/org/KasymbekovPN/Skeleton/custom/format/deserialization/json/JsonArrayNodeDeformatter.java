@@ -52,11 +52,11 @@ public class JsonArrayNodeDeformatter implements NodeDeformatter {
     }
 
     private List<NodeSerializedDataWrapper> splitDataWrapper(NodeSerializedDataWrapper dataWrapper){
-        DataSplitter dataSplitter = new DataSplitter();
-        String data = dataWrapper.getData();
-        for (int i = 0; i < data.length(); i++) {
-            dataSplitter.add(data.charAt(i));
-        }
+//        DataSplitter dataSplitter = new DataSplitter();
+//        String data = dataWrapper.getData();
+//        for (int i = 0; i < data.length(); i++) {
+//            dataSplitter.add(data.charAt(i));
+//        }
 
         //<
         return null;
