@@ -29,6 +29,11 @@ public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrap
         iterator.reset();
     }
 
+    @Override
+    public void dec() {
+        iterator.dec();
+    }
+
     private static class CharacterIterator implements Iterator<Character>{
 
         private final String str;
@@ -53,6 +58,12 @@ public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrap
 
         public void reset(){
             index = 0;
+        }
+
+        public void dec(){
+            if (index > 0){
+                index--;
+            }
         }
     }
 }
