@@ -2,11 +2,15 @@ package org.KasymbekovPN.Skeleton.custom.deserialization.deserializer.node;
 
 import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrapper {
+
+    private static final Logger log = LoggerFactory.getLogger(SkeletonNodeSerializedDataWrapper.class);
 
     private CharacterIterator iterator;
 
@@ -51,6 +55,9 @@ public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrap
 
         @Override
         public Character next() {
+            //<
+//            log.info("{}", index);
+            //<
             if (!hasNext())
                 throw new NoSuchElementException();
             return str.charAt(index++);

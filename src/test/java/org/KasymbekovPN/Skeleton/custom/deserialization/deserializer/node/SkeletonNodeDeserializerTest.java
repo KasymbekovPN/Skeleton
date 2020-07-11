@@ -15,13 +15,13 @@ public class SkeletonNodeDeserializerTest {
     @Test
     void test() throws Exception {
 
-        String testString = "{\"property1\" : true}";
+        String testString = "{\"property1\" : true, \"arrProperty\" : [true, false, true]}";
         StringDecoder decoder = new StringStringDecoder(testString);
         NodeSerializedDataWrapper dataWrapper = new SkeletonNodeSerializedDataWrapper(decoder);
         Collector collector = Utils.createCollector();
 
         SkeletonNodeDeserializer.InitialHandler handler
-                = new SkeletonNodeDeserializer.InitialHandler(dataWrapper, null, collector);
+                = new SkeletonNodeDeserializer.InitialHandler(dataWrapper, null, null);
 
         NodeDeserializer deserializer = new SkeletonNodeDeserializer(handler);
         deserializer.deserialize();

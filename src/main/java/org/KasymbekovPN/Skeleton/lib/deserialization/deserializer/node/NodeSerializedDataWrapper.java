@@ -8,5 +8,6 @@ public interface NodeSerializedDataWrapper extends SerializedDataWrapper {
     boolean hasNext();
     Character next();
     void reset();
+    //< rename
     void dec();
 }
