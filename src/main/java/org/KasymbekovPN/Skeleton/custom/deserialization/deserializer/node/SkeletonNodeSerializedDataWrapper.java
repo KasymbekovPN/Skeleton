@@ -34,7 +34,7 @@ public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrap
     }
 
     @Override
-    public void dec() {
+    public void decIterator() {
         iterator.dec();
     }
 
@@ -55,9 +55,6 @@ public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrap
 
         @Override
         public Character next() {
-            //<
-//            log.info("{}", index);
-            //<
             if (!hasNext())
                 throw new NoSuchElementException();
             return str.charAt(index++);

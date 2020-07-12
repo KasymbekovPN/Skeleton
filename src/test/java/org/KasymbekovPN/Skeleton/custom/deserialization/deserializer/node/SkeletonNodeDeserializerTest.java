@@ -1,8 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.deserialization.deserializer.node;
 
-import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
+import org.KasymbekovPN.Skeleton.custom.deserialization.handler.node.json.JsonNodeDeserializerHandler;
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
-import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeDeserializer;
 import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
@@ -15,15 +14,15 @@ public class SkeletonNodeDeserializerTest {
     @Test
     void test() throws Exception {
 
-        String testString = "{\"property1\" : true, \"arrProperty\" : [true, false, true]}";
+        String testString = "{\"strProp\" : \"hello\", \"objProp\" : {\"innerInt\" : 434},  \"property1\" : true, \"intProp\" : 123, \"charProp\" : 'x', \"arrProperty\" : [[true, 1213],\"str1\",{\"innerProp1\":true},true,'y', false, 12.67, true, 'z', 0.876, {\"innerProp2\":false}, \"str2\", [45, false]]}";
         StringDecoder decoder = new StringStringDecoder(testString);
         NodeSerializedDataWrapper dataWrapper = new SkeletonNodeSerializedDataWrapper(decoder);
-        Collector collector = Utils.createCollector();
 
-        SkeletonNodeDeserializer.InitialHandler handler
-                = new SkeletonNodeDeserializer.InitialHandler(dataWrapper, null, null);
-
+        JsonNodeDeserializerHandler handler = new JsonNodeDeserializerHandler(dataWrapper, null, null);
         NodeDeserializer deserializer = new SkeletonNodeDeserializer(handler);
         deserializer.deserialize();
+        //<
+        System.out.println(handler.getNode());
+        //<
     }
 }
