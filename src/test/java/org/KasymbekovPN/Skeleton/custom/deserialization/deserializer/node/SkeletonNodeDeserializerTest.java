@@ -1,9 +1,11 @@
 package org.KasymbekovPN.Skeleton.custom.deserialization.deserializer.node;
 
-import org.KasymbekovPN.Skeleton.custom.deserialization.handler.node.json.JsonNodeDeserializerHandler;
+import org.KasymbekovPN.Skeleton.custom.deserialization.node.handler.json.JsonNodeDeserializerHandler;
+import org.KasymbekovPN.Skeleton.custom.deserialization.node.deserializer.SkeletonNodeDeserializer;
+import org.KasymbekovPN.Skeleton.custom.deserialization.node.deserializer.SkeletonNodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
-import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeDeserializer;
-import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeSerializedDataWrapper;
+import org.KasymbekovPN.Skeleton.lib.deserialization.node.deserializer.NodeDeserializer;
+import org.KasymbekovPN.Skeleton.lib.deserialization.node.deserializer.NodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

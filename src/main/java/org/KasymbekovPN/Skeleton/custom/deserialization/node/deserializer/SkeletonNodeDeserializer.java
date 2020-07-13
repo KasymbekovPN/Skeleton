@@ -1,7 +1,7 @@
-package org.KasymbekovPN.Skeleton.custom.deserialization.deserializer.node;
+package org.KasymbekovPN.Skeleton.custom.deserialization.node.deserializer;
 
-import org.KasymbekovPN.Skeleton.lib.deserialization.deserializer.node.NodeDeserializer;
-import org.KasymbekovPN.Skeleton.lib.deserialization.handler.node.NodeDeserializerHandler;
+import org.KasymbekovPN.Skeleton.lib.deserialization.node.deserializer.NodeDeserializer;
+import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
