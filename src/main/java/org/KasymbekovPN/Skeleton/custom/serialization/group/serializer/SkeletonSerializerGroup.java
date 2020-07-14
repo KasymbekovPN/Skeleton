@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.serialization.group;
+package org.KasymbekovPN.Skeleton.custom.serialization.group.serializer;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.extraction.handler.RootNodeExtractionHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
@@ -6,10 +6,10 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.serialization.group.SerializerGroup;
-import org.KasymbekovPN.Skeleton.lib.serialization.group.exceptions.SerializerGroupBuildException;
+import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
+import org.KasymbekovPN.Skeleton.exception.serialization.group.SerializerGroupBuildException;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupVisitor;
-import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 
 import java.util.HashMap;
 import java.util.Map;

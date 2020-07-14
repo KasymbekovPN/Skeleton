@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.group.handler;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.MemberTypeCheckingHandler;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
-import org.KasymbekovPN.Skeleton.custom.serialization.group.SkeletonSerializerGroup;
+import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SkeletonSerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;

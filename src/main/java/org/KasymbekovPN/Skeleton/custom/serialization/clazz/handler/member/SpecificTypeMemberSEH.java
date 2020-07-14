@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
+package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
@@ -10,7 +10,7 @@ import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.Class
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
-import org.KasymbekovPN.Skeleton.lib.serialization.handler.BaseSEH;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.serialization.handler.method;
+package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.method;
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonArguments;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMethod;
@@ -11,7 +11,7 @@ import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.Membe
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
-import org.KasymbekovPN.Skeleton.lib.serialization.handler.BaseSEH;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

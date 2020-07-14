@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.serialization.serializer;
+package org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;

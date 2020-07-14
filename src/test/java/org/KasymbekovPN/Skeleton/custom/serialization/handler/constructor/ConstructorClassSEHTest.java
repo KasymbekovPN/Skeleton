@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.constructor.ConstructorClassSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor.clalsses.TC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.constructor.clalsses.TC1;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;

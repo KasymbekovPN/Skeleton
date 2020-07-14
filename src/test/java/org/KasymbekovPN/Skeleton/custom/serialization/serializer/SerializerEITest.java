@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.serializer;
 
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SerializerEI;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.serialization.group;
+package org.KasymbekovPN.Skeleton.custom.serialization.group.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 

@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.ContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.container.TC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.container.TC1;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
@@ -13,8 +14,8 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.lib.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.utils.checking.TypeChecker;
 import org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker.ContainerArgumentChecker;
 import org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker.SkeletonCAC;

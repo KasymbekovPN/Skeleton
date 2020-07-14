@@ -1,10 +1,10 @@
-package org.KasymbekovPN.Skeleton.custom.serialization.serializer;
+package org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.serialization.handler;
+package org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;

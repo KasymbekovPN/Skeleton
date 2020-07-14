@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ClassSignatureSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.classes.forSignature.TCForSignaturePublic;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;

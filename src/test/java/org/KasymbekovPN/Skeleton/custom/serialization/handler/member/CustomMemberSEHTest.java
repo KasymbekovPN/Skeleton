@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.CustomMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.custom.*;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
@@ -15,8 +16,8 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.lib.serialization.handler.SerializationElementHandler;
-import org.KasymbekovPN.Skeleton.lib.serialization.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
