@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 
 import java.util.List;
 
+//< del ??
 public interface Formatter {
     String getBeginBorder(Class<? extends Node> clazz);
     String getEndBorder(Class<? extends Node> clazz);

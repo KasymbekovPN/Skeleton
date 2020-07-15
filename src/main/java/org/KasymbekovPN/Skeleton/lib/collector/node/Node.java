@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.collector.node;
 
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ public interface Node {
     void apply(CollectorProcess collectorProcess);
     Node getParent();
     Node deepCopy(Node parent);
+    EntityItem getEI();
     default Optional<Node> addChild(String property, Node value) {
         return Optional.empty();
     };

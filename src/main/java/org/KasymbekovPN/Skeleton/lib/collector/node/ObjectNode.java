@@ -1,6 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.collector.node;
 
+import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,10 @@ public class ObjectNode implements Node {
 
     private Node parent;
     private Map<String, Node> children = new HashMap<>();
+
+    public static EntityItem ei(){
+        return NodeEI.objectEI();
+    }
 
     public Map<String, Node> getChildren() {
         return children;
@@ -47,6 +53,11 @@ public class ObjectNode implements Node {
         }
 
         return objectNode;
+    }
+
+    @Override
+    public EntityItem getEI() {
+        return ei();
     }
 
     @Override

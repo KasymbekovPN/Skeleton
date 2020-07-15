@@ -1,6 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.collector.node;
 
+import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,10 @@ public class ArrayNode implements Node {
 
     private Node parent;
     private List<Node> children = new ArrayList<>();
+
+    public static EntityItem ei(){
+        return NodeEI.arrayEI();
+    }
 
     public List<Node> getChildren() {
         return children;
@@ -32,6 +38,11 @@ public class ArrayNode implements Node {
         }
 
         return arrayNode;
+    }
+
+    @Override
+    public EntityItem getEI() {
+        return ei();
     }
 
     @Override
