@@ -1,5 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonBooleanWritingHandler;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonObjectWritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.dataChecker.SkeletonBooleanWritingHandlerTestData;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BooleanWritingHandlerTest {
+public class JsonBooleanWritingHandlerTest {
     private static Object[][] getTestData(){
         return new Object[][]{
                 {
@@ -36,8 +38,8 @@ public class BooleanWritingHandlerTest {
         Utils.fillCollectorWithBoolean(collector, objects);
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new ObjectWritingHandler(process, ObjectNode.class);
-        new BooleanWritingHandler(process, BooleanNode.class);
+        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
+        new JsonBooleanWritingHandler(process, BooleanNode.class);
         collector.apply(process);
 
         assertThat(new SkeletonBooleanWritingHandlerTestData(objects).check(process.getBuffer().toString())).isEqualTo(true);

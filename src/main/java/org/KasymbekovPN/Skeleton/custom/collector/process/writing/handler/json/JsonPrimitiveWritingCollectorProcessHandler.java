@@ -1,28 +1,28 @@
-package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
+package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.BooleanNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
-public class BooleanWritingHandler implements CollectorProcessHandler {
-
-    private final WritingFormatter writingFormatter;
-
-    public BooleanWritingHandler(CollectorWritingProcess collectorWritingProcess,
-                                 WritingFormatter writingFormatter) {
-        collectorWritingProcess.addHandler(BooleanNode.ei(), this);
-
-        this.writingFormatter = writingFormatter;
-    }
+public class JsonPrimitiveWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
 
     @Override
-    public void handle(Node node) {
-        if (node.isBoolean()){
-            writingFormatter.addValue(node);
-        }
+    public void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess) {
+        writingFormatter.addValue(node);
     }
+
+    //<
+//    private final WritingFormatter writingFormatter;
+//
+//    public JsonPrimitiveWritingHandler(WritingFormatter writingFormatter) {
+//        this.writingFormatter = writingFormatter;
+//    }
+//
+//    @Override
+//    public void handle(Node node) {
+//        writingFormatter.addValue(node);
+//    }
 }
 
 //<

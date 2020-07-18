@@ -1,7 +1,9 @@
 package org.KasymbekovPN.Skeleton.custom.serialization;
 
 import org.KasymbekovPN.Skeleton.custom.checker.IgnoredPropertyNameChecker;
-import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.*;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonBooleanWritingHandler;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonArrayWritingCollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonObjectWritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.TC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.TC1;
@@ -76,9 +78,9 @@ public class SkeletonSerializerGroupTest {
         }};
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new ObjectWritingHandler(process, ObjectNode.class, new IgnoredPropertyNameChecker("annotation"));
-        new ArrayWritingHandler(process, ArrayNode.class);
-        new BooleanWritingHandler(process, BooleanNode.class);
+        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class, new IgnoredPropertyNameChecker("annotation"));
+        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
+        new JsonBooleanWritingHandler(process, BooleanNode.class);
         new CharacterWritingHandler(process, CharacterNode.class);
         new NumberWritingHandler(process, NumberNode.class);
         new StringWritingHandler(process, StringNode.class);

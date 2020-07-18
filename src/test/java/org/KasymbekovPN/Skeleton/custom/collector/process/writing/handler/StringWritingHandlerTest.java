@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonObjectWritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.dataChecker.SkeletonStringWritingHandlerTestData;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -36,7 +37,7 @@ public class StringWritingHandlerTest {
         Utils.fillCollectorWithString(collector, objects);
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new ObjectWritingHandler(process, ObjectNode.class);
+        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
         new StringWritingHandler(process, StringNode.class);
         collector.apply(process);
 

@@ -1,5 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonArrayWritingCollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonObjectWritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.dataChecker.SkeletonArrayWritingHandlerTestData;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -16,7 +18,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ArrayWritingHandlerTest {
+public class JsonArrayWritingCollectorProcessHandlerTest {
 
     private static Object[][] getTestDataLevel0(){
         return new Object[][]{
@@ -51,8 +53,8 @@ public class ArrayWritingHandlerTest {
         Utils.fillCollectorWithArrayLevel0(collector, subArrayNames);
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new ObjectWritingHandler(process, ObjectNode.class);
-        new ArrayWritingHandler(process, ArrayNode.class);
+        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
+        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
         collector.apply(process);
 
         assertThat(new SkeletonArrayWritingHandlerTestData(subArrayNames).check(process.getBuffer().toString())).isEqualTo(true);
@@ -86,8 +88,8 @@ public class ArrayWritingHandlerTest {
         Utils.fillCollectorWithArrayLevel1(collector, subArrayNames);
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new ObjectWritingHandler(process, ObjectNode.class);
-        new ArrayWritingHandler(process, ArrayNode.class);
+        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
+        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
         collector.apply(process);
 
         assertThat(new SkeletonArrayWritingHandlerTestData(subArrayNames).check(process.getBuffer().toString())).isEqualTo(true);

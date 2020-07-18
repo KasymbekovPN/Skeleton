@@ -1,37 +1,76 @@
-package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
+package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json;
 
+import org.KasymbekovPN.Skeleton.lib.checker.StringChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
-//< ??? move to .lib.
-public class ObjectWritingHandler implements CollectorProcessHandler {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-    private final WritingFormatter writingFormatter;
+public class JsonObjectWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
 
-    public ObjectWritingHandler(CollectorWritingProcess collectorWritingProcess,
-                                WritingFormatter writingFormatter) {
-        collectorWritingProcess.addHandler(ObjectNode.ei(), this);
+    private final StringChecker ignoredPropertyNameChecker;
 
-        this.writingFormatter = writingFormatter;
+    public JsonObjectWritingCollectorProcessHandler(StringChecker ignoredPropertyNameChecker) {
+        this.ignoredPropertyNameChecker = ignoredPropertyNameChecker;
     }
 
     @Override
-    public void handle(Node node) {
-        if (node.isObject()){
+    public void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess) {
 
-            writingFormatter.addBeginBorder(node);
+        writingFormatter.addBeginBorder(node);
 
-            //< check ignored names
-
-            //< for
-                //< inner
-
-            writingFormatter.addEndBorder(node);
+        Map<String, Node> children = ((ObjectNode) node).getChildren();
+        List<String> propertyNames = checkPropertyNames(children.keySet());
+        for (String propertyName : propertyNames) {
+            Node property = children.get(propertyName);
+            writingFormatter.addPropertyName(node, propertyName);
+            property.apply(collectorProcess);
         }
+
+        writingFormatter.addEndBorder(node);
     }
+
+    private List<String> checkPropertyNames(Set<String> rawPropertyNames){
+        ArrayList<String> propertyNames = new ArrayList<>();
+        for (String rawPropertyName : rawPropertyNames) {
+            if (ignoredPropertyNameChecker.check(rawPropertyName)){
+                propertyNames.add(rawPropertyName);
+            }
+        }
+
+        return propertyNames;
+    }
+
+    //<
+//    private final WritingFormatter writingFormatter;
+//
+//    public ObjectWritingHandler(CollectorWritingProcess collectorWritingProcess,
+//                                WritingFormatter writingFormatter) {
+//        collectorWritingProcess.addHandler(ObjectNode.ei(), this);
+//
+//        this.writingFormatter = writingFormatter;
+//    }
+//
+//    @Override
+//    public void handle(Node node) {
+//        if (node.isObject()){
+//
+//            writingFormatter.addBeginBorder(node);
+//
+//            //< check ignored names
+//
+//            //< for
+//                //< inner
+//
+//            writingFormatter.addEndBorder(node);
+//        }
+//    }
 }
 
 //<
