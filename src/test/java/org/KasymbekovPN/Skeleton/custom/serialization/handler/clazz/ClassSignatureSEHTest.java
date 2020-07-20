@@ -12,6 +12,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.NumberNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -119,8 +120,15 @@ public class ClassSignatureSEHTest {
             }
         }
 
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
+        //<
+
+
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
 
         public boolean isValid() {
             return valid;

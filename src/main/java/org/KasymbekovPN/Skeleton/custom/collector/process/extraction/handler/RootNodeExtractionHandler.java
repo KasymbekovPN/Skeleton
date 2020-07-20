@@ -14,7 +14,8 @@ public class RootNodeExtractionHandler implements CollectorProcessHandler {
 
     public RootNodeExtractionHandler(Node root, CollectorProcess collectorProcess, Class<? extends Node> clazz) {
         this.root = root;
-        collectorProcess.addHandler(clazz, this);
+        //<
+//        collectorProcess.addHandler(clazz, this);
     }
 
     @Override

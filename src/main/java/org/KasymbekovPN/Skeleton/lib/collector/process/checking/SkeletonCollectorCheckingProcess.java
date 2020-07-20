@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.lib.collector.process.checking;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +30,14 @@ public class SkeletonCollectorCheckingProcess implements CollectorCheckingProces
         }
     }
 
+//    @Override
+//    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
+//        handlers.put(clazz, collectorProcessHandler);
+//    }
+    //<
     @Override
-    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-        handlers.put(clazz, collectorProcessHandler);
+    public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
     }
 
     @Override

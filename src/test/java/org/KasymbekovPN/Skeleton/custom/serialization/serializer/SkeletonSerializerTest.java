@@ -427,7 +427,13 @@ public class SkeletonSerializerTest {
         }
 
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
+
+        //<
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
 
         public boolean isValid() {
             return valid.get();

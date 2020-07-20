@@ -22,7 +22,8 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
                                        List<String> path) {
         this.clazz = clazz;
         this.collectorCheckingProcess = collectorCheckingProcess;
-        this.collectorCheckingProcess.addHandler(clazz, this);
+        //<
+//        this.collectorCheckingProcess.addHandler(clazz, this);
         this.members = members;
         this.path = path;
     }

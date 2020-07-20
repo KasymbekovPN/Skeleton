@@ -25,7 +25,8 @@ public class ClassExistCheckingHandler implements CollectorProcessHandler {
         this.clazz = clazz;
         this.path = path;
         this.collectorCheckingProcess = collectorCheckingProcess;
-        this.collectorCheckingProcess.addHandler(clazz, this);
+        //<
+//        this.collectorCheckingProcess.addHandler(clazz, this);
     }
 
     @Override

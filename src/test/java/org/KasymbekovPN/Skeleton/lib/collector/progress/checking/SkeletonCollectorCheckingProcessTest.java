@@ -59,7 +59,8 @@ public class SkeletonCollectorCheckingProcessTest {
         Map<String, Class<? extends Node>> results = new HashMap<>();
         SkeletonCollectorCheckingProcess process = new SkeletonCollectorCheckingProcess();
         for (Map.Entry<String, Pair<Class<? extends Node>, Class<? extends Node>>> entry : data.entrySet()) {
-            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
+            //<
+//            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
         }
 
         Collector collector = createCollector();
@@ -156,10 +157,11 @@ public class SkeletonCollectorCheckingProcessTest {
         Map<String, Class<? extends Node>> results = new HashMap<>();
         SkeletonCollectorCheckingProcess process = new SkeletonCollectorCheckingProcess();
         for (Map.Entry<Class<? extends Node>, Pair<CollectorCheckingResult, Class<? extends Node>>> entry : data.entrySet()) {
-            process.addHandler(
-                    entry.getKey(),
-                    new SetterProgressHandler(entry.getValue().first, process, entry.getValue().second)
-            );
+            //<
+//            process.addHandler(
+//                    entry.getKey(),
+//                    new SetterProgressHandler(entry.getValue().first, process, entry.getValue().second)
+//            );
         }
 
         Collector collector = createCollector();

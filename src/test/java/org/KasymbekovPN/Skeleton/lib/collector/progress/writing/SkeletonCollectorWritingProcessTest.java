@@ -57,7 +57,8 @@ public class SkeletonCollectorWritingProcessTest {
         Map<String, Class<? extends Node>> results = new HashMap<>();
         SkeletonCollectorCheckingProcess process = new SkeletonCollectorCheckingProcess();
         for (Map.Entry<String, Pair<Class<? extends Node>, Class<? extends Node>>> entry : data.entrySet()) {
-            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
+            //<
+//            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
         }
 
         Collector collector = createCollector();

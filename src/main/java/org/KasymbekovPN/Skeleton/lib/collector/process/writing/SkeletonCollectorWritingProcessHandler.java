@@ -25,7 +25,8 @@ public class SkeletonCollectorWritingProcessHandler implements CollectorProcessH
     @Override
     public void handle(Node node) {
         if (node.getEI().equals(ei)){
-            writingCollectorProcessHandler.handle(node, writingFormatter);
+            //<
+//            writingCollectorProcessHandler.handle(node, writingFormatter);
         }
     }
 }

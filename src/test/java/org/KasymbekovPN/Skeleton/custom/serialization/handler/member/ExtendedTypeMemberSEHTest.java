@@ -17,6 +17,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.junit.jupiter.api.DisplayName;
@@ -631,7 +632,13 @@ public class ExtendedTypeMemberSEHTest {
         }
 
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) { }
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
+
+        //<
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) { }
 
         public boolean isValid() {
             return valid;

@@ -14,6 +14,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.utils.checking.TypeChecker;
@@ -700,7 +701,13 @@ public class ContainerMemberSEHTest {
         }
 
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) { }
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
+
+        //<
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) { }
 
         public boolean isValid() {
             return valid;

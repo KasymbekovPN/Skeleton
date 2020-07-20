@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.filter.string;
 
-import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.filter.string.BaseStringFilter;
 
 import java.util.*;
@@ -9,7 +8,7 @@ public class PriorityStringFilter extends BaseStringFilter {
 
     private Map<String, Integer> priorityMap = new HashMap<>();
 
-    Filter<String> setPriorityString(String string, Integer priority){
+    PriorityStringFilter setPriorityString(String string, Integer priority){
         priorityMap.put(string, priority);
         return this;
     }

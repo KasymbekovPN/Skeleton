@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.collector.process;
 
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,13 @@ public class SkeletonCollectorProcess implements CollectorProcess{
     }
 
     @Override
-    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-        handlers.put(clazz, collectorProcessHandler);
+    public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
     }
+
+    //<
+//    @Override
+//    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
+//        handlers.put(clazz, collectorProcessHandler);
+//    }
 }

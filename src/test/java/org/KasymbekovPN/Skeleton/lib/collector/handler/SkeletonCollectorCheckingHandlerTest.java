@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -261,7 +262,13 @@ public class SkeletonCollectorCheckingHandlerTest {
         public void handle(Node node) {}
 
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
+
+        //<
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
     }
 
     private static class IncludeCollectorCheckingProcess implements CollectorCheckingProcess{
@@ -281,7 +288,14 @@ public class SkeletonCollectorCheckingHandlerTest {
         public void handle(Node node) {}
 
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
+
+
+        //<
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
     }
 
     private static class ExcludeCollectorCheckingProcess implements CollectorCheckingProcess{
@@ -301,7 +315,13 @@ public class SkeletonCollectorCheckingHandlerTest {
         public void handle(Node node) {}
 
         @Override
-        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
+        }
+
+        //<
+//        @Override
+//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
     }
 
     private static class ProcessAndResult{

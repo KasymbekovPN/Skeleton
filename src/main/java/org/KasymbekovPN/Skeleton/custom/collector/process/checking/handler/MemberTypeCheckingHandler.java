@@ -33,7 +33,8 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
         this.clazz = clazz;
         this.path = path;
 
-        this.collectorCheckingProcess.addHandler(this.clazz, this);
+        //<
+//        this.collectorCheckingProcess.addHandler(this.clazz, this);
     }
 
     public MemberTypeCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
@@ -45,7 +46,8 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
         this.clazz = clazz;
         this.path = path;
 
-        this.collectorCheckingProcess.addHandler(this.clazz, this);
+        //<
+//        this.collectorCheckingProcess.addHandler(this.clazz, this);
     }
 
     @Override

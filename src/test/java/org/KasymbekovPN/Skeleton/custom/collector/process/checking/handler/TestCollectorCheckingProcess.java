@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +22,16 @@ class TestCollectorCheckingProcess implements CollectorCheckingProcess {
         }
     }
 
+//    @Override
+//    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
+//        handlers.put(clazz, collectorProcessHandler);
+//    }
+    //<
+
+
     @Override
-    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-        handlers.put(clazz, collectorProcessHandler);
+    public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
+
     }
 
     @Override

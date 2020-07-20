@@ -1,10 +1,8 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 
-import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonObjectWritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.dataChecker.SkeletonObjectWritingHandlerTestData;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -51,7 +49,8 @@ public class JsonObjectWritingCollectorProcessHandlerTest {
         Utils.fillCollectorWithObjectLevel0(collector, subObjectNames);
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
+        //<
+//        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
         collector.apply(process);
 
         assertThat(new SkeletonObjectWritingHandlerTestData(subObjectNames).check(process.getBuffer().toString())).isEqualTo(true);
@@ -92,7 +91,8 @@ public class JsonObjectWritingCollectorProcessHandlerTest {
         Utils.fillCollectorWithObjectLevel1(collector, subObjectNames);
 
         CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
+        //<
+//        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
         collector.apply(process);
 
         assertThat(new SkeletonObjectWritingHandlerTestData(subObjectNames).check(process.getBuffer().toString())).isEqualTo(true);
