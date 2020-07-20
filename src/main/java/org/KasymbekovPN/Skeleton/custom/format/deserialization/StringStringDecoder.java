@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 
 public class StringStringDecoder implements StringDecoder {
 
-    private final String str;
+    private String str;
 
     public StringStringDecoder(String str) {
         this.str = str;

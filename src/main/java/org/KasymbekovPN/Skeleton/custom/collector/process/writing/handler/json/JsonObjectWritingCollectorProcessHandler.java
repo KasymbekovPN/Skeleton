@@ -1,51 +1,75 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json;
 
-import org.KasymbekovPN.Skeleton.lib.checker.StringChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
 
 public class JsonObjectWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
 
-    private final StringChecker ignoredPropertyNameChecker;
+    private final Filter<String> propertyNameFilter;
 
-    public JsonObjectWritingCollectorProcessHandler(StringChecker ignoredPropertyNameChecker) {
-        this.ignoredPropertyNameChecker = ignoredPropertyNameChecker;
+    public JsonObjectWritingCollectorProcessHandler(Filter<String> propertyNameFilter) {
+        this.propertyNameFilter = propertyNameFilter;
     }
 
     @Override
     public void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess) {
 
-        writingFormatter.addBeginBorder(node);
-
         Map<String, Node> children = ((ObjectNode) node).getChildren();
-        List<String> propertyNames = checkPropertyNames(children.keySet());
-        for (String propertyName : propertyNames) {
-            Node property = children.get(propertyName);
-            writingFormatter.addPropertyName(node, propertyName);
-            property.apply(collectorProcess);
-        }
+        Deque<String> filteredPropertyNames = filterPropertyName(children.keySet());
 
+        writingFormatter.addBeginBorder(node);
+        for (String filteredPropertyName : filteredPropertyNames) {
+            children.get(filteredPropertyName).apply(collectorProcess);
+        }
         writingFormatter.addEndBorder(node);
     }
 
-    private List<String> checkPropertyNames(Set<String> rawPropertyNames){
-        ArrayList<String> propertyNames = new ArrayList<>();
-        for (String rawPropertyName : rawPropertyNames) {
-            if (ignoredPropertyNameChecker.check(rawPropertyName)){
-                propertyNames.add(rawPropertyName);
-            }
-        }
-
-        return propertyNames;
+    private Deque<String> filterPropertyName(Set<String> rawNames){
+        return propertyNameFilter.filter(new ArrayDeque<>(rawNames));
     }
+
+    //<
+//    private final StringChecker ignoredPropertyNameChecker;
+//
+//    public JsonObjectWritingCollectorProcessHandler(StringChecker ignoredPropertyNameChecker) {
+//        this.ignoredPropertyNameChecker = ignoredPropertyNameChecker;
+//    }
+//
+//    @Override
+//    public void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess) {
+//
+//        writingFormatter.addBeginBorder(node);
+//
+//        Map<String, Node> children = ((ObjectNode) node).getChildren();
+//        List<String> propertyNames = checkPropertyNames(children.keySet());
+//        for (String propertyName : propertyNames) {
+//            Node property = children.get(propertyName);
+//            writingFormatter.addPropertyName(node, propertyName);
+//            property.apply(collectorProcess);
+//        }
+//
+//        writingFormatter.addEndBorder(node);
+//    }
+//
+//    private List<String> checkPropertyNames(Set<String> rawPropertyNames){
+//        ArrayList<String> propertyNames = new ArrayList<>();
+//        for (String rawPropertyName : rawPropertyNames) {
+//            if (ignoredPropertyNameChecker.check(rawPropertyName)){
+//                propertyNames.add(rawPropertyName);
+//            }
+//        }
+//
+//        return propertyNames;
+//    }
 
     //<
 //    private final WritingFormatter writingFormatter;
