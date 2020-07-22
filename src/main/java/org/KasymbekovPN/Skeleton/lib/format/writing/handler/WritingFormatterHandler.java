@@ -1,9 +1,9 @@
-package org.KasymbekovPN.Skeleton.lib.format.writing.formatter;
+package org.KasymbekovPN.Skeleton.lib.format.writing.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 
-public interface WritingFormatter {
+public interface WritingFormatterHandler {
     StringDecoder getDecoder();
     void reset();
     void addBeginBorder(Node node);

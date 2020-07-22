@@ -6,6 +6,10 @@ public class StringStringDecoder implements StringDecoder {
 
     private String str;
 
+    public StringStringDecoder() {
+        this.str = "";
+    }
+
     public StringStringDecoder(String str) {
         this.str = str;
     }

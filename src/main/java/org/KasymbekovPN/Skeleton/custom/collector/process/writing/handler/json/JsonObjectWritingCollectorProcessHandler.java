@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
+import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -21,16 +21,17 @@ public class JsonObjectWritingCollectorProcessHandler implements WritingCollecto
     }
 
     @Override
-    public void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess) {
+    public void handle(Node node, WritingFormatterHandler writingFormatterHandler, CollectorProcess collectorProcess) {
 
         Map<String, Node> children = ((ObjectNode) node).getChildren();
         Deque<String> filteredPropertyNames = filterPropertyName(children.keySet());
 
-        writingFormatter.addBeginBorder(node);
+        writingFormatterHandler.addBeginBorder(node);
         for (String filteredPropertyName : filteredPropertyNames) {
+            writingFormatterHandler.addPropertyName(node, filteredPropertyName);
             children.get(filteredPropertyName).apply(collectorProcess);
         }
-        writingFormatter.addEndBorder(node);
+        writingFormatterHandler.addEndBorder(node);
     }
 
     private Deque<String> filterPropertyName(Set<String> rawNames){

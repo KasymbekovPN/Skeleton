@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.format.writing.formatter;
+package org.KasymbekovPN.Skeleton.custom.format.writing.json.handler;
 
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
 import org.KasymbekovPN.Skeleton.exception.exception.format.writing.formatter.JsonWritingFormatterBuildException;

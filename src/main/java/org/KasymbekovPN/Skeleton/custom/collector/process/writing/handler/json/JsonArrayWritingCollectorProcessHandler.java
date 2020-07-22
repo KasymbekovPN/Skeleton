@@ -4,20 +4,20 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
+import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
 import java.util.List;
 
 public class JsonArrayWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
 
     @Override
-    public void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess) {
+    public void handle(Node node, WritingFormatterHandler writingFormatterHandler, CollectorProcess collectorProcess) {
         List<Node> children = ((ArrayNode) node).getChildren();
 
-        writingFormatter.addBeginBorder(node);
+        writingFormatterHandler.addBeginBorder(node);
         for (Node child : children) {
             child.apply(collectorProcess);
         }
-        writingFormatter.addEndBorder(node);
+        writingFormatterHandler.addEndBorder(node);
     }
 }

@@ -3,20 +3,22 @@ package org.KasymbekovPN.Skeleton.lib.collector.process.writing;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
+import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
 public class SkeletonCollectorWritingProcessHandler implements CollectorProcessHandler {
 
     private final WritingCollectorProcessHandler writingCollectorProcessHandler;
-    private final WritingFormatter writingFormatter;
+    private final WritingFormatterHandler writingFormatterHandler;
+    private final CollectorWritingProcess collectorWritingProcess;
     private final EntityItem ei;
 
     public SkeletonCollectorWritingProcessHandler(WritingCollectorProcessHandler writingCollectorProcessHandler,
-                                                  WritingFormatter writingFormatter,
+                                                  WritingFormatterHandler writingFormatterHandler,
                                                   CollectorWritingProcess collectorWritingProcess,
                                                   EntityItem ei) {
         this.writingCollectorProcessHandler = writingCollectorProcessHandler;
-        this.writingFormatter = writingFormatter;
+        this.writingFormatterHandler = writingFormatterHandler;
+        this.collectorWritingProcess = collectorWritingProcess;
         this.ei = ei;
 
         collectorWritingProcess.addHandler(ei, this);
@@ -25,28 +27,7 @@ public class SkeletonCollectorWritingProcessHandler implements CollectorProcessH
     @Override
     public void handle(Node node) {
         if (node.getEI().equals(ei)){
-            //<
-//            writingCollectorProcessHandler.handle(node, writingFormatter);
+            writingCollectorProcessHandler.handle(node, writingFormatterHandler, collectorWritingProcess);
         }
     }
 }
-
-//<
-//public class StringWritingHandler implements CollectorProcessHandler {
-//
-//    private final WritingFormatter writingFormatter;
-//
-//    public StringWritingHandler(CollectorWritingProcess collectorWritingProcess,
-//                                WritingFormatter writingFormatter) {
-//        collectorWritingProcess.addHandler(StringNode.ei(), this);
-//
-//        this.writingFormatter = writingFormatter;
-//    }
-//
-//    @Override
-//    public void handle(Node node) {
-//        if (node.isString()){
-//            writingFormatter.addValue(node);
-//        }
-//    }
-//}

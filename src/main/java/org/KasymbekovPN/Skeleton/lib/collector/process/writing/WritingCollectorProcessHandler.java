@@ -2,8 +2,8 @@ package org.KasymbekovPN.Skeleton.lib.collector.process.writing;
 
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
+import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
 public interface WritingCollectorProcessHandler {
-    void handle(Node node, WritingFormatter writingFormatter, CollectorProcess collectorProcess);
+    void handle(Node node, WritingFormatterHandler writingFormatterHandler, CollectorProcess collectorProcess);
 }
