@@ -6,26 +6,26 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
+import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class JsonWritingFormatter implements WritingFormatter {
+public class JsonWritingFormatterHandler implements WritingFormatterHandler {
 
     private static final int RESET_BUFFER_LEN = 0;
     private static final String OFFSET_STEP = "    ";
+    private static final String NAME_VALUE_SEPARATOR = ":";
 
-    private final Map<EntityItem, WritingFormatterHandler> handlers;
+    private final Map<EntityItem, WritingFormatter> handlers;
 
     private Offset offset = new Offset(OFFSET_STEP);
     private StringBuilder buffer = new StringBuilder();
 
-    private JsonWritingFormatter(Map<EntityItem, WritingFormatterHandler> handlers) {
+    private JsonWritingFormatterHandler(Map<EntityItem, WritingFormatter> handlers) {
         this.handlers = handlers;
-
         reset();
     }
 
@@ -56,8 +56,7 @@ public class JsonWritingFormatter implements WritingFormatter {
 
     @Override
     public void addValue(Node node) {
-        //< ??? in const
-        buffer.append(" : ")
+        buffer.append(NAME_VALUE_SEPARATOR)
                 .append(handlers.get(node.getEI()).getValue(node));
     }
 
@@ -102,19 +101,19 @@ public class JsonWritingFormatter implements WritingFormatter {
 
     public static class Builder {
 
-        private final Map<EntityItem, WritingFormatterHandler> handlers = new HashMap<>();
+        private final Map<EntityItem, WritingFormatter> handlers = new HashMap<>();
 
-        public Builder addHandler(EntityItem handlerId, WritingFormatterHandler handler){
+        public Builder addHandler(EntityItem handlerId, WritingFormatter handler){
             handlers.put(handlerId, handler);
             return this;
         }
 
-        public WritingFormatter build() throws Exception {
+        public WritingFormatterHandler build() throws Exception {
             Optional<Exception> mayBeException = check();
             if (mayBeException.isPresent()){
                 throw mayBeException.get();
             }
-            return new JsonWritingFormatter(handlers);
+            return new JsonWritingFormatterHandler(handlers);
         }
 
         private Optional<Exception> check(){
@@ -136,7 +135,7 @@ public class JsonWritingFormatter implements WritingFormatter {
 
         private String checkHandlers(){
             StringBuilder message = new StringBuilder();
-            for (Map.Entry<EntityItem, WritingFormatterHandler> entry : handlers.entrySet()) {
+            for (Map.Entry<EntityItem, WritingFormatter> entry : handlers.entrySet()) {
                 if (entry.getValue() == null){
                     message.append("Handler with key ")
                             .append(entry.getKey())
