@@ -66,14 +66,14 @@ public class ContainerMemberSEH extends BaseSEH {
                 CollectorCheckingProcess existProcess = maybeExistProcess.get();
                 new ClassExistCheckingHandler(
                         existProcess,
-                        ObjectNode.class,
+                        ObjectNode.ei(),
                         collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
 
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
                 new ClassAnnotationCheckingHandler(
                         field.getModifiers(),
                         field.getName(),
-                        annotationProcess, ObjectNode.class,
+                        annotationProcess, ObjectNode.ei(),
                         collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
 
                 Map<String, CollectorCheckingResult> collectorCheckingResults = collectorCheckingHandler.handle(collector);

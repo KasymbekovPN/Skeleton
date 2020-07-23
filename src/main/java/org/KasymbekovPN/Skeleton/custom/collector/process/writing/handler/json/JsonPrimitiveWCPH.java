@@ -5,7 +5,10 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
-public class JsonPrimitiveWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
+/**
+ * WCPH - Writing Collector Process Handler
+ */
+public class JsonPrimitiveWCPH implements WritingCollectorProcessHandler {
 
     @Override
     public void handle(Node node, WritingFormatterHandler writingFormatterHandler, CollectorProcess collectorProcess) {

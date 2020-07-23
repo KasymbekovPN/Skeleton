@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,22 +19,23 @@ public class ClassAnnotationCheckingHandler implements CollectorProcessHandler {
     private final String name;
     private final int modifiers;
     private final CollectorCheckingProcess collectorCheckingProcess;
-    private final Class<? extends Node> clazz;
+//    private final Class<? extends Node> clazz;
+    //<
+    private final EntityItem nodeEi;
     private final List<String> path;
 
     public ClassAnnotationCheckingHandler(int modifiers,
                                           String name,
                                           CollectorCheckingProcess collectorCheckingProcess,
-                                          Class<? extends Node> clazz,
+                                          EntityItem nodeEi,
                                           List<String> path) {
 
         this.name = name;
         this.modifiers = modifiers;
-        this.clazz = clazz;
+        this.nodeEi = nodeEi;
         this.path = path;
         this.collectorCheckingProcess = collectorCheckingProcess;
-        //<
-//        this.collectorCheckingProcess.addHandler(clazz, this);
+        this.collectorCheckingProcess.addHandler(nodeEi, this);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class ClassAnnotationCheckingHandler implements CollectorProcessHandler {
             result = CollectorCheckingResult.INCLUDE;
         }
 
-        collectorCheckingProcess.setResult(clazz, result);
+        collectorCheckingProcess.setResult(nodeEi, result);
     }
 
     private int extractIntProperty(ObjectNode node, String property){

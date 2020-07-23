@@ -19,13 +19,13 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
     private static final String OFFSET_STEP = "    ";
     private static final String NAME_VALUE_SEPARATOR = ":";
 
-    private final Map<EntityItem, WritingFormatter> handlers;
+    private final Map<EntityItem, WritingFormatter> formatters;
 
     private Offset offset = new Offset(OFFSET_STEP);
     private StringBuilder buffer = new StringBuilder();
 
-    private JsonWritingFormatterHandler(Map<EntityItem, WritingFormatter> handlers) {
-        this.handlers = handlers;
+    private JsonWritingFormatterHandler(Map<EntityItem, WritingFormatter> formatters) {
+        this.formatters = formatters;
         reset();
     }
 
@@ -43,27 +43,27 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
     @Override
     public void addBeginBorder(Node node) {
         buffer.append(offset.get())
-                .append(handlers.get(node.getEI()).getBeginBorder());
+                .append(formatters.get(node.getEI()).getBeginBorder().getString());
         offset.inc();
     }
 
     @Override
     public void addEndBorder(Node node) {
         buffer.append(offset.get())
-                .append(handlers.get(node.getEI()).getEndBorder());
+                .append(formatters.get(node.getEI()).getEndBorder().getString());
         offset.dec();
     }
 
     @Override
     public void addValue(Node node) {
         buffer.append(NAME_VALUE_SEPARATOR)
-                .append(handlers.get(node.getEI()).getValue(node));
+                .append(formatters.get(node.getEI()).getValue(node).getString());
     }
 
     @Override
     public void addPropertyName(Node node, String propertyName) {
         buffer.append(offset.get())
-                .append(handlers.get(node.getEI()).getPropertyName(propertyName));
+                .append(formatters.get(node.getEI()).getPropertyName(propertyName).getString());
     }
 
     private static class Offset {
@@ -101,10 +101,10 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
 
     public static class Builder {
 
-        private final Map<EntityItem, WritingFormatter> handlers = new HashMap<>();
+        private final Map<EntityItem, WritingFormatter> formatters = new HashMap<>();
 
-        public Builder addHandler(EntityItem handlerId, WritingFormatter handler){
-            handlers.put(handlerId, handler);
+        public Builder addFormatter(EntityItem handlerId, WritingFormatter formatter){
+            formatters.put(handlerId, formatter);
             return this;
         }
 
@@ -113,7 +113,7 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
             if (mayBeException.isPresent()){
                 throw mayBeException.get();
             }
-            return new JsonWritingFormatterHandler(handlers);
+            return new JsonWritingFormatterHandler(formatters);
         }
 
         private Optional<Exception> check(){
@@ -128,14 +128,14 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
         }
 
         private String checkKeys(){
-            return new NodeEI().checkInstancesStrict(handlers.keySet())
+            return new NodeEI().checkInstancesStrict(formatters.keySet())
                     ? "There is/are invalid keys; "
                     : "";
         }
 
         private String checkHandlers(){
             StringBuilder message = new StringBuilder();
-            for (Map.Entry<EntityItem, WritingFormatter> entry : handlers.entrySet()) {
+            for (Map.Entry<EntityItem, WritingFormatter> entry : formatters.entrySet()) {
                 if (entry.getValue() == null){
                     message.append("Handler with key ")
                             .append(entry.getKey())

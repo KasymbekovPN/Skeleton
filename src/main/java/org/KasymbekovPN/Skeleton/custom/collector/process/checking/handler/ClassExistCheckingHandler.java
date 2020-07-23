@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckin
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,17 +17,18 @@ public class ClassExistCheckingHandler implements CollectorProcessHandler {
     private static final Logger log = LoggerFactory.getLogger(ClassExistCheckingHandler.class);
 
     private final CollectorCheckingProcess collectorCheckingProcess;
-    private final Class<? extends Node> clazz;
+//    private final Class<? extends Node> clazz;
+    //<
+    private final EntityItem nodeEi;
     private final List<String> path;
 
     public ClassExistCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
-                                     Class<? extends Node> clazz,
+                                     EntityItem nodeEi,
                                      List<String> path) {
-        this.clazz = clazz;
+        this.nodeEi = nodeEi;
         this.path = path;
         this.collectorCheckingProcess = collectorCheckingProcess;
-        //<
-//        this.collectorCheckingProcess.addHandler(clazz, this);
+        this.collectorCheckingProcess.addHandler(nodeEi, this);
     }
 
     @Override
@@ -40,6 +42,6 @@ public class ClassExistCheckingHandler implements CollectorProcessHandler {
             }
         }
 
-        collectorCheckingProcess.setResult(clazz, result);
+        collectorCheckingProcess.setResult(nodeEi, result);
     }
 }

@@ -8,7 +8,10 @@ import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHand
 
 import java.util.List;
 
-public class JsonArrayWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
+/**
+ * WCPH - Writing Collector Process Handler
+ */
+public class JsonArrayWCPH implements WritingCollectorProcessHandler {
 
     @Override
     public void handle(Node node, WritingFormatterHandler writingFormatterHandler, CollectorProcess collectorProcess) {

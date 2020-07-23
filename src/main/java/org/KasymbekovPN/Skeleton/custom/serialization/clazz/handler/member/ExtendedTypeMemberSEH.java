@@ -61,7 +61,7 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
                 CollectorCheckingProcess existProcess = maybeExistProcess.get();
                 new ClassExistCheckingHandler(
                         existProcess,
-                        ObjectNode.class,
+                        ObjectNode.ei(),
                         collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
 
                 CollectorCheckingProcess annotationProcess = maybeAnnotationProcess.get();
@@ -69,7 +69,7 @@ public class ExtendedTypeMemberSEH extends BaseSEH {
                         field.getModifiers(),
                         field.getName(),
                         annotationProcess,
-                        ObjectNode.class,
+                        ObjectNode.ei(),
                         collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
 
                 Map<String, CollectorCheckingResult> collectorCheckingResults = collectorCheckingHandler.handle(collector);

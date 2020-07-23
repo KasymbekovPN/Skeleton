@@ -9,4 +9,6 @@ public interface CollectorProcess {
 //    void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler);
     //<
     void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler);
+    //<
+//    CollectorProcess addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler);
 }

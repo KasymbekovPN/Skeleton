@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckin
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,17 +14,19 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
 
     private final CollectorCheckingProcess collectorCheckingProcess;
     private final List<String> members;
-    private final Class<? extends Node> clazz;
+//    private final Class<? extends Node> clazz;
+    //<
+    private final EntityItem nodeEi;
     private final List<String> path;
 
     public MembersExistCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
-                                       Class<? extends Node> clazz,
+                                       EntityItem nodeEi,
                                        List<String> members,
                                        List<String> path) {
-        this.clazz = clazz;
+        this.nodeEi = nodeEi;
         this.collectorCheckingProcess = collectorCheckingProcess;
         //<
-//        this.collectorCheckingProcess.addHandler(clazz, this);
+        this.collectorCheckingProcess.addHandler(nodeEi, this);
         this.members = members;
         this.path = path;
     }
@@ -47,7 +50,7 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
         }
 
         collectorCheckingProcess.setResult(
-                clazz,
+                nodeEi,
                 members.size() != counter ? CollectorCheckingResult.EXCLUDE : CollectorCheckingResult.INCLUDE
         );
     }

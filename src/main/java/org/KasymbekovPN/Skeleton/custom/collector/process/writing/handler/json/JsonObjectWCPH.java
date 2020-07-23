@@ -12,11 +12,14 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
 
-public class JsonObjectWritingCollectorProcessHandler implements WritingCollectorProcessHandler {
+/**
+ * WCPH - Writing Collector Process Handler
+ */
+public class JsonObjectWCPH implements WritingCollectorProcessHandler {
 
     private final Filter<String> propertyNameFilter;
 
-    public JsonObjectWritingCollectorProcessHandler(Filter<String> propertyNameFilter) {
+    public JsonObjectWCPH(Filter<String> propertyNameFilter) {
         this.propertyNameFilter = propertyNameFilter;
     }
 

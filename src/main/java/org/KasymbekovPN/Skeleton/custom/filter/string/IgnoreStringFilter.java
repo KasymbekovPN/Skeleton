@@ -13,6 +13,10 @@ public class IgnoreStringFilter extends BaseStringFilter {
         this.ignoredStrings = ignoredStrings;
     }
 
+    public IgnoreStringFilter(String... ignoredStrings){
+        this.ignoredStrings = Set.of(ignoredStrings);
+    }
+
     @Override
     protected Deque<String> filterImpl(Deque<String> rawDeq) {
         int size = rawDeq.size();

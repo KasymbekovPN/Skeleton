@@ -14,20 +14,33 @@ public class SkeletonCollectorCheckingProcess implements CollectorCheckingProces
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonCollectorCheckingProcess.class);
 
-    private final Map<Class<? extends Node>, CollectorProcessHandler> handlers = new HashMap<>();
-    private final Map<Class<? extends Node>, CollectorCheckingResult> results = new HashMap<>();
+//    private final Map<Class<? extends Node>, CollectorProcessHandler> handlers = new HashMap<>();
+//    private final Map<Class<? extends Node>, CollectorCheckingResult> results = new HashMap<>();
+    //<
+    private final Map<EntityItem, CollectorProcessHandler> handlers = new HashMap<>();
+    private final Map<EntityItem, CollectorCheckingResult> results = new HashMap<>();
 
     public SkeletonCollectorCheckingProcess() {
     }
 
     @Override
     public void handle(Node node) {
-        Class<? extends Node> clazz = node.getClass();
-        if (handlers.containsKey(clazz)){
-            handlers.get(clazz).handle(node);
+        //<
+        System.out.println(node);
+        //<
+        EntityItem ei = node.getEI();
+        if (handlers.containsKey(ei)){
+            handlers.get(ei).handle(node);
         } else {
-            log.error("The handler for {} doesn't exist", clazz.getCanonicalName());
+            log.error("The handler for {} doesn't exist", ei);
         }
+        //<
+//        Class<? extends Node> clazz = node.getClass();
+//        if (handlers.containsKey(clazz)){
+//            handlers.get(clazz).handle(node);
+//        } else {
+//            log.error("The handler for {} doesn't exist", clazz.getCanonicalName());
+//        }
     }
 
 //    @Override
@@ -37,12 +50,12 @@ public class SkeletonCollectorCheckingProcess implements CollectorCheckingProces
     //<
     @Override
     public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
-
+        handlers.put(handlerId, collectorProcessHandler);
     }
 
     @Override
-    public void setResult(Class<? extends Node> clazz, CollectorCheckingResult result) {
-        results.put(clazz, result);
+    public void setResult(EntityItem ei, CollectorCheckingResult result) {
+        results.put(ei, result);
     }
 
     @Override

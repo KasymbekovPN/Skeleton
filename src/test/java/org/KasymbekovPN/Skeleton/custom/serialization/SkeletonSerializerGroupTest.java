@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.Conta
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.CustomMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.method.ToStringMethodSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SkeletonSerializer;
-import org.KasymbekovPN.Skeleton.custom.serialization.group.handler.SkeletonSerializerGroupVisitor;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SerializerGroupEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SkeletonSerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
@@ -20,7 +19,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.SkeletonCollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
@@ -31,7 +29,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @DisplayName("SkeletonSerializerGroup: Testing of:")
@@ -72,7 +69,7 @@ public class SkeletonSerializerGroupTest {
             add("int");
         }};
 
-        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
+//        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
         //<
 //        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class, new IgnoredPropertyNameChecker("annotation"));
 //        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
@@ -81,14 +78,14 @@ public class SkeletonSerializerGroupTest {
 //        new NumberWritingHandler(process, NumberNode.class);
 //        new StringWritingHandler(process, StringNode.class);
 
-        SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
-                new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
-                process,
-                systemTypes
-        );
-        serializerGroup.accept(visitor);
-
-        Optional<String> mayBeData = visitor.getData();
-        mayBeData.ifPresent(System.out::println);
+//        SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
+//                new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
+//                process,
+//                systemTypes
+//        );
+//        serializerGroup.accept(visitor);
+//
+//        Optional<String> mayBeData = visitor.getData();
+//        mayBeData.ifPresent(System.out::println);
     }
 }

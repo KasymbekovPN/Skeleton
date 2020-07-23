@@ -51,7 +51,7 @@ public class ConstructorClassSEH extends BaseSEH {
                 constructorArguments.put(hash, args);
                 maybeProcess.ifPresent(collectorCheckingProcess -> new MembersExistCheckingHandler(
                         collectorCheckingProcess,
-                        ObjectNode.class,
+                        ObjectNode.ei(),
                         args,
                         collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI())));
             }

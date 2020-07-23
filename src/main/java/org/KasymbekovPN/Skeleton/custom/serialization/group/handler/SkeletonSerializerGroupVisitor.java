@@ -84,7 +84,7 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
                     new MemberTypeCheckingHandler(
                             process,
                             knownTypes,
-                            ObjectNode.class,
+                            ObjectNode.ei(),
                             path
                     );
                 });

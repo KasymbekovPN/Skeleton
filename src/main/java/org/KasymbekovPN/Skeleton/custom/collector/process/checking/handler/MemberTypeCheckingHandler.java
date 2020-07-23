@@ -6,6 +6,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,18 +20,20 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
 
     private final CollectorCheckingProcess collectorCheckingProcess;
     private final Set<String> knownTypes;
-    private final Class<? extends Node> clazz;
+//    private final Class<? extends Node> clazz;
+    //<
+    private final EntityItem nodeEi;
     private final List<String> path;
 
     public MemberTypeCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
                                      Set<String> serializedTypes,
                                      Set<String> systemTypes,
-                                     Class<? extends Node> clazz,
+                                     EntityItem nodeEi,
                                      List<String> path) {
         this.collectorCheckingProcess = collectorCheckingProcess;
         this.knownTypes = new HashSet<>(serializedTypes);
         this.knownTypes.addAll(systemTypes);
-        this.clazz = clazz;
+        this.nodeEi = nodeEi;
         this.path = path;
 
         //<
@@ -39,11 +42,11 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
 
     public MemberTypeCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
                                      Set<String> knownTypes,
-                                     Class<? extends Node> clazz,
+                                     EntityItem nodeEi,
                                      List<String> path) {
         this.collectorCheckingProcess = collectorCheckingProcess;
         this.knownTypes = knownTypes;
-        this.clazz = clazz;
+        this.nodeEi = nodeEi;
         this.path = path;
 
         //<
@@ -60,7 +63,7 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
             result = checkMemberTypes(memberTypes, knownTypes);
         }
 
-        collectorCheckingProcess.setResult(clazz, result);
+        collectorCheckingProcess.setResult(nodeEi, result);
     }
 
     private Optional<ObjectNode> getMembersNode(Node root, List<String> path){
