@@ -14,37 +14,4 @@ public class JsonPrimitiveWCPH implements WritingCollectorProcessHandler {
     public void handle(Node node, WritingFormatterHandler writingFormatterHandler, CollectorProcess collectorProcess) {
         writingFormatterHandler.addValue(node);
     }
-
-    //<
-//    private final WritingFormatter writingFormatter;
-//
-//    public JsonPrimitiveWritingHandler(WritingFormatter writingFormatter) {
-//        this.writingFormatter = writingFormatter;
-//    }
-//
-//    @Override
-//    public void handle(Node node) {
-//        writingFormatter.addValue(node);
-//    }
 }
-
-//<
-//public class BooleanWritingHandler implements CollectorProcessHandler {
-//    private final StringBuilder buffer;
-//    private final Formatter formatter;
-//
-//    public BooleanWritingHandler(CollectorWritingProcess collectorWritingProcess, Class<? extends Node> clazz) {
-//        collectorWritingProcess.addHandler(clazz, this);
-//        this.buffer = collectorWritingProcess.getBuffer();
-//        this.formatter = collectorWritingProcess.getFormatter();
-//    }
-//
-//    @Override
-//    public void handle(Node node) {
-//        if (node.isBoolean()){
-//            Boolean value = ((BooleanNode) node).getValue();
-//            Class<BooleanNode> clazz = BooleanNode.class;
-//            buffer.append(formatter.getBeginBorder(clazz)).append(value).append(formatter.getEndBorder(clazz));
-//        }
-//    }
-//}

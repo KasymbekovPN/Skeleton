@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.J
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonPrimitiveWCPH;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
+import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ClassAnnotationDataSEH;
@@ -40,17 +41,24 @@ import java.util.Set;
 @DisplayName("SkeletonCollectorWritingProcess. Testing of:")
 public class SkeletonCollectorWritingProcessTest {
 
-    @Test
-    void test() throws Exception {
+    private WritingFormatterHandler createWFH() throws Exception {
 
-        WritingFormatterHandler wfh = new JsonWritingFormatterHandler.Builder()
-                .addFormatter(ObjectNode.ei(), new JsonObjectWritingFormatter())
-                .addFormatter(ArrayNode.ei(), new JsonArrayWritingFormatter())
-                .addFormatter(BooleanNode.ei(), new JsonBooleanWritingFormatter())
-                .addFormatter(CharacterNode.ei(), new JsonCharacterWritingFormatter())
-                .addFormatter(NumberNode.ei(), new JsonNumberWritingFormatter())
-                .addFormatter(StringNode.ei(), new JsonStringWritingFormatter())
+        SkeletonOffset offset = new SkeletonOffset("    ");
+
+        WritingFormatterHandler wfh = new JsonWritingFormatterHandler.Builder(offset)
+                .addFormatter(ObjectNode.ei(), new JsonObjectWritingFormatter(offset))
+                .addFormatter(ArrayNode.ei(), new JsonArrayWritingFormatter(offset))
+                .addFormatter(BooleanNode.ei(), new JsonBooleanWritingFormatter(offset))
+                .addFormatter(CharacterNode.ei(), new JsonCharacterWritingFormatter(offset))
+                .addFormatter(NumberNode.ei(), new JsonNumberWritingFormatter(offset))
+                .addFormatter(StringNode.ei(), new JsonStringWritingFormatter(offset))
                 .build();
+
+        return wfh;
+    }
+
+    private CollectorProcess createProcess(WritingFormatterHandler wfh) throws Exception {
+
 
         CollectorProcess process = new SkeletonCollectorWritingProcess();
         new SkeletonWCPH(
@@ -90,6 +98,52 @@ public class SkeletonCollectorWritingProcessTest {
                 StringNode.ei()
         );
 
+        return process;
+    }
+
+    @Test
+    void test1() throws Exception {
+        Collector collector = Utils.createCollector();
+
+        collector.addProperty("numberValue", 10.11);
+        collector.addProperty("boolValue", true);
+        collector.addProperty("charValue", 'x');
+        collector.addProperty("stringValue", "Hello");
+
+        collector.beginObject("objectValue");
+        collector.addProperty("innerNumber", 123.456);
+        collector.addProperty("innerBoolean", false);
+        collector.addProperty("innerChar", 'z');
+        collector.addProperty("innerStr", "world");
+        collector.end();
+
+        collector.beginArray("arrayValue");
+        collector.addProperty(12345);
+        collector.addProperty("hhhhhhh");
+        collector.addProperty('v');
+        collector.addProperty(true);
+        collector.beginArray();
+        collector.addProperty(654);
+        collector.end();
+        collector.beginObject();
+        collector.addProperty("mmm", 345);
+        collector.end();
+        collector.end();
+
+        WritingFormatterHandler wfh = createWFH();
+        CollectorProcess process = createProcess(wfh);
+
+        collector.apply(process);
+
+        System.out.println(wfh.getDecoder().getString());
+    }
+
+    @Test
+    void test() throws Exception {
+
+        WritingFormatterHandler wfh = createWFH();
+        CollectorProcess process = createProcess(wfh);
+
         Collector collector = Utils.createCollector();
         AnnotationChecker sac = new SkeletonAnnotationChecker();
         CollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
@@ -111,16 +165,11 @@ public class SkeletonCollectorWritingProcessTest {
 
         serializer.serialize(TC0.class);
 
-        //<
         System.out.println(collector);
-        //<
 
         collector.apply(process);
 
-        //<
         System.out.println(wfh.getDecoder().getString());
-        ///<
-
     }
 
     @SkeletonClass

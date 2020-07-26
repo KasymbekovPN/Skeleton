@@ -30,7 +30,7 @@ public class StringWritingHandlerTest {
         Utils.fillCollectorWithString(collector, objects);
 
 //        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-//        //<
+//        //< !!! remake
 ////        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
 ////        new StringWritingHandler(process, StringNode.class);
 //        collector.apply(process);

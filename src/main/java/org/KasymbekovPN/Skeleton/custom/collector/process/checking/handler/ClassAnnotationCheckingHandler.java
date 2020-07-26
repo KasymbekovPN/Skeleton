@@ -19,8 +19,6 @@ public class ClassAnnotationCheckingHandler implements CollectorProcessHandler {
     private final String name;
     private final int modifiers;
     private final CollectorCheckingProcess collectorCheckingProcess;
-//    private final Class<? extends Node> clazz;
-    //<
     private final EntityItem nodeEi;
     private final List<String> path;
 

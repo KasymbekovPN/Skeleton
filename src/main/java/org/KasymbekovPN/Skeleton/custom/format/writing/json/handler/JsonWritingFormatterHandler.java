@@ -6,26 +6,24 @@ import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
+import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
+import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class JsonWritingFormatterHandler implements WritingFormatterHandler {
 
     private static final int RESET_BUFFER_LEN = 0;
-    private static final String OFFSET_STEP = "    ";
-    private static final String NAME_VALUE_SEPARATOR = ":";
 
     private final Map<EntityItem, WritingFormatter> formatters;
+    private final Offset offset;
 
-    private Offset offset = new Offset(OFFSET_STEP);
     private StringBuilder buffer = new StringBuilder();
 
-    private JsonWritingFormatterHandler(Map<EntityItem, WritingFormatter> formatters) {
+    private JsonWritingFormatterHandler(Map<EntityItem, WritingFormatter> formatters, Offset offset) {
         this.formatters = formatters;
+        this.offset = offset;
         reset();
     }
 
@@ -41,67 +39,49 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
     }
 
     @Override
+    public List<String> getDelimiters(int size, Node node) {
+        ArrayList<String> delimiters = new ArrayList<>();
+        for (StringDecoder rawDelimiter : formatters.get(node.getEI()).getDelimiters(size)) {
+            delimiters.add(rawDelimiter.getString());
+        }
+        return delimiters;
+    }
+
+    @Override
+    public void addDelimiter(Iterator<String> delimiterIterator) {
+        if (delimiterIterator.hasNext()){
+            buffer.append(delimiterIterator.next());
+        }
+    }
+
+    @Override
     public void addBeginBorder(Node node) {
-        buffer.append(offset.get())
-                .append(formatters.get(node.getEI()).getBeginBorder().getString());
-        offset.inc();
+        buffer.append(formatters.get(node.getEI()).getBeginBorder().getString());
     }
 
     @Override
     public void addEndBorder(Node node) {
-        buffer.append(offset.get())
-                .append(formatters.get(node.getEI()).getEndBorder().getString());
-        offset.dec();
+        buffer.append(formatters.get(node.getEI()).getEndBorder().getString());
     }
 
     @Override
     public void addValue(Node node) {
-        buffer.append(NAME_VALUE_SEPARATOR)
-                .append(formatters.get(node.getEI()).getValue(node).getString());
+        buffer.append(formatters.get(node.getEI()).getValue(node).getString());
     }
 
     @Override
     public void addPropertyName(Node node, String propertyName) {
-        buffer.append(offset.get())
-                .append(formatters.get(node.getEI()).getPropertyName(propertyName).getString());
-    }
-
-    private static class Offset {
-
-        private final String offsetStep;
-
-        private String offset;
-        private int counter;
-
-        public Offset(String offsetStep) {
-            this.offsetStep = offsetStep;
-            reset();
-        }
-
-        private void inc(){
-            offset = String.valueOf(offsetStep).repeat(Math.max(0, ++counter));
-        }
-
-        private void dec(){
-            if (counter > 0){
-                counter--;
-            }
-            offset = String.valueOf(offsetStep).repeat(counter);
-        }
-
-        void reset(){
-            offset = "";
-            counter = 0;
-        }
-
-        String get(){
-            return offset;
-        }
+        buffer.append(formatters.get(node.getEI()).getPropertyName(propertyName).getString());
     }
 
     public static class Builder {
 
         private final Map<EntityItem, WritingFormatter> formatters = new HashMap<>();
+        private final Offset offset;
+
+        public Builder(Offset offset) {
+            this.offset = offset;
+        }
 
         public Builder addFormatter(EntityItem handlerId, WritingFormatter formatter){
             formatters.put(handlerId, formatter);
@@ -113,7 +93,7 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
             if (mayBeException.isPresent()){
                 throw mayBeException.get();
             }
-            return new JsonWritingFormatterHandler(formatters);
+            return new JsonWritingFormatterHandler(formatters, offset);
         }
 
         private Optional<Exception> check(){

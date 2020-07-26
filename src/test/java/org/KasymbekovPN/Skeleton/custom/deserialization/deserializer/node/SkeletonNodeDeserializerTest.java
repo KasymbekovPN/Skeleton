@@ -23,8 +23,7 @@ public class SkeletonNodeDeserializerTest {
         JsonNodeDeserializerHandler handler = new JsonNodeDeserializerHandler(dataWrapper, null, null);
         NodeDeserializer deserializer = new SkeletonNodeDeserializer(handler);
         deserializer.deserialize();
-        //<
+
         System.out.println(handler.getNode());
-        //<
     }
 }

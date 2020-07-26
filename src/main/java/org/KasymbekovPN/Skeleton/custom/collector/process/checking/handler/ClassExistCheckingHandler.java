@@ -17,8 +17,6 @@ public class ClassExistCheckingHandler implements CollectorProcessHandler {
     private static final Logger log = LoggerFactory.getLogger(ClassExistCheckingHandler.class);
 
     private final CollectorCheckingProcess collectorCheckingProcess;
-//    private final Class<? extends Node> clazz;
-    //<
     private final EntityItem nodeEi;
     private final List<String> path;
 

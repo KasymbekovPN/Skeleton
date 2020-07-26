@@ -4,9 +4,19 @@ import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecod
 import org.KasymbekovPN.Skeleton.lib.collector.node.BooleanNode;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
+import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JsonBooleanWritingFormatter implements WritingFormatter {
+
+    private final Offset offset;
+
+    public JsonBooleanWritingFormatter(Offset offset) {
+        this.offset = offset;
+    }
 
     @Override
     public StringDecoder getBeginBorder() {
@@ -30,5 +40,10 @@ public class JsonBooleanWritingFormatter implements WritingFormatter {
     @Override
     public StringDecoder getPropertyName(String propertyName) {
         return new StringStringDecoder();
+    }
+
+    @Override
+    public List<StringDecoder> getDelimiters(int size) {
+        return new ArrayList<>();
     }
 }

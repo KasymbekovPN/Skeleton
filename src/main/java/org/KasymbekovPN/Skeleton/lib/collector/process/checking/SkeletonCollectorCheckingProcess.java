@@ -14,9 +14,6 @@ public class SkeletonCollectorCheckingProcess implements CollectorCheckingProces
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonCollectorCheckingProcess.class);
 
-//    private final Map<Class<? extends Node>, CollectorProcessHandler> handlers = new HashMap<>();
-//    private final Map<Class<? extends Node>, CollectorCheckingResult> results = new HashMap<>();
-    //<
     private final Map<EntityItem, CollectorProcessHandler> handlers = new HashMap<>();
     private final Map<EntityItem, CollectorCheckingResult> results = new HashMap<>();
 
@@ -25,29 +22,14 @@ public class SkeletonCollectorCheckingProcess implements CollectorCheckingProces
 
     @Override
     public void handle(Node node) {
-        //<
-        System.out.println(node);
-        //<
         EntityItem ei = node.getEI();
         if (handlers.containsKey(ei)){
             handlers.get(ei).handle(node);
         } else {
             log.error("The handler for {} doesn't exist", ei);
         }
-        //<
-//        Class<? extends Node> clazz = node.getClass();
-//        if (handlers.containsKey(clazz)){
-//            handlers.get(clazz).handle(node);
-//        } else {
-//            log.error("The handler for {} doesn't exist", clazz.getCanonicalName());
-//        }
     }
 
-//    @Override
-//    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-//        handlers.put(clazz, collectorProcessHandler);
-//    }
-    //<
     @Override
     public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
         handlers.put(handlerId, collectorProcessHandler);

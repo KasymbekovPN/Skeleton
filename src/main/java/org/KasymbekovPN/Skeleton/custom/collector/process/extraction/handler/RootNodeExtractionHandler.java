@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.extraction.handler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,10 +13,9 @@ public class RootNodeExtractionHandler implements CollectorProcessHandler {
 
     private Node root;
 
-    public RootNodeExtractionHandler(Node root, CollectorProcess collectorProcess, Class<? extends Node> clazz) {
+    public RootNodeExtractionHandler(Node root, CollectorProcess collectorProcess, EntityItem nodeEi) {
         this.root = root;
-        //<
-//        collectorProcess.addHandler(clazz, this);
+        collectorProcess.addHandler(nodeEi, this);
     }
 
     @Override

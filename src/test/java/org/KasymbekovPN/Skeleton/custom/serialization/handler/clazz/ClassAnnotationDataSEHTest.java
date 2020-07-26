@@ -343,12 +343,6 @@ public class ClassAnnotationDataSEHTest {
 
         }
 
-        //<
-//        @Override
-//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-//
-//        }
-
         public boolean isValid(){
             return valid;
         }

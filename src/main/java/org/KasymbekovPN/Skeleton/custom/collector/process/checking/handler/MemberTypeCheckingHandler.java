@@ -20,8 +20,6 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
 
     private final CollectorCheckingProcess collectorCheckingProcess;
     private final Set<String> knownTypes;
-//    private final Class<? extends Node> clazz;
-    //<
     private final EntityItem nodeEi;
     private final List<String> path;
 
@@ -36,8 +34,7 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
         this.nodeEi = nodeEi;
         this.path = path;
 
-        //<
-//        this.collectorCheckingProcess.addHandler(this.clazz, this);
+        this.collectorCheckingProcess.addHandler(nodeEi, this);
     }
 
     public MemberTypeCheckingHandler(CollectorCheckingProcess collectorCheckingProcess,
@@ -49,8 +46,7 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
         this.nodeEi = nodeEi;
         this.path = path;
 
-        //<
-//        this.collectorCheckingProcess.addHandler(this.clazz, this);
+        this.collectorCheckingProcess.addHandler(nodeEi, this);
     }
 
     @Override

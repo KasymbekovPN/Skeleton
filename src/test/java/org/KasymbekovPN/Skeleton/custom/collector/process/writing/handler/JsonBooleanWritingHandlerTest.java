@@ -30,7 +30,7 @@ public class JsonBooleanWritingHandlerTest {
         Utils.fillCollectorWithBoolean(collector, objects);
 
 //        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-//        //<
+//        //< !!! remake
 ////        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
 ////        new JsonBooleanWritingHandler(process, BooleanNode.class);
 //        collector.apply(process);

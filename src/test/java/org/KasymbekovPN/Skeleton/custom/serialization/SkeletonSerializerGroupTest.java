@@ -70,7 +70,7 @@ public class SkeletonSerializerGroupTest {
         }};
 
 //        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-        //<
+        //<  !!! remake
 //        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class, new IgnoredPropertyNameChecker("annotation"));
 //        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
 //        new JsonBooleanWritingHandler(process, BooleanNode.class);

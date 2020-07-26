@@ -44,7 +44,7 @@ public class SkeletonSerializerGroup implements SerializerGroup {
 
     private Node extractPreparedData(Serializer serializer){
         Node extractedData = new ObjectNode(null);
-        new RootNodeExtractionHandler(extractedData, extractionCollectorProcess, ObjectNode.class);
+        new RootNodeExtractionHandler(extractedData, extractionCollectorProcess, ObjectNode.ei());
         serializer.apply(extractionCollectorProcess);
         serializer.clear();
 

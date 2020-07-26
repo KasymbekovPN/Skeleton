@@ -120,11 +120,6 @@ public class ClassSignatureSEHTest {
             }
         }
 
-//        @Override
-//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {}
-        //<
-
-
         @Override
         public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
 

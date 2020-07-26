@@ -6,7 +6,7 @@ import org.objectweb.asm.ClassWriter;
 
 import java.util.Optional;
 
-//<
+//< !!!
 public interface ClazzDeserializer /*extends Deserializer*/ {
     Optional<ClassWriter> deserialize(ObjectNode clazz);
     //< !! there is will need to use handlerId with other type (may be impl. of EntityItem)

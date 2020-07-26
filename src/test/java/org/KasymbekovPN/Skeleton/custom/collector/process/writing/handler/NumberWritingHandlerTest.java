@@ -29,7 +29,7 @@ public class NumberWritingHandlerTest {
         Utils.fillCollectorWithNumber(collector, objects);
 
 //        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-//        //<
+//        //<  !!! remake
 ////        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
 ////        new NumberWritingHandler(process, NumberNode.class);
 //        collector.apply(process);

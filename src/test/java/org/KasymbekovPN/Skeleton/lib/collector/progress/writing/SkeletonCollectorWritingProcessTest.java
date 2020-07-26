@@ -23,24 +23,24 @@ public class SkeletonCollectorWritingProcessTest {
     private static Object[][] getTestDataForHandleAdd() {
         return new Object[][]{
                 {
-                        new HashMap<String, Pair<Class<? extends Node>, Class<? extends Node>>>(){{
-                            put("array", new Pair<>(ArrayNode.class, ArrayNode.class));
-                            put("boolean", new Pair<>(BooleanNode.class, BooleanNode.class));
-                            put("character", new Pair<>(CharacterNode.class, CharacterNode.class));
-                            put("number", new Pair<>(NumberNode.class, NumberNode.class));
-                            put("object", new Pair<>(ObjectNode.class, ObjectNode.class));
-                            put("string", new Pair<>(StringNode.class, StringNode.class));
+                        new HashMap<String, Pair<EntityItem, EntityItem>>(){{
+                            put("array", new Pair<>(ArrayNode.ei(), ArrayNode.ei()));
+                            put("boolean", new Pair<>(BooleanNode.ei(), BooleanNode.ei()));
+                            put("character", new Pair<>(CharacterNode.ei(), CharacterNode.ei()));
+                            put("number", new Pair<>(NumberNode.ei(), NumberNode.ei()));
+                            put("object", new Pair<>(ObjectNode.ei(), ObjectNode.ei()));
+                            put("string", new Pair<>(StringNode.ei(), StringNode.ei()));
                         }},
                         true
                 },
                 {
-                        new HashMap<String, Pair<Class<? extends Node>, Class<? extends Node>>>(){{
-                            put("array", new Pair<>(ArrayNode.class, ArrayNode.class));
-                            put("boolean", new Pair<>(BooleanNode.class, BooleanNode.class));
-                            put("character", new Pair<>(CharacterNode.class, CharacterNode.class));
-                            put("number", new Pair<>(NumberNode.class, NumberNode.class));
-                            put("object", new Pair<>(ObjectNode.class, ObjectNode.class));
-                            put("string", new Pair<>(StringNode.class, NumberNode.class));
+                        new HashMap<String, Pair<EntityItem, EntityItem>>(){{
+                            put("array", new Pair<>(ArrayNode.ei(), ArrayNode.ei()));
+                            put("boolean", new Pair<>(BooleanNode.ei(), BooleanNode.ei()));
+                            put("character", new Pair<>(CharacterNode.ei(), CharacterNode.ei()));
+                            put("number", new Pair<>(NumberNode.ei(), NumberNode.ei()));
+                            put("object", new Pair<>(ObjectNode.ei(), ObjectNode.ei()));
+                            put("string", new Pair<>(StringNode.ei(), NumberNode.ei()));
                         }},
                         false
                 },
@@ -51,21 +51,20 @@ public class SkeletonCollectorWritingProcessTest {
     @ParameterizedTest
     @MethodSource("getTestDataForHandleAdd")
     void testHandleAndAdd(
-            Map<String, Pair<Class<? extends Node>, Class<? extends Node>>> data,
+            Map<String, Pair<EntityItem, EntityItem>> data,
             boolean result
     ){
-        Map<String, Class<? extends Node>> results = new HashMap<>();
+        Map<String, EntityItem> results = new HashMap<>();
         SkeletonCollectorCheckingProcess process = new SkeletonCollectorCheckingProcess();
-        for (Map.Entry<String, Pair<Class<? extends Node>, Class<? extends Node>>> entry : data.entrySet()) {
-            //<
-//            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
+        for (Map.Entry<String, Pair<EntityItem, EntityItem>> entry : data.entrySet()) {
+            process.addHandler(entry.getValue().first, new NodeProcessHandler(entry.getKey(), results, process));
         }
 
         Collector collector = createCollector();
         collector.apply(process);
 
         boolean check = true;
-        for (Map.Entry<String, Pair<Class<? extends Node>, Class<? extends Node>>> entry : data.entrySet()) {
+        for (Map.Entry<String, Pair<EntityItem, EntityItem>> entry : data.entrySet()) {
             String key = entry.getKey();
             if (results.containsKey(key)){
                 if (!results.get(key).equals(entry.getValue().second)){
@@ -105,10 +104,10 @@ public class SkeletonCollectorWritingProcessTest {
     private static class NodeProcessHandler implements CollectorProcessHandler {
 
         private final String name;
-        private final Map<String,Class<? extends Node>> results;
+        private final Map<String,EntityItem> results;
         private final CollectorCheckingProcess process;
 
-        public NodeProcessHandler(String name, Map<String, Class<? extends Node>> results, CollectorCheckingProcess process) {
+        public NodeProcessHandler(String name, Map<String, EntityItem> results, CollectorCheckingProcess process) {
             this.name = name;
             this.results = results;
             this.process = process;
@@ -116,7 +115,7 @@ public class SkeletonCollectorWritingProcessTest {
 
         @Override
         public void handle(Node node) {
-            results.put(name, node.getClass());
+            results.put(name, node.getEI());
 
             if (node.isObject()){
                 ObjectNode objectNode = (ObjectNode) node;

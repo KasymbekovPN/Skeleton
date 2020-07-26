@@ -31,10 +31,4 @@ public class SkeletonCollectorProcess implements CollectorProcess{
     public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
 
     }
-
-    //<
-//    @Override
-//    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-//        handlers.put(clazz, collectorProcessHandler);
-//    }
 }

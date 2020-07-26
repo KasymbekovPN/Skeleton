@@ -636,10 +636,6 @@ public class CustomMemberSEHTest {
 
         }
 
-        //<
-//        @Override
-//        public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) { }
-
         public boolean isValid() {
             return valid;
         }

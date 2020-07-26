@@ -14,8 +14,6 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
 
     private final CollectorCheckingProcess collectorCheckingProcess;
     private final List<String> members;
-//    private final Class<? extends Node> clazz;
-    //<
     private final EntityItem nodeEi;
     private final List<String> path;
 
@@ -25,7 +23,6 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
                                        List<String> path) {
         this.nodeEi = nodeEi;
         this.collectorCheckingProcess = collectorCheckingProcess;
-        //<
         this.collectorCheckingProcess.addHandler(nodeEi, this);
         this.members = members;
         this.path = path;

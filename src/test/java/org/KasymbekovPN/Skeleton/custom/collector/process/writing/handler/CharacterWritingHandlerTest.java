@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -29,10 +30,10 @@ public class CharacterWritingHandlerTest {
         Collector collector = Utils.createCollector();
         Utils.fillCollectorWithCharacter(collector, objects);
 
-//        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-//        //<
-////        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
-////        new CharacterWritingHandler(process, CharacterNode.class);
+        CollectorProcess process = Utils.createCollectorWritingProcess();
+        //< !!! remake
+//        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.ei());
+//        new CharacterWritingHandler(process, CharacterNode.ei());
 //        collector.apply(process);
 //
 //        assertThat(new SkeletonCharacterWritingHandlerTestData(objects).check(process.getBuffer().toString())).isEqualTo(true);

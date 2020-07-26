@@ -6,6 +6,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.WritingCollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,7 +19,11 @@ public class JsonArrayWCPH implements WritingCollectorProcessHandler {
         List<Node> children = ((ArrayNode) node).getChildren();
 
         writingFormatterHandler.addBeginBorder(node);
+
+        Iterator<String> delimiterIterator = writingFormatterHandler.getDelimiters(children.size(), node).iterator();
+
         for (Node child : children) {
+            writingFormatterHandler.addDelimiter(delimiterIterator);
             child.apply(collectorProcess);
         }
         writingFormatterHandler.addEndBorder(node);

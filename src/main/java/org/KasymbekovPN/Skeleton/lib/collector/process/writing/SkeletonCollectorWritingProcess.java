@@ -13,34 +13,8 @@ import java.util.Map;
 public class SkeletonCollectorWritingProcess implements CollectorProcess {
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonCollectorWritingProcess.class);
-    //<
-//    private static final int CLEARING_SIZE = 0;
 
     private Map<EntityItem, CollectorProcessHandler> handlers = new HashMap<>();
-
-    //<
-//    private StringBuilder buffer = new StringBuilder();
-//
-//    private final Formatter formatter;
-//    public SkeletonCollectorWritingProcess(Formatter formatter) {
-//        this.formatter = formatter;
-//    }
-
-    //<
-//    @Override
-//    public StringBuilder getBuffer() {
-//        return buffer;
-//    }
-//
-//    @Override
-//    public void clearBuffer() {
-//        buffer.setLength(CLEARING_SIZE);
-//    }
-//
-//    @Override
-//    public Formatter getFormatter() {
-//        return formatter;
-//    }
 
     @Override
     public void handle(Node node) {
@@ -57,49 +31,3 @@ public class SkeletonCollectorWritingProcess implements CollectorProcess {
         handlers.put(handlerId, collectorProcessHandler);
     }
 }
-
-//<
-//public class SkeletonCollectorWritingProcess implements CollectorWritingProcess {
-//
-//    private static final Logger log = LoggerFactory.getLogger(SkeletonCollectorWritingProcess.class);
-//    private static final int CLEARING_SIZE = 0;
-//
-//    private Map<Class<? extends Node>, CollectorProcessHandler> handlers = new HashMap<>();
-//    private StringBuilder buffer = new StringBuilder();
-//
-//    private final Formatter formatter;
-//
-//    public SkeletonCollectorWritingProcess(Formatter formatter) {
-//        this.formatter = formatter;
-//    }
-//
-//    @Override
-//    public StringBuilder getBuffer() {
-//        return buffer;
-//    }
-//
-//    @Override
-//    public void clearBuffer() {
-//        buffer.setLength(CLEARING_SIZE);
-//    }
-//
-//    @Override
-//    public Formatter getFormatter() {
-//        return formatter;
-//    }
-//
-//    @Override
-//    public void handle(Node node) {
-//        Class<? extends Node> clazz = node.getClass();
-//        if (handlers.containsKey(clazz)){
-//            handlers.get(clazz).handle(node);
-//        } else {
-//            log.error("The handler for {} doesn't exist", clazz.getCanonicalName());
-//        }
-//    }
-//
-//    @Override
-//    public void addHandler(Class<? extends Node> clazz, CollectorProcessHandler collectorProcessHandler) {
-//        handlers.put(clazz, collectorProcessHandler);
-//    }
-//}

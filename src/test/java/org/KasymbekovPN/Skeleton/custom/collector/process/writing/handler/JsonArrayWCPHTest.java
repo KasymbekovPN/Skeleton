@@ -45,7 +45,7 @@ public class JsonArrayWCPHTest {
         Utils.fillCollectorWithArrayLevel0(collector, subArrayNames);
 
 //        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-//        //<
+//        //< !!! remake
 ////        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
 ////        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
 //        collector.apply(process);
@@ -81,7 +81,7 @@ public class JsonArrayWCPHTest {
         Utils.fillCollectorWithArrayLevel1(collector, subArrayNames);
 
 //        CollectorWritingProcess process = Utils.createCollectorWritingProcess();
-//        //<
+//        //< !!! remake
 ////        new JsonObjectWritingCollectorProcessHandler(process, ObjectNode.class);
 ////        new JsonArrayWritingCollectorProcessHandler(process, ArrayNode.class);
 //        collector.apply(process);
