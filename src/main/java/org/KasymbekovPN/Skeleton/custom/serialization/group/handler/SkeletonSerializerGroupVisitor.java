@@ -7,9 +7,10 @@ import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.lib.collector.process.writing.CollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
+import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupVisitor;
 
 import java.util.*;
@@ -18,17 +19,20 @@ import java.util.stream.Collectors;
 public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
 
     private final CollectorCheckingHandler collectorCheckingHandler;
-    private final CollectorWritingProcess collectorWritingProcess;
+    private final CollectorProcess collectorProcess;
+    private final WritingFormatterHandler writingFormatterHandler;
     private final Set<String> systemTypes;
 
     private String data;
     private boolean dataIsValid;
 
     public SkeletonSerializerGroupVisitor(CollectorCheckingHandler collectorCheckingHandler,
-                                          CollectorWritingProcess collectorWritingProcess,
+                                          CollectorProcess collectorProcess,
+                                          WritingFormatterHandler writingFormatterHandler,
                                           Set<String> systemTypes) {
         this.collectorCheckingHandler = collectorCheckingHandler;
-        this.collectorWritingProcess = collectorWritingProcess;
+        this.collectorProcess = collectorProcess;
+        this.writingFormatterHandler = writingFormatterHandler;
         this.systemTypes = systemTypes;
 
         this.data = "";
@@ -52,8 +56,8 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
         dataIsValid = checkPrepareClasses(prepareClasses, processIdByClass);
         if (dataIsValid) {
             ObjectNode allClassesObjectNode = collectAllPreparedClasses(prepareClasses);
-            allClassesObjectNode.apply(collectorWritingProcess);
-            data = collectorWritingProcess.getBuffer().toString();
+            allClassesObjectNode.apply(collectorProcess);
+            data = writingFormatterHandler.getDecoder().getString();
         }
     }
 
