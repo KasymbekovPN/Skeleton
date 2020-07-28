@@ -8,8 +8,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SkeletonClass {
-    int includeByModifiers() default -1;
-    int excludeByModifiers() default -1;
-    String[] includeByName() default {};
-    String[] excludeByName() default {};
+//    int includeByModifiers() default -1;
+//    int excludeByModifiers() default -1;
+//    String[] includeByName() default {};
+//    String[] excludeByName() default {};
+    //<
+    String name();
 }

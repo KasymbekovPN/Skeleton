@@ -104,27 +104,28 @@ public class Utils {
         collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
     }
 
-    public static void fillCollectorAnnotationPart(Collector collector,
-                                                   int includeByModifiers,
-                                                   int excludeByModifiers,
-                                                   String[] includeByName,
-                                                   String[] excludeByName){
-
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
-
-        collector.addProperty("includeByModifiers", includeByModifiers);
-        collector.addProperty("excludeByModifiers", excludeByModifiers);
-
-        collector.beginArray("includeByName");
-        for (String name : includeByName) {
-            collector.addProperty(name);
-        }
-        collector.end();
-
-        collector.beginArray("excludeByName");
-        for (String name : excludeByName) {
-            collector.addProperty(name);
-        }
-        collector.reset();
-    }
+    //<
+//    public static void fillCollectorAnnotationPart(Collector collector,
+//                                                   int includeByModifiers,
+//                                                   int excludeByModifiers,
+//                                                   String[] includeByName,
+//                                                   String[] excludeByName){
+//
+//        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.annotationEI()));
+//
+//        collector.addProperty("includeByModifiers", includeByModifiers);
+//        collector.addProperty("excludeByModifiers", excludeByModifiers);
+//
+//        collector.beginArray("includeByName");
+//        for (String name : includeByName) {
+//            collector.addProperty(name);
+//        }
+//        collector.end();
+//
+//        collector.beginArray("excludeByName");
+//        for (String name : excludeByName) {
+//            collector.addProperty(name);
+//        }
+//        collector.reset();
+//    }
 }

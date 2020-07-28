@@ -16,6 +16,8 @@ import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("SkeletonSignatureSEH. Testing of:")
 public class ClassSignatureSEHTest {
+
+    private static final Logger log = LoggerFactory.getLogger(ClassSignatureSEHTest.class);
 
     private static Object[][] getTestData(){
         Class<?>[] classes = {
@@ -37,27 +41,30 @@ public class ClassSignatureSEHTest {
         Object[][] objects = new Object[classes.length * 4][4];
         for (int i = 0; i < classes.length; i++) {
 
+            SkeletonClass annotation = classes[i].getAnnotation(SkeletonClass.class);
+            String name = annotation.name();
+
             int index = 4 * i;
             objects[index][0] = classes[i];
-            objects[index][1] = classes[i].getTypeName();
+            objects[index][1] = name;
             objects[index][2] = classes[i].getModifiers();
             objects[index][3] = true;
 
             index++;
             objects[index][0] = classes[i];
-            objects[index][1] = classes[i].getTypeName() + "wrong";
+            objects[index][1] = name + "wrong";
             objects[index][2] = classes[i].getModifiers();
             objects[index][3] = false;
 
             index++;
             objects[index][0] = classes[i];
-            objects[index][1] = classes[i].getTypeName();
+            objects[index][1] = name;
             objects[index][2] = classes[i].getModifiers() + 1;
             objects[index][3] = false;
 
             index++;
             objects[index][0] = classes[i];
-            objects[index][1] = classes[i].getTypeName() + "wrong";
+            objects[index][1] = name + "wrong";
             objects[index][2] = classes[i].getModifiers() + 1;
             objects[index][3] = false;
         }
@@ -85,8 +92,8 @@ public class ClassSignatureSEHTest {
 
     private static class TestCollectorProcess implements CollectorProcess {
 
-        private static String MODIFIERS = "modifiers";
-        private static int CLASS_SECTION_SIZE = 1;
+        private static final String MODIFIERS = "modifiers";
+        private static final int CLASS_SECTION_SIZE = 1;
 
         private final String name;
         private final int modifiers;
@@ -102,43 +109,62 @@ public class ClassSignatureSEHTest {
 
         @Override
         public void handle(Node node) {
-            Optional<Node> maybeChild = node.getChild(path, ObjectNode.class);
-            if (maybeChild.isPresent()){
-                ObjectNode classNode = (ObjectNode) maybeChild.get();
-                if (classNode.getChildren().size() == CLASS_SECTION_SIZE && classNode.containsKey(name)){
-                    Node concreteNode = classNode.getChildren().get(name);
-                    if (concreteNode.isObject()){
-                        ObjectNode concreteObjectNode = (ObjectNode) concreteNode;
-                        if (concreteObjectNode.containsKey(MODIFIERS)){
-                            Node modifiersNode = concreteObjectNode.getChildren().get(MODIFIERS);
-                            if (modifiersNode.isNumber()){
-                                valid = ((NumberNode)modifiersNode).getValue().equals(modifiers);
-                            }
-                        }
-                    }
+            Optional<ObjectNode> mayBeClassNode = extractClassNode(node, path);
+
+            Optional<ObjectNode> mayBeConcreteNode = Optional.empty();
+            if (mayBeClassNode.isPresent()){
+                mayBeConcreteNode = extractConcreteNode(mayBeClassNode.get());
+            }
+
+            mayBeConcreteNode.ifPresent(objectNode -> valid = checkConcreteNode(objectNode));
+        }
+
+        private Optional<ObjectNode> extractClassNode(Node node, List<String> path){
+            Optional<Node> mayNeNode = node.getChild(path, ObjectNode.class);
+            return mayNeNode.isPresent() && mayNeNode.get().isObject()
+                    ? Optional.of((ObjectNode)mayNeNode.get())
+                    : Optional.empty();
+        }
+
+        private Optional<ObjectNode> extractConcreteNode(ObjectNode classNode){
+            if (classNode.getChildren().size() == CLASS_SECTION_SIZE && classNode.containsKey(name)){
+                Node node = classNode.getChildren().get(name);
+                if (node.isObject()){
+                    return Optional.of((ObjectNode) node);
                 }
             }
+
+            return Optional.empty();
+        }
+
+        private boolean checkConcreteNode(ObjectNode concreteNode){
+            if (concreteNode.containsKey(MODIFIERS)){
+                Node modifiersNode = concreteNode.getChildren().get(MODIFIERS);
+                if (modifiersNode.isNumber()){
+                    return ((NumberNode)modifiersNode).getValue().equals(modifiers);
+                }
+            }
+
+            return false;
         }
 
         @Override
-        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
-
-        }
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {}
 
         public boolean isValid() {
             return valid;
         }
     }
 
-    @SkeletonClass
+    @SkeletonClass(name = "TCDefault")
     class TCDefault { }
 
-    @SkeletonClass
+    @SkeletonClass(name = "TCStaticDefault")
     static class TCStaticDefault { }
 
-    @SkeletonClass
+    @SkeletonClass(name = "TCProtected")
     protected class TCProtected{ }
 
-    @SkeletonClass
+    @SkeletonClass(name = "TCProtectedStatic")
     protected static class TCProtectedStatic{}
 }

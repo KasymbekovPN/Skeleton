@@ -1,4 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.custom;
 
-public class CustomClass4 {
-}
+//<
+//public class CustomClass4 {
+//}

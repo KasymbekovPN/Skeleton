@@ -29,8 +29,9 @@ public class ClassSignatureSEH extends BaseSEH {
         boolean result = false;
         Optional<Annotation> maybeAnnotation = annotationChecker.check(clazz.getDeclaredAnnotations(), SkeletonClass.class);
         if (maybeAnnotation.isPresent()){
+            SkeletonClass annotation = (SkeletonClass) maybeAnnotation.get();
             result = true;
-            name = clazz.getTypeName();
+            name = annotation.name();
             modifiers = clazz.getModifiers();
         }
 
