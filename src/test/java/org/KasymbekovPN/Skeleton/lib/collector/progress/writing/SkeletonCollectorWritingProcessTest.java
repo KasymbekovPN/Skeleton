@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.collector.progress.writing;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
@@ -114,7 +115,7 @@ public class SkeletonCollectorWritingProcessTest {
         }
 
         @Override
-        public void handle(Node node) {
+        public CollectorCheckingResult handle(Node node) {
             results.put(name, node.getEI());
 
             if (node.isObject()){
@@ -123,7 +124,21 @@ public class SkeletonCollectorWritingProcessTest {
                     entry.getValue().apply(process);
                 }
             }
+
+            return CollectorCheckingResult.NONE;
         }
+        //<
+//        @Override
+//        public void handle(Node node) {
+//            results.put(name, node.getEI());
+//
+//            if (node.isObject()){
+//                ObjectNode objectNode = (ObjectNode) node;
+//                for (Map.Entry<String, Node> entry : objectNode.getChildren().entrySet()) {
+//                    entry.getValue().apply(process);
+//                }
+//            }
+//        }
     }
 
     private static class TestCollectorStructure implements CollectorStructure {

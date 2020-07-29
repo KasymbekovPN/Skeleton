@@ -30,16 +30,32 @@ public class ClassExistCheckingHandler implements CollectorProcessHandler {
     }
 
     @Override
-    public void handle(Node node) {
+    public CollectorCheckingResult handle(Node node) {
 
         CollectorCheckingResult result = CollectorCheckingResult.EXCLUDE;
         if (node.isObject()){
-            Optional<Node> maybeChild = ((ObjectNode) node).getChild(path, ObjectNode.class);
+            Optional<Node> maybeChild = node.getChild(path, ObjectNode.class);
             if (maybeChild.isPresent()){
                 result = CollectorCheckingResult.INCLUDE;
             }
         }
 
         collectorCheckingProcess.setResult(nodeEi, result);
+
+        return result;
     }
+    //<
+//    @Override
+//    public void handle(Node node) {
+//
+//        CollectorCheckingResult result = CollectorCheckingResult.EXCLUDE;
+//        if (node.isObject()){
+//            Optional<Node> maybeChild = node.getChild(path, ObjectNode.class);
+//            if (maybeChild.isPresent()){
+//                result = CollectorCheckingResult.INCLUDE;
+//            }
+//        }
+//
+//        collectorCheckingProcess.setResult(nodeEi, result);
+//    }
 }

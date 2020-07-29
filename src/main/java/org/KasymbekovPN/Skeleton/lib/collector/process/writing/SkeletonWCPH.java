@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.collector.process.writing;
 
+import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
@@ -29,9 +30,18 @@ public class SkeletonWCPH implements CollectorProcessHandler {
     }
 
     @Override
-    public void handle(Node node) {
+    public CollectorCheckingResult handle(Node node) {
         if (node.getEI().equals(ei)){
             writingCollectorProcessHandler.handle(node, writingFormatterHandler, collectorProcess);
         }
+
+        return CollectorCheckingResult.NONE;
     }
+    //<
+//    @Override
+//    public void handle(Node node) {
+//        if (node.getEI().equals(ei)){
+//            writingCollectorProcessHandler.handle(node, writingFormatterHandler, collectorProcess);
+//        }
+//    }
 }

@@ -50,7 +50,7 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
     }
 
     @Override
-    public void handle(Node node) {
+    public CollectorCheckingResult handle(Node node) {
         CollectorCheckingResult result = CollectorCheckingResult.NONE;
 
         Optional<ObjectNode> mayBeMembersNode = getMembersNode(node, path);
@@ -60,7 +60,22 @@ public class MemberTypeCheckingHandler implements CollectorProcessHandler {
         }
 
         collectorCheckingProcess.setResult(nodeEi, result);
+
+        return result;
     }
+    //<
+//    @Override
+//    public void handle(Node node) {
+//        CollectorCheckingResult result = CollectorCheckingResult.NONE;
+//
+//        Optional<ObjectNode> mayBeMembersNode = getMembersNode(node, path);
+//        if (mayBeMembersNode.isPresent()){
+//            Set<String> memberTypes = getMemberTypes(mayBeMembersNode.get());
+//            result = checkMemberTypes(memberTypes, knownTypes);
+//        }
+//
+//        collectorCheckingProcess.setResult(nodeEi, result);
+//    }
 
     private Optional<ObjectNode> getMembersNode(Node root, List<String> path){
         if (root.isObject()){

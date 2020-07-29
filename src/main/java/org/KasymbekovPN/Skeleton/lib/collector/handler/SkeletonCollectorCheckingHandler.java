@@ -5,13 +5,12 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class SkeletonCollectorCheckingHandler implements CollectorCheckingHandler {
 
@@ -75,11 +74,37 @@ public class SkeletonCollectorCheckingHandler implements CollectorCheckingHandle
     }
 
     @Override
+    public Map<String, CollectorCheckingResult> handle(Collector collector, Filter<String> processIdFilter) {
+        Map<String, CollectorCheckingResult> results = new HashMap<>();
+        Deque<String> filteredProcessIds = processIdFilter.filter(new ArrayDeque<>(processes.keySet()));
+        for (String filteredProcessId : filteredProcessIds) {
+            CollectorCheckingProcess process = processes.get(filteredProcessId);
+            collector.apply(process);
+            results.put(filteredProcessId, process.getResult());
+        }
+
+        return results;
+    }
+
+    @Override
     public Map<String, CollectorCheckingResult> handle(Node node) {
         Map<String, CollectorCheckingResult> results = new HashMap<>();
         for (Map.Entry<String, CollectorCheckingProcess> entry : processes.entrySet()) {
             node.apply(entry.getValue());
             results.put(entry.getKey(), entry.getValue().getResult());
+        }
+
+        return results;
+    }
+
+    @Override
+    public Map<String, CollectorCheckingResult> handle(Node node, Filter<String> processIdFilter) {
+        Map<String, CollectorCheckingResult> results = new HashMap<>();
+        Deque<String> filteredProcessIds = processIdFilter.filter(new ArrayDeque<>(processes.keySet()));
+        for (String filteredProcessId : filteredProcessIds) {
+            CollectorCheckingProcess process = processes.get(filteredProcessId);
+            node.apply(process);
+            results.put(filteredProcessId, process.getResult());
         }
 
         return results;

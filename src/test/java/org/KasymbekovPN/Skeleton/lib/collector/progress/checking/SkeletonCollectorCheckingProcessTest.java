@@ -200,7 +200,7 @@ public class SkeletonCollectorCheckingProcessTest {
         }
 
         @Override
-        public void handle(Node node) {
+        public CollectorCheckingResult handle(Node node) {
             results.put(name, node.getClass());
 
             if (node.isObject()){
@@ -209,7 +209,21 @@ public class SkeletonCollectorCheckingProcessTest {
                     entry.getValue().apply(process);
                 }
             }
+
+            return CollectorCheckingResult.NONE;
         }
+        //<
+//        @Override
+//        public void handle(Node node) {
+//            results.put(name, node.getClass());
+//
+//            if (node.isObject()){
+//                ObjectNode objectNode = (ObjectNode) node;
+//                for (Map.Entry<String, Node> entry : objectNode.getChildren().entrySet()) {
+//                    entry.getValue().apply(process);
+//                }
+//            }
+//        }
     }
 
     private static class SetterProgressHandler implements CollectorProcessHandler {
@@ -225,7 +239,7 @@ public class SkeletonCollectorCheckingProcessTest {
         }
 
         @Override
-        public void handle(Node node) {
+        public CollectorCheckingResult handle(Node node) {
             process.setResult(ei, result);
             if (node.isObject()){
                 ObjectNode objectNode = (ObjectNode) node;
@@ -233,7 +247,20 @@ public class SkeletonCollectorCheckingProcessTest {
                     entry.getValue().apply(process);
                 }
             }
+
+            return CollectorCheckingResult.NONE;
         }
+        //<
+//        @Override
+//        public void handle(Node node) {
+//            process.setResult(ei, result);
+//            if (node.isObject()){
+//                ObjectNode objectNode = (ObjectNode) node;
+//                for (Map.Entry<String, Node> entry : objectNode.getChildren().entrySet()) {
+//                    entry.getValue().apply(process);
+//                }
+//            }
+//        }
     }
 
     private static class TestCollectorStructure implements CollectorStructure{

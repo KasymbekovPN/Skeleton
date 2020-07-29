@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.extraction.handler;
 
+import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
@@ -19,9 +20,18 @@ public class RootNodeExtractionHandler implements CollectorProcessHandler {
     }
 
     @Override
-    public void handle(Node node) {
+    public CollectorCheckingResult handle(Node node) {
         if (node.isObject()) {
             root.deepSet(node.deepCopy(root.getParent()));
         }
+
+        return CollectorCheckingResult.NONE;
     }
+    //<
+//    @Override
+//    public void handle(Node node) {
+//        if (node.isObject()) {
+//            root.deepSet(node.deepCopy(root.getParent()));
+//        }
+//    }
 }

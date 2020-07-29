@@ -29,7 +29,7 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
     }
 
     @Override
-    public void handle(Node node) {
+    public CollectorCheckingResult handle(Node node) {
 
         int counter = -1;
         if (node.isObject()){
@@ -46,9 +46,35 @@ public class MembersExistCheckingHandler implements CollectorProcessHandler {
             }
         }
 
-        collectorCheckingProcess.setResult(
-                nodeEi,
-                members.size() != counter ? CollectorCheckingResult.EXCLUDE : CollectorCheckingResult.INCLUDE
-        );
+        CollectorCheckingResult result
+                = members.size() != counter ? CollectorCheckingResult.EXCLUDE : CollectorCheckingResult.INCLUDE;
+
+        collectorCheckingProcess.setResult(nodeEi, result);
+
+        return result;
     }
+    //<
+//    @Override
+//    public void handle(Node node) {
+//
+//        int counter = -1;
+//        if (node.isObject()){
+//            ObjectNode objectNode = (ObjectNode) node;
+//            Optional<Node> maybeChild = objectNode.getChild(path, ObjectNode.class);
+//            if (maybeChild.isPresent()){
+//                ObjectNode membersNode = (ObjectNode) maybeChild.get();
+//                counter = 0;
+//                for (String member : members) {
+//                    if (membersNode.containsKey(member)){
+//                        counter++;
+//                    }
+//                }
+//            }
+//        }
+//
+//        collectorCheckingProcess.setResult(
+//                nodeEi,
+//                members.size() != counter ? CollectorCheckingResult.EXCLUDE : CollectorCheckingResult.INCLUDE
+//        );
+//    }
 }
