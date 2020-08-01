@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+//< rename
+//< check argument need make as Object
 public class SimpleClazzChecker implements SimpleChecker<Class<?>> {
 
     private final Set<Class<?>> classes;

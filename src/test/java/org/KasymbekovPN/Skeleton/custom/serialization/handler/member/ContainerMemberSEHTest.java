@@ -31,81 +31,98 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 //import java.util.stream.Collectors;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
+
+import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
+import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.ContainerMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.handler.member.classes.container.CollectionTC;
+import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
+import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
+import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
+import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
+
+@DisplayName("SkeletonContainerMemberSEH. Testing of:")
+public class ContainerMemberSEHTest {
+
+    private static Object[][] getTestDataForMemberAnnotation(){
+        return new Object[][]{
+                {
+                        CollectionTC.class,
+                        new HashMap<String, Triple<Class<?>, List<Class<?>>, Integer>>(){{
+                            put(
+                                    "setPublic",
+                                    new MutableTriple<>(Set.class, new ArrayList<>(){{add(String.class);}}, Modifier.PUBLIC)
+                            );
+                            put(
+                                    "setProtected",
+                                    new MutableTriple<>(Set.class, new ArrayList<>(){{add(Integer.class);}}, Modifier.PROTECTED)
+                            );
+                            put(
+                                    "setPrivate",
+                                    new MutableTriple<>(Set.class, new ArrayList<>(){{add(Float.class);}}, Modifier.PRIVATE)
+                            );
+                            put(
+                                    "listPublic",
+                                    new MutableTriple<>(List.class, new ArrayList<>(){{add(String.class);}}, Modifier.PUBLIC)
+                            );
+                            put(
+                                    "listProtected",
+                                    new MutableTriple<>(List.class, new ArrayList<>(){{add(Integer.class);}}, Modifier.PROTECTED)
+                            );
+                            put(
+                                    "listPrivate",
+                                    new MutableTriple<>(List.class, new ArrayList<>(){{add(Float.class);}}, Modifier.PRIVATE)
+                            );
+                        }},
+                        true
+                }
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("getTestDataForMemberAnnotation")
+    @DisplayName("member annotation handling")
+    void testMemberAnnotation(Class<?> clazz,
+                              Map<String, Triple<Class<?>, List<Class<?>>, Integer>> members,
+                              boolean result) throws Exception {
+
+        Collector collector = Utils.createCollector();
+        Utils.fillCollectorClassPath(collector);
+        SkeletonAnnotationChecker ah = new SkeletonAnnotationChecker();
+        SkeletonCollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
+
+        Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
+        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
+        CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
+
+        ContainerMemberSEH containerMemberSEH = new ContainerMemberSEH(collectionInstanceChecker, ah, cch);
+        TestSerializer serializer = new TestSerializer(collector, containerMemberSEH);
+        serializer.serialize(clazz);
+
+        System.out.println(collector);
+
+        //<
+//        SpecificTypeMemberSEHTest.TestCollectorProcess process = new SpecificTypeMemberSEHTest.TestCollectorProcess(members, collector);
+//        collector.apply(process);
 //
-//@DisplayName("SkeletonContainerMemberSEH. Testing of:")
-//public class ContainerMemberSEHTest {
-//
-//    private static Object[][] getDataForMemberAnnotationTesting(){
-//        return new Object[][]{
-//                {
-//                        TC0.class,
-//                        new HashMap<String, Trio>(){{
-//                            put(
-//                                    "publicProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(String.class);}}, Modifier.PUBLIC)
-//                            );
-//                            put(
-//                                    "protectedProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Integer.class);}}, Modifier.PROTECTED)
-//                            );
-//                            put(
-//                                    "privateProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Float.class);}}, Modifier.PRIVATE)
-//                            );
-//                            put(
-//                                    "staticProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Double.class);}}, Modifier.STATIC)
-//                            );
-//                        }},
-//                        true
-//                },
-//                {
-//                        TC0.class,
-//                        new HashMap<String, Trio>(){{
-//                            put(
-//                                    "publicProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(String.class);}}, Modifier.PUBLIC)
-//                            );
-//                            put(
-//                                    "protectedProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Integer.class);}}, Modifier.PROTECTED)
-//                            );
-//                            put(
-//                                    "privateProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Float.class);}}, Modifier.PRIVATE)
-//                            );
-//                        }},
-//                        false
-//                },
-//                {
-//                        TC0.class,
-//                        new HashMap<String, Trio>(){{
-//                            put(
-//                                    "publicProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(String.class);}}, Modifier.PUBLIC)
-//                            );
-//                            put(
-//                                    "protectedProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Integer.class);}}, Modifier.PROTECTED)
-//                            );
-//                            put(
-//                                    "privateProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Float.class);}}, Modifier.PRIVATE)
-//                            );
-//                            put(
-//                                    "staticProperty",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Double.class);}}, Modifier.STATIC)
-//                            );
-//                            put(
-//                                    "staticProperty1",
-//                                    new Trio(Set.class, new ArrayList<>(){{add(Double.class);}}, Modifier.STATIC)
-//                            );
-//                        }},
-//                        false
-//                }
-//        };
-//    }
-//
+//        assertThat(process.isValid()).isEqualTo(result);
+
+    }
 //    @ParameterizedTest
 //    @MethodSource("getDataForMemberAnnotationTesting")
 //    @DisplayName("member annotation handling")
@@ -585,64 +602,57 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 //
 //        assertThat(process.isValid()).isEqualTo(result);
 //    }
-//
-//    private static class TestSerializer implements Serializer {
-//
-//        private SerializationElementHandler handler;
-//        private Collector collector;
-//
-//        public TestSerializer(Collector collector,
-//                              ContainerArgumentChecker cac,
-//                              AnnotationChecker ah,
-//                              CollectorCheckingHandler cch) {
-//            this.collector = collector;
-//            this.handler = new ContainerMemberSEH(Set.class, cac, ah, cch);
-//        }
-//
-//        @Override
-//        public void serialize(Class<?> clazz) {
-//            for (Field field : clazz.getDeclaredFields()) {
-//                handler.handle(field, collector);
-//            }
-//        }
-//
-//        @Override
-//        public void apply(CollectorProcess collectorProcess) {
-//
-//        }
-//
-//        @Override
-//        public void clear() {
-//
-//        }
-//
-//        @Override
-//        public void setCollector(Collector collector) {
-//
-//        }
-//
-//        @Override
-//        public Collector getCollector() {
-//            return null;
-//        }
-//    }
-//
-//    private static class TestCollectorProcess implements CollectorProcess {
-//
-//        private final Map<String, Trio> members;
-//        private final Collector collector;
-//
-//        private Set<String> notExistMembers = new HashSet<>();
-//        private boolean valid = false;
-//
-//        public TestCollectorProcess(Map<String, Trio> members, Collector collector) {
-//            this.members = members;
-//            this.collector = collector;
-//        }
-//
-//        @Override
-//        public void handle(Node node) {
-//
+
+    private static class TestSerializer implements Serializer {
+
+        private SerializationElementHandler handler;
+        private Collector collector;
+
+        public TestSerializer(Collector collector,
+                              SerializationElementHandler serializationElementHandler) {
+            this.collector = collector;
+            this.handler = serializationElementHandler;
+        }
+
+        @Override
+        public void serialize(Class<?> clazz) {
+            for (Field field : clazz.getDeclaredFields()) {
+                handler.handle(field, collector);
+            }
+        }
+
+        @Override
+        public void apply(CollectorProcess collectorProcess) {}
+
+        @Override
+        public void clear() {}
+
+        @Override
+        public void setCollector(Collector collector) {}
+
+        @Override
+        public Collector getCollector() {
+            return null;
+        }
+    }
+
+    private static class TestCollectorProcess implements CollectorProcess {
+        
+        private final Map<String, Triple<Class<?>, List<Class<?>>, Integer>> members;
+        private final Collector collector;
+
+        private Set<String> notExistMembers = new HashSet<>();
+        private boolean valid = false;
+
+        public TestCollectorProcess(Map<String, Triple<Class<?>, List<Class<?>>, Integer>> members,
+                                    Collector collector) {
+            this.members = members;
+            this.collector = collector;
+        }
+
+        @Override
+        public void handle(Node node) {
+
 //            Optional<Node> maybeChild = node.getChild(
 //                    collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()),
 //                    ObjectNode.class
@@ -699,18 +709,16 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 //
 //            System.out.println(members);
 //            System.out.println(notExistMembers);
-//        }
-//
-//        @Override
-//        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {
-//
-//        }
-//
-//        public boolean isValid() {
-//            return valid;
-//        }
-//    }
-//
+        }
+
+        @Override
+        public void addHandler(EntityItem handlerId, CollectorProcessHandler collectorProcessHandler) {}
+
+        public boolean isValid() {
+            return valid;
+        }
+    }
+
 //    private static class Trio{
 //        public Class<?> clazz;
 //        public List<String> args;
@@ -733,4 +741,4 @@ package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 //            return type.equals(clazz.getTypeName()) && modifiers.equals(this.modifiers) && collect.size() > 0;
 //        }
 //    }
-//}
+}

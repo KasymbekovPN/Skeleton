@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
-//<
+//< del
 //import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 //import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 //import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
