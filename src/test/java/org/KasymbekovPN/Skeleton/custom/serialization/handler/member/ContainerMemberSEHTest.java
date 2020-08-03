@@ -293,12 +293,6 @@ public class ContainerMemberSEHTest {
             MutableTriple<String, List<String>, Number> preparedTestData
                     = new MutableTriple<>(testData.getLeft().getTypeName(), strArguments, testData.getRight());
 
-            //<
-            System.out.println(preparedTestData);
-            System.out.println(data);
-            System.out.println(data.equals(preparedTestData));
-            //<
-
             return data.equals(preparedTestData);
         }
 
