@@ -1,5 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.serialization;
 
+import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonArrayWCPH;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonObjectWCPH;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonPrimitiveWCPH;
@@ -8,9 +10,11 @@ import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
+import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC0;
+import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC1;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ClassSignatureSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.constructor.ConstructorClassSEH;
-import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.method.ToStringMethodSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.CustomMemberSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SkeletonSerializer;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.handler.SkeletonSerializerGroupVisitor;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SerializerGroupEI;
@@ -30,12 +34,9 @@ import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
-import org.KasymbekovPN.Skeleton.lib.utils.checking.TypeChecker;
-import org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker.SkeletonCAC;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -107,22 +108,21 @@ public class SkeletonSerializerGroupTest {
 
         AnnotationChecker sac = new SkeletonAnnotationChecker();
         CollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
-        SkeletonCAC skeletonCAC = new SkeletonCAC(
-                new TypeChecker(
-                        new HashSet<>(),
-                        new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, Double.class))
-                )
-        );
+        //<
+//        SkeletonCAC skeletonCAC = new SkeletonCAC(
+//                new TypeChecker(
+//                        new HashSet<>(),
+//                        new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, Double.class))
+//                )
+//        );
+
+        AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class);
+        AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
 
         Serializer serializer = new SkeletonSerializer.Builder(collector)
                 .addClassHandler(new ClassSignatureSEH(sac))
-                //<
-//                .addClassHandler(new ClassAnnotationDataSEH(sac))
-                .addConstructorHandler(new ConstructorClassSEH(sac, cch))
-                //<
-//                .addMemberHandler(new ContainerMemberSEH(Set.class, skeletonCAC, sac, cch))
-//                .addMemberHandler(new CustomMemberSEH(sac, cch))
-                .addMethodHandler(new ToStringMethodSEH(sac, cch))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, cch))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, cch))
                 .build();
 
         return serializer;
@@ -140,9 +140,8 @@ public class SkeletonSerializerGroupTest {
                 .addSerializer(sgKey, serializer)
                 .build();
 
-        //<
-//        serializerGroup.handle(sgKey, TC0.class);
-//        serializerGroup.handle(sgKey, TC1.class);
+        serializerGroup.handle(sgKey, SerializerGroupTC0.class);
+        serializerGroup.handle(sgKey, SerializerGroupTC1.class);
 
         Set<String> systemTypes = new HashSet<>(){{
             add("int");

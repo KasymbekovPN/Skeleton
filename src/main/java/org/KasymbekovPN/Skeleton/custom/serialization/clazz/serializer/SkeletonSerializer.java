@@ -31,8 +31,6 @@ public class SkeletonSerializer implements Serializer {
         for (Field field : clazz.getDeclaredFields()) {
             handlers.get(SerializerEI.memberEI()).handle(field, collector);
         }
-        handlers.get(SerializerEI.constructorEI()).handle(clazz, collector);
-        handlers.get(SerializerEI.methodEI()).handle(clazz, collector);
     }
 
     @Override
@@ -82,14 +80,6 @@ public class SkeletonSerializer implements Serializer {
 
         public Builder addMemberHandler(SerializationElementHandler seh){
             return addHandler(SerializerEI.memberEI(), seh);
-        }
-
-        public Builder addConstructorHandler(SerializationElementHandler seh){
-            return addHandler(SerializerEI.constructorEI(), seh);
-        }
-
-        public Builder addMethodHandler(SerializationElementHandler seh){
-            return addHandler(SerializerEI.methodEI(), seh);
         }
 
         public Serializer build() throws Exception {

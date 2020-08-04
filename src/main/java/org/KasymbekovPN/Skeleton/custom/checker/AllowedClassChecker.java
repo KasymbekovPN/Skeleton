@@ -6,17 +6,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-//< rename
-//< check argument need make as Object
-public class SimpleClazzChecker implements SimpleChecker<Class<?>> {
+public class AllowedClassChecker implements SimpleChecker<Class<?>> {
 
     private final Set<Class<?>> classes;
 
-    public SimpleClazzChecker(Set<Class<?>> classes) {
+    public AllowedClassChecker(Set<Class<?>> classes) {
         this.classes = classes;
     }
 
-    public SimpleClazzChecker(Class<?>... classes) {
+    public AllowedClassChecker(Class<?>... classes) {
         this.classes = new HashSet<>(Arrays.asList(classes));
     }
 

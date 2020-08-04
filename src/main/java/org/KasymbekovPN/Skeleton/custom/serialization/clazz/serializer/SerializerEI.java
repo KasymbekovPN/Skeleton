@@ -16,14 +16,6 @@ public class SerializerEI implements EntityItem {
         return new SerializerEI(Entity.MEMBER);
     }
 
-    static public EntityItem constructorEI(){
-        return new SerializerEI(Entity.CONSTRUCTOR);
-    }
-
-    static public EntityItem methodEI(){
-        return new SerializerEI(Entity.METHOD);
-    }
-
     public SerializerEI() {
         this.entity = Entity.CLASS;
     }
@@ -54,8 +46,6 @@ public class SerializerEI implements EntityItem {
 
     public enum Entity{
         CLASS,
-        MEMBER,
-        CONSTRUCTOR,
-        METHOD;
+        MEMBER
     }
 }

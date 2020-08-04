@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.handler.member;
 
-import org.KasymbekovPN.Skeleton.custom.checker.SimpleClazzChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.SpecificTypeMemberSEH;
@@ -82,11 +82,11 @@ public class SpecificTypeMemberSEHTest {
         SkeletonAnnotationChecker ah = new SkeletonAnnotationChecker();
         SkeletonCollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
 
-        SimpleClazzChecker simpleClazzChecker = new SimpleClazzChecker(
+        AllowedClassChecker allowedClassChecker = new AllowedClassChecker(
                 String.class, byte.class, short.class, int.class, long.class, float.class,
                 double.class, char.class, boolean.class, Boolean.class, Character.class
         );
-        TestSerializer testSerializer = new TestSerializer(collector, ah, cch, simpleClazzChecker);
+        TestSerializer testSerializer = new TestSerializer(collector, ah, cch, allowedClassChecker);
         testSerializer.serialize(clazz);
 
         TestCollectorProcess process = new TestCollectorProcess(members, collector);

@@ -20,7 +20,9 @@ public class SkeletonSerializerGroup implements SerializerGroup {
     private final Map<EntityItem, Serializer> serializers;
     private final CollectorProcess extractionCollectorProcess;
 
+    //< !!! replace Class<?> with String (SkeletonClass.name)
     private Map<Class<?>, Node> prepareClasses = new HashMap<>();
+
     private Map<Class<?>, CollectorStructure> collectorStructureByClasses = new HashMap<>();
 
     private SkeletonSerializerGroup(Map<EntityItem, Serializer> serializers, CollectorProcess extractionCollectorProcess) {

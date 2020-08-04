@@ -27,11 +27,4 @@ public class RootNodeExtractionHandler implements CollectorProcessHandler {
 
         return CollectorCheckingResult.NONE;
     }
-    //<
-//    @Override
-//    public void handle(Node node) {
-//        if (node.isObject()) {
-//            root.deepSet(node.deepCopy(root.getParent()));
-//        }
-//    }
 }

@@ -41,7 +41,7 @@ public class ClassSignatureSEH extends BaseSEH {
     @Override
     protected boolean fillCollector(Collector collector) {
         collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
-        collector.beginObject(name);
+        collector.addProperty("name", name);
         collector.addProperty("modifiers", modifiers);
         collector.reset();
 
