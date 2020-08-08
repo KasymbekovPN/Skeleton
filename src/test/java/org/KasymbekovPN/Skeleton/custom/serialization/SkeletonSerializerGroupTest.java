@@ -108,13 +108,6 @@ public class SkeletonSerializerGroupTest {
 
         AnnotationChecker sac = new SkeletonAnnotationChecker();
         CollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
-        //<
-//        SkeletonCAC skeletonCAC = new SkeletonCAC(
-//                new TypeChecker(
-//                        new HashSet<>(),
-//                        new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, Double.class))
-//                )
-//        );
 
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class);
         AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
@@ -143,6 +136,7 @@ public class SkeletonSerializerGroupTest {
         serializerGroup.handle(sgKey, SerializerGroupTC0.class);
         serializerGroup.handle(sgKey, SerializerGroupTC1.class);
 
+        //< replace with checker
         Set<String> systemTypes = new HashSet<>(){{
             add("int");
         }};
