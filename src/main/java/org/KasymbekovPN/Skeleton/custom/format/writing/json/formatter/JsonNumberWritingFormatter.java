@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter;
 
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.collector.node.NumberNode;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.NumberNode;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;

@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.collector.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;

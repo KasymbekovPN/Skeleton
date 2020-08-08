@@ -7,12 +7,12 @@ import org.KasymbekovPN.Skeleton.custom.serialization.handler.clazz.classes.forS
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.collector.node.NumberNode;
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.NumberNode;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

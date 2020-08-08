@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.format.collector;
 
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 import java.util.List;
 

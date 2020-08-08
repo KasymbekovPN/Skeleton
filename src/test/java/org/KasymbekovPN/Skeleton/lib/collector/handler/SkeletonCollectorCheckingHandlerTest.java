@@ -2,10 +2,10 @@ package org.KasymbekovPN.Skeleton.lib.collector.handler;
 
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

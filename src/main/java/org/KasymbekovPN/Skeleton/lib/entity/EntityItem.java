@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.format.entity;
+package org.KasymbekovPN.Skeleton.lib.entity;
 
 import java.util.Collection;
 

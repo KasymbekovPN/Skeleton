@@ -24,14 +24,14 @@ import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecke
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.SkeletonCollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonCollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonWCPH;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
+import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
 import org.junit.jupiter.api.DisplayName;

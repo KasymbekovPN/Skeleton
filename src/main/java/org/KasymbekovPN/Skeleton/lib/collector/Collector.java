@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 

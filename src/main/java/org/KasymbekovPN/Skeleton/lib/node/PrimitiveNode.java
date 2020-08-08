@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.collector.node;
+package org.KasymbekovPN.Skeleton.lib.node;
 
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 

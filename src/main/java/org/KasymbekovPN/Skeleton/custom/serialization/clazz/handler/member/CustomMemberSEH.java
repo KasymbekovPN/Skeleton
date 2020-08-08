@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 

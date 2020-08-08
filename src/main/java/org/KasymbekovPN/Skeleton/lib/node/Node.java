@@ -1,7 +1,7 @@
-package org.KasymbekovPN.Skeleton.lib.collector.node;
+package org.KasymbekovPN.Skeleton.lib.node;
 
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 import java.util.List;
 import java.util.Optional;

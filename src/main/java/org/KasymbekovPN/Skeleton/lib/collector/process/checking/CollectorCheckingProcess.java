@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.collector.process.checking;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 /**
  * !!! Its implementation must contain constructor without parameters

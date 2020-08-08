@@ -1,8 +1,8 @@
-package org.KasymbekovPN.Skeleton.lib.collector.node;
+package org.KasymbekovPN.Skeleton.lib.node;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
