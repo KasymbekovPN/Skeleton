@@ -65,6 +65,7 @@ public class CustomMemberSEH extends BaseSEH {
     protected boolean fillCollector(Collector collector) {
         collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
         collector.beginObject(name);
+        collector.addProperty("custom", true);
         collector.addProperty("type", typeName);
         collector.addProperty("modifiers", modifiers);
         collector.addProperty("className", className);

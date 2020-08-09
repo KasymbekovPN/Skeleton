@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//< del ???
 public class RootNodeExtractionHandler implements CollectorProcessHandler {
 
     static private final Logger log = LoggerFactory.getLogger(RootNodeExtractionHandler.class);

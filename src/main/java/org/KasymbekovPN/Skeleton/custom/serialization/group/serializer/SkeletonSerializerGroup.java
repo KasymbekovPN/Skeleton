@@ -1,15 +1,20 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.group.serializer;
 
-import org.KasymbekovPN.Skeleton.custom.collector.process.extraction.handler.RootNodeExtractionHandler;
+import org.KasymbekovPN.Skeleton.exception.serialization.group.SerializerGroupBuildException;
+import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
-import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
-import org.KasymbekovPN.Skeleton.exception.serialization.group.SerializerGroupBuildException;
-import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupVisitor;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
+import org.KasymbekovPN.Skeleton.lib.processing.result.HandlerResult;
+import org.KasymbekovPN.Skeleton.lib.processing.result.TaskResult;
+import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
+import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroupVisitor;
+import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,45 +22,85 @@ import java.util.Optional;
 
 public class SkeletonSerializerGroup implements SerializerGroup {
 
-    private final Map<EntityItem, Serializer> serializers;
-    private final CollectorProcess extractionCollectorProcess;
+    private static final Logger log = LoggerFactory.getLogger(SkeletonSerializerGroup.class);
 
-    //< !!! replace Class<?> with String (SkeletonClass.name)
-    private Map<Class<?>, Node> prepareClasses = new HashMap<>();
+    public final static String EXTRACT_CLASS_NAME = "extractClassName";
 
-    private Map<Class<?>, CollectorStructure> collectorStructureByClasses = new HashMap<>();
+    private final Map<String, Serializer> serializers;
+    private final Processor<Node> nodeProcessor;
 
-    private SkeletonSerializerGroup(Map<EntityItem, Serializer> serializers, CollectorProcess extractionCollectorProcess) {
+    private Map<String, Node> prepareClasses = new HashMap<>();
+    private Map<String, CollectorStructure> collectorStructureByClasses = new HashMap<>();
+
+    private SkeletonSerializerGroup(Map<String, Serializer> serializers,
+                                    Processor<Node> nodeProcessor) {
         this.serializers = serializers;
-        this.extractionCollectorProcess = extractionCollectorProcess;
+        this.nodeProcessor = nodeProcessor;
     }
 
     @Override
-    public void handle(EntityItem serializerKey, Class<?> clazz) {
-        Serializer serializer = serializeAndGet(serializerKey, clazz);
-        Node extractedData = extractPreparedData(serializer);
-        saveDataForClazz(clazz, extractedData, serializer.getCollector().getCollectorStructure());
+    public void handle(String serializerId, Class<?> clazz) {
+
+        Serializer serializer = serializeAndGet(serializerId, clazz);
+        Node rootNode = serializer.getCollector().getRoot();
+        Triple<Boolean, String, String> extractingResult = extractClassName(rootNode);
+
+        Boolean success = extractingResult.getLeft();
+        String className = extractingResult.getMiddle();
+        String status = extractingResult.getRight();
+
+        if (success){
+            //<
+            System.out.println(rootNode);
+            //<
+            saveDataByClassName(className, rootNode, serializer.getCollector().getCollectorStructure());
+        } else {
+            log.error("{}", status);
+        }
     }
 
-    private Serializer serializeAndGet(EntityItem serializerKey, Class<?> clazz){
-        Serializer serializer = serializers.get(serializerKey);
+    private Serializer serializeAndGet(String serializerId, Class<?> clazz){
+        Serializer serializer = serializers.get(serializerId);
         serializer.serialize(clazz);
 
         return serializer;
     }
 
-    private Node extractPreparedData(Serializer serializer){
-        Node extractedData = new ObjectNode(null);
-        new RootNodeExtractionHandler(extractedData, extractionCollectorProcess, ObjectNode.ei());
-        serializer.apply(extractionCollectorProcess);
-        serializer.clear();
+    private Triple<Boolean, String, String> extractClassName(Node node){
 
-        return extractedData;
+        boolean success = false;
+        String status = "";
+        String className = "";
+
+        Optional<Task<Node>> mayBeTask = nodeProcessor.get(EXTRACT_CLASS_NAME);
+        if (mayBeTask.isPresent()){
+            Task<Node> nodeTask = mayBeTask.get();
+            node.apply(nodeTask);
+
+            TaskResult taskResult = nodeTask.getResult(ObjectNode.ei());
+            HandlerResult handlerResult = taskResult.get(ObjectNode.ei());
+
+            success = handlerResult.isSuccess();
+            if (success){
+                Optional<Object> mayBeClassName = handlerResult.getOptionalData("className");
+                if (mayBeClassName.isPresent()){
+                    className = (String) mayBeClassName.get();
+                } else {
+                    status = "Result doesn't contain 'className'";
+                }
+            } else {
+                status = handlerResult.getStatus();
+            }
+        } else {
+            status = "Task '" + EXTRACT_CLASS_NAME + "' doesn't exist";
+        }
+
+        return new MutableTriple<>(success, className, status);
     }
 
-    void saveDataForClazz(Class<?> clazz, Node extractedData, CollectorStructure collectorStructure){
-        prepareClasses.put(clazz, extractedData);
-        collectorStructureByClasses.put(clazz, collectorStructure);
+    void saveDataByClassName(String className, Node extractedData, CollectorStructure collectorStructure){
+        prepareClasses.put(className, extractedData);
+        collectorStructureByClasses.put(className, collectorStructure);
     }
 
     @Override
@@ -63,25 +108,24 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         visitor.visit(this);
     }
 
-    public Map<Class<?>, Node> getPrepareClasses() {
+    public Map<String, Node> getPrepareClasses() {
         return prepareClasses;
     }
 
-    public Map<Class<?>, CollectorStructure> getCollectorStructureByClasses() {
+    public Map<String, CollectorStructure> getCollectorStructureByClasses() {
         return collectorStructureByClasses;
     }
 
     public static class Builder{
+        private final Processor<Node> nodeProcessor;
+        private final Map<String, Serializer> serializers = new HashMap<>();
 
-        private final CollectorProcess extractionCollectorProcess;
-        private final Map<EntityItem, Serializer> serializers = new HashMap<>();
-
-        public Builder(CollectorProcess extractionCollectorProcess) {
-            this.extractionCollectorProcess = extractionCollectorProcess;
+        public Builder(Processor<Node> nodeProcessor) {
+            this.nodeProcessor = nodeProcessor;
         }
 
-        public Builder addSerializer(EntityItem serializerKey, Serializer serializer){
-            serializers.put(serializerKey, serializer);
+        public Builder addSerializer(String serializerId, Serializer serializer){
+            serializers.put(serializerId, serializer);
             return this;
         }
 
@@ -90,7 +134,7 @@ public class SkeletonSerializerGroup implements SerializerGroup {
             if (maybeException.isPresent()){
                 throw maybeException.get();
             } else {
-                return new SkeletonSerializerGroup(serializers, extractionCollectorProcess);
+                return new SkeletonSerializerGroup(serializers, nodeProcessor);
             }
         }
 
@@ -105,8 +149,8 @@ public class SkeletonSerializerGroup implements SerializerGroup {
 
         private String checkCollectorProcess(){
             String exceptionMsg = "";
-            if (extractionCollectorProcess == null){
-                exceptionMsg += "The extraction Collector Process instance is null; ";
+            if (nodeProcessor == null){
+                exceptionMsg += "The Node Processor instance is null; ";
             }
 
             if (serializers.size() != SerializerGroupEI.Entity.values().length){
@@ -118,9 +162,9 @@ public class SkeletonSerializerGroup implements SerializerGroup {
 
         private String checkSerializers(){
             StringBuilder exceptionMsg = new StringBuilder();
-            for (Map.Entry<EntityItem, Serializer> entity : serializers.entrySet()) {
-                if (entity.getValue() == null){
-                    exceptionMsg.append("The serializer ").append(entity.getKey()).append(" is null; ");
+            for (Map.Entry<String, Serializer> entry : serializers.entrySet()) {
+                if (entry.getValue() == null){
+                    exceptionMsg.append("The serializer ").append(entry.getKey()).append(" is null; ");
                 }
             }
 

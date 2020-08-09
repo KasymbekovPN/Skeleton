@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 import java.util.Objects;
 
+//< del ???
 public class SerializerGroupEI implements EntityItem {
 
     private final Entity entity;

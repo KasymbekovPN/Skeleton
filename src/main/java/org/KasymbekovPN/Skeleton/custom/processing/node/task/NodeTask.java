@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.task;
 
+import org.KasymbekovPN.Skeleton.custom.processing.node.result.handler.CommonNodeHandlerResult;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
@@ -21,11 +22,10 @@ public class NodeTask implements Task<Node> {
 
     @Override
     public TaskResult handle(Node object) {
-        //< !!! change null with instance of TaskHandlerResult impl !!!
         EntityItem ei = object.getEI();
         HandlerResult handlerResult = wrappers.containsKey(ei)
                 ? wrappers.get(ei).handle(object)
-                : null;
+                : new CommonNodeHandlerResult("wrapper for " + ei + " doesn't exist");
         taskResult.put(ei, handlerResult);
 
         return taskResult;

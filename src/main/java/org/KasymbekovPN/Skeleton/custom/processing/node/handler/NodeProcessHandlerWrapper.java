@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.handler;
 
+import org.KasymbekovPN.Skeleton.custom.processing.node.result.handler.CommonNodeHandlerResult;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
@@ -25,16 +26,15 @@ public class NodeProcessHandlerWrapper implements TaskWrapper<Node> {
 
     @Override
     public HandlerResult handle(Node object) {
-        //< !!! change returned value by null !!! or wrong ei
-        if (object.getEI().equals(ei)){
-            return taskHandler.handle(object, task);
-        }
-        return null;
+        return object.getEI().equals(ei)
+                ? taskHandler.handle(object, task)
+                : new CommonNodeHandlerResult("wrong object type");
     }
 
     @Override
     public HandlerResult getResult() {
-        //< !!! change returned value by null !!!
-        return taskHandler == null ? null : taskHandler.getResult();
+        return taskHandler != null
+                ? taskHandler.getHandlerResult()
+                : new CommonNodeHandlerResult("handler is null");
     }
 }

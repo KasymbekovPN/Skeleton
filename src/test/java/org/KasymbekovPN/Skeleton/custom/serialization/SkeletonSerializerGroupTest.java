@@ -7,9 +7,16 @@ import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.J
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.json.JsonPrimitiveWCPH;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
+import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandlerWrapper;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting.NodeClassNameExtractor;
+import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
+import org.KasymbekovPN.Skeleton.custom.processing.node.result.processor.NodeProcessorResult;
+import org.KasymbekovPN.Skeleton.custom.processing.node.result.task.NodeTaskResult;
+import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC1;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ClassSignatureSEH;
@@ -25,7 +32,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.collector.process.SkeletonCollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonCollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonWCPH;
@@ -136,12 +142,33 @@ public class SkeletonSerializerGroupTest {
 
         EntityItem sgKey = SerializerGroupEI.commonEI();
 
-        SerializerGroup serializerGroup = new SkeletonSerializerGroup.Builder(new SkeletonCollectorProcess())
-                .addSerializer(sgKey, serializer)
-                .build();
+        NodeTask nodeClassNameExtractorTask = new NodeTask(new NodeTaskResult());
+        new NodeProcessHandlerWrapper(
+                nodeClassNameExtractorTask,
+                new NodeClassNameExtractor(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI())),
+                ObjectNode.ei()
+        );
 
-        serializerGroup.handle(sgKey, SerializerGroupTC0.class);
-        serializerGroup.handle(sgKey, SerializerGroupTC1.class);
+        NodeProcessor nodeProcessor = new NodeProcessor(new NodeProcessorResult());
+        nodeProcessor.add(
+                SkeletonSerializerGroup.EXTRACT_CLASS_NAME,
+                nodeClassNameExtractorTask
+        );
+
+        String serializerId = "common";
+        SerializerGroup serializerGroup = new SkeletonSerializerGroup.Builder(nodeProcessor)
+                .addSerializer(serializerId, serializer)
+                .build();
+        //<
+//        SerializerGroup serializerGroup = new SkeletonSerializerGroup.Builder(new SkeletonCollectorProcess())
+//                .addSerializer(sgKey, serializer)
+//                .build();
+
+        serializerGroup.handle(serializerId, SerializerGroupTC0.class);
+        serializerGroup.handle(serializerId, SerializerGroupTC1.class);
+        //<
+//        serializerGroup.handle(sgKey, SerializerGroupTC0.class);
+//        serializerGroup.handle(sgKey, SerializerGroupTC1.class);
 
         Set<String> systemTypes = new HashSet<>(){{
             add("int");
