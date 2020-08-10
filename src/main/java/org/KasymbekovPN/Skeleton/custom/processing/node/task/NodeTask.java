@@ -1,12 +1,11 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.task;
 
-import org.KasymbekovPN.Skeleton.custom.processing.node.result.handler.CommonNodeHandlerResult;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
-import org.KasymbekovPN.Skeleton.lib.processing.result.HandlerResult;
-import org.KasymbekovPN.Skeleton.lib.processing.result.TaskResult;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
+import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,19 +13,23 @@ import java.util.Map;
 public class NodeTask implements Task<Node> {
 
     private final Map<EntityItem, TaskWrapper<Node>> wrappers = new HashMap<>();
-    private final TaskResult taskResult;
+    private final AggregateResult taskResult;
 
-    public NodeTask(TaskResult taskResult) {
+    private Result wrongResult;
+
+    public NodeTask(AggregateResult taskResult,
+                    Result wrongResult) {
         this.taskResult = taskResult;
+        this.wrongResult = wrongResult;
     }
 
     @Override
-    public TaskResult handle(Node object) {
+    public AggregateResult handle(Node object) {
         EntityItem ei = object.getEI();
-        HandlerResult handlerResult = wrappers.containsKey(ei)
+        Result handlerResult = wrappers.containsKey(ei)
                 ? wrappers.get(ei).handle(object)
-                : new CommonNodeHandlerResult("wrapper for " + ei + " doesn't exist");
-        taskResult.put(ei, handlerResult);
+                : getWrongResult("wrapper for " + ei + " doesn't exist");
+        taskResult.put(ei.toString(), handlerResult);
 
         return taskResult;
     }
@@ -38,7 +41,14 @@ public class NodeTask implements Task<Node> {
     }
 
     @Override
-    public TaskResult getResult(EntityItem wrapperId) {
+    public AggregateResult getResult(EntityItem wrapperId) {
         return taskResult;
+    }
+
+    private Result getWrongResult(String status){
+        Result newWrongResult = wrongResult.createNew();
+        newWrongResult.setStatus(status);
+
+        return newWrongResult;
     }
 }

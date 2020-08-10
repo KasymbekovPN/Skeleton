@@ -3,18 +3,18 @@ package org.KasymbekovPN.Skeleton.custom.processing.node.processor;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
-import org.KasymbekovPN.Skeleton.lib.processing.result.ProcessorResult;
-import org.KasymbekovPN.Skeleton.lib.processing.result.TaskResult;
+import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
+import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 import java.util.*;
 
 public class NodeProcessor implements Processor<Node> {
 
     private final Map<String, Task<Node>> tasks = new HashMap<>();
-    private final ProcessorResult processorResult;
+    private final AggregateResult processorResult;
 
-    public NodeProcessor(ProcessorResult processorResult) {
+    public NodeProcessor(AggregateResult processorResult) {
         this.processorResult = processorResult;
     }
 
@@ -38,10 +38,10 @@ public class NodeProcessor implements Processor<Node> {
     }
 
     @Override
-    public ProcessorResult handle(Node object, Filter<String> taskIdFilter) {
+    public AggregateResult handle(Node object, Filter<String> taskIdFilter) {
         Deque<String> filterKeys = taskIdFilter.filter(new ArrayDeque<>(tasks.keySet()));
         for (String filterKey : filterKeys) {
-            TaskResult taskResult = tasks.get(filterKey).handle(object);
+            Result taskResult = (Result) tasks.get(filterKey).handle(object);
             processorResult.put(filterKey, taskResult);
         }
 
@@ -49,10 +49,10 @@ public class NodeProcessor implements Processor<Node> {
     }
 
     @Override
-    public ProcessorResult handle(Node object) {
+    public AggregateResult handle(Node object) {
         for (Map.Entry<String, Task<Node>> entry : tasks.entrySet()) {
             String taskId = entry.getKey();
-            TaskResult taskResult = tasks.get(taskId).handle(object);
+            Result taskResult = (Result) tasks.get(taskId).handle(object);
             processorResult.put(taskId, taskResult);
         }
 
@@ -60,7 +60,7 @@ public class NodeProcessor implements Processor<Node> {
     }
 
     @Override
-    public ProcessorResult getResult() {
+    public AggregateResult getResult() {
         return processorResult;
     }
 }

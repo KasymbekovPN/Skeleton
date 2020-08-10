@@ -14,8 +14,8 @@ import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingF
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting.NodeClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
-import org.KasymbekovPN.Skeleton.custom.processing.node.result.processor.NodeProcessorResult;
-import org.KasymbekovPN.Skeleton.custom.processing.node.result.task.NodeTaskResult;
+import org.KasymbekovPN.Skeleton.custom.result.processing.processor.NodeProcessorResult;
+import org.KasymbekovPN.Skeleton.custom.result.processing.task.NodeTaskResult;
 import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC1;
@@ -170,20 +170,22 @@ public class SkeletonSerializerGroupTest {
 //        serializerGroup.handle(sgKey, SerializerGroupTC0.class);
 //        serializerGroup.handle(sgKey, SerializerGroupTC1.class);
 
+        ObjectNode groupRootNode = serializerGroup.getGroupRootNode();
+        System.out.println(groupRootNode);
+
         Set<String> systemTypes = new HashSet<>(){{
             add("int");
         }};
-
         WritingFormatterHandler wfh = createWFH();
         CollectorProcess process = createProcess(wfh);
-
         SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
                 new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
                 process,
                 wfh,
                 systemTypes
         );
-        serializerGroup.accept(visitor);
+        //<
+//        serializerGroup.accept(visitor);
 
         Optional<String> mayBeData = visitor.getData();
         mayBeData.ifPresent(System.out::println);
