@@ -30,7 +30,9 @@ public class NodeProcessorResult extends BaseResultImpl implements AggregateResu
     @Override
     public void reset() {
         super.reset();
-        results.clear();
+        if (results != null){
+            results.clear();
+        }
     }
 
     @Override

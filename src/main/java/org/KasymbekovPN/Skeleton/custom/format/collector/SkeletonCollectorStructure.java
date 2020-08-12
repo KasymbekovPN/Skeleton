@@ -22,6 +22,11 @@ public class SkeletonCollectorStructure implements CollectorStructure {
         return paths.get(entityItem);
     }
 
+    @Override
+    public Map<EntityItem, List<String>> getPaths() {
+        return paths;
+    }
+
     public static class Builder{
 
         private final Map<EntityItem, List<String>> paths = new HashMap<>();

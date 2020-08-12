@@ -30,7 +30,9 @@ public class NodeTaskResult extends BaseResultImpl implements AggregateResult{
     @Override
     public void reset() {
         super.reset();
-        results.clear();
+        if (results != null){
+            results.clear();
+        }
     }
 
     @Override

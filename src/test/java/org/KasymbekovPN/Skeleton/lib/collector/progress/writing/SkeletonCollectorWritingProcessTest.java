@@ -146,6 +146,11 @@ public class SkeletonCollectorWritingProcessTest {
         public List<String> getPath(EntityItem entityItem) {
             return null;
         }
+
+        @Override
+        public Map<EntityItem, List<String>> getPaths() {
+            return null;
+        }
     }
 
     private static class Pair<T, K>{

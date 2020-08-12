@@ -12,19 +12,23 @@ import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandlerWrapper;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.NodeTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting.NodeClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
+import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
+import org.KasymbekovPN.Skeleton.custom.result.processing.handler.NodeClassNameExtractorHandlerResult;
+import org.KasymbekovPN.Skeleton.custom.result.processing.handler.NodeTypeCheckerResult;
 import org.KasymbekovPN.Skeleton.custom.result.processing.processor.NodeProcessorResult;
 import org.KasymbekovPN.Skeleton.custom.result.processing.task.NodeTaskResult;
-import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
+import org.KasymbekovPN.Skeleton.custom.result.serialization.group.SerializationGroupResult;
+import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC0;
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC1;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ClassSignatureSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ServiceSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.CustomMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SkeletonSerializer;
-import org.KasymbekovPN.Skeleton.custom.serialization.group.handler.SkeletonSerializerGroupVisitor;
-import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SerializerGroupEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SkeletonSerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
@@ -35,17 +39,12 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonCollectorWritingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.writing.SkeletonWCPH;
-import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
-import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @DisplayName("SkeletonSerializerGroup: Testing of:")
 public class SkeletonSerializerGroupTest {
@@ -114,18 +113,11 @@ public class SkeletonSerializerGroupTest {
 
         AnnotationChecker sac = new SkeletonAnnotationChecker();
         CollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
-        //<
-//        SkeletonCAC skeletonCAC = new SkeletonCAC(
-//                new TypeChecker(
-//                        new HashSet<>(),
-//                        new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, Double.class))
-//                )
-//        );
-
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class);
         AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
 
         Serializer serializer = new SkeletonSerializer.Builder(collector)
+                .addClassHandler(new ServiceSEH(sac))
                 .addClassHandler(new ClassSignatureSEH(sac))
                 .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, cch))
                 .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, cch))
@@ -134,60 +126,86 @@ public class SkeletonSerializerGroupTest {
         return serializer;
     }
 
+    private Processor<Node> createClassNameExtractProcessor(Collector collector){
+        NodeTask nodeClassNameExtractorTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
+        new NodeProcessHandlerWrapper(
+                nodeClassNameExtractorTask,
+                new NodeClassNameExtractor(
+                        new NodeClassNameExtractorHandlerResult()
+                ),
+                ObjectNode.ei(),
+                new WrongResult()
+        );
+
+        NodeProcessor nodeProcessor = new NodeProcessor(new NodeProcessorResult(new WrongResult()));
+        nodeProcessor.add(
+                SkeletonSerializerGroup.EXTRACT_CLASS_NAME,
+                nodeClassNameExtractorTask
+        );
+
+        return nodeProcessor;
+    }
+
     @Test
     void test() throws Exception {
 
         Collector collector = Utils.createCollector();
         Serializer serializer = createSerializer(collector);
 
-        EntityItem sgKey = SerializerGroupEI.commonEI();
-
-        NodeTask nodeClassNameExtractorTask = new NodeTask(new NodeTaskResult());
-        new NodeProcessHandlerWrapper(
-                nodeClassNameExtractorTask,
-                new NodeClassNameExtractor(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI())),
-                ObjectNode.ei()
-        );
-
-        NodeProcessor nodeProcessor = new NodeProcessor(new NodeProcessorResult());
-        nodeProcessor.add(
-                SkeletonSerializerGroup.EXTRACT_CLASS_NAME,
-                nodeClassNameExtractorTask
-        );
+        Processor<Node> nodeProcessor = createClassNameExtractProcessor(collector);
+        //<
+//        NodeTask nodeClassNameExtractorTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
+//        new NodeProcessHandlerWrapper(
+//                nodeClassNameExtractorTask,
+//                new NodeClassNameExtractor(
+//                        collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()),
+//                        new NodeClassNameExtractorHandlerResult()
+//                ),
+//                ObjectNode.ei(),
+//                new WrongResult()
+//        );
+//
+//        NodeProcessor nodeProcessor = new NodeProcessor(new NodeProcessorResult(new WrongResult()));
+//        nodeProcessor.add(
+//                SkeletonSerializerGroup.EXTRACT_CLASS_NAME,
+//                nodeClassNameExtractorTask
+//        );
 
         String serializerId = "common";
-        SerializerGroup serializerGroup = new SkeletonSerializerGroup.Builder(nodeProcessor)
-                .addSerializer(serializerId, serializer)
-                .build();
-        //<
-//        SerializerGroup serializerGroup = new SkeletonSerializerGroup.Builder(new SkeletonCollectorProcess())
-//                .addSerializer(sgKey, serializer)
-//                .build();
+        SkeletonSerializerGroup serializerGroup = new SkeletonSerializerGroup(nodeProcessor, new SerializationGroupResult());
+        serializerGroup.attach(serializerId, serializer);
 
-        serializerGroup.handle(serializerId, SerializerGroupTC0.class);
-        serializerGroup.handle(serializerId, SerializerGroupTC1.class);
-        //<
-//        serializerGroup.handle(sgKey, SerializerGroupTC0.class);
-//        serializerGroup.handle(sgKey, SerializerGroupTC1.class);
+        serializerGroup.serialize(serializerId, SerializerGroupTC0.class);
+        serializerGroup.serialize(serializerId, SerializerGroupTC1.class);
 
         ObjectNode groupRootNode = serializerGroup.getGroupRootNode();
         System.out.println(groupRootNode);
 
-        Set<String> systemTypes = new HashSet<>(){{
-            add("int");
-        }};
-        WritingFormatterHandler wfh = createWFH();
-        CollectorProcess process = createProcess(wfh);
-        SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
-                new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
-                process,
-                wfh,
-                systemTypes
+        NodeTask checkNodeTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
+        new NodeProcessHandlerWrapper(
+                checkNodeTask,
+                new NodeTypeChecker(new NodeTypeCheckerResult()),
+                ObjectNode.ei(),
+                new WrongResult()
         );
-        //<
-//        serializerGroup.accept(visitor);
+        groupRootNode.apply(checkNodeTask);
 
-        Optional<String> mayBeData = visitor.getData();
-        mayBeData.ifPresent(System.out::println);
+        //<
+//        Set<String> systemTypes = new HashSet<>(){{
+//            add("int");
+//        }};
+//        WritingFormatterHandler wfh = createWFH();
+//        CollectorProcess process = createProcess(wfh);
+//        SkeletonSerializerGroupVisitor visitor = new SkeletonSerializerGroupVisitor(
+//                new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class),
+//                process,
+//                wfh,
+//                systemTypes
+//        );
+//        //<
+////        serializerGroup.accept(visitor);
+//
+//        Optional<String> mayBeData = visitor.getData();
+//        mayBeData.ifPresent(System.out::println);
     }
 }

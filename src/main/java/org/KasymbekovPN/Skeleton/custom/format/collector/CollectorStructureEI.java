@@ -55,9 +55,7 @@ public class CollectorStructureEI implements EntityItem {
 
     @Override
     public String toString() {
-        return "CollectorStructureEI{" +
-                "entity=" + entity +
-                '}';
+        return entity.toString();
     }
 
     public enum Entity {
