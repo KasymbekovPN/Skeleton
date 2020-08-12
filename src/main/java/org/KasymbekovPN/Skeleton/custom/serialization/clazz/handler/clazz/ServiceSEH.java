@@ -18,7 +18,7 @@ public class ServiceSEH extends BaseSEH {
 
     private static final Logger log = LoggerFactory.getLogger(ServiceSEH.class);
     private static final List<String> SERVICE_PART_PATH = new ArrayList<>(){{add("__service");}};
-    private static final String PATHS_PART_NAME = "paths";
+    private static final String PATHS_PART_NAME = "__paths";
 
     private final AnnotationChecker annotationChecker;
 
