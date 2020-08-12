@@ -2,13 +2,14 @@ package org.KasymbekovPN.Skeleton.lib.collector.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 
 import java.util.Map;
 import java.util.Optional;
 
+//< del
 public interface CollectorCheckingHandler {
     boolean isExisting(String processName);
     Optional<CollectorCheckingProcess> add(String processName, CollectorCheckingProcess collectorCheckingProcess);

@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.deserialization.node.handler;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 
 public interface NodeDeserializerHandler {
     //< ??? rename method run ???

@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.deserialization.group.deserializer;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.objectweb.asm.ClassWriter;
 
 import java.util.Map;

@@ -1,9 +1,9 @@
 package org.KasymbekovPN.Skeleton.lib.collector.process.checking;
 
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

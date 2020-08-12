@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.format.collector;
 
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +20,11 @@ public class SkeletonCollectorStructure implements CollectorStructure {
     @Override
     public List<String> getPath(EntityItem entityItem) {
         return paths.get(entityItem);
+    }
+
+    @Override
+    public Map<EntityItem, List<String>> getPaths() {
+        return paths;
     }
 
     public static class Builder{

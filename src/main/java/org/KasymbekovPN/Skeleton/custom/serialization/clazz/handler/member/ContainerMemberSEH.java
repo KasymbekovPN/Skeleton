@@ -9,7 +9,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 //import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.ClassAnnotationCheckingHandler;
 //import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.ClassExistCheckingHandler;
 //import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
-//import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+//import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 //import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 //import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 //import org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker.ContainerArgumentChecker;
@@ -34,7 +34,7 @@ import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
@@ -112,6 +112,7 @@ public class ContainerMemberSEH extends BaseSEH {
     protected boolean fillCollector(Collector collector) {
         collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
         collector.beginObject(name);
+        collector.addProperty("custom", false);
         collector.addProperty("type", typeName);
         collector.addProperty("modifiers", modifiers);
         collector.beginArray("arguments");

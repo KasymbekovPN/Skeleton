@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.deserialization.node.handler.json;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.deserialization.node.deserializer.NodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializerHandler;
 

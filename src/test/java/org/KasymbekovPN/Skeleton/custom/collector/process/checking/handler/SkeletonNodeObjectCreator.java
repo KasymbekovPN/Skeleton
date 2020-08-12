@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.format.writing.formatter;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 
 import java.util.List;

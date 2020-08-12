@@ -1,8 +1,9 @@
-package org.KasymbekovPN.Skeleton.lib.collector.node;
+package org.KasymbekovPN.Skeleton.lib.node;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,11 @@ public class ArrayNode implements Node {
     @Override
     public void apply(CollectorProcess collectorProcess) {
         collectorProcess.handle(this);
+    }
+
+    @Override
+    public void apply(Task<Node> task) {
+        task.handle(this);
     }
 
     @Override

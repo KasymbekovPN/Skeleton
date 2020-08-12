@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.deserialization.clazz.deserializer;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.deserialization.clazz.handler.ClazzDeserializerHandler;
 import org.objectweb.asm.ClassWriter;
 

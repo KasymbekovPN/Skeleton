@@ -1,9 +1,10 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.group.serializer;
 
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 import java.util.Objects;
 
+//< del ???
 public class SerializerGroupEI implements EntityItem {
 
     private final Entity entity;

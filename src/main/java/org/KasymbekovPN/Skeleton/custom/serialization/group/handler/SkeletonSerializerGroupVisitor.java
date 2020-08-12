@@ -5,8 +5,8 @@ import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SkeletonSerializerGroup;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.collector.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
@@ -16,6 +16,8 @@ import org.KasymbekovPN.Skeleton.lib.serialization.group.handler.SerializerGroup
 import java.util.*;
 import java.util.stream.Collectors;
 
+//< !!! this class must to only check serialized data
+//< !!! or replace this class with NodeProcessor
 public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
 
     private final CollectorCheckingHandler collectorCheckingHandler;
@@ -45,20 +47,22 @@ public class SkeletonSerializerGroupVisitor implements SerializerGroupVisitor {
 
     @Override
     public void visit(SkeletonSerializerGroup skeletonSerializerGroup) {
-        Map<Class<?>, Node> prepareClasses = skeletonSerializerGroup.getPrepareClasses();
-        Map<Class<?>, CollectorStructure> collectorStructureByClasses
-                = skeletonSerializerGroup.getCollectorStructureByClasses();
-        dataIsValid = false;
-
-        Set<String> knownTypes = getKnownTypes(prepareClasses);
-        Map<Class<?>, String> processIdByClass = addCheckingProcesses(knownTypes, collectorStructureByClasses);
-
-        dataIsValid = checkPrepareClasses(prepareClasses, processIdByClass);
-        if (dataIsValid) {
-            ObjectNode allClassesObjectNode = collectAllPreparedClasses(prepareClasses);
-            allClassesObjectNode.apply(collectorProcess);
-            data = writingFormatterHandler.getDecoder().getString();
-        }
+        //<
+//        Map<Class<?>, Node> prepareClasses = skeletonSerializerGroup.getPrepareClasses();
+//        Map<Class<?>, CollectorStructure> collectorStructureByClasses
+//                = skeletonSerializerGroup.getCollectorStructureByClasses();
+//
+//        dataIsValid = false;
+//
+//        Set<String> knownTypes = getKnownTypes(prepareClasses);
+//        Map<Class<?>, String> processIdByClass = addCheckingProcesses(knownTypes, collectorStructureByClasses);
+//
+//        dataIsValid = checkPrepareClasses(prepareClasses, processIdByClass);
+//        if (dataIsValid) {
+//            ObjectNode allClassesObjectNode = collectAllPreparedClasses(prepareClasses);
+//            allClassesObjectNode.apply(collectorProcess);
+//            data = writingFormatterHandler.getDecoder().getString();
+//        }
     }
 
     private Set<String> getKnownTypes(Map<Class<?>, Node> prepareClasses){

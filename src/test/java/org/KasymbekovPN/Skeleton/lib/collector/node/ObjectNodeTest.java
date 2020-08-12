@@ -1,5 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.collector.node;
 
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

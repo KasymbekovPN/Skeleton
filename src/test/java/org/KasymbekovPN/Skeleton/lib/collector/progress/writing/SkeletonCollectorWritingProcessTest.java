@@ -3,12 +3,12 @@ package org.KasymbekovPN.Skeleton.lib.collector.progress.writing;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
-import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcessHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -144,6 +144,11 @@ public class SkeletonCollectorWritingProcessTest {
     private static class TestCollectorStructure implements CollectorStructure {
         @Override
         public List<String> getPath(EntityItem entityItem) {
+            return null;
+        }
+
+        @Override
+        public Map<EntityItem, List<String>> getPaths() {
             return null;
         }
     }

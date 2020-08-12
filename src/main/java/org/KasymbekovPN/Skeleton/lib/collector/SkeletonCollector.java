@@ -1,9 +1,9 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
-import org.KasymbekovPN.Skeleton.lib.collector.node.*;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
+import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.protocol.SkeletonProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

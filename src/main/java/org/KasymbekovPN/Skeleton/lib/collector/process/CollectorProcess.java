@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.collector.process;
 
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 public interface CollectorProcess {
     void handle(Node node);

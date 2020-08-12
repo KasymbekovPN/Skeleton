@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.format.collector;
 
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
 import java.util.Objects;
 
@@ -55,9 +55,7 @@ public class CollectorStructureEI implements EntityItem {
 
     @Override
     public String toString() {
-        return "CollectorStructureEI{" +
-                "entity=" + entity +
-                '}';
+        return entity.toString();
     }
 
     public enum Entity {

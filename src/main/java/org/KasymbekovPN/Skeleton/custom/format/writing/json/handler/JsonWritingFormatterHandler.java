@@ -2,10 +2,10 @@ package org.KasymbekovPN.Skeleton.custom.format.writing.json.handler;
 
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
 import org.KasymbekovPN.Skeleton.exception.exception.format.writing.formatter.JsonWritingFormatterBuildException;
-import org.KasymbekovPN.Skeleton.lib.collector.node.Node;
-import org.KasymbekovPN.Skeleton.lib.collector.node.entity.NodeEI;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
-import org.KasymbekovPN.Skeleton.lib.format.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
