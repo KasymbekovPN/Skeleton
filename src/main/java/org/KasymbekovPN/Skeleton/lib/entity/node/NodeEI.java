@@ -69,9 +69,7 @@ public class NodeEI implements EntityItem {
 
     @Override
     public String toString() {
-        return "NodeEI{" +
-                "entity=" + entity +
-                '}';
+        return entity.toString();
     }
 
     public enum Entity{
