@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.result.processing.handler;
+package org.KasymbekovPN.Skeleton.custom.result.processing.handler.extracting;
 
 import org.KasymbekovPN.Skeleton.lib.result.BaseResultImpl;
 import org.KasymbekovPN.Skeleton.lib.result.Result;

@@ -8,4 +8,7 @@ public class SerializerGroupTC0 {
 
     @SkeletonMember
     public int intValue;
+
+    @SkeletonMember
+    public float floatValue;
 }

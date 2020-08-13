@@ -12,6 +12,7 @@ import java.util.*;
 /**
  * WCPH - Writing Collector Process Handler
  */
+//< !!! del
 public class JsonObjectWCPH implements WritingCollectorProcessHandler {
 
     private final Filter<String> propertyNameFilter;

@@ -41,8 +41,8 @@ public class NodeTask implements Task<Node> {
     }
 
     @Override
-    public AggregateResult getResult(EntityItem wrapperId) {
-        return taskResult;
+    public Result getResult(EntityItem wrapperId) {
+        return taskResult.get(wrapperId.toString());
     }
 
     private Result getWrongResult(String status){

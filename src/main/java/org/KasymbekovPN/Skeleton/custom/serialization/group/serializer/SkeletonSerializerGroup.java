@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
@@ -101,12 +100,11 @@ public class SkeletonSerializerGroup implements SerializerGroup {
             Task<Node> nodeTask = mayBeTask.get();
             node.apply(nodeTask);
 
-            AggregateResult taskResult = nodeTask.getResult(ObjectNode.ei());
-            Result result = taskResult.get(ObjectNode.ei().toString());
+            Result taskResult = nodeTask.getResult(ObjectNode.ei());
 
-            success = result.isSuccess();
+            success = taskResult.isSuccess();
             if (success){
-                Optional<Object> mayBeClassName = result.getOptionalData(CLASS_NAME);
+                Optional<Object> mayBeClassName = taskResult.getOptionalData(CLASS_NAME);
                 if (mayBeClassName.isPresent()){
                     className = (String) mayBeClassName.get();
                 } else {
@@ -114,7 +112,7 @@ public class SkeletonSerializerGroup implements SerializerGroup {
                     status = String.format(RESULT_DOES_NOT_CONTAIN, CLASS_NAME);
                 }
             } else {
-                status = result.getStatus();
+                status = taskResult.getStatus();
             }
         } else {
             status = String.format(TASK_DOES_NOT_EXIST, EXTRACT_CLASS_NAME);

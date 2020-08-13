@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * WCPH - Writing Collector Process Handler
  */
+//< !!! del
 public class JsonArrayWCPH implements WritingCollectorProcessHandler {
 
     @Override

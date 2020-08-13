@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHand
 /**
  * WCPH - Writing Collector Process Handler
  */
+//< !!! del
 public class JsonPrimitiveWCPH implements WritingCollectorProcessHandler {
 
     @Override
