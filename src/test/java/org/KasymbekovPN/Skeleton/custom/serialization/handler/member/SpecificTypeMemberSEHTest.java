@@ -120,13 +120,12 @@ public class SpecificTypeMemberSEHTest {
         public void apply(CollectorProcess collectorProcess) {}
 
         @Override
-        public void clear() {}
-
-        @Override
-        public void setCollector(Collector collector) {}
-
-        @Override
         public Collector getCollector() {
+            return null;
+        }
+
+        @Override
+        public Collector attachCollector(Collector collector) {
             return null;
         }
     }

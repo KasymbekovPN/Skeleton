@@ -1,39 +1,31 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.node.*;
-import org.KasymbekovPN.Skeleton.lib.protocol.SkeletonProtocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class SkeletonCollector implements Collector {
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonCollector.class);
 
     private final CollectorStructure collectorStructure;
-    private final boolean defaultProtocolData;
 
     private Node root;
     private Node target;
 
     public SkeletonCollector(CollectorStructure collectorStructure, boolean defaultProtocolData) {
         this.collectorStructure = collectorStructure;
-        this.defaultProtocolData = defaultProtocolData;
         clear();
     }
 
     @Override
     public void clear() {
         target = root = new ObjectNode(null);
-        if (defaultProtocolData){
-            addProtocolObject();
-        }
     }
 
     @Override
@@ -127,37 +119,22 @@ public class SkeletonCollector implements Collector {
     }
 
     @Override
-    public Optional<Node> getNodeByPath(Node node, List<String> path, Class<? extends Node> clazz) {
-
-        Node bufferNode = null;
-        if (node.isObject()){
-            bufferNode = node;
-            for (String s : path) {
-                if (bufferNode.isObject()) {
-                    if (((ObjectNode) bufferNode).containsKey(s)) {
-                        bufferNode = ((ObjectNode) bufferNode).getChildren().get(s);
-                    } else {
-                        bufferNode = null;
-                        break;
-                    }
-                } else {
-                    bufferNode = null;
-                    break;
-                }
-            }
-        }
-
-        return bufferNode != null && bufferNode.getClass().equals(clazz)
-                ? Optional.of(bufferNode)
-                : Optional.empty();
+    public Node getNode() {
+        return root;
     }
 
     @Override
-    public Node getRoot() {
-        Node root = this.root;
+    public Node detachNode() {
+        Node node = this.root;
         clear();
+        return node;
+    }
 
-        return root;
+    @Override
+    public Node attachNode(Node node) {
+        Node oldRoot = root;
+        root = node;
+        return oldRoot;
     }
 
     private void setEachTarget(List<String> path){
@@ -166,12 +143,6 @@ public class SkeletonCollector implements Collector {
         if (path.size() > 0){
             setEachTarget(path);
         }
-    }
-
-    private void addProtocolObject(){
-        setTarget(collectorStructure.getPath(CollectorStructureEI.protocolEI()));
-        addProperty("version", SkeletonProtocol.getInstance().getVersion());
-        reset();
     }
 
     @Override

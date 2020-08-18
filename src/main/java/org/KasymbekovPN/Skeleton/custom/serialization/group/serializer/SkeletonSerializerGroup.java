@@ -46,7 +46,7 @@ public class SkeletonSerializerGroup implements SerializerGroup {
     public Result serialize(String serializerId, Class<?> clazz) {
         if (checkSerializer(serializerId)){
             Serializer serializer = serializeAndGet(serializerId, clazz);
-            Node rootNode = serializer.getCollector().getRoot();
+            Node rootNode = serializer.getCollector().detachNode();
             Triple<Boolean, String, String> extractingResult = extractClassName(rootNode);
 
             modifyGroupNodeRoot(extractingResult, rootNode);
@@ -135,8 +135,6 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         String status = extractClassNameData.getRight();
         result.setSuccess(success);
         result.setStatus(status);
-//        result.setOptionalData("node", rootNode);
-        //<
         result.setOptionalData(NODE, rootNode);
 
         return result;

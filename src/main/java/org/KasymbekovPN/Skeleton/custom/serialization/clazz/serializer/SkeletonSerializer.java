@@ -38,19 +38,38 @@ public class SkeletonSerializer implements Serializer {
         collector.apply(collectorProcess);
     }
 
-    @Override
-    public void clear() {
-        collector.clear();
-    }
+    //<
+//    @Override
+//    public void clear() {
+//        collector.clear();
+//    }
 
-    @Override
-    public void setCollector(Collector collector) {
-        this.collector = collector;
-    }
+    //<
+//    @Override
+//    public void setCollector(Collector collector) {
+//        this.collector = collector;
+//    }
 
     @Override
     public Collector getCollector() {
         return collector;
+    }
+
+    //<
+//    @Override
+//    public Collector detachCollector() {
+//        Collector collector = this.collector;
+//        this.collector = null;
+//        return collector;
+//    }
+
+    @Override
+    public Collector attachCollector(Collector collector) {
+        Collector oldCollector = this.collector;
+        if (collector != null){
+            this.collector = collector;
+        }
+        return oldCollector;
     }
 
     static public class Builder{

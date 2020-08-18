@@ -1,11 +1,10 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface Collector {
     void clear();
@@ -35,9 +34,10 @@ public interface Collector {
 
     void setTarget(List<String> path);
 
+    //< del ???
     CollectorStructure getCollectorStructure();
 
-    Optional<Node> getNodeByPath(Node node, List<String> path, Class<? extends Node> clazz);
-
-    Node getRoot();
+    Node getNode();
+    Node detachNode();
+    Node attachNode(Node node);
 }

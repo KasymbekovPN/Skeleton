@@ -8,7 +8,10 @@ public interface Serializer {
     //< del apply
     void apply(CollectorProcess collectorProcess);
     //<
-    void clear();
-    void setCollector(Collector collector);
+//    void clear();
+
+//    void setCollector(Collector collector);
+    //<
     Collector getCollector();
+    Collector attachCollector(Collector collector);
 }
