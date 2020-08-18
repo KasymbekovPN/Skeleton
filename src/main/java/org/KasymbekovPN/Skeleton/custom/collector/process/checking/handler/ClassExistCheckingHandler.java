@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
+//< del
 public class ClassExistCheckingHandler implements CollectorProcessHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ClassExistCheckingHandler.class);

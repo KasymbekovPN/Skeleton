@@ -2,12 +2,14 @@ package org.KasymbekovPN.Skeleton.custom.serialization;
 
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandlerWrapper;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.ClassPartExistingChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.NodeTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting.NodeClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonArrayTaskHandler;
@@ -15,6 +17,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonObje
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonPrimitiveTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
+import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.ClassPartExistingCheckerResult;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.NodeTypeCheckerResult;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.extracting.NodeClassNameExtractorHandlerResult;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.writing.json.WritingResult;
@@ -26,6 +29,7 @@ import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC0
 import org.KasymbekovPN.Skeleton.custom.serialization.classes.SerializerGroupTC1;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ClassSignatureSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz.ServiceSEH;
+import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.ContainerMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.CustomMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SkeletonSerializer;
@@ -46,6 +50,11 @@ import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGroup;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @DisplayName("SkeletonSerializerGroup: Testing of:")
 public class SkeletonSerializerGroupTest {
@@ -68,20 +77,46 @@ public class SkeletonSerializerGroupTest {
 
     private Serializer createSerializer(Collector collector) throws Exception {
 
+        Processor<Node> serializerNodeProcessor = createSerializerNodeProcessor();
+
         AnnotationChecker sac = new SkeletonAnnotationChecker();
         CollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
 
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class, float.class);
         AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
 
+        Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
+        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
+        CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
+
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(sac))
                 .addClassHandler(new ClassSignatureSEH(sac))
                 .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, cch))
                 .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, cch))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, sac, serializerNodeProcessor))
                 .build();
 
         return serializer;
+    }
+
+    private Processor<Node> createSerializerNodeProcessor(){
+
+        NodeTask classExistTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
+        new NodeProcessHandlerWrapper(
+                classExistTask,
+                new ClassPartExistingChecker(new ClassPartExistingCheckerResult()),
+                ObjectNode.ei(),
+                new WrongResult()
+        );
+
+        NodeProcessor nodeProcessor = new NodeProcessor(new NodeProcessorResult(new WrongResult()));
+        nodeProcessor.add(
+                ContainerMemberSEH.CLASS_EXIST_TASK,
+                classExistTask
+        );
+
+        return nodeProcessor;
     }
 
     private Processor<Node> createClassNameExtractProcessor(Collector collector){
@@ -183,7 +218,7 @@ public class SkeletonSerializerGroupTest {
 
         ObjectNode groupRootNode = serializerGroup.getGroupRootNode();
 
-        AllowedStringChecker systemTypeChecker = new AllowedStringChecker("int", "float");
+        AllowedStringChecker systemTypeChecker = new AllowedStringChecker("int", "float", "java.util.Set");
         Task<Node> checkNodeTypeTask = createCheckNodeTypeTask(systemTypeChecker);
 
         groupRootNode.apply(checkNodeTypeTask);

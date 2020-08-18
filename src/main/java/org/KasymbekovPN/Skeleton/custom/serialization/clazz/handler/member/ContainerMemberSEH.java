@@ -1,53 +1,30 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
-//<
-//import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
-//import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
-//import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-//import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-//import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
-//import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.ClassAnnotationCheckingHandler;
-//import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.ClassExistCheckingHandler;
-//import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
-//import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-//import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
-//import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
-//import org.KasymbekovPN.Skeleton.lib.utils.checking.containerArgumentChecker.ContainerArgumentChecker;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
-//import java.lang.annotation.Annotation;
-//import java.lang.reflect.Field;
-//import java.lang.reflect.ParameterizedType;
-//import java.lang.reflect.Type;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.Optional;
-
-import org.KasymbekovPN.Skeleton.custom.collector.process.checking.handler.ClassExistCheckingHandler;
-import org.KasymbekovPN.Skeleton.custom.filter.string.AllowedStringFilter;
 import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
-import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.collector.process.checking.CollectorCheckingProcess;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ContainerMemberSEH extends BaseSEH {
 
+    public final static String CLASS_EXIST_TASK = "classExist";
+
     private final SimpleChecker<Field> fieldChecker;
     private final AnnotationChecker annotationChecker;
-    private final CollectorCheckingHandler collectorCheckingHandler;
+    private final Processor<Node> nodeProcessor;
 
     private String name;
     private String typeName;
@@ -56,10 +33,10 @@ public class ContainerMemberSEH extends BaseSEH {
 
     public ContainerMemberSEH(SimpleChecker<Field> fieldChecker,
                               AnnotationChecker annotationChecker,
-                              CollectorCheckingHandler collectorCheckingHandler) {
+                              Processor<Node> nodeProcessor) {
         this.fieldChecker = fieldChecker;
         this.annotationChecker = annotationChecker;
-        this.collectorCheckingHandler = collectorCheckingHandler;
+        this.nodeProcessor = nodeProcessor;
     }
 
     @Override
@@ -87,22 +64,13 @@ public class ContainerMemberSEH extends BaseSEH {
     private boolean checkCollectorContent(Collector collector){
 
         boolean result = false;
+        Optional<Task<Node>> mayBeTask = nodeProcessor.get(CLASS_EXIST_TASK);
+        if (mayBeTask.isPresent()){
+            Task<Node> nodeTask = mayBeTask.get();
+            Node rootNode = collector.getNode();
+            rootNode.apply(nodeTask);
 
-        String processId = UUID.randomUUID().toString();
-        Optional<CollectorCheckingProcess> mayBeProcess = collectorCheckingHandler.add(processId);
-        if (mayBeProcess.isPresent()){
-            new ClassExistCheckingHandler(
-                    mayBeProcess.get(),
-                    ObjectNode.ei(),
-                    collector.getCollectorStructure().getPath(CollectorStructureEI.classEI())
-            );
-
-            Map<String, CollectorCheckingResult> handlingResult
-                    = collectorCheckingHandler.handle(collector, new AllowedStringFilter(processId));
-
-            collectorCheckingHandler.remove(processId);
-
-            result = handlingResult.get(processId).equals(CollectorCheckingResult.INCLUDE);
+            result = nodeTask.getResult(ObjectNode.ei()).isSuccess();
         }
 
         return result;
