@@ -128,6 +128,11 @@ public class SpecificTypeMemberSEHTest {
         public Collector attachCollector(Collector collector) {
             return null;
         }
+
+        @Override
+        public String getId() {
+            return null;
+        }
     }
 
     private static class TestCollectorProcess implements CollectorProcess {

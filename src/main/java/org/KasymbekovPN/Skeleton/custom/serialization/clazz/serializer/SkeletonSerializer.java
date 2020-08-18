@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer;
 
+import org.KasymbekovPN.Skeleton.exception.serialization.clazz.serializer.skeletonSerializer.SkeletonSerializerBuilderException;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
@@ -10,19 +11,25 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class SkeletonSerializer implements Serializer {
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonSerializer.class);
 
     private final Map<EntityItem, SerializationElementHandler> handlers;
+    private final String id;
 
     private Collector collector;
 
-    private SkeletonSerializer(Map<EntityItem, SerializationElementHandler> handlers, Collector collector) {
+    private SkeletonSerializer(Map<EntityItem, SerializationElementHandler> handlers,
+                               Collector collector,
+                               String id) {
         this.handlers = handlers;
         this.collector = collector;
+        this.id = id;
     }
 
     @Override
@@ -38,30 +45,10 @@ public class SkeletonSerializer implements Serializer {
         collector.apply(collectorProcess);
     }
 
-    //<
-//    @Override
-//    public void clear() {
-//        collector.clear();
-//    }
-
-    //<
-//    @Override
-//    public void setCollector(Collector collector) {
-//        this.collector = collector;
-//    }
-
     @Override
     public Collector getCollector() {
         return collector;
     }
-
-    //<
-//    @Override
-//    public Collector detachCollector() {
-//        Collector collector = this.collector;
-//        this.collector = null;
-//        return collector;
-//    }
 
     @Override
     public Collector attachCollector(Collector collector) {
@@ -72,13 +59,22 @@ public class SkeletonSerializer implements Serializer {
         return oldCollector;
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
     static public class Builder{
 
+        private static final Set<String> IDS = new HashSet<>();
+
+        private final String id;
         private final Collector collector;
         private final Map<EntityItem, SerializationElementHandler> handlers = new HashMap<>();
 
-        public Builder(Collector collector) {
+        public Builder(Collector collector, String id) {
             this.collector = collector;
+            this.id = id;
         }
 
         public Builder addHandler(EntityItem entityItem, SerializationElementHandler seh){
@@ -102,15 +98,36 @@ public class SkeletonSerializer implements Serializer {
         }
 
         public Serializer build() throws Exception {
+            StringBuilder message = new StringBuilder();
+            checkCollector(message);
+            checkHandlers(message);
+            checkId(message);
+
+            if (message.length() == 0){
+                return new SkeletonSerializer(handlers, collector, id);
+            } else {
+                throw new SkeletonSerializerBuilderException(message.toString());
+            }
+        }
+
+        private void checkCollector(StringBuilder message){
             if (collector == null){
-                throw new Exception("The collector instance is null");
+                message.append("The collector instance is null; ");
             }
+        }
 
+        private void checkHandlers(StringBuilder message){
             if (handlers.size() != SerializerEI.Entity.values().length){
-                throw new Exception("Handlers are not setting completely");
+                message.append("Handlers are not setting completely; ");
             }
+        }
 
-            return new SkeletonSerializer(handlers, collector);
+        private void checkId(StringBuilder message){
+            if (IDS.contains(id)){
+                message.append("Non-unique serializer ID");
+            } else {
+                IDS.add(id);
+            }
         }
     }
 }

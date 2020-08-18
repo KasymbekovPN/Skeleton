@@ -5,13 +5,11 @@ import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 
 public interface Serializer {
     void serialize(Class<?> clazz);
+
     //< del apply
     void apply(CollectorProcess collectorProcess);
     //<
-//    void clear();
-
-//    void setCollector(Collector collector);
-    //<
     Collector getCollector();
     Collector attachCollector(Collector collector);
+    String getId();
 }

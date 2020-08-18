@@ -37,7 +37,7 @@ public class SkeletonSerializerTest {
     void testBuilderWithoutClassAndMemberHandler() throws Exception {
         Collector collector = Utils.createCollector();
         Throwable throwable = catchThrowable(() -> {
-            new SkeletonSerializer.Builder(collector).build();
+            new SkeletonSerializer.Builder(collector, "").build();
         });
         assertThat(throwable).isInstanceOf(Exception.class);
     }
@@ -47,7 +47,7 @@ public class SkeletonSerializerTest {
     void testBuilderWithoutClassHandler() throws Exception {
         Collector collector = Utils.createCollector();
         Throwable throwable = catchThrowable(() -> {
-            new SkeletonSerializer.Builder(collector)
+            new SkeletonSerializer.Builder(collector, "")
                     .addMemberHandler(new DummySEH())
                     .build();
         });
@@ -59,7 +59,7 @@ public class SkeletonSerializerTest {
     void testBuilderWithoutMemberHandler() throws Exception {
         Collector collector = Utils.createCollector();
         Throwable throwable = catchThrowable(() -> {
-            new SkeletonSerializer.Builder(collector)
+            new SkeletonSerializer.Builder(collector, "")
                     .addClassHandler(new DummySEH())
                     .build();
         });
@@ -71,7 +71,7 @@ public class SkeletonSerializerTest {
     void testBuilderWithAllHandlers() throws Exception {
         Collector collector = Utils.createCollector();
         Throwable throwable = catchThrowable(() -> {
-            new SkeletonSerializer.Builder(collector)
+            new SkeletonSerializer.Builder(collector, "")
                     .addMemberHandler(new DummySEH())
                     .addClassHandler(new DummySEH())
                     .build();
@@ -118,7 +118,7 @@ public class SkeletonSerializerTest {
             boolean result
     ) throws Exception {
         Collector collector = Utils.createCollector();
-        Serializer serializer = new SkeletonSerializer.Builder(collector)
+        Serializer serializer = new SkeletonSerializer.Builder(collector, "")
                 .addClassHandler(new ClassConstructorMethodHandler(CollectorStructureEI.classEI()))
                 .addMemberHandler(new MembersHandler())
                 .build();

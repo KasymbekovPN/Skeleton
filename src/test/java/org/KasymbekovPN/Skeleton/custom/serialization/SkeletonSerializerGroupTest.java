@@ -74,7 +74,7 @@ public class SkeletonSerializerGroupTest {
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class, float.class);
         AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
 
-        Serializer serializer = new SkeletonSerializer.Builder(collector)
+        Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(sac))
                 .addClassHandler(new ClassSignatureSEH(sac))
                 .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, cch))
@@ -175,8 +175,8 @@ public class SkeletonSerializerGroupTest {
         Serializer serializer = createSerializer(collector);
 
         Processor<Node> nodeProcessor = createClassNameExtractProcessor(collector);
-
-        String serializerId = "common";
+        
+        String serializerId = serializer.getId();
         SerializerGroup serializerGroup = createSerializeGroup(serializer, serializerId, nodeProcessor);
         serializerGroup.serialize(serializerId, SerializerGroupTC0.class);
         serializerGroup.serialize(serializerId, SerializerGroupTC1.class);
