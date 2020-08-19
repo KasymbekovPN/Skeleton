@@ -38,9 +38,6 @@ import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.handler.CollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.handler.SkeletonCollectorCheckingHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.process.checking.SkeletonCollectorCheckingProcess;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
@@ -77,11 +74,10 @@ public class SkeletonSerializerGroupTest {
 
     private Serializer createSerializer(Collector collector) throws Exception {
 
-        Processor<Node> serializerNodeProcessor = createSerializerNodeProcessor();
+        String taskName = ClassPartExistingChecker.TASK_NAME;
+        Processor<Node> processor = createSerializerNodeProcessor();
 
         AnnotationChecker sac = new SkeletonAnnotationChecker();
-        CollectorCheckingHandler cch = new SkeletonCollectorCheckingHandler(SkeletonCollectorCheckingProcess.class);
-
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class, float.class);
         AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
 
@@ -92,9 +88,9 @@ public class SkeletonSerializerGroupTest {
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(sac))
                 .addClassHandler(new ClassSignatureSEH(sac))
-                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, cch))
-                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, cch))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, sac, serializerNodeProcessor))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, processor, taskName))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, processor, taskName))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, sac, processor, taskName))
                 .build();
 
         return serializer;
@@ -112,7 +108,7 @@ public class SkeletonSerializerGroupTest {
 
         NodeProcessor nodeProcessor = new NodeProcessor(new NodeProcessorResult(new WrongResult()));
         nodeProcessor.add(
-                ContainerMemberSEH.CLASS_EXIST_TASK,
+                ClassPartExistingChecker.TASK_NAME,
                 classExistTask
         );
 

@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
@@ -12,10 +11,7 @@ import java.util.Optional;
  *  1. ImplementationName(Node parent)
  */
 public interface Node {
-    void apply(CollectorProcess collectorProcess);
-    //<
     void apply(Task<Node> task);
-    //<
     Node getParent();
     Node deepCopy(Node parent);
     EntityItem getEI();

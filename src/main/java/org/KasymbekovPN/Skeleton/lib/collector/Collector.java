@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 
@@ -29,7 +28,7 @@ public interface Collector {
     void end();
 
     //< del apply
-    void apply(CollectorProcess collectorProcess);
+//    void apply(CollectorProcess collectorProcess);
     //<
 
     void setTarget(List<String> path);

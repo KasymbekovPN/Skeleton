@@ -1,13 +1,13 @@
 package org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler;
 
-import org.KasymbekovPN.Skeleton.lib.collector.CollectorCheckingResult;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 
 import java.lang.reflect.Field;
 
 public class BaseSEH implements SerializationElementHandler {
 
-    protected static final CollectorCheckingResult INCLUDE = CollectorCheckingResult.INCLUDE;
+    //< del
+//    protected static final CollectorCheckingResult INCLUDE = CollectorCheckingResult.INCLUDE;
 
     private SerializationElementHandler next;
 

@@ -1,8 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
-import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,11 +58,6 @@ public class ObjectNode implements Node {
     @Override
     public EntityItem getEI() {
         return ei();
-    }
-
-    @Override
-    public void apply(CollectorProcess collectorProcess) {
-        collectorProcess.handle(this);
     }
 
     @Override

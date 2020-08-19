@@ -2,7 +2,6 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer;
 
 import org.KasymbekovPN.Skeleton.exception.serialization.clazz.serializer.skeletonSerializer.SkeletonSerializerBuilderException;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
@@ -40,10 +39,11 @@ public class SkeletonSerializer implements Serializer {
         }
     }
 
-    @Override
-    public void apply(CollectorProcess collectorProcess) {
-        collector.apply(collectorProcess);
-    }
+    //< del
+//    @Override
+//    public void apply(CollectorProcess collectorProcess) {
+//        collector.apply(collectorProcess);
+//    }
 
     @Override
     public Collector getCollector() {

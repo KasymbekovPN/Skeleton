@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
 public abstract class PrimitiveNode<T> implements Node {
@@ -20,11 +19,6 @@ public abstract class PrimitiveNode<T> implements Node {
     @Override
     public Node getParent() {
         return parent;
-    }
-
-    @Override
-    public void apply(CollectorProcess collectorProcess) {
-        collectorProcess.handle(this);
     }
 
     @Override

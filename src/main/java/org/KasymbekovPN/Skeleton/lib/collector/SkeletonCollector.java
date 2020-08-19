@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.slf4j.Logger;
@@ -102,10 +101,11 @@ public class SkeletonCollector implements Collector {
         }
     }
 
-    @Override
-    public void apply(CollectorProcess collectorProcess) {
-        root.apply(collectorProcess);
-    }
+    //< del
+//    @Override
+//    public void apply(CollectorProcess collectorProcess) {
+//        root.apply(collectorProcess);
+//    }
 
     @Override
     public void setTarget(List<String> path) {

@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
-import org.KasymbekovPN.Skeleton.lib.collector.process.CollectorProcess;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
@@ -50,11 +49,6 @@ public class ArrayNode implements Node {
     public Optional<Node> addChild(Node value) {
         children.add(value);
         return Optional.of(value);
-    }
-
-    @Override
-    public void apply(CollectorProcess collectorProcess) {
-        collectorProcess.handle(this);
     }
 
     @Override

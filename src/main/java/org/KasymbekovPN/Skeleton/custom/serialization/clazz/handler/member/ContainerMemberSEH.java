@@ -20,11 +20,10 @@ import java.util.Optional;
 
 public class ContainerMemberSEH extends BaseSEH {
 
-    public final static String CLASS_EXIST_TASK = "classExist";
-
     private final SimpleChecker<Field> fieldChecker;
     private final AnnotationChecker annotationChecker;
     private final Processor<Node> nodeProcessor;
+    private final String taskName;
 
     private String name;
     private String typeName;
@@ -33,10 +32,12 @@ public class ContainerMemberSEH extends BaseSEH {
 
     public ContainerMemberSEH(SimpleChecker<Field> fieldChecker,
                               AnnotationChecker annotationChecker,
-                              Processor<Node> nodeProcessor) {
+                              Processor<Node> nodeProcessor,
+                              String taskName) {
         this.fieldChecker = fieldChecker;
         this.annotationChecker = annotationChecker;
         this.nodeProcessor = nodeProcessor;
+        this.taskName = taskName;
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ContainerMemberSEH extends BaseSEH {
     private boolean checkCollectorContent(Collector collector){
 
         boolean result = false;
-        Optional<Task<Node>> mayBeTask = nodeProcessor.get(CLASS_EXIST_TASK);
+        Optional<Task<Node>> mayBeTask = nodeProcessor.get(taskName);
         if (mayBeTask.isPresent()){
             Task<Node> nodeTask = mayBeTask.get();
             Node rootNode = collector.getNode();

@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public class ClassPartExistingChecker implements TaskHandler<Node> {
 
+    public static final String TASK_NAME = "classExist";
+
     private static final List<String> CLASS_PATH = new ArrayList<>(){{
         add("__service");
         add("__paths");
