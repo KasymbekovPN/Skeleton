@@ -48,10 +48,7 @@ import org.KasymbekovPN.Skeleton.lib.serialization.group.serializer.SerializerGr
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @DisplayName("SkeletonSerializerGroup: Testing of:")
 public class SkeletonSerializerGroupTest {
@@ -183,7 +180,9 @@ public class SkeletonSerializerGroupTest {
                 nodeTask,
                 new JsonObjectTaskHandler(
                         wfh,
-                        new IgnoreStringFilter("annotation", "__service"),
+//                        new IgnoreStringFilter("annotation", "__service"),
+                        //<
+                        new IgnoreStringFilter("annotation"),
                         new WritingResult()
                 ),
                 ObjectNode.ei(),

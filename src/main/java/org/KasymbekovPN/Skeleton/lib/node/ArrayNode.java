@@ -57,14 +57,12 @@ public class ArrayNode implements Node {
     }
 
     @Override
-    public boolean isArray() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return ei().equals(ei);
     }
 
     @Override
     public String toString() {
-        return "GeneratorArrayNode{" +
-                "children=" + children +
-                '}';
+        return "ArrayNode{ " + children + " }";
     }
 }

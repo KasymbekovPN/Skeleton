@@ -27,10 +27,6 @@ public interface Collector {
 
     void end();
 
-    //< del apply
-//    void apply(CollectorProcess collectorProcess);
-    //<
-
     void setTarget(List<String> path);
 
     //< del ???

@@ -33,7 +33,7 @@ public class JsonCharacterWritingFormatter implements WritingFormatter {
     @Override
     public StringDecoder getValue(Node node) {
         return new StringStringDecoder(
-                node.isCharacter()
+                node.is(CharacterNode.ei())
                     ? VALUE_BORDER + String.valueOf(((CharacterNode)node).getValue()) + VALUE_BORDER
                         : ""
         );

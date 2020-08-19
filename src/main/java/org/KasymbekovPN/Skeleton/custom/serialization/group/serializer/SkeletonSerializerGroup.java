@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.group.serializer;
 
+import org.KasymbekovPN.Skeleton.custom.result.serialization.group.SerializationGroupResult;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
@@ -28,7 +29,9 @@ public class SkeletonSerializerGroup implements SerializerGroup {
     private final static String CLASS_NAME = "className";
     private final static String RESULT_DOES_NOT_CONTAIN = "Task result doesn't contain '%s'";
     private final static String TASK_DOES_NOT_EXIST = "Task '%s' doesn't exist";
-    private final static String NODE = "node";
+
+    //<
+//    private final static String NODE = "node";
 
     private final Map<String, Serializer> serializers = new HashMap<>();
     private final Processor<Node> nodeProcessor;
@@ -135,7 +138,7 @@ public class SkeletonSerializerGroup implements SerializerGroup {
         String status = extractClassNameData.getRight();
         result.setSuccess(success);
         result.setStatus(status);
-        result.setOptionalData(NODE, rootNode);
+        result.setOptionalData(SerializationGroupResult.OBJECT_NODE, rootNode);
 
         return result;
     }

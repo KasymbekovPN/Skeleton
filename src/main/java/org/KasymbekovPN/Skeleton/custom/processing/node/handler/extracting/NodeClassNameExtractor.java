@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting;
 
+import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -38,7 +39,11 @@ public class NodeClassNameExtractor implements TaskHandler<Node> {
         if (mayBeClassPath.isPresent()){
             List<String> classPath = mayBeClassPath.get();
             classPath.add("name");
-            Optional<Node> mayBeClassName = objectNode.getChild(classPath, StringNode.class);
+//            Optional<Node> mayBeClassName = objectNode.getChild(classPath, StringNode.class);
+            //<
+            Optional<Node> mayBeClassName = objectNode.getChild(
+                    new SkeletonCollectorPath(classPath, StringNode.ei())
+            );
 
             result = result.createNew();
             if (mayBeClassName.isPresent()) {
@@ -64,7 +69,9 @@ public class NodeClassNameExtractor implements TaskHandler<Node> {
 
     private Optional<List<String>> extractClassPath(ObjectNode node){
 
-        Optional<Node> mayBeClass = node.getChild(path, ArrayNode.class);
+        Optional<Node> mayBeClass = node.getChild(
+                new SkeletonCollectorPath(path, ArrayNode.ei())
+        );
         if (mayBeClass.isPresent()){
             ArrayList<String> classPath = new ArrayList<>();
             ArrayNode classPathNode = (ArrayNode) mayBeClass.get();

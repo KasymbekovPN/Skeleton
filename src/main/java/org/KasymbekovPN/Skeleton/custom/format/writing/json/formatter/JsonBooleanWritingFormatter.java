@@ -31,7 +31,7 @@ public class JsonBooleanWritingFormatter implements WritingFormatter {
     @Override
     public StringDecoder getValue(Node node) {
         return new StringStringDecoder(
-                node.isBoolean()
+                node.is(BooleanNode.ei())
                     ? String.valueOf(((BooleanNode)node).getValue())
                         : ""
         );

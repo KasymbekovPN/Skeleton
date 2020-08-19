@@ -16,21 +16,23 @@ public class CollectorStructureEI implements EntityItem {
         return new CollectorStructureEI(Entity.MEMBERS);
     }
 
-    public static EntityItem annotationEI(){
-        return new CollectorStructureEI(Entity.ANNOTATION);
-    }
-
-    public static EntityItem constructorEI(){
-        return new CollectorStructureEI(Entity.CONSTRUCTOR);
-    }
-
-    public static EntityItem methodEI(){
-        return new CollectorStructureEI(Entity.METHOD);
-    }
-
-    public static EntityItem protocolEI(){
-        return new CollectorStructureEI(Entity.PROTOCOL);
-    }
+    //<
+//    public static EntityItem annotationEI(){
+//        return new CollectorStructureEI(Entity.ANNOTATION);
+//    }
+//
+//    public static EntityItem constructorEI(){
+//        return new CollectorStructureEI(Entity.CONSTRUCTOR);
+//    }
+//
+//    public static EntityItem methodEI(){
+//        return new CollectorStructureEI(Entity.METHOD);
+//    }
+//
+//    public static EntityItem protocolEI(){
+//        return new CollectorStructureEI(Entity.PROTOCOL);
+//    }
+    //<
 
     public CollectorStructureEI() {
         this.entity = Entity.CLASS;
@@ -60,10 +62,15 @@ public class CollectorStructureEI implements EntityItem {
 
     public enum Entity {
         CLASS,
-        MEMBERS,
-        ANNOTATION,
-        CONSTRUCTOR,
-        METHOD,
-        PROTOCOL
+        MEMBERS
     }
+    //<
+//    public enum Entity {
+//        CLASS,
+//        MEMBERS,
+//        ANNOTATION,
+//        CONSTRUCTOR,
+//        METHOD,
+//        PROTOCOL
+//    }
 }

@@ -10,15 +10,11 @@ import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
 
 public class SpecificTypeMemberSEH extends BaseSEH {
-
-    private static final Logger log = LoggerFactory.getLogger(SpecificTypeMemberSEH.class);
 
     private String name;
     private String typeName;

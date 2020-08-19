@@ -39,21 +39,23 @@ public class SkeletonCollectorStructure implements CollectorStructure {
             return setPath(CollectorStructureEI.membersEI(), Arrays.asList(path));
         }
 
-        public Builder setAnnotationPath(String... path){
-            return setPath(CollectorStructureEI.annotationEI(), Arrays.asList(path));
-        }
-
-        public Builder setConstructorPath(String... path){
-            return setPath(CollectorStructureEI.constructorEI(), Arrays.asList(path));
-        }
-
-        public Builder setMethodPath(String... path){
-            return setPath(CollectorStructureEI.methodEI(), Arrays.asList(path));
-        }
-
-        public Builder setProtocolPath(String... path){
-            return setPath(CollectorStructureEI.protocolEI(), Arrays.asList(path));
-        }
+        //<
+//        public Builder setAnnotationPath(String... path){
+//            return setPath(CollectorStructureEI.annotationEI(), Arrays.asList(path));
+//        }
+//
+//        public Builder setConstructorPath(String... path){
+//            return setPath(CollectorStructureEI.constructorEI(), Arrays.asList(path));
+//        }
+//
+//        public Builder setMethodPath(String... path){
+//            return setPath(CollectorStructureEI.methodEI(), Arrays.asList(path));
+//        }
+//
+//        public Builder setProtocolPath(String... path){
+//            return setPath(CollectorStructureEI.protocolEI(), Arrays.asList(path));
+//        }
+        //<
 
         private Builder setPath(EntityItem entityItem, List<String> path){
             paths.put(entityItem, path);

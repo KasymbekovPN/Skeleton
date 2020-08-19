@@ -101,12 +101,6 @@ public class SkeletonCollector implements Collector {
         }
     }
 
-    //< del
-//    @Override
-//    public void apply(CollectorProcess collectorProcess) {
-//        root.apply(collectorProcess);
-//    }
-
     @Override
     public void setTarget(List<String> path) {
         reset();

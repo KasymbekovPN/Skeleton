@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking;
 
+import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -36,7 +37,11 @@ public class ClassPartExistingChecker implements TaskHandler<Node> {
         Optional<List<String>> mayBeClassPath = extractClassPath(object);
         if (mayBeClassPath.isPresent()){
             List<String> classPath = mayBeClassPath.get();
-            Optional<Node> mayBeClassNode = object.getChild(classPath, ObjectNode.class);
+//            Optional<Node> mayBeClassNode = object.getChild(classPath, ObjectNode.class);
+            //<
+            Optional<Node> mayBeClassNode = object.getChild(
+                    new SkeletonCollectorPath(classPath, ObjectNode.ei())
+            );
             if (mayBeClassNode.isPresent()){
                 success = true;
             } else {
@@ -59,7 +64,11 @@ public class ClassPartExistingChecker implements TaskHandler<Node> {
     }
 
     private Optional<List<String>> extractClassPath(Node object){
-        Optional<Node> mayBeClassPathNode = object.getChild(CLASS_PATH, ArrayNode.class);
+//        Optional<Node> mayBeClassPathNode = object.getChild(CLASS_PATH, ArrayNode.class);
+        //<
+        Optional<Node> mayBeClassPathNode = object.getChild(
+                new SkeletonCollectorPath(CLASS_PATH, ArrayNode.ei())
+        );
         if (mayBeClassPathNode.isPresent()){
             ArrayList<String> classPath = new ArrayList<>();
             ArrayNode classPathNode = (ArrayNode) mayBeClassPathNode.get();

@@ -31,7 +31,7 @@ public class JsonNumberWritingFormatter implements WritingFormatter {
     @Override
     public StringDecoder getValue(Node node) {
         return new StringStringDecoder(
-                node.isNumber()
+                node.is(NumberNode.ei())
                     ? String.valueOf(((NumberNode)node).getValue())
                         : ""
         );

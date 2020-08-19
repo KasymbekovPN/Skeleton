@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class SerializationGroupResult extends BaseResultImpl {
 
-    private static final String OBJECT_NODE = "objectNode";
+    public static final String OBJECT_NODE = "objectNode";
 
     private ObjectNode objectNode;
 

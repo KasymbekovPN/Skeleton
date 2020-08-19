@@ -5,8 +5,6 @@ import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -16,7 +14,6 @@ import java.util.Optional;
 
 public class ServiceSEH extends BaseSEH {
 
-    private static final Logger log = LoggerFactory.getLogger(ServiceSEH.class);
     private static final List<String> SERVICE_PART_PATH = new ArrayList<>(){{add("__service");}};
     private static final String PATHS_PART_NAME = "__paths";
 
@@ -33,8 +30,9 @@ public class ServiceSEH extends BaseSEH {
         boolean result = false;
         Optional<Annotation> maybeAnnotation = annotationChecker.check(clazz.getDeclaredAnnotations(), SkeletonClass.class);
         if (maybeAnnotation.isPresent()){
-            SkeletonClass annotation = (SkeletonClass) maybeAnnotation.get();
             result = true;
+
+            //< ???
             collectorStructure = collector.getCollectorStructure().getPaths();
         }
 

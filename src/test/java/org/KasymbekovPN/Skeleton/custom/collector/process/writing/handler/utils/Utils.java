@@ -13,13 +13,18 @@ import java.util.Set;
 public class Utils {
 
     public static Collector createCollector() throws Exception {
+//        CollectorStructure collectorStructure = new SkeletonCollectorStructure.Builder()
+//                .setClassPath("class")
+//                .setMembersPath("members")
+//                .setAnnotationPath("annotation")
+//                .setConstructorPath("constructors")
+//                .setMethodPath("methods")
+//                .setProtocolPath("protocol")
+//                .build();
+        //<
         CollectorStructure collectorStructure = new SkeletonCollectorStructure.Builder()
                 .setClassPath("class")
                 .setMembersPath("members")
-                .setAnnotationPath("annotation")
-                .setConstructorPath("constructors")
-                .setMethodPath("methods")
-                .setProtocolPath("protocol")
                 .build();
 
         return new SkeletonCollector(collectorStructure, false);

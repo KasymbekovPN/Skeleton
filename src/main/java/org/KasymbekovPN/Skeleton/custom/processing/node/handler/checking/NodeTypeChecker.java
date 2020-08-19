@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.NodeTypeCheckerResult;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
@@ -80,7 +81,11 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     }
 
     private Optional<List<String>> getMembersPath(ObjectNode node){
-        Optional<Node> mayBeClassPathNode = node.getChild(MEMBER_PATH, ArrayNode.class);
+//        Optional<Node> mayBeClassPathNode = node.getChild(MEMBER_PATH, ArrayNode.class);
+        //<
+        Optional<Node> mayBeClassPathNode = node.getChild(
+                new SkeletonCollectorPath(MEMBER_PATH, ArrayNode.ei())
+        );
         if (mayBeClassPathNode.isPresent()){
             List<String> pathToPart = new ArrayList<>();
             ArrayNode classPathNode = (ArrayNode) mayBeClassPathNode.get();
@@ -95,7 +100,11 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     }
 
     private Optional<ObjectNode> getMemberNode(ObjectNode node, List<String> path){
-        Optional<Node> mayBeMemberNode = node.getChild(path, ObjectNode.class);
+//        Optional<Node> mayBeMemberNode = node.getChild(path, ObjectNode.class);
+        //<
+        Optional<Node> mayBeMemberNode = node.getChild(
+                new SkeletonCollectorPath(path, ObjectNode.ei())
+        );
         return mayBeMemberNode.map(value -> (ObjectNode) value);
     }
 

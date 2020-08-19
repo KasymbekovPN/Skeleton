@@ -24,14 +24,12 @@ public class CharacterNode extends PrimitiveNode<Character> {
     }
 
     @Override
-    public boolean isCharacter() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return ei().equals(ei);
     }
 
     @Override
     public String toString() {
-        return "CharacterNode{" +
-                "value=" + value +
-                '}';
+        return "CharacterNode{ " + value + " }";
     }
 }

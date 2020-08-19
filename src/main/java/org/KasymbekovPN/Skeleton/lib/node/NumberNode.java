@@ -24,14 +24,12 @@ public class NumberNode extends PrimitiveNode<Number> {
     }
 
     @Override
-    public boolean isNumber() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return ei().equals(ei);
     }
 
     @Override
     public String toString() {
-        return "NumberNode{" +
-                "value=" + value +
-                '}';
+        return "NumberNode{ " + value + " }";
     }
 }

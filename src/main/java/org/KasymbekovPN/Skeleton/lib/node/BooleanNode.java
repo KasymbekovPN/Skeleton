@@ -24,14 +24,12 @@ public class BooleanNode extends PrimitiveNode<Boolean> {
     }
 
     @Override
-    public boolean isBoolean() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return ei().equals(ei);
     }
 
     @Override
     public String toString() {
-        return "BooleanNode{" +
-                "value=" + value +
-                '}';
+        return "BooleanNode{ " + value + " }";
     }
 }

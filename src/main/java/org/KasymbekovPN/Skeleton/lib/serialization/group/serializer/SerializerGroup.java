@@ -7,12 +7,6 @@ import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
 import java.util.Optional;
 
 public interface SerializerGroup {
-//    void handle(EntityItem serializerKey, Class<?> clazz);
-    //<
-//    void handle(String serializerId, Class<?> clazz);
-    //<
-//    void accept(SerializerGroupVisitor visitor);
-    //<
     Result serialize(String serializerId, Class<?> clazz);
     void attach(String serializerId, Serializer serializer);
     Optional<Serializer> detach(String serializerId);

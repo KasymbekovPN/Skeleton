@@ -33,7 +33,7 @@ public class JsonStringWritingFormatter implements WritingFormatter {
     @Override
     public StringDecoder getValue(Node node) {
         return new StringStringDecoder(
-                node.isString()
+                node.is(StringNode.ei())
                     ? VALUE_BORDER + ((StringNode)node).getValue() + VALUE_BORDER
                         : ""
         );

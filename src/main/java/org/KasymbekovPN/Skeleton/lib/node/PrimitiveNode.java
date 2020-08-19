@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
 public abstract class PrimitiveNode<T> implements Node {
@@ -27,7 +28,7 @@ public abstract class PrimitiveNode<T> implements Node {
     }
 
     @Override
-    public boolean isPrimitive() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return false;
     }
 }

@@ -24,14 +24,12 @@ public class StringNode extends PrimitiveNode<String> {
     }
 
     @Override
-    public boolean isString() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return ei().equals(ei);
     }
 
     @Override
     public String toString() {
-        return "StringNode{" +
-                "value='" + value + '\'' +
-                '}';
+        return "StringNode{ \"" + value + "\" }";
     }
 }

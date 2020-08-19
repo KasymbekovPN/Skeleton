@@ -1,19 +1,17 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
 public class ObjectNode implements Node {
-
-    private static final Logger log = LoggerFactory.getLogger(ObjectNode.class);
 
     private Node parent;
     private Map<String, Node> children = new HashMap<>();
@@ -71,10 +69,10 @@ public class ObjectNode implements Node {
     }
 
     @Override
-    public Optional<Node> get(String property, Class<? extends Node> clazz) {
+    public Optional<Node> get(String property, EntityItem ei) {
         if (children.containsKey(property)){
             Node node = children.get(property);
-            if (node.getClass().equals(clazz)){
+            if (node.getEI().equals(ei)){
                 return Optional.of(node);
             }
         }
@@ -83,45 +81,36 @@ public class ObjectNode implements Node {
     }
 
     @Override
-    public boolean isObject() {
-        return true;
+    public boolean is(EntityItem ei) {
+        return ei().equals(ei);
     }
 
     @Override
-    public Optional<Node> getChild(List<String> path, Class<? extends Node> clazz) {
+    public Optional<Node> getChild(CollectorPath collectorPath) {
+
         Node bufferNode = this;
-        for (String s : path) {
-            if (bufferNode.isObject()) {
-                if (((ObjectNode) bufferNode).containsKey(s)) {
-                    bufferNode = ((ObjectNode) bufferNode).getChildren().get(s);
-                } else {
-                    bufferNode = null;
-                    break;
-                }
+        Iterator<Pair<String, EntityItem>> iterator = collectorPath.iterator();
+        while (iterator.hasNext()){
+            Pair<String, EntityItem> next = iterator.next();
+            String propertyName = next.getLeft();
+            EntityItem propertyType = next.getRight();
+
+            Optional<Node> mayBeInnerNode = bufferNode.get(propertyName, propertyType);
+            if (mayBeInnerNode.isPresent()){
+                bufferNode = mayBeInnerNode.get();
             } else {
                 bufferNode = null;
                 break;
             }
         }
 
-        return bufferNode != null && bufferNode.getClass().equals(clazz)
+        return bufferNode != null
                 ? Optional.of(bufferNode)
                 : Optional.empty();
     }
 
     @Override
-    public void deepSet(Node node) {
-        if (node.isObject()){
-            ObjectNode objectNode = (ObjectNode) node;
-            parent = objectNode.getParent();
-            children = objectNode.getChildren();
-        }
-    }
-
-    @Override
     public String toString() {
-        return "GeneratorObjectNode{" +
-                "children=" + children +
-                "}";
+        return "ObjectNode{ " + children + " }";
     }
 }
