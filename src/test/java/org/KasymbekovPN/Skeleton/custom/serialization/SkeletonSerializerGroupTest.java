@@ -82,8 +82,16 @@ public class SkeletonSerializerGroupTest {
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
         CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
 
+//        List<String> servicePaths = new ArrayList<>(Arrays.asList("__service", "__paths"));
+        //<
+        List<String> servicePaths = Arrays.asList("__service", "__paths");
+        HashMap<String, List<String>> paths = new HashMap<>() {{
+            put("CLASS", Collections.singletonList("class"));
+            put("MEMBERS", Collections.singletonList("members"));
+        }};
+
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
-                .addClassHandler(new ServiceSEH(sac))
+                .addClassHandler(new ServiceSEH(sac, servicePaths, paths))
                 .addClassHandler(new ClassSignatureSEH(sac))
                 .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, processor, taskName))
                 .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, processor, taskName))

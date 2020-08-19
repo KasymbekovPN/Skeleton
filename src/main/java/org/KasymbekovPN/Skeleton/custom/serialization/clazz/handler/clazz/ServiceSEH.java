@@ -3,48 +3,61 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class ServiceSEH extends BaseSEH {
 
-    private static final List<String> SERVICE_PART_PATH = new ArrayList<>(){{add("__service");}};
-    private static final String PATHS_PART_NAME = "__paths";
+//    private static final List<String> SERVICE_PART_PATH = new ArrayList<>(){{add("__service");}};
+//    private static final String PATHS_PART_NAME = "__paths";
+    //<
 
     private final AnnotationChecker annotationChecker;
+    private final List<String> servicePaths;
+    private final Map<String, List<String>> paths;
 
-    private Map<EntityItem, List<String>> collectorStructure;
+    //<
+//    private Map<EntityItem, List<String>> collectorStructure;
 
-    public ServiceSEH(AnnotationChecker annotationChecker) {
+    public ServiceSEH(AnnotationChecker annotationChecker,
+                      List<String> servicePaths,
+                      Map<String, List<String>> paths) {
         this.annotationChecker = annotationChecker;
+        this.servicePaths = servicePaths;
+        this.paths = paths;
     }
 
     @Override
     protected boolean checkData(Class<?> clazz, Collector collector) {
-        boolean result = false;
+//        boolean result = false;
+        //<
+
+
         Optional<Annotation> maybeAnnotation = annotationChecker.check(clazz.getDeclaredAnnotations(), SkeletonClass.class);
-        if (maybeAnnotation.isPresent()){
-            result = true;
 
-            //< ???
-            collectorStructure = collector.getCollectorStructure().getPaths();
-        }
+        //<
+//        if (maybeAnnotation.isPresent()){
+//            result = true;
+//
+//            //< ???
+//            collectorStructure = collector.getCollectorStructure().getPaths();
+//        }
 
-        return result;
+//        return result;
+        //<
+        return maybeAnnotation.isPresent();
     }
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(SERVICE_PART_PATH);
-        collector.beginObject(PATHS_PART_NAME);
-        for (Map.Entry<EntityItem, List<String>> entry : collectorStructure.entrySet()) {
-            String part = entry.getKey().toString();
+
+        collector.setTarget(servicePaths);
+        for (Map.Entry<String, List<String>> entry : paths.entrySet()) {
+            String part = entry.getKey();
             List<String> path = entry.getValue();
             collector.beginArray(part);
             for (String pathItem : path) {
@@ -53,6 +66,19 @@ public class ServiceSEH extends BaseSEH {
             collector.end();
         }
         collector.reset();
+        //<
+//        collector.setTarget(SERVICE_PART_PATH);
+//        collector.beginObject(PATHS_PART_NAME);
+//        for (Map.Entry<EntityItem, List<String>> entry : collectorStructure.entrySet()) {
+//            String part = entry.getKey().toString();
+//            List<String> path = entry.getValue();
+//            collector.beginArray(part);
+//            for (String pathItem : path) {
+//                collector.addProperty(pathItem);
+//            }
+//            collector.end();
+//        }
+//        collector.reset();
 
         return false;
     }
