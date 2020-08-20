@@ -1,33 +1,32 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz;
 
-import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
-import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
 import java.lang.annotation.Annotation;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ServiceSEH extends BaseSEH {
 
-    private final AnnotationChecker annotationChecker;
+    private final Filter<Annotation> annotationFilter;
     private final List<String> servicePaths;
     private final Map<String, List<String>> paths;
 
-    public ServiceSEH(AnnotationChecker annotationChecker,
+    public ServiceSEH(Filter<Annotation> annotationFilter,
                       List<String> servicePaths,
                       Map<String, List<String>> paths) {
-        this.annotationChecker = annotationChecker;
+        this.annotationFilter = annotationFilter;
         this.servicePaths = servicePaths;
         this.paths = paths;
     }
 
     @Override
     protected boolean checkData(Class<?> clazz, Collector collector) {
-        Optional<Annotation> maybeAnnotation = annotationChecker.check(clazz.getDeclaredAnnotations(), SkeletonClass.class);
-        return maybeAnnotation.isPresent();
+        Deque<Annotation> filteredAnnotation
+                = annotationFilter.filter(new ArrayDeque<Annotation>(Arrays.asList(clazz.getDeclaredAnnotations())));
+
+        return filteredAnnotation.size() > 0;
     }
 
     @Override

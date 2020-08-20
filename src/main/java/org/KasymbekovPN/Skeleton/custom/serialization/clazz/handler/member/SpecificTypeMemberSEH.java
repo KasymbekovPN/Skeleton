@@ -1,10 +1,9 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
-import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
-import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -13,15 +12,14 @@ import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SpecificTypeMemberSEH extends BaseSEH {
 
     private final SimpleChecker<Class<?>> clazzChecker;
-    private final AnnotationChecker annotationChecker;
+    private final Filter<Annotation> annotationFilter;
     private final Processor<Node> nodeProcessor;
     private final String taskName;
     private final CollectorPath collectorServicePath;
@@ -32,12 +30,12 @@ public class SpecificTypeMemberSEH extends BaseSEH {
     private List<String> membersPath;
 
     public SpecificTypeMemberSEH(SimpleChecker<Class<?>> clazzChecker,
-                                 AnnotationChecker annotationChecker,
+                                 Filter<Annotation> annotationFilter,
                                  Processor<Node> nodeProcessor,
                                  String taskName,
                                  CollectorPath collectorServicePath) {
         this.clazzChecker = clazzChecker;
-        this.annotationChecker = annotationChecker;
+        this.annotationFilter = annotationFilter;
         this.nodeProcessor = nodeProcessor;
         this.taskName = taskName;
         this.collectorServicePath = collectorServicePath;
@@ -48,7 +46,9 @@ public class SpecificTypeMemberSEH extends BaseSEH {
 
         Class<?> type = field.getType();
         boolean success = clazzChecker.check(type);
-        success &= annotationChecker.check(field.getDeclaredAnnotations(), SkeletonMember.class).isPresent();
+        Deque<Annotation> filteredAnnotations
+                = annotationFilter.filter(new ArrayDeque<>(Arrays.asList(field.getDeclaredAnnotations())));
+        success &= filteredAnnotations.size() > 0;
         success &= checkCollectorContent(collector);
 
         Optional<List<String>> mayBeMembersPath = extractMembersPath(collector.getNode());

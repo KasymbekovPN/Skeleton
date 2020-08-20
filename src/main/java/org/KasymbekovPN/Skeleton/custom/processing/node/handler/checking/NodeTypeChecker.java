@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.NodeTypeCheckerResult;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
@@ -20,13 +20,10 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     private static final String CUSTOM = "custom";
     private static final String TYPE = "type";
     private static final String CLASS_NAME = "className";
-    private static final List<String> MEMBER_PATH = new ArrayList<>(){{
-        add("__service");
-        add("__paths");
-        add("MEMBERS");
-    }};
 
     private final SimpleChecker<String> systemTypeChecker;
+    private final CollectorPath serviceMembersPath;
+    private final CollectorPath classPath;
 
     private Result result;
     private Set<String> notContainsMemberPath = new HashSet<>();
@@ -35,9 +32,14 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     private Set<String> systemMemberTypes = new HashSet<>();
     private Set<String> customMemberTypes = new HashSet<>();
 
-    public NodeTypeChecker(SimpleChecker<String> systemTypeChecker, Result result) {
+    public NodeTypeChecker(SimpleChecker<String> systemTypeChecker,
+                           Result result,
+                           CollectorPath serviceMembersPath,
+                           CollectorPath classPath) {
         this.result = result;
         this.systemTypeChecker = systemTypeChecker;
+        this.serviceMembersPath = serviceMembersPath;
+        this.classPath = classPath;
     }
 
     @Override
@@ -81,14 +83,10 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     }
 
     private Optional<List<String>> getMembersPath(ObjectNode node){
-//        Optional<Node> mayBeClassPathNode = node.getChild(MEMBER_PATH, ArrayNode.class);
-        //<
-        Optional<Node> mayBeClassPathNode = node.getChild(
-                new SkeletonCollectorPath(MEMBER_PATH, ArrayNode.ei())
-        );
-        if (mayBeClassPathNode.isPresent()){
+        Optional<Node> mayBeMembersPathNode = node.getChild(serviceMembersPath);
+        if (mayBeMembersPathNode.isPresent()){
             List<String> pathToPart = new ArrayList<>();
-            ArrayNode classPathNode = (ArrayNode) mayBeClassPathNode.get();
+            ArrayNode classPathNode = (ArrayNode) mayBeMembersPathNode.get();
             for (Node child : classPathNode.getChildren()) {
                 pathToPart.add(((StringNode)child).getValue());
             }
@@ -100,11 +98,9 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     }
 
     private Optional<ObjectNode> getMemberNode(ObjectNode node, List<String> path){
-//        Optional<Node> mayBeMemberNode = node.getChild(path, ObjectNode.class);
-        //<
-        Optional<Node> mayBeMemberNode = node.getChild(
-                new SkeletonCollectorPath(path, ObjectNode.ei())
-        );
+        classPath.setPath(path);
+        classPath.setEi(ObjectNode.ei());
+        Optional<Node> mayBeMemberNode = node.getChild(classPath);
         return mayBeMemberNode.map(value -> (ObjectNode) value);
     }
 

@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
+import org.KasymbekovPN.Skeleton.custom.filter.annotation.AllowedAnnotationTypeFilter;
 import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
@@ -34,8 +35,8 @@ import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.Custo
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SkeletonSerializer;
 import org.KasymbekovPN.Skeleton.custom.serialization.group.serializer.SkeletonSerializerGroup;
-import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
-import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
@@ -53,6 +54,28 @@ import java.util.*;
 
 @DisplayName("SkeletonSerializerGroup: Testing of:")
 public class SkeletonSerializerGroupTest {
+
+    private final String SERVICE = "@service";
+    private final String PATHS = "@paths";
+    private final String CLASS = "@class";
+    private final String MEMBERS = "@members";
+
+    private SkeletonCollectorPath serviceClassPath
+            = new SkeletonCollectorPath(Arrays.asList(SERVICE, PATHS, CLASS), ArrayNode.ei());
+    private SkeletonCollectorPath serviceMembersPath
+            = new SkeletonCollectorPath(Arrays.asList(SERVICE, PATHS, MEMBERS), ArrayNode.ei());
+
+    private List<String> servicePaths = Arrays.asList(SERVICE, PATHS);
+    private HashMap<String, List<String>> paths = new HashMap<>() {{
+        put(CLASS, Collections.singletonList("class"));
+        put(MEMBERS, Collections.singletonList("members"));
+    }};
+
+    private SkeletonCollectorPath objectPath
+            = new SkeletonCollectorPath(new ArrayList<>(), ObjectNode.ei());
+
+    private SkeletonCollectorPath stringPath
+            = new SkeletonCollectorPath(new ArrayList<>(), StringNode.ei());
 
     private WritingFormatterHandler createWFH() throws Exception {
 
@@ -75,7 +98,6 @@ public class SkeletonSerializerGroupTest {
         String taskName = ClassPartExistingChecker.TASK_NAME;
         Processor<Node> processor = createSerializerNodeProcessor();
 
-        AnnotationChecker sac = new SkeletonAnnotationChecker();
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class, float.class);
         AllowedStringChecker allowedStringChecker = new AllowedStringChecker("SerializerGroupTC0", "SerializerGroupTC1");
 
@@ -83,23 +105,15 @@ public class SkeletonSerializerGroupTest {
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
         CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
 
-        List<String> servicePaths = Arrays.asList("__service", "__paths");
-        HashMap<String, List<String>> paths = new HashMap<>() {{
-            put("CLASS", Collections.singletonList("class"));
-            put("MEMBERS", Collections.singletonList("members"));
-        }};
-
-        SkeletonCollectorPath serviceClassPath
-                = new SkeletonCollectorPath(Arrays.asList("__service", "__paths", "CLASS"), ArrayNode.ei());
-        SkeletonCollectorPath serviceMembersPath
-                = new SkeletonCollectorPath(Arrays.asList("__service", "__paths", "MEMBERS"), ArrayNode.ei());
+        AllowedAnnotationTypeFilter skeletonClassAnnotationFilter = new AllowedAnnotationTypeFilter(SkeletonClass.class);
+        AllowedAnnotationTypeFilter skeletonMembersAnnotationFilter = new AllowedAnnotationTypeFilter(SkeletonMember.class);
 
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
-                .addClassHandler(new ServiceSEH(sac, servicePaths, paths))
-                .addClassHandler(new ClassSignatureSEH(sac, serviceClassPath))
-                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, processor, taskName, serviceMembersPath))
-                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, processor, taskName, serviceMembersPath))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, sac, processor, taskName, serviceMembersPath))
+                .addClassHandler(new ServiceSEH(skeletonClassAnnotationFilter, servicePaths, paths))
+                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath))
                 .build();
 
         return serializer;
@@ -110,7 +124,7 @@ public class SkeletonSerializerGroupTest {
         NodeTask classExistTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
         new NodeProcessHandlerWrapper(
                 classExistTask,
-                new ClassPartExistingChecker(new ClassPartExistingCheckerResult()),
+                new ClassPartExistingChecker(new ClassPartExistingCheckerResult(), serviceClassPath, objectPath),
                 ObjectNode.ei(),
                 new WrongResult()
         );
@@ -129,7 +143,9 @@ public class SkeletonSerializerGroupTest {
         new NodeProcessHandlerWrapper(
                 nodeClassNameExtractorTask,
                 new NodeClassNameExtractor(
-                        new NodeClassNameExtractorHandlerResult()
+                        new NodeClassNameExtractorHandlerResult(),
+                        serviceClassPath,
+                        stringPath
                 ),
                 ObjectNode.ei(),
                 new WrongResult()
@@ -151,10 +167,11 @@ public class SkeletonSerializerGroupTest {
     }
 
     private Task<Node> createCheckNodeTypeTask(SimpleChecker<String> systemTypeChecker){
+
         NodeTask checkNodeTypeTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
         new NodeProcessHandlerWrapper(
                 checkNodeTypeTask,
-                new NodeTypeChecker(systemTypeChecker, new NodeTypeCheckerResult()),
+                new NodeTypeChecker(systemTypeChecker, new NodeTypeCheckerResult(), serviceMembersPath, objectPath),
                 ObjectNode.ei(),
                 new WrongResult()
         );
@@ -192,9 +209,7 @@ public class SkeletonSerializerGroupTest {
                 nodeTask,
                 new JsonObjectTaskHandler(
                         wfh,
-//                        new IgnoreStringFilter("annotation", "__service"),
-                        //<
-                        new IgnoreStringFilter(),
+                        new IgnoreStringFilter(SERVICE),
                         new WritingResult()
                 ),
                 ObjectNode.ei(),

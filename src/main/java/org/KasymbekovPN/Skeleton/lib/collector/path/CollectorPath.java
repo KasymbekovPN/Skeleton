@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface CollectorPath {
+    void setPath(List<String> path);
+    void setEi(EntityItem ei);
     List<String> getPath();
     EntityItem getEi();
     Iterator<Pair<String, EntityItem>> iterator();

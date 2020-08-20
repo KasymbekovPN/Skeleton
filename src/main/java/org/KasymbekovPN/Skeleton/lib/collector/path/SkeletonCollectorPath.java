@@ -11,11 +11,21 @@ import java.util.NoSuchElementException;
 
 public class SkeletonCollectorPath implements CollectorPath {
 
-    private final List<String> path;
-    private final EntityItem ei;
+    private List<String> path;
+    private EntityItem ei;
 
     public SkeletonCollectorPath(List<String> path, EntityItem ei) {
         this.path = path;
+        this.ei = ei;
+    }
+
+    @Override
+    public void setPath(List<String> path) {
+        this.path = path;
+    }
+
+    @Override
+    public void setEi(EntityItem ei) {
         this.ei = ei;
     }
 

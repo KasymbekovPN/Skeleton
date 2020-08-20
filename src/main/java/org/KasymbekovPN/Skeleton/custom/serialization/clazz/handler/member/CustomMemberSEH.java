@@ -1,10 +1,10 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
-import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -15,14 +15,12 @@ import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class CustomMemberSEH extends BaseSEH {
 
     private final SimpleChecker<String> classNameChecker;
-    private final AnnotationChecker annotationChecker;
+    private final Filter<Annotation> annotationFilter;
     private final Processor<Node> nodeProcessor;
     private final String taskName;
     private final CollectorPath collectorServicePath;
@@ -34,12 +32,12 @@ public class CustomMemberSEH extends BaseSEH {
     private List<String> membersPath;
 
     public CustomMemberSEH(SimpleChecker<String> classNameChecker,
-                           AnnotationChecker annotationChecker,
+                           Filter<Annotation> annotationFilter,
                            Processor<Node> nodeProcessor,
                            String taskName,
                            CollectorPath collectorServicePath) {
         this.classNameChecker = classNameChecker;
-        this.annotationChecker = annotationChecker;
+        this.annotationFilter = annotationFilter;
         this.nodeProcessor = nodeProcessor;
         this.taskName = taskName;
         this.collectorServicePath = collectorServicePath;
@@ -50,9 +48,11 @@ public class CustomMemberSEH extends BaseSEH {
 
         boolean success = false;
         String className = "";
-        Optional<Annotation> mayBeAnnotation = annotationChecker.check(field.getDeclaredAnnotations(), SkeletonMember.class);
-        if (mayBeAnnotation.isPresent()){
-            SkeletonMember annotation = (SkeletonMember) mayBeAnnotation.get();
+
+        Deque<Annotation> filteredAnnotation
+                = annotationFilter.filter(new ArrayDeque<>(Arrays.asList(field.getDeclaredAnnotations())));
+        if (filteredAnnotation.size() > 0){
+            SkeletonMember annotation = (SkeletonMember) filteredAnnotation.pollFirst();
             className = annotation.name();
 
             success = classNameChecker.check(className) && checkCollectorContent(collector);

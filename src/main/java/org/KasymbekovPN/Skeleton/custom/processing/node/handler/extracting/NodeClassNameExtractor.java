@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting;
 
-import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -8,8 +8,6 @@ import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +15,17 @@ import java.util.Optional;
 
 public class NodeClassNameExtractor implements TaskHandler<Node> {
 
-    //< !!! replace strings with constants !!!
-
-    private static final Logger log = LoggerFactory.getLogger(NodeClassNameExtractor.class);
-    private static final List<String> path = new ArrayList<>(){{
-        add("__service");
-        add("__paths");
-        add("CLASS");
-    }};
+    private final CollectorPath serviceClassPath;
+    private final CollectorPath classNamePath;
 
     private Result result;
 
-    public NodeClassNameExtractor(Result result) {
+    public NodeClassNameExtractor(Result result,
+                                  CollectorPath serviceClassPath,
+                                  CollectorPath classNamePath) {
         this.result = result;
+        this.serviceClassPath = serviceClassPath;
+        this.classNamePath = classNamePath;
     }
 
     @Override
@@ -39,11 +35,9 @@ public class NodeClassNameExtractor implements TaskHandler<Node> {
         if (mayBeClassPath.isPresent()){
             List<String> classPath = mayBeClassPath.get();
             classPath.add("name");
-//            Optional<Node> mayBeClassName = objectNode.getChild(classPath, StringNode.class);
-            //<
-            Optional<Node> mayBeClassName = objectNode.getChild(
-                    new SkeletonCollectorPath(classPath, StringNode.ei())
-            );
+            classNamePath.setPath(classPath);
+            classNamePath.setEi(StringNode.ei());
+            Optional<Node> mayBeClassName = objectNode.getChild(classNamePath);
 
             result = result.createNew();
             if (mayBeClassName.isPresent()) {
@@ -69,9 +63,7 @@ public class NodeClassNameExtractor implements TaskHandler<Node> {
 
     private Optional<List<String>> extractClassPath(ObjectNode node){
 
-        Optional<Node> mayBeClass = node.getChild(
-                new SkeletonCollectorPath(path, ArrayNode.ei())
-        );
+        Optional<Node> mayBeClass = node.getChild(serviceClassPath);
         if (mayBeClass.isPresent()){
             ArrayList<String> classPath = new ArrayList<>();
             ArrayNode classPathNode = (ArrayNode) mayBeClass.get();
