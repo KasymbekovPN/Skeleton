@@ -1,24 +1,16 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.node.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SkeletonCollector implements Collector {
 
-    private static final Logger log = LoggerFactory.getLogger(SkeletonCollector.class);
-
-    private final CollectorStructure collectorStructure;
-
     private Node root;
     private Node target;
 
-    public SkeletonCollector(CollectorStructure collectorStructure, boolean defaultProtocolData) {
-        this.collectorStructure = collectorStructure;
+    public SkeletonCollector() {
         clear();
     }
 
@@ -108,11 +100,6 @@ public class SkeletonCollector implements Collector {
     }
 
     @Override
-    public CollectorStructure getCollectorStructure() {
-        return collectorStructure;
-    }
-
-    @Override
     public Node getNode() {
         return root;
     }
@@ -141,8 +128,6 @@ public class SkeletonCollector implements Collector {
 
     @Override
     public String toString() {
-        return "SimpleGenerator{" +
-                "root=" + root +
-                '}';
+        return "SkeletonCollector{ " + root + " }";
     }
 }

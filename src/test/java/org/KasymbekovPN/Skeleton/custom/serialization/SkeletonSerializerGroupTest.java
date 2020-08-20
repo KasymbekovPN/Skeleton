@@ -38,6 +38,7 @@ import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.SkeletonAnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
@@ -82,20 +83,23 @@ public class SkeletonSerializerGroupTest {
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
         CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
 
-//        List<String> servicePaths = new ArrayList<>(Arrays.asList("__service", "__paths"));
-        //<
         List<String> servicePaths = Arrays.asList("__service", "__paths");
         HashMap<String, List<String>> paths = new HashMap<>() {{
             put("CLASS", Collections.singletonList("class"));
             put("MEMBERS", Collections.singletonList("members"));
         }};
 
+        SkeletonCollectorPath serviceClassPath
+                = new SkeletonCollectorPath(Arrays.asList("__service", "__paths", "CLASS"), ArrayNode.ei());
+        SkeletonCollectorPath serviceMembersPath
+                = new SkeletonCollectorPath(Arrays.asList("__service", "__paths", "MEMBERS"), ArrayNode.ei());
+
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(sac, servicePaths, paths))
-                .addClassHandler(new ClassSignatureSEH(sac))
-                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, processor, taskName))
-                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, processor, taskName))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, sac, processor, taskName))
+                .addClassHandler(new ClassSignatureSEH(sac, serviceClassPath))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, sac, processor, taskName, serviceMembersPath))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, sac, processor, taskName, serviceMembersPath))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, sac, processor, taskName, serviceMembersPath))
                 .build();
 
         return serializer;
@@ -190,7 +194,7 @@ public class SkeletonSerializerGroupTest {
                         wfh,
 //                        new IgnoreStringFilter("annotation", "__service"),
                         //<
-                        new IgnoreStringFilter("annotation"),
+                        new IgnoreStringFilter(),
                         new WritingResult()
                 ),
                 ObjectNode.ei(),

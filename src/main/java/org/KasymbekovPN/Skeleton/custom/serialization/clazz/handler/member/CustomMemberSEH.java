@@ -1,18 +1,22 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
-import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.annotation.handler.AnnotationChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class CustomMemberSEH extends BaseSEH {
@@ -21,32 +25,25 @@ public class CustomMemberSEH extends BaseSEH {
     private final AnnotationChecker annotationChecker;
     private final Processor<Node> nodeProcessor;
     private final String taskName;
-    //<
-//    private final CollectorCheckingHandler collectorCheckingHandler;
+    private final CollectorPath collectorServicePath;
 
     private String name;
     private String typeName;
     private String className;
     private int modifiers;
+    private List<String> membersPath;
 
     public CustomMemberSEH(SimpleChecker<String> classNameChecker,
                            AnnotationChecker annotationChecker,
                            Processor<Node> nodeProcessor,
-                           String taskName) {
+                           String taskName,
+                           CollectorPath collectorServicePath) {
         this.classNameChecker = classNameChecker;
         this.annotationChecker = annotationChecker;
         this.nodeProcessor = nodeProcessor;
         this.taskName = taskName;
+        this.collectorServicePath = collectorServicePath;
     }
-
-    //<
-//    public CustomMemberSEH(SimpleChecker<String> classNameChecker,
-//                           AnnotationChecker annotationChecker,
-//                           CollectorCheckingHandler collectorCheckingHandler) {
-//        this.classNameChecker = classNameChecker;
-//        this.annotationChecker = annotationChecker;
-//        this.collectorCheckingHandler = collectorCheckingHandler;
-//    }
 
     @Override
     protected boolean checkData(Field field, Collector collector) {
@@ -61,11 +58,15 @@ public class CustomMemberSEH extends BaseSEH {
             success = classNameChecker.check(className) && checkCollectorContent(collector);
         }
 
+        Optional<List<String>> mayBeMembersPath = extractMembersPath(collector.getNode());
+        success &= mayBeMembersPath.isPresent();
+
         if (success){
             this.name = field.getName();
             this.typeName = field.getType().getCanonicalName();
             this.modifiers = field.getModifiers();
             this.className = className;
+            this.membersPath = mayBeMembersPath.get();
         }
 
         return success;
@@ -73,7 +74,7 @@ public class CustomMemberSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
+        collector.setTarget(membersPath);
         collector.beginObject(name);
         collector.addProperty("custom", true);
         collector.addProperty("type", typeName);
@@ -99,27 +100,20 @@ public class CustomMemberSEH extends BaseSEH {
         return result;
     }
 
-    //<
-//    private boolean checkCollectorContent(Collector collector){
-//        boolean result = false;
-//
-//        String processId = UUID.randomUUID().toString();
-//        Optional<CollectorCheckingProcess> mayBeProcess = collectorCheckingHandler.add(processId);
-//        if (mayBeProcess.isPresent()){
-//            new ClassExistCheckingHandler(
-//                    mayBeProcess.get(),
-//                    ObjectNode.ei(),
-//                    collector.getCollectorStructure().getPath(CollectorStructureEI.classEI())
-//            );
-//
-//            Map<String, CollectorCheckingResult> handlingResult
-//                    = collectorCheckingHandler.handle(collector, new AllowedStringFilter(processId));
-//
-//            collectorCheckingHandler.remove(processId);
-//
-//            result = handlingResult.get(processId).equals(CollectorCheckingResult.INCLUDE);
-//        }
-//
-//        return result;
-//    }
+    private Optional<List<String>> extractMembersPath(Node node){
+        if (collectorServicePath.getEi().equals(ArrayNode.ei())){
+            Optional<Node> mayBeServicePathNode = node.getChild(collectorServicePath);
+            if (mayBeServicePathNode.isPresent()){
+                List<String> classPath = new ArrayList<>();
+                ArrayNode servicePathNode = (ArrayNode) mayBeServicePathNode.get();
+                for (Node pathPart : servicePathNode.getChildren()) {
+                    classPath.add(((StringNode)pathPart).getValue());
+                }
+
+                return Optional.of(classPath);
+            }
+        }
+
+        return Optional.empty();
+    }
 }

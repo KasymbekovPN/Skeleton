@@ -12,16 +12,9 @@ import java.util.Optional;
 
 public class ServiceSEH extends BaseSEH {
 
-//    private static final List<String> SERVICE_PART_PATH = new ArrayList<>(){{add("__service");}};
-//    private static final String PATHS_PART_NAME = "__paths";
-    //<
-
     private final AnnotationChecker annotationChecker;
     private final List<String> servicePaths;
     private final Map<String, List<String>> paths;
-
-    //<
-//    private Map<EntityItem, List<String>> collectorStructure;
 
     public ServiceSEH(AnnotationChecker annotationChecker,
                       List<String> servicePaths,
@@ -33,22 +26,7 @@ public class ServiceSEH extends BaseSEH {
 
     @Override
     protected boolean checkData(Class<?> clazz, Collector collector) {
-//        boolean result = false;
-        //<
-
-
         Optional<Annotation> maybeAnnotation = annotationChecker.check(clazz.getDeclaredAnnotations(), SkeletonClass.class);
-
-        //<
-//        if (maybeAnnotation.isPresent()){
-//            result = true;
-//
-//            //< ???
-//            collectorStructure = collector.getCollectorStructure().getPaths();
-//        }
-
-//        return result;
-        //<
         return maybeAnnotation.isPresent();
     }
 
@@ -66,19 +44,6 @@ public class ServiceSEH extends BaseSEH {
             collector.end();
         }
         collector.reset();
-        //<
-//        collector.setTarget(SERVICE_PART_PATH);
-//        collector.beginObject(PATHS_PART_NAME);
-//        for (Map.Entry<EntityItem, List<String>> entry : collectorStructure.entrySet()) {
-//            String part = entry.getKey().toString();
-//            List<String> path = entry.getValue();
-//            collector.beginArray(part);
-//            for (String pathItem : path) {
-//                collector.addProperty(pathItem);
-//            }
-//            collector.end();
-//        }
-//        collector.reset();
 
         return false;
     }

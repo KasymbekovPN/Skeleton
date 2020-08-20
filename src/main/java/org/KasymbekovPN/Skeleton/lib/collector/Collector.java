@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 
 import java.util.List;
@@ -28,9 +27,6 @@ public interface Collector {
     void end();
 
     void setTarget(List<String> path);
-
-    //< del ???
-    CollectorStructure getCollectorStructure();
 
     Node getNode();
     Node detachNode();

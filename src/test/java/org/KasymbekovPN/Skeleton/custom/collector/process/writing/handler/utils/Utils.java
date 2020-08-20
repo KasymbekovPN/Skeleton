@@ -1,10 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils;
 
-import org.KasymbekovPN.Skeleton.custom.format.collector.CollectorStructureEI;
-import org.KasymbekovPN.Skeleton.custom.format.collector.SkeletonCollectorStructure;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
-import org.KasymbekovPN.Skeleton.lib.format.collector.CollectorStructure;
 
 import java.util.Map;
 import java.util.Set;
@@ -12,22 +9,9 @@ import java.util.Set;
 //< !!! replace
 public class Utils {
 
+    //del
     public static Collector createCollector() throws Exception {
-//        CollectorStructure collectorStructure = new SkeletonCollectorStructure.Builder()
-//                .setClassPath("class")
-//                .setMembersPath("members")
-//                .setAnnotationPath("annotation")
-//                .setConstructorPath("constructors")
-//                .setMethodPath("methods")
-//                .setProtocolPath("protocol")
-//                .build();
-        //<
-        CollectorStructure collectorStructure = new SkeletonCollectorStructure.Builder()
-                .setClassPath("class")
-                .setMembersPath("members")
-                .build();
-
-        return new SkeletonCollector(collectorStructure, false);
+        return new SkeletonCollector();
     }
 
     //< del
@@ -95,18 +79,18 @@ public class Utils {
         }
     }
 
-    public static void fillCollectorMembersPart(Collector collector, String[] memberNames){
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
-        for (String memberName : memberNames) {
-            collector.beginObject(memberName);
-            collector.end();
-        }
-        collector.reset();
-    }
-
-    public static void fillCollectorClassPath(Collector collector){
-        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
-    }
+//    public static void fillCollectorMembersPart(Collector collector, String[] memberNames){
+//        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.membersEI()));
+//        for (String memberName : memberNames) {
+//            collector.beginObject(memberName);
+//            collector.end();
+//        }
+//        collector.reset();
+//    }
+//
+//    public static void fillCollectorClassPath(Collector collector){
+//        collector.setTarget(collector.getCollectorStructure().getPath(CollectorStructureEI.classEI()));
+//    }
 
     //<
 //    public static void fillCollectorAnnotationPart(Collector collector,
