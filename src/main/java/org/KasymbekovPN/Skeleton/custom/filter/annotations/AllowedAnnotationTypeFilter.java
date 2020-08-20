@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.filter.annotation;
+package org.KasymbekovPN.Skeleton.custom.filter.annotations;
 
 import org.KasymbekovPN.Skeleton.lib.filter.annotation.BaseAnnotationFilter;
 
@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AllowedAnnotationTypeFilter extends BaseAnnotationFilter {
-
     private final Set<Class<? extends Annotation>> allowedAnnotationTypes;
 
     public AllowedAnnotationTypeFilter(Set<Class<? extends Annotation>> allowedAnnotationTypes) {

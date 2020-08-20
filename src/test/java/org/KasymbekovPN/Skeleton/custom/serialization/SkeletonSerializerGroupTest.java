@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
-import org.KasymbekovPN.Skeleton.custom.filter.annotation.AllowedAnnotationTypeFilter;
+import org.KasymbekovPN.Skeleton.custom.filter.annotations.AllowedAnnotationTypeFilter;
 import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
