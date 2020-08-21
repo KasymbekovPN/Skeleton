@@ -93,10 +93,18 @@ public class SkeletonCollector implements Collector {
         }
     }
 
+//    @Override
+//    public void setTarget(List<String> path) {
+//        reset();
+//        setEachTarget(new ArrayList<>(path));
+//    }
+    //<
     @Override
-    public void setTarget(List<String> path) {
+    public Node setTarget(List<String> path) {
         reset();
         setEachTarget(new ArrayList<>(path));
+
+        return target;
     }
 
     @Override

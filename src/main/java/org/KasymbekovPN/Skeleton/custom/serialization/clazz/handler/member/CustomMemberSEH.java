@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
@@ -24,9 +25,11 @@ public class CustomMemberSEH extends BaseSEH {
     private final Processor<Node> nodeProcessor;
     private final String taskName;
     private final CollectorPath collectorServicePath;
+    private final ClassMembersHandler classMembersHandler;
+    private final String kind;
 
     private String name;
-    private String typeName;
+    private String type;
     private String className;
     private int modifiers;
     private List<String> membersPath;
@@ -35,12 +38,16 @@ public class CustomMemberSEH extends BaseSEH {
                            Filter<Annotation> annotationFilter,
                            Processor<Node> nodeProcessor,
                            String taskName,
-                           CollectorPath collectorServicePath) {
+                           CollectorPath collectorServicePath,
+                           ClassMembersHandler classMembersHandler,
+                           String kind) {
         this.classNameChecker = classNameChecker;
         this.annotationFilter = annotationFilter;
         this.nodeProcessor = nodeProcessor;
         this.taskName = taskName;
         this.collectorServicePath = collectorServicePath;
+        this.classMembersHandler = classMembersHandler;
+        this.kind = kind;
     }
 
     @Override
@@ -63,7 +70,7 @@ public class CustomMemberSEH extends BaseSEH {
 
         if (success){
             this.name = field.getName();
-            this.typeName = field.getType().getCanonicalName();
+            this.type = field.getType().getCanonicalName();
             this.modifiers = field.getModifiers();
             this.className = className;
             this.membersPath = mayBeMembersPath.get();
@@ -74,12 +81,13 @@ public class CustomMemberSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(membersPath);
-        collector.beginObject(name);
-        collector.addProperty("custom", true);
-        collector.addProperty("type", typeName);
-        collector.addProperty("modifiers", modifiers);
-        collector.addProperty("className", className);
+        List<String> path = new ArrayList<>(membersPath);
+        path.add(name);
+        ObjectNode targetNode = (ObjectNode) collector.setTarget(path);
+        classMembersHandler.setKind(targetNode, kind);
+        classMembersHandler.setType(targetNode, type);
+        classMembersHandler.setClassName(targetNode, className);
+        classMembersHandler.setModifiers(targetNode, modifiers);
         collector.reset();
 
         return true;

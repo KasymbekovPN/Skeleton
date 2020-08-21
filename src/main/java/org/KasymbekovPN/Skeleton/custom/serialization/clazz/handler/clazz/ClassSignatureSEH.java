@@ -2,10 +2,12 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz;
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 
@@ -16,15 +18,19 @@ public class ClassSignatureSEH extends BaseSEH {
 
     private final Filter<Annotation> annotationFilter;
     private final CollectorPath collectorServicePath;
+    private final ClassHeaderHandler classHeaderHandler;
 
+    private String type;
     private String name;
     private int modifiers;
     private List<String> classPath;
 
     public ClassSignatureSEH(Filter<Annotation> annotationFilter,
-                             CollectorPath collectorServicePath) {
+                             CollectorPath collectorServicePath,
+                             ClassHeaderHandler classHeaderHandler) {
         this.annotationFilter = annotationFilter;
         this.collectorServicePath = collectorServicePath;
+        this.classHeaderHandler = classHeaderHandler;
     }
 
     @Override
@@ -36,6 +42,7 @@ public class ClassSignatureSEH extends BaseSEH {
         if (filteredAnnotations.size() > 0 && mayBeClassPath.isPresent()){
             SkeletonClass annotation = (SkeletonClass) filteredAnnotations.pollFirst();
             result = true;
+            type = clazz.getTypeName();
             name = annotation.name();
             modifiers = clazz.getModifiers();
             classPath = mayBeClassPath.get();
@@ -46,9 +53,15 @@ public class ClassSignatureSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(classPath);
-        collector.addProperty("name", name);
-        collector.addProperty("modifiers", modifiers);
+//        collector.setTarget(classPath);
+//        collector.addProperty("name", name);
+//        collector.addProperty("modifiers", modifiers);
+//        collector.reset();
+        //<
+        ObjectNode targetNode = (ObjectNode) collector.setTarget(classPath);
+        classHeaderHandler.setType(targetNode, type);
+        classHeaderHandler.setName(targetNode, name);
+        classHeaderHandler.setModifiers(targetNode, modifiers);
         collector.reset();
 
         return false;
