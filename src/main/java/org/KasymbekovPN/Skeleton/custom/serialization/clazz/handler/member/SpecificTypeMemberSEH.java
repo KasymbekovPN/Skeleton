@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
@@ -23,6 +24,8 @@ public class SpecificTypeMemberSEH extends BaseSEH {
     private final Processor<Node> nodeProcessor;
     private final String taskName;
     private final CollectorPath collectorServicePath;
+    private final ClassMembersHandler classMembersHandler;
+    private final String kind;
 
     private String name;
     private String typeName;
@@ -33,12 +36,16 @@ public class SpecificTypeMemberSEH extends BaseSEH {
                                  Filter<Annotation> annotationFilter,
                                  Processor<Node> nodeProcessor,
                                  String taskName,
-                                 CollectorPath collectorServicePath) {
+                                 CollectorPath collectorServicePath,
+                                 ClassMembersHandler classMembersHandler,
+                                 String kind) {
         this.clazzChecker = clazzChecker;
         this.annotationFilter = annotationFilter;
         this.nodeProcessor = nodeProcessor;
         this.taskName = taskName;
         this.collectorServicePath = collectorServicePath;
+        this.classMembersHandler = classMembersHandler;
+        this.kind = kind;
     }
 
     @Override
@@ -66,11 +73,13 @@ public class SpecificTypeMemberSEH extends BaseSEH {
 
     @Override
     protected boolean fillCollector(Collector collector) {
-        collector.setTarget(membersPath);
-        collector.beginObject(name);
-        collector.addProperty("custom", false);
-        collector.addProperty("type", typeName);
-        collector.addProperty("modifiers", modifiers);
+        List<String> path = new ArrayList<>(membersPath);
+        path.add(name);
+        ObjectNode targetNode = (ObjectNode) collector.setTarget(path);
+        classMembersHandler.setKind(targetNode, kind);
+        classMembersHandler.setType(targetNode, typeName);
+        classMembersHandler.setClassName(targetNode, typeName);
+        classMembersHandler.setModifiers(targetNode, modifiers);
         collector.reset();
 
         return true;

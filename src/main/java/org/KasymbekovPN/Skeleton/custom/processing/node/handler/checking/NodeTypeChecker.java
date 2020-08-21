@@ -3,27 +3,27 @@ package org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.NodeTypeCheckerResult;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
+import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.node.*;
+import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.*;
 
 public class NodeTypeChecker implements TaskHandler<Node> {
 
-    private static final String CUSTOM = "custom";
-    private static final String TYPE = "type";
-    private static final String CLASS_NAME = "className";
-
     private final SimpleChecker<String> systemTypeChecker;
     private final CollectorPath serviceMembersPath;
     private final CollectorPath classPath;
+    private final ClassMembersHandler classMembersHandler;
+    private final String customKind;
 
     private Result result;
     private Set<String> notContainsMemberPath = new HashSet<>();
@@ -35,11 +35,15 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     public NodeTypeChecker(SimpleChecker<String> systemTypeChecker,
                            Result result,
                            CollectorPath serviceMembersPath,
-                           CollectorPath classPath) {
+                           CollectorPath classPath,
+                           ClassMembersHandler classMembersHandler,
+                           String customKind) {
         this.result = result;
         this.systemTypeChecker = systemTypeChecker;
         this.serviceMembersPath = serviceMembersPath;
         this.classPath = classPath;
+        this.classMembersHandler = classMembersHandler;
+        this.customKind = customKind;
     }
 
     @Override
@@ -109,33 +113,21 @@ public class NodeTypeChecker implements TaskHandler<Node> {
         MutablePair<Set<String>, Set<String>> types = new MutablePair<>(new HashSet<>(), new HashSet<>());
         for (Map.Entry<String, Node> entry : memberNodes.getChildren().entrySet()) {
             ObjectNode memberNode = (ObjectNode) entry.getValue();
-            Triple<Boolean, String, String> preparedMemberNodeData = prepareMemberNodeData(memberNode);
 
-            Boolean custom = preparedMemberNodeData.getLeft();
-            String className = preparedMemberNodeData.getMiddle();
-            String type = preparedMemberNodeData.getRight();
-            if (custom){
-                types.getLeft().add(className);
-            } else {
-                types.getRight().add(type);
+            Optional<String> mayBeKind = classMembersHandler.getKind(memberNode);
+            Optional<String> mayBeClassName = classMembersHandler.getClassName(memberNode);
+            if (mayBeKind.isPresent() && mayBeClassName.isPresent()){
+                String kind = mayBeKind.get();
+                String className = mayBeClassName.get();
+                if (kind.equals(customKind)){
+                    types.getLeft().add(className);
+                } else {
+                    types.getRight().add(className);
+                }
             }
         }
 
         return types;
-    }
-
-    private Triple<Boolean, String, String> prepareMemberNodeData(ObjectNode memberNode){
-        String type = "";
-        String className = "";
-        Map<String, Node> children = memberNode.getChildren();
-        Boolean custom = ((BooleanNode) children.get(CUSTOM)).getValue();
-        if (custom){
-            className = ((StringNode) children.get(CLASS_NAME)).getValue();
-        } else {
-            type = ((StringNode) children.get(TYPE)).getValue();
-        }
-
-        return new MutableTriple<>(custom, className, type);
     }
 
     private Result generateResult(){

@@ -26,7 +26,9 @@ public interface Collector {
 
     void end();
 
-    void setTarget(List<String> path);
+//    void setTarget(List<String> path);
+    //<
+    Node setTarget(List<String> path);
 
     Node getNode();
     Node detachNode();
