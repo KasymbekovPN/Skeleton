@@ -6,9 +6,6 @@ import java.lang.reflect.Field;
 
 public class BaseSEH implements SerializationElementHandler {
 
-    //< del
-//    protected static final CollectorCheckingResult INCLUDE = CollectorCheckingResult.INCLUDE;
-
     private SerializationElementHandler next;
 
     @Override

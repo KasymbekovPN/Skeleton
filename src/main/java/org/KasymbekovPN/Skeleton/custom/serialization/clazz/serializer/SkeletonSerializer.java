@@ -5,8 +5,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.SerializationElementHandler;
 import org.KasymbekovPN.Skeleton.lib.serialization.clazz.serializer.Serializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -15,8 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class SkeletonSerializer implements Serializer {
-
-    private static final Logger log = LoggerFactory.getLogger(SkeletonSerializer.class);
 
     private final Map<EntityItem, SerializationElementHandler> handlers;
     private final String id;
@@ -38,12 +34,6 @@ public class SkeletonSerializer implements Serializer {
             handlers.get(SerializerEI.memberEI()).handle(field, collector);
         }
     }
-
-    //< del
-//    @Override
-//    public void apply(CollectorProcess collectorProcess) {
-//        collector.apply(collectorProcess);
-//    }
 
     @Override
     public Collector getCollector() {
