@@ -1,13 +1,13 @@
 package org.KasymbekovPN.Skeleton.lib.serialization.instance.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 public interface InstanceSerializer {
-    void serialize(Object instance);
+    Result serialize(Object instance);
     Collector getCollector();
     Collector attachCollector(Collector collector);
-    Node attachClassNode(String classNodeId, Node classNode);
-    Node detachClassNode(String classNodeId);
+    void addClassNode(ObjectNode classNode);
     String getId();
 }

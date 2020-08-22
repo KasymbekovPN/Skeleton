@@ -4,6 +4,9 @@ import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
 import java.util.Optional;
 
+//<
+// replace with Extractor or remake via chain responsibility
+//<
 public interface ClassHeaderHandler {
     void setType(ObjectNode objectNode, String type);
     void setName(ObjectNode objectNode, String name);
