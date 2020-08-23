@@ -19,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
+//< rename -> Collection...
 public class ContainerMemberSEH extends BaseSEH {
 
     private final SimpleChecker<Field> fieldChecker;

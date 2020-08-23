@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,14 +56,19 @@ public class SkeletonInstanceSerializer implements InstanceSerializer {
     }
 
     @Override
-    public Result serialize(Object instance) {
+    public Result serialize(Object instance) throws IllegalAccessException {
 
         Triple<Boolean, String, String> checkingResult = checkInstanceClassName(instance);
         Boolean success = checkingResult.getLeft();
         String className = checkingResult.getMiddle();
         String status = checkingResult.getRight();
 
-        instanceSerializationHandler.handle(instance, collector, classNodes.get(className));
+        instanceSerializationHandler.handleHeader(instance, collector, className, classNodes);
+
+        Field[] declaredFields = instance.getClass().getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            instanceSerializationHandler.handleMember(instance, declaredField, collector, className, classNodes);
+        }
 
         result = result.createNew();
         result.setSuccess(success);

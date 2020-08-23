@@ -23,6 +23,7 @@ import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.Custo
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member.SpecificTypeMemberSEH;
 import org.KasymbekovPN.Skeleton.custom.serialization.clazz.serializer.SkeletonSerializer;
 import org.KasymbekovPN.Skeleton.custom.serialization.instance.handler.ClassISH;
+import org.KasymbekovPN.Skeleton.custom.serialization.instance.handler.SpecificISH;
 import org.KasymbekovPN.Skeleton.custom.serialization.instance.serializer.SkeletonInstanceSerializer;
 import org.KasymbekovPN.Skeleton.custom.serialization.serializer.instance.classes.InstanceSerTC0;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
@@ -139,7 +140,8 @@ public class SkeletonInstanceSerializerTest {
 
         ObjectNode instanceSerTC0Node = (ObjectNode) collector.detachNode();
 
-        ClassISH classISH = new ClassISH(classHeaderHandler, serviceClassPath, objectPath);
+        ClassISH classISH = new ClassISH(classHeaderHandler, serviceClassPath, objectPath, new SkeletonClassNameExtractor(), new InstanceSerializationResult());
+        classISH.setNext(new SpecificISH());
 
         SkeletonInstanceSerializer instanceSerializer = new SkeletonInstanceSerializer(
                 classHeaderHandler,
@@ -156,8 +158,8 @@ public class SkeletonInstanceSerializerTest {
         InstanceSerTC0 instanceSerTC0 = new InstanceSerTC0();
         Result result = instanceSerializer.serialize(instanceSerTC0);
         //<
-        System.out.println(result.isSuccess());
-        System.out.println(result.getStatus());
+//        System.out.println(result.isSuccess());
+//        System.out.println(result.getStatus());
         //<
 
         Node instanceNode = collector.detachNode();

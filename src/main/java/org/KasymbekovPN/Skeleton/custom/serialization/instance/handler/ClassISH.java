@@ -3,21 +3,29 @@ package org.KasymbekovPN.Skeleton.custom.serialization.instance.handler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.node.StringNode;
+import org.KasymbekovPN.Skeleton.lib.result.Result;
 import org.KasymbekovPN.Skeleton.lib.serialization.instance.handler.BaseISH;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ClassISH extends BaseISH {
 
+    private final static String NOT_MARKED = "Class '%s' isn't marked by according annotation";
+    private final static String UNKNOWN_CLASS_NAME = "Unknown class name '%s'";
+
     private final ClassHeaderHandler classHeaderHandler;
     private final CollectorPath serviceClassPath;
     private final CollectorPath objectPath;
+    private final Extractor<String, Annotation[]> annotationClassNameExtractor;
 
     private String name;
     private int modifiers;
@@ -25,17 +33,29 @@ public class ClassISH extends BaseISH {
 
     public ClassISH(ClassHeaderHandler classHeaderHandler,
                     CollectorPath serviceClassPath,
-                    CollectorPath objectPath) {
+                    CollectorPath objectPath,
+                    Extractor<String, Annotation[]> annotationClassNameExtractor,
+                    Result result) {
+        super(result);
         this.classHeaderHandler = classHeaderHandler;
         this.serviceClassPath = serviceClassPath;
         this.objectPath = objectPath;
+        this.annotationClassNameExtractor = annotationClassNameExtractor;
     }
 
     @Override
-    protected boolean checkData(Object object, ObjectNode classNode) {
+    protected boolean checkHeaderData(Object object, String className, Map<String, ObjectNode> classNodes) {
+//        Triple<Boolean, String, String> checkingResult = checkInstanceClassName(object, classNodes);
+//        Boolean success = checkingResult.getLeft();
+        //<
+//        String className = checkingResult.getMiddle();
+//        String status = checkingResult.getRight();
+        //<
 
-        boolean result = false;
+        boolean success = false;
+        String status = "";
 
+        ObjectNode classNode = classNodes.get(className);
         Optional<CollectorPath> mayBeClassPath = getClassPath(classNode);
         if (mayBeClassPath.isPresent()){
             CollectorPath classPath = mayBeClassPath.get();
@@ -46,15 +66,25 @@ public class ClassISH extends BaseISH {
                 Optional<String> mayBeName = classHeaderHandler.getName(classPart);
                 Optional<Number> mayBeModifiers = classHeaderHandler.getModifiers(classPart);
                 if (mayBeModifiers.isPresent() && mayBeName.isPresent()){
-                    result = true;
+                    success = true;
                     name = mayBeName.get();
                     modifiers = (int) mayBeModifiers.get();
                     path = classPath.getPath();
+                } else {
+                    //< !!!
                 }
+            } else {
+                //< !!!
             }
+        } else {
+            //< !!!
         }
 
-        return result;
+        result = result.createNew();
+        result.setSuccess(success);
+        result.setStatus(status);
+
+        return success;
     }
 
     @Override
@@ -66,6 +96,28 @@ public class ClassISH extends BaseISH {
 
         return false;
     }
+
+    //<
+//    private Triple<Boolean, String, String> checkInstanceClassName(Object instance, Map<String, ObjectNode> classNodes){
+//        boolean success = false;
+//        String status = "";
+//        String className = "";
+//
+//        Class<?> instanceClass = instance.getClass();
+//        Optional<String> mayBeClassName = annotationClassNameExtractor.extract(instanceClass.getDeclaredAnnotations());
+//        if (mayBeClassName.isPresent()){
+//            className = mayBeClassName.get();
+//            if (classNodes.containsKey(className)){
+//                success = true;
+//            } else {
+//                status = String.format(UNKNOWN_CLASS_NAME, className);
+//            }
+//        } else {
+//            status = String.format(NOT_MARKED, instanceClass.getTypeName());
+//        }
+//
+//        return new MutableTriple<>(success, className, status);
+//    }
 
     private Optional<CollectorPath> getClassPath(ObjectNode classNode){
         Optional<Node> mayBeServiceClassPathNode = classNode.getChild(serviceClassPath);
