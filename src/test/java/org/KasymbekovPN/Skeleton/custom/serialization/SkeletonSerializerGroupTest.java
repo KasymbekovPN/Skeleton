@@ -267,7 +267,7 @@ public class SkeletonSerializerGroupTest {
 
         groupRootNode.apply(checkNodeTypeTask);
 
-        Result checkNodeTypeResult = checkNodeTypeTask.getResult(ObjectNode.ei());
+        Result checkNodeTypeResult = checkNodeTypeTask.getResult(ObjectNode.ei().toString());
 
         if (checkNodeTypeResult.isSuccess()){
             WritingFormatterHandler wfh = createWFH();

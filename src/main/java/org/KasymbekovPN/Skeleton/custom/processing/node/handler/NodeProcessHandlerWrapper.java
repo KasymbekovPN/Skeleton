@@ -24,7 +24,7 @@ public class NodeProcessHandlerWrapper implements TaskWrapper<Node> {
         this.ei = ei;
         this.wrongResult = wrongResult;
 
-        this.task.add(ei, this);
+        this.task.add(ei.toString(), this);
     }
 
     @Override

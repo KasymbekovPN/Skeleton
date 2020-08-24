@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.task;
 
-import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
@@ -12,7 +11,7 @@ import java.util.Map;
 
 public class NodeTask implements Task<Node> {
 
-    private final Map<EntityItem, TaskWrapper<Node>> wrappers = new HashMap<>();
+    private final Map<String, TaskWrapper<Node>> wrappers = new HashMap<>();
     private final AggregateResult taskResult;
 
     private Result wrongResult;
@@ -25,24 +24,24 @@ public class NodeTask implements Task<Node> {
 
     @Override
     public AggregateResult handle(Node object) {
-        EntityItem ei = object.getEI();
-        Result handlerResult = wrappers.containsKey(ei)
-                ? wrappers.get(ei).handle(object)
-                : getWrongResult("wrapper for " + ei + " doesn't exist");
-        taskResult.put(ei.toString(), handlerResult);
+        String wrapperId = object.getEI().toString();
+        Result handlerResult = wrappers.containsKey(wrapperId)
+                ? wrappers.get(wrapperId).handle(object)
+                : getWrongResult("wrapper '" + wrapperId + "' doesn't exist");
+        taskResult.put(wrapperId, handlerResult);
 
         return taskResult;
     }
 
     @Override
-    public Task<Node> add(EntityItem wrapperId, TaskWrapper<Node> taskWrapper) {
+    public Task<Node> add(String wrapperId, TaskWrapper<Node> taskWrapper) {
         wrappers.put(wrapperId, taskWrapper);
         return this;
     }
 
     @Override
-    public Result getResult(EntityItem wrapperId) {
-        return taskResult.get(wrapperId.toString());
+    public Result getResult(String wrapperId) {
+        return taskResult.get(wrapperId);
     }
 
     private Result getWrongResult(String status){
