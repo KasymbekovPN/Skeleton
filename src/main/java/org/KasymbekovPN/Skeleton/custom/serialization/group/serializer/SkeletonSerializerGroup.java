@@ -103,7 +103,7 @@ public class SkeletonSerializerGroup implements SerializerGroup {
             Task<Node> nodeTask = mayBeTask.get();
             node.apply(nodeTask);
 
-            Result taskResult = nodeTask.getResult(ObjectNode.ei());
+            Result taskResult = nodeTask.getResult(ObjectNode.ei().toString());
 
             success = taskResult.isSuccess();
             if (success){

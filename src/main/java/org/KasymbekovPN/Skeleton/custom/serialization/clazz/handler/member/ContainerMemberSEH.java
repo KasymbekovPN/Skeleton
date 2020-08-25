@@ -104,7 +104,7 @@ public class ContainerMemberSEH extends BaseSEH {
             Node rootNode = collector.getNode();
             rootNode.apply(nodeTask);
 
-            result = nodeTask.getResult(ObjectNode.ei()).isSuccess();
+            result = nodeTask.getResult(ObjectNode.ei().toString()).isSuccess();
         }
 
         return result;
