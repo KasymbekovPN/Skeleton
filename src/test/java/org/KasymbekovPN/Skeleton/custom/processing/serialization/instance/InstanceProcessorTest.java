@@ -143,7 +143,7 @@ public class InstanceProcessorTest {
         InstanceTask task = new InstanceTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
         new InstanceHandlerWrapper(
                 task,
-                new InstanceHeaderTaskHandler(serviceClassPath, objectPath, new InstanceSerializationResult()),
+                new InstanceHeaderTaskHandler(serviceClassPath, objectPath, classHeaderHandler, new InstanceSerializationResult()),
                 "header",
                 new WrongResult()
         );
@@ -158,7 +158,7 @@ public class InstanceProcessorTest {
         serializer.serialize(InstanceProcessorTC0.class);
 
         //<
-        System.out.println(serializer.getCollector().getNode());
+//        System.out.println(serializer.getCollector().getNode());
         //<
 
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
@@ -176,5 +176,9 @@ public class InstanceProcessorTest {
                 collector
         );
         processor.handle(instanceData);
+
+        //<
+        System.out.println(collector.getNode());
+        //<
     }
 }
