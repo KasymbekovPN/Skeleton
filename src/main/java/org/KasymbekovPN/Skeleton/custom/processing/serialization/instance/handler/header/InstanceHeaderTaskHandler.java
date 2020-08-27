@@ -117,12 +117,15 @@ public class InstanceHeaderTaskHandler implements TaskHandler<InstanceData> {
                         name = mayBeName.get();
                         modifiers = (int) mayBeModifiers.get();
                     } else {
+                        state.setLeft(false);
                         state.setRight(CLASS_PART_CONTENT_IS_INVALID);
                     }
                 } else {
+                    state.setLeft(false);
                     state.setRight(CLASS_PART_IS_NOT_EXIST);
                 }
             } else {
+                state.setLeft(false);
                 state.setRight(CLASS_PATH_IS_NOT_EXIST);
             }
         }

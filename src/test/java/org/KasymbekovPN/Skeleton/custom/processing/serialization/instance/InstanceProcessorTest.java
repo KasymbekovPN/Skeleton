@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
 import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassHeaderHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonInstanceMembersHandler;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.SkeletonClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.node.InstanceDataMembersExtractor;
 import org.KasymbekovPN.Skeleton.custom.filter.annotations.AllowedAnnotationTypeFilter;
@@ -16,6 +17,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classe
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.SkeletonInstanceData;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.InstanceHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificMemberTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.processor.InstanceProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.task.InstanceTask;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.ClassPartExistingCheckerResult;
@@ -37,6 +39,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -91,6 +94,8 @@ public class InstanceProcessorTest {
     private String containerKind = "container";
     private String customKind = "custom";
     private String specificKind = "specific";
+
+    private InstanceMembersHandler instanceMembersHandler = new SkeletonInstanceMembersHandler();
 
     private Serializer createSerializer(Collector collector) throws Exception {
 
@@ -147,6 +152,12 @@ public class InstanceProcessorTest {
                 "header",
                 new WrongResult()
         );
+        new InstanceHandlerWrapper(
+                task,
+                new InstanceSpecificMemberTaskHandler(specificKind, serviceMembersPath, objectPath, classMembersHandler, instanceMembersHandler, new InstanceSerializationResult()),
+                "specific",
+                new WrongResult()
+        );
 
         InstanceProcessor processor
                 = new InstanceProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
@@ -168,7 +179,7 @@ public class InstanceProcessorTest {
 
         SkeletonInstanceData instanceData = new SkeletonInstanceData(
                 Arrays.asList("common"),
-                Arrays.asList("header"),
+                Arrays.asList("header", "specific"),
                 instance,
                 classNodes,
                 new SkeletonClassNameExtractor(),
