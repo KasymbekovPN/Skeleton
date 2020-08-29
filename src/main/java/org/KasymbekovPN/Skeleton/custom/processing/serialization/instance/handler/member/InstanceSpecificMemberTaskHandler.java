@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceData;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceData> {
+public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceContext> {
 
     private static final String CLASS_NAME_IS_NOT_EXIST = "Class Name isn't exist";
     private static final String CLASS_NODE_IS_NOT_EXIST = "Class node '%s' isn't exist";
@@ -53,7 +53,7 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceDa
     }
 
     @Override
-    public Result handle(InstanceData object, Task<InstanceData> task) {
+    public Result handle(InstanceContext object, Task<InstanceContext> task) {
 
         MutablePair<Boolean, String> state = new MutablePair<>(true, "");
         extractClassName(object, state);
@@ -73,9 +73,9 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceDa
         return result;
     }
 
-    private void extractClassName(InstanceData instanceData, MutablePair<Boolean, String> state){
+    private void extractClassName(InstanceContext instanceContext, MutablePair<Boolean, String> state){
         if (state.getLeft()){
-            Optional<String> mayBeClassName = instanceData.getClassName();
+            Optional<String> mayBeClassName = instanceContext.getClassName();
             if (mayBeClassName.isPresent()){
                 className = mayBeClassName.get();
             } else {
@@ -85,9 +85,9 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceDa
         }
     }
 
-    private void extractClassNode(InstanceData instanceData, MutablePair<Boolean, String> state){
+    private void extractClassNode(InstanceContext instanceContext, MutablePair<Boolean, String> state){
         if (state.getLeft()){
-            Optional<ObjectNode> mayBeClassNode = instanceData.getClassNode(className);
+            Optional<ObjectNode> mayBeClassNode = instanceContext.getClassNode(className);
             if (mayBeClassNode.isPresent()){
                 classNode = mayBeClassNode.get();
             } else {
@@ -124,31 +124,28 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceDa
         }
     }
 
-    private void fillCollector(InstanceData instanceData, MutablePair<Boolean, String> state){
+    private void fillCollector(InstanceContext instanceContext, MutablePair<Boolean, String> state){
         if (state.getLeft()){
 
-            Map<String, Object> values = extractValues(instanceData);
+            Map<String, Object> values = extractValues(instanceContext);
             if (values.size() > 0){
-                Collector collector = instanceData.getCollector();
+                Collector collector = instanceContext.getCollector();
                 ObjectNode targetNode = (ObjectNode) collector.setTarget(objectPath.getPath());
                 for (Map.Entry<String, Object> entry : values.entrySet()) {
                     String member = entry.getKey();
                     Object value = entry.getValue();
-                    //< !!!
-//                    collector.addProperty(member, value.toString());
-                    //<
-                    instanceMembersHandler.setSpecific(targetNode, member, value);
+                    instanceMembersHandler.set(targetNode, member, value);
                 }
             }
         }
     }
 
-    private Map<String, Object> extractValues(InstanceData instanceData){
+    private Map<String, Object> extractValues(InstanceContext instanceContext){
 
         HashMap<String, Object> values = new HashMap<>();
 
-        Object instance = instanceData.getInstance();
-        Map<String, Field> fields = instanceData.getFields(kind);
+        Object instance = instanceContext.getInstance();
+        Map<String, Field> fields = instanceContext.getFields(kind);
         for (Map.Entry<String, Field> entry : fields.entrySet()) {
             String member = entry.getKey();
             Field field = entry.getValue();

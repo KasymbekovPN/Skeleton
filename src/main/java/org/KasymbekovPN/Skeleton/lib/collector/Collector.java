@@ -8,26 +8,24 @@ public interface Collector {
     void clear();
     void reset();
 
-    void beginObject(String property);
-    void beginObject();
+    Node beginObject(String property);
+    Node beginObject();
 
-    void addProperty(String property, String value);
-    void addProperty(String property, Number value);
-    void addProperty(String property, Boolean value);
-    void addProperty(String property, Character value);
+    Node addProperty(String property, String value);
+    Node addProperty(String property, Number value);
+    Node addProperty(String property, Boolean value);
+    Node addProperty(String property, Character value);
 
-    void beginArray(String property);
-    void beginArray();
+    Node beginArray(String property);
+    Node beginArray();
 
-    void addProperty(String value);
-    void addProperty(Number value);
-    void addProperty(Boolean value);
-    void addProperty(Character value);
+    Node addProperty(String value);
+    Node addProperty(Number value);
+    Node addProperty(Boolean value);
+    Node addProperty(Character value);
 
-    void end();
+    Node end();
 
-//    void setTarget(List<String> path);
-    //<
     Node setTarget(List<String> path);
 
     Node getNode();

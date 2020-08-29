@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceData;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
@@ -16,7 +16,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class InstanceHeaderTaskHandler implements TaskHandler<InstanceData> {
+public class InstanceHeaderTaskHandler implements TaskHandler<InstanceContext> {
 
     private static final String CLASS_NAME_IS_NOT_EXIST = "Class Name isn't exist";
     private static final String CLASS_NODE_IS_NOT_EXIST = "Class node '%s' isn't exist";
@@ -45,7 +45,7 @@ public class InstanceHeaderTaskHandler implements TaskHandler<InstanceData> {
     }
 
     @Override
-    public Result handle(InstanceData object, Task<InstanceData> task) {
+    public Result handle(InstanceContext object, Task<InstanceContext> task) {
 
         MutablePair<Boolean, String> state = new MutablePair<>(true, "");
         extractClassName(object, state);
@@ -70,9 +70,9 @@ public class InstanceHeaderTaskHandler implements TaskHandler<InstanceData> {
         return result;
     }
 
-    private void extractClassName(InstanceData instanceData, MutablePair<Boolean, String> state){
+    private void extractClassName(InstanceContext instanceContext, MutablePair<Boolean, String> state){
         if (state.getLeft()){
-            Optional<String> mayBeClassName = instanceData.getClassName();
+            Optional<String> mayBeClassName = instanceContext.getClassName();
             if (mayBeClassName.isPresent()){
                 className = mayBeClassName.get();
             } else {
@@ -82,9 +82,9 @@ public class InstanceHeaderTaskHandler implements TaskHandler<InstanceData> {
         }
     }
 
-    private void extractClassNode(InstanceData instanceData, MutablePair<Boolean, String> state){
+    private void extractClassNode(InstanceContext instanceContext, MutablePair<Boolean, String> state){
         if (state.getLeft()){
-            Optional<ObjectNode> mayBeClassNode = instanceData.getClassNode(className);
+            Optional<ObjectNode> mayBeClassNode = instanceContext.getClassNode(className);
             if (mayBeClassNode.isPresent()){
                 classNode = mayBeClassNode.get();
             } else {
@@ -131,8 +131,8 @@ public class InstanceHeaderTaskHandler implements TaskHandler<InstanceData> {
         }
     }
 
-    private void fillCollector(InstanceData instanceData){
-        Collector collector = instanceData.getCollector();
+    private void fillCollector(InstanceContext instanceContext){
+        Collector collector = instanceContext.getCollector();
         ObjectNode targetNode = (ObjectNode) collector.setTarget(objectPath.getPath());
         classHeaderHandler.setName(targetNode, name);
         classHeaderHandler.setModifiers(targetNode, modifiers);

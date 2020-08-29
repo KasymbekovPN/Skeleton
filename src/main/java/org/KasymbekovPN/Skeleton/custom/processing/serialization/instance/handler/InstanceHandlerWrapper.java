@@ -1,20 +1,20 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceData;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-public class InstanceHandlerWrapper implements TaskWrapper<InstanceData> {
+public class InstanceHandlerWrapper implements TaskWrapper<InstanceContext> {
 
-    private final Task<InstanceData> task;
-    private final TaskHandler<InstanceData> taskHandler;
+    private final Task<InstanceContext> task;
+    private final TaskHandler<InstanceContext> taskHandler;
 
     private Result wrongResult;
 
-    public InstanceHandlerWrapper(Task<InstanceData> task,
-                                  TaskHandler<InstanceData> taskHandler,
+    public InstanceHandlerWrapper(Task<InstanceContext> task,
+                                  TaskHandler<InstanceContext> taskHandler,
                                   String wrapperId,
                                   Result wrongResult) {
         this.task = task;
@@ -25,7 +25,7 @@ public class InstanceHandlerWrapper implements TaskWrapper<InstanceData> {
     }
 
     @Override
-    public Result handle(InstanceData object) {
+    public Result handle(InstanceContext object) {
         return taskHandler.handle(object, task);
     }
 

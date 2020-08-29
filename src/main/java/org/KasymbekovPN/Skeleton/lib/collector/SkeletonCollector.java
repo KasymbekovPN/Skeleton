@@ -27,78 +27,85 @@ public class SkeletonCollector implements Collector {
     }
 
     @Override
-    public void beginObject(String property) {
+    public Node beginObject(String property) {
         target.addChild(property, new ObjectNode(target)).ifPresent(value -> target = value);
+        return target;
     }
 
     @Override
-    public void beginObject() {
+    public Node beginObject() {
         target.addChild(new ObjectNode(target)).ifPresent(value -> target = value);
+        return target;
     }
 
     @Override
-    public void addProperty(String property, String value) {
+    public Node addProperty(String property, String value) {
         target.addChild(property, new StringNode(target, value));
+        return target;
     }
 
     @Override
-    public void addProperty(String property, Number value) {
+    public Node addProperty(String property, Number value) {
         target.addChild(property, new NumberNode(target, value));
+        return target;
     }
 
     @Override
-    public void addProperty(String property, Boolean value) {
+    public Node addProperty(String property, Boolean value) {
         target.addChild(property, new BooleanNode(target, value));
+        return target;
     }
 
     @Override
-    public void addProperty(String property, Character value) {
+    public Node addProperty(String property, Character value) {
         target.addChild(property, new CharacterNode(target, value));
+        return target;
     }
 
     @Override
-    public void beginArray(String property) {
+    public Node beginArray(String property) {
         target.addChild(property, new ArrayNode(target)).ifPresent(value -> target = value);
+        return target;
     }
 
     @Override
-    public void beginArray() {
+    public Node beginArray() {
         target.addChild(new ArrayNode(target)).ifPresent(value -> target = value);
+        return target;
     }
 
     @Override
-    public void addProperty(String value) {
+    public Node addProperty(String value) {
         target.addChild(new StringNode(target,value));
+        return target;
     }
 
     @Override
-    public void addProperty(Number value) {
+    public Node addProperty(Number value) {
         target.addChild(new NumberNode(target, value));
+        return target;
     }
 
     @Override
-    public void addProperty(Boolean value) {
+    public Node addProperty(Boolean value) {
         target.addChild(new BooleanNode(target, value));
+        return target;
     }
 
     @Override
-    public void addProperty(Character value) {
+    public Node addProperty(Character value) {
         target.addChild(new CharacterNode(target, value));
+        return target;
     }
 
     @Override
-    public void end() {
+    public Node end() {
         if (null != target.getParent()){
             target = target.getParent();
         }
+        return target;
     }
 
-//    @Override
-//    public void setTarget(List<String> path) {
-//        reset();
-//        setEachTarget(new ArrayList<>(path));
-//    }
-    //<
     @Override
     public Node setTarget(List<String> path) {
         reset();

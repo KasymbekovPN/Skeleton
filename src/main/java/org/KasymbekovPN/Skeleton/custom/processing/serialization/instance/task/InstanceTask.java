@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.task;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceData;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InstanceTask implements Task<InstanceData> {
+public class InstanceTask implements Task<InstanceContext> {
 
     private static final String WRAPPER_IS_NOT_EXIST = "Wrapper '%s' isn't exist";
 
-    private final Map<String, TaskWrapper<InstanceData>> wrappers = new HashMap<>();
+    private final Map<String, TaskWrapper<InstanceContext>> wrappers = new HashMap<>();
     private final AggregateResult taskResult;
 
     private Result wrongResult;
@@ -25,7 +25,7 @@ public class InstanceTask implements Task<InstanceData> {
     }
 
     @Override
-    public AggregateResult handle(InstanceData object) {
+    public AggregateResult handle(InstanceContext object) {
 
         List<String> wrapperIds = object.getWrapperIds();
         for (String wrapperId : wrapperIds) {
@@ -41,7 +41,7 @@ public class InstanceTask implements Task<InstanceData> {
     }
 
     @Override
-    public Task<InstanceData> add(String wrapperId, TaskWrapper<InstanceData> taskWrapper) {
+    public Task<InstanceContext> add(String wrapperId, TaskWrapper<InstanceContext> taskWrapper) {
         wrappers.put(wrapperId, taskWrapper);
         return this;
     }

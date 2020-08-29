@@ -14,9 +14,10 @@ import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.ClassPa
 import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.SkeletonInstanceData;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.SkeletonInstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.InstanceHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionMemberTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificMemberTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.processor.InstanceProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.task.InstanceTask;
@@ -158,6 +159,12 @@ public class InstanceProcessorTest {
                 "specific",
                 new WrongResult()
         );
+        new InstanceHandlerWrapper(
+                task,
+                new InstanceCollectionMemberTaskHandler(instanceMembersHandler, classMembersHandler, containerKind, new InstanceSerializationResult()),
+                "container",
+                new WrongResult()
+        );
 
         InstanceProcessor processor
                 = new InstanceProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
@@ -177,14 +184,18 @@ public class InstanceProcessorTest {
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
         classNodes.put("InstanceProcessorTC0", (ObjectNode) serializer.getCollector().detachNode());
 
-        SkeletonInstanceData instanceData = new SkeletonInstanceData(
+        SkeletonInstanceContext instanceData = new SkeletonInstanceContext(
                 Arrays.asList("common"),
-                Arrays.asList("header", "specific"),
+                Arrays.asList("header", "specific", "container"),
                 instance,
                 classNodes,
                 new SkeletonClassNameExtractor(),
                 new InstanceDataMembersExtractor(serviceMembersPath, objectPath),
-                collector
+                collector,
+                serviceClassPath,
+                serviceMembersPath,
+                objectPath,
+                processor
         );
         processor.handle(instanceData);
 

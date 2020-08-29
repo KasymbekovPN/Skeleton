@@ -1,12 +1,22 @@
 package org.KasymbekovPN.Skeleton.custom.collector.part;
 
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
+import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 
+//< remove into node package, interface name like ...NodeHandler
 public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
 
+    private final InstanceContext instanceContext;
+
+    public SkeletonInstanceMembersHandler(InstanceContext instanceContext) {
+        this.instanceContext = instanceContext;
+    }
+
     @Override
-    public void setSpecific(ObjectNode objectNode, String property, Object value) {
+    public void set(ObjectNode objectNode, String property, Object value) {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){
@@ -21,6 +31,48 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 break;
             case CHARACTER:
                 objectNode.addChild(property, new CharacterNode(objectNode, (Character) value));
+                break;
+            default:
+                if (checkCustomObject(value)){
+                    InstanceContext newInstanceContext = instanceContext.createNew(value);
+                    Processor<InstanceContext> processor = newInstanceContext.getProcessor();
+                    Collector collector = newInstanceContext.getCollector();
+                    Node oldNode = collector.detachNode();
+
+                    processor.handle(newInstanceContext);
+                    objectNode.addChild(property, collector.attachNode(oldNode));
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void set(ArrayNode arrayNode, Object value) {
+        Specific specific = calculateSpecificType(value);
+
+        switch (specific){
+            case NUMBER:
+                arrayNode.addChild(new NumberNode(arrayNode, (Number) value));
+                break;
+            case STRING:
+                arrayNode.addChild(new StringNode(arrayNode, (String) value));
+                break;
+            case BOOLEAN:
+                arrayNode.addChild(new BooleanNode(arrayNode, (Boolean) value));
+                break;
+            case CHARACTER:
+                arrayNode.addChild(new CharacterNode(arrayNode, (Character) value));
+                break;
+            default:
+                if (checkCustomObject(value)){
+                    InstanceContext newInstanceContext = instanceContext.createNew(value);
+                    Processor<InstanceContext> processor = newInstanceContext.getProcessor();
+                    Collector collector = newInstanceContext.getCollector();
+                    Node oldNode = collector.detachNode();
+
+                    processor.handle(newInstanceContext);
+                    arrayNode.addChild(collector.attachNode(oldNode));
+                }
                 break;
         }
     }
@@ -38,23 +90,14 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
             return Specific.NUMBER;
         }
 
-        return Specific.UNKNOWN;
+        return Specific.NON_PRIMITIVE;
     }
 
-    private void fillSpecificNumber(String property, Number value){
+    private boolean checkCustomObject(Object value){
 
-    }
+        //< !!! impl
 
-    private void fillSpecificString(String property, String value){
-        //< !!!
-    }
-
-    private void fillSpecificBoolean(String property, Boolean value){
-        //< !!!
-    }
-
-    private void fillSpecificCharacter(String property, Character value){
-        //< !!!
+        return false;
     }
 
     private enum Specific{
@@ -62,6 +105,6 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
         BOOLEAN,
         STRING,
         CHARACTER,
-        UNKNOWN
+        NON_PRIMITIVE
     }
 }

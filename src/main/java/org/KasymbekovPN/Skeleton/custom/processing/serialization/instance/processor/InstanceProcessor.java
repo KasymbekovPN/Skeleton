@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.processor;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceData;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
@@ -9,11 +9,11 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 import java.util.*;
 
-public class InstanceProcessor implements Processor<InstanceData> {
+public class InstanceProcessor implements Processor<InstanceContext> {
 
     private static final String TASK_IS_NOT_EXIST = "Task '%s' isn't exist";
 
-    private final Map<String, Task<InstanceData>> tasks = new HashMap<>();
+    private final Map<String, Task<InstanceContext>> tasks = new HashMap<>();
     private final AggregateResult processorResult;
 
     private Result wrongResult;
@@ -25,26 +25,26 @@ public class InstanceProcessor implements Processor<InstanceData> {
     }
 
     @Override
-    public Task<InstanceData> add(String taskId, Task<InstanceData> task) {
+    public Task<InstanceContext> add(String taskId, Task<InstanceContext> task) {
         return tasks.put(taskId, task);
     }
 
     @Override
-    public Optional<Task<InstanceData>> get(String taskId) {
+    public Optional<Task<InstanceContext>> get(String taskId) {
         return tasks.containsKey(taskId)
                 ? Optional.of(tasks.get(taskId))
                 : Optional.empty();
     }
 
     @Override
-    public Optional<Task<InstanceData>> remove(String taskId) {
+    public Optional<Task<InstanceContext>> remove(String taskId) {
         return tasks.containsKey(taskId)
                 ? Optional.of(tasks.remove(taskId))
                 : Optional.empty();
     }
 
     @Override
-    public AggregateResult handle(InstanceData object, Filter<String> taskIdFilter) {
+    public AggregateResult handle(InstanceContext object, Filter<String> taskIdFilter) {
         List<String> taskIds = object.getTaskIds();
         Deque<String> filterKeys = taskIdFilter.filter(new ArrayDeque<>(taskIds));
         for (String filterKey : filterKeys) {
@@ -64,7 +64,7 @@ public class InstanceProcessor implements Processor<InstanceData> {
     }
 
     @Override
-    public AggregateResult handle(InstanceData object) {
+    public AggregateResult handle(InstanceContext object) {
         List<String> taskIds = object.getTaskIds();
         for (String taskId : taskIds) {
             Result result;
