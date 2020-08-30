@@ -22,6 +22,10 @@ public interface InstanceContext {
     Optional<ObjectNode> getMembersPart(String className);
     Optional<List<String>> getClassPath(String className);
     Optional<List<String>> getMembersPath(String className);
+
+    //< ???? may be need use attach/detach
     InstanceContext createNew(Object instance);
+    Object attachInstance(Object instance);
+
     Processor<InstanceContext> getProcessor();
 }

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+//< use ctx
 public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceContext> {
 
     private static final String CLASS_NAME_IS_NOT_EXIST = "Class Name isn't exist";
@@ -136,6 +137,7 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceCo
                     Object value = entry.getValue();
                     instanceMembersHandler.set(targetNode, member, value);
                 }
+                collector.reset();
             }
         }
     }
@@ -162,14 +164,15 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceCo
 
     private Optional<Object> extractValue(Field field, ObjectNode memberNode, Object instance){
 
+        Optional<Object> ret = Optional.empty();
+
         Optional<String> mayBeType = classMembersHandler.getType(memberNode);
         if (mayBeType.isPresent()){
             String type = mayBeType.get();
             if (type.equals(field.getType().toString())){
                 field.setAccessible(true);
                 try {
-                    Object value = field.get(instance);
-                    return Optional.of(value);
+                    ret = Optional.of(field.get(instance));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } finally {
@@ -178,6 +181,6 @@ public class InstanceSpecificMemberTaskHandler implements TaskHandler<InstanceCo
             }
         }
 
-        return Optional.empty();
+        return ret;
     }
 }

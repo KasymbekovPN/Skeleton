@@ -13,11 +13,13 @@ import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandl
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.ClassPartExistingChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.SkeletonInstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.InstanceHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionMemberTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomMemberTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificMemberTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.processor.InstanceProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.task.InstanceTask;
@@ -96,18 +98,16 @@ public class InstanceProcessorTest {
     private String customKind = "custom";
     private String specificKind = "specific";
 
-    private InstanceMembersHandler instanceMembersHandler = new SkeletonInstanceMembersHandler();
-
     private Serializer createSerializer(Collector collector) throws Exception {
 
         String taskName = ClassPartExistingChecker.TASK_NAME;
         Processor<Node> processor = createSerializerNodeProcessor();
 
         AllowedClassChecker allowedClassChecker = new AllowedClassChecker(int.class, float.class);
-        AllowedStringChecker allowedStringChecker = new AllowedStringChecker("InstanceProcessorTC0");
+        AllowedStringChecker allowedStringChecker = new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0");
 
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
-        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
+        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, InnerInstanceProcessorTC0.class));
         CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
 
         AllowedAnnotationTypeFilter skeletonClassAnnotationFilter = new AllowedAnnotationTypeFilter(SkeletonClass.class);
@@ -146,7 +146,49 @@ public class InstanceProcessorTest {
     @Test
     void test() throws Exception {
 
+
+
+
+
+        Collector collector = new SkeletonCollector();
+        Serializer serializer = createSerializer(collector);
+
+
+
+        HashMap<String, ObjectNode> classNodes = new HashMap<>();
+
+        serializer.serialize(InstanceProcessorTC0.class);
+        classNodes.put("InstanceProcessorTC0", (ObjectNode) serializer.getCollector().detachNode());
+
+        serializer.serialize(InnerInstanceProcessorTC0.class);
+        classNodes.put("InnerInstanceProcessorTC0", (ObjectNode) serializer.getCollector().detachNode());
+
+        InstanceProcessorTC0 instance = new InstanceProcessorTC0();
+
+        InstanceProcessor processor
+                = new InstanceProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+
+
+        SkeletonInstanceContext instanceData = new SkeletonInstanceContext(
+                Arrays.asList("common"),
+                Arrays.asList("header", "specific", "container", "custom"),
+                instance,
+                classNodes,
+                new SkeletonClassNameExtractor(),
+                new InstanceDataMembersExtractor(serviceMembersPath, objectPath),
+                collector,
+                serviceClassPath,
+                serviceMembersPath,
+                objectPath,
+                processor
+        );
+
+        InstanceMembersHandler instanceMembersHandler = new SkeletonInstanceMembersHandler(instanceData);
+
         InstanceTask task = new InstanceTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+
+        processor.add("common", task);
+
         new InstanceHandlerWrapper(
                 task,
                 new InstanceHeaderTaskHandler(serviceClassPath, objectPath, classHeaderHandler, new InstanceSerializationResult()),
@@ -165,38 +207,18 @@ public class InstanceProcessorTest {
                 "container",
                 new WrongResult()
         );
-
-        InstanceProcessor processor
-                = new InstanceProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
-        processor.add("common", task);
-
-        Collector collector = new SkeletonCollector();
-        Serializer serializer = createSerializer(collector);
-
-        serializer.serialize(InstanceProcessorTC0.class);
-
-        //<
-//        System.out.println(serializer.getCollector().getNode());
-        //<
-
-        InstanceProcessorTC0 instance = new InstanceProcessorTC0();
-
-        HashMap<String, ObjectNode> classNodes = new HashMap<>();
-        classNodes.put("InstanceProcessorTC0", (ObjectNode) serializer.getCollector().detachNode());
-
-        SkeletonInstanceContext instanceData = new SkeletonInstanceContext(
-                Arrays.asList("common"),
-                Arrays.asList("header", "specific", "container"),
-                instance,
-                classNodes,
-                new SkeletonClassNameExtractor(),
-                new InstanceDataMembersExtractor(serviceMembersPath, objectPath),
-                collector,
-                serviceClassPath,
-                serviceMembersPath,
-                objectPath,
-                processor
+        new InstanceHandlerWrapper(
+                task,
+                new InstanceCustomMemberTaskHandler(instanceMembersHandler, customKind, new InstanceSerializationResult()),
+                "custom",
+                new WrongResult()
         );
+
+
+
+
+
+
         processor.handle(instanceData);
 
         //<

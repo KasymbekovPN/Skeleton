@@ -19,7 +19,6 @@ public class SkeletonInstanceContext implements InstanceContext {
 
     private final List<String> taskIds;
     private final List<String> wrapperIds;
-    private final Object instance;
     private final Map<String, ObjectNode> classNodes;
     private final Extractor<String, Annotation[]> annotationClassNameExtractor;
     private final Extractor<List<String>, Pair<String, ObjectNode>> memberExtractor;
@@ -28,6 +27,8 @@ public class SkeletonInstanceContext implements InstanceContext {
     private final CollectorPath serviceMembersPath;
     private final CollectorPath objectPath;
     private final Processor<InstanceContext> processor;
+
+    private Object instance;
 
     public SkeletonInstanceContext(List<String> taskIds,
                                    List<String> wrapperIds,
@@ -203,6 +204,13 @@ public class SkeletonInstanceContext implements InstanceContext {
                 objectPath,
                 processor
         );
+    }
+
+    @Override
+    public Object attachInstance(Object instance) {
+        Object oldInstance = this.instance;
+        this.instance = instance;
+        return oldInstance;
     }
 
     @Override

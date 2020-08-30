@@ -33,15 +33,13 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 objectNode.addChild(property, new CharacterNode(objectNode, (Character) value));
                 break;
             default:
-                if (checkCustomObject(value)){
-                    InstanceContext newInstanceContext = instanceContext.createNew(value);
-                    Processor<InstanceContext> processor = newInstanceContext.getProcessor();
-                    Collector collector = newInstanceContext.getCollector();
-                    Node oldNode = collector.detachNode();
+                InstanceContext newInstanceContext = instanceContext.createNew(value);
+                Processor<InstanceContext> processor = newInstanceContext.getProcessor();
+                Collector collector = newInstanceContext.getCollector();
+                Node oldNode = collector.detachNode();
 
-                    processor.handle(newInstanceContext);
-                    objectNode.addChild(property, collector.attachNode(oldNode));
-                }
+                processor.handle(newInstanceContext);
+                objectNode.addChild(property, collector.attachNode(oldNode));
                 break;
         }
     }
@@ -64,15 +62,13 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 arrayNode.addChild(new CharacterNode(arrayNode, (Character) value));
                 break;
             default:
-                if (checkCustomObject(value)){
-                    InstanceContext newInstanceContext = instanceContext.createNew(value);
-                    Processor<InstanceContext> processor = newInstanceContext.getProcessor();
-                    Collector collector = newInstanceContext.getCollector();
-                    Node oldNode = collector.detachNode();
+                InstanceContext newInstanceContext = instanceContext.createNew(value);
+                Processor<InstanceContext> processor = newInstanceContext.getProcessor();
+                Collector collector = newInstanceContext.getCollector();
+                Node oldNode = collector.detachNode();
 
-                    processor.handle(newInstanceContext);
-                    arrayNode.addChild(collector.attachNode(oldNode));
-                }
+                processor.handle(newInstanceContext);
+                arrayNode.addChild(collector.attachNode(oldNode));
                 break;
         }
     }
@@ -91,13 +87,6 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
         }
 
         return Specific.NON_PRIMITIVE;
-    }
-
-    private boolean checkCustomObject(Object value){
-
-        //< !!! impl
-
-        return false;
     }
 
     private enum Specific{

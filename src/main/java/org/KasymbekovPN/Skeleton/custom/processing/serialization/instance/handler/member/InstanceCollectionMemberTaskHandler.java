@@ -18,6 +18,10 @@ import java.util.*;
 
 public class InstanceCollectionMemberTaskHandler implements TaskHandler<InstanceContext> {
 
+    private static final String CLASS_NAME_IS_NOT_EXIST = "Class name isn't exist";
+    private static final String CLASS_PART_IS_NOT_EXIST = "Class part isn't exist";
+    private static final String CLASS_PATH_IS_NOT_EXIST = "Class path isn't exist";
+
     private final InstanceMembersHandler instanceMembersHandler;
     private final ClassMembersHandler classMembersHandler;
     private final String kind;
@@ -36,17 +40,34 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
 
     @Override
     public Result handle(InstanceContext object, Task<InstanceContext> task) {
+
+        boolean success = false;
+        String status = "";
+
         Optional<String> mayBeClassName = object.getClassName();
         if (mayBeClassName.isPresent()){
             String className = mayBeClassName.get();
             Optional<ObjectNode> mayBeMembersPart = object.getMembersPart(className);
             Optional<List<String>> maybeMembersPath = object.getMembersPath(className);
             if (mayBeMembersPart.isPresent() && maybeMembersPath.isPresent()){
+                success = true;
                 fillCollector(object, mayBeMembersPart.get().getChildren(), maybeMembersPath.get());
             }
+            else {
+                if (maybeMembersPath.isEmpty()){
+                    status += CLASS_PATH_IS_NOT_EXIST + "; ";
+                }
+                if (maybeMembersPath.isEmpty()){
+                    status += CLASS_PART_IS_NOT_EXIST;
+                }
+            }
+        } else {
+            status = CLASS_NAME_IS_NOT_EXIST;
         }
 
         result = result.createNew();
+        result.setSuccess(success);
+        result.setStatus(status);
 
         return result;
     }
@@ -71,6 +92,7 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
                 }
                 collector.end();
             }
+            collector.reset();
         }
     }
 
@@ -94,11 +116,14 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
     }
 
     private Optional<Collection<?>> getValue(Field field, ObjectNode memberNode, Object instance){
+
+        Optional<Collection<?>> ret = Optional.empty();
+
         if (checkType(field, memberNode) && checkArguments(field, memberNode)){
             field.setAccessible(true);
             try {
                 Collection<?> value = (Collection<?>) field.get(instance);
-                return Optional.of(value);
+                ret = Optional.of(value);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } finally {
@@ -106,7 +131,7 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
             }
         }
 
-        return Optional.empty();
+        return ret;
     }
 
     private boolean checkType(Field field, ObjectNode memberNode){

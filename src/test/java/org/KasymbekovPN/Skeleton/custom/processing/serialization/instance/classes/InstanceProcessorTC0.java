@@ -17,4 +17,12 @@ public class InstanceProcessorTC0 {
         add(1);
         add(2);
     }} ;
+
+    @SkeletonMember(name = "InnerInstanceProcessorTC0")
+    private InnerInstanceProcessorTC0 custom = new InnerInstanceProcessorTC0();
+
+    @SkeletonMember
+    private Set<InnerInstanceProcessorTC0> customSet = new HashSet<>(){{
+        add(new InnerInstanceProcessorTC0());
+    }};
 }
