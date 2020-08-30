@@ -6,5 +6,5 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 public interface TaskHandler<T> {
     //< ??? del task
     Result handle(T object, Task<T> task);
-    Result getHandlerResult();
+    Result getResult();
 }

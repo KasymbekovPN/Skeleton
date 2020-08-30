@@ -37,7 +37,7 @@ public class NodeProcessHandlerWrapper implements TaskWrapper<Node> {
     @Override
     public Result getResult() {
         return taskHandler != null
-                ? taskHandler.getHandlerResult()
+                ? taskHandler.getResult()
                 : getWrongResult("handler is null");
     }
 

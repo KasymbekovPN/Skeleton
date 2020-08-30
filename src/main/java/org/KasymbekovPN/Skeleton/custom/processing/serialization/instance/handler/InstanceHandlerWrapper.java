@@ -32,7 +32,7 @@ public class InstanceHandlerWrapper implements TaskWrapper<InstanceContext> {
     @Override
     public Result getResult() {
         return taskHandler != null
-                ? taskHandler.getHandlerResult()
+                ? taskHandler.getResult()
                 : getWrongResult("Handler is null");
     }
 

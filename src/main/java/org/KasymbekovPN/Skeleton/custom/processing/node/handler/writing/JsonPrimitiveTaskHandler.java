@@ -25,7 +25,7 @@ public class JsonPrimitiveTaskHandler implements TaskHandler<Node> {
     }
 
     @Override
-    public Result getHandlerResult() {
+    public Result getResult() {
         return result;
     }
 }

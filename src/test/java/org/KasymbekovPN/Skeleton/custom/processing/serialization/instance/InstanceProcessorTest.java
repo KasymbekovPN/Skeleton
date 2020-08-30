@@ -189,9 +189,11 @@ public class InstanceProcessorTest {
 
         processor.add("common", task);
 
+        SkeletonCollectorPath instanceClassPath = new SkeletonCollectorPath(Collections.singletonList("class"), ObjectNode.ei());
+
         new InstanceHandlerWrapper(
                 task,
-                new InstanceHeaderTaskHandler(serviceClassPath, objectPath, classHeaderHandler, new InstanceSerializationResult()),
+                new InstanceHeaderTaskHandler( classHeaderHandler, instanceClassPath, new InstanceSerializationResult()),
                 "header",
                 new WrongResult()
         );

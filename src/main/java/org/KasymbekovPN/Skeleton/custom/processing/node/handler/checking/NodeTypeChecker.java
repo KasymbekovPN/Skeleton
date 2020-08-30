@@ -74,7 +74,7 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     }
 
     @Override
-    public Result getHandlerResult() {
+    public Result getResult() {
         return result;
     }
 

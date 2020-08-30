@@ -46,7 +46,7 @@ public class JsonObjectTaskHandler implements TaskHandler<Node> {
     }
 
     @Override
-    public Result getHandlerResult() {
+    public Result getResult() {
         return result;
     }
 

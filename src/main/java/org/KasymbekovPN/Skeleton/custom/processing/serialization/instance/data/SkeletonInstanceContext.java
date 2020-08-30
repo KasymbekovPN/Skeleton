@@ -9,13 +9,20 @@ import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
 public class SkeletonInstanceContext implements InstanceContext {
+
+    private static final String CLASS_NAME_IS_NOT_EXIST = "Class name isn't exist";
+    private static final String CLASS_NODE_IS_NOT_EXIST = "Class node isn't exist";
+    private static final String PART_IS_NOT_EXIST = "Part isn't exist";
+    private static final String PATH_IS_NOT_EXIST = "Path isn't exist";
 
     private final List<String> taskIds;
     private final List<String> wrapperIds;
@@ -152,11 +159,85 @@ public class SkeletonInstanceContext implements InstanceContext {
         return Optional.empty();
     }
 
+    @Override
+    public Triple<Boolean, String, List<String>> getClassPath1() {
+
+        Triple<Boolean, String, Node> getPartResult = getPart1(serviceClassPath);
+        ArrayList<String> path = new ArrayList<>();
+        if (getPartResult.getLeft()){
+            ArrayNode classPathNode = (ArrayNode) getPartResult.getRight();
+            return getPath1(classPathNode);
+        }
+
+        return new MutableTriple<>(false, getPartResult.getMiddle(), path);
+    }
+
+    @Override
+    public Triple<Boolean, String, ObjectNode> getClassPart1() {
+        Triple<Boolean, String, List<String>> getClassPathResult = getClassPath1();
+        if (getClassPathResult.getLeft()){
+            List<String> path = getClassPathResult.getRight();
+            objectPath.setEi(ObjectNode.ei());
+            objectPath.setPath(path);
+
+            Triple<Boolean, String, Node> getPartResult = getPart1(objectPath);
+            return new MutableTriple<>(getPartResult.getLeft(), getPartResult.getMiddle(), (ObjectNode) getPartResult.getRight());
+        }
+
+        return new MutableTriple<>(getClassPathResult.getLeft(), getClassPathResult.getMiddle(),new ObjectNode(null));
+    }
+
+    public Triple<Boolean, String, Node> getPart1(CollectorPath collectorPath) {
+
+        boolean success = false;
+        String status = "";
+        Node pathPart = new ObjectNode(null);
+
+        Optional<String> mayBeClassName = getClassName();
+        if (mayBeClassName.isPresent()){
+            String className = mayBeClassName.get();
+            Optional<ObjectNode> maybeClassNode = getClassNode(className);
+            if (maybeClassNode.isPresent()){
+                ObjectNode classNode = maybeClassNode.get();
+                Optional<Node> maybePathPart = classNode.getChild(collectorPath);
+                if (maybePathPart.isPresent()){
+                    success = true;
+                    pathPart = maybePathPart.get();
+                } else {
+                    status = PART_IS_NOT_EXIST;
+                }
+            } else {
+                status = CLASS_NODE_IS_NOT_EXIST;
+            }
+        } else {
+            status = CLASS_NAME_IS_NOT_EXIST;
+        }
+
+        return new MutableTriple<>(success, status, pathPart);
+    }
+
+    private Triple<Boolean, String, List<String>> getPath1(ArrayNode node){
+        ArrayList<String> path = new ArrayList<>();
+
+        for (Node child : node.getChildren()) {
+            path.add(((StringNode) child).getValue());
+        }
+
+        boolean success = true;
+        String status = "";
+        if (path.size()== 0){
+            success = false;
+            status = PATH_IS_NOT_EXIST;
+        }
+
+        return new MutableTriple<>(success, status, path);
+    }
+
     private Optional<ObjectNode> getPart(String className, CollectorPath path){
         Optional<ObjectNode> mayBeClassNode = getClassNode(className);
         if (mayBeClassNode.isPresent()){
             ObjectNode classNode = mayBeClassNode.get();
-            Optional<List<String>> mayBePath = getPath(serviceMembersPath, classNode);
+            Optional<List<String>> mayBePath = getPath(path, classNode);
             if (mayBePath.isPresent()){
                 objectPath.setPath(mayBePath.get());
                 objectPath.setEi(ObjectNode.ei());

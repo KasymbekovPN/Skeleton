@@ -19,8 +19,8 @@ import java.util.*;
 public class InstanceCollectionMemberTaskHandler implements TaskHandler<InstanceContext> {
 
     private static final String CLASS_NAME_IS_NOT_EXIST = "Class name isn't exist";
-    private static final String CLASS_PART_IS_NOT_EXIST = "Class part isn't exist";
-    private static final String CLASS_PATH_IS_NOT_EXIST = "Class path isn't exist";
+    private static final String MEMBERS_PART_IS_NOT_EXIST = "Class part isn't exist";
+    private static final String MEMBERS_PATH_IS_NOT_EXIST = "Class path isn't exist";
 
     private final InstanceMembersHandler instanceMembersHandler;
     private final ClassMembersHandler classMembersHandler;
@@ -55,10 +55,10 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
             }
             else {
                 if (maybeMembersPath.isEmpty()){
-                    status += CLASS_PATH_IS_NOT_EXIST + "; ";
+                    status += MEMBERS_PATH_IS_NOT_EXIST + "; ";
                 }
                 if (maybeMembersPath.isEmpty()){
-                    status += CLASS_PART_IS_NOT_EXIST;
+                    status += MEMBERS_PART_IS_NOT_EXIST;
                 }
             }
         } else {
@@ -73,7 +73,7 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
     }
 
     @Override
-    public Result getHandlerResult() {
+    public Result getResult() {
         return result;
     }
 
