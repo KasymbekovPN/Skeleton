@@ -1,88 +1,62 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.BaseInstanceTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class InstanceCollectionMemberTaskHandler implements TaskHandler<InstanceContext> {
+public class InstanceCollectionMemberTaskHandler extends BaseInstanceTaskHandler {
 
-    private static final String CLASS_NAME_IS_NOT_EXIST = "Class name isn't exist";
-    private static final String MEMBERS_PART_IS_NOT_EXIST = "Class part isn't exist";
-    private static final String MEMBERS_PATH_IS_NOT_EXIST = "Class path isn't exist";
-
-    private final InstanceMembersHandler instanceMembersHandler;
-    private final ClassMembersHandler classMembersHandler;
     private final String kind;
+    private final CollectorPath collectorPath;
+    private final ClassMembersHandler classMembersHandler;
+    private final InstanceMembersHandler instanceMembersHandler;
 
-    private Result result;
+    private Map<String, Node> memberNodes;
 
-    public InstanceCollectionMemberTaskHandler(InstanceMembersHandler instanceMembersHandler,
+    public InstanceCollectionMemberTaskHandler(String kind,
+                                               CollectorPath collectorPath,
                                                ClassMembersHandler classMembersHandler,
-                                               String kind,
+                                               InstanceMembersHandler instanceMembersHandler,
                                                Result result) {
-        this.instanceMembersHandler = instanceMembersHandler;
-        this.classMembersHandler = classMembersHandler;
+        super(result);
         this.kind = kind;
-        this.result = result;
+        this.collectorPath = collectorPath;
+        this.classMembersHandler = classMembersHandler;
+        this.instanceMembersHandler = instanceMembersHandler;
     }
 
     @Override
-    public Result handle(InstanceContext object, Task<InstanceContext> task) {
-
-        boolean success = false;
-        String status = "";
-
-        Optional<String> mayBeClassName = object.getClassName();
-        if (mayBeClassName.isPresent()){
-            String className = mayBeClassName.get();
-            Optional<ObjectNode> mayBeMembersPart = object.getMembersPart(className);
-            Optional<List<String>> maybeMembersPath = object.getMembersPath(className);
-            if (mayBeMembersPart.isPresent() && maybeMembersPath.isPresent()){
-                success = true;
-                fillCollector(object, mayBeMembersPart.get().getChildren(), maybeMembersPath.get());
-            }
-            else {
-                if (maybeMembersPath.isEmpty()){
-                    status += MEMBERS_PATH_IS_NOT_EXIST + "; ";
-                }
-                if (maybeMembersPath.isEmpty()){
-                    status += MEMBERS_PART_IS_NOT_EXIST;
-                }
-            }
-        } else {
-            status = CLASS_NAME_IS_NOT_EXIST;
+    protected void check(InstanceContext instanceContext, Task<InstanceContext> task) {
+        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart1();
+        success = membersPartResult.getLeft();
+        status = membersPartResult.getMiddle();
+        if (success){
+            ObjectNode membersNode = membersPartResult.getRight();
+            memberNodes = membersNode.getChildren();
         }
-
-        result = result.createNew();
-        result.setSuccess(success);
-        result.setStatus(status);
-
-        return result;
     }
 
     @Override
-    public Result getResult() {
-        return result;
-    }
-
-    private void fillCollector(InstanceContext instanceContext, Map<String, Node> memberNodes, List<String> path){
-        Map<String, Collection<?>> values = getValues(instanceContext, memberNodes);
+    protected void fillCollector(InstanceContext instanceContext) {
+        Map<String, Collection<?>> values = getValues(instanceContext);
 
         if (values.size() > 0){
             Collector collector = instanceContext.getCollector();
-            collector.setTarget(path);
+            collector.setTarget(collectorPath.getPath());
             for (Map.Entry<String, Collection<?>> entry : values.entrySet()) {
                 String member = entry.getKey();
                 Collection<?> collection = entry.getValue();
@@ -96,7 +70,7 @@ public class InstanceCollectionMemberTaskHandler implements TaskHandler<Instance
         }
     }
 
-    private Map<String, Collection<?>> getValues(InstanceContext instanceContext, Map<String, Node> memberNodes) {
+    private Map<String, Collection<?>> getValues(InstanceContext instanceContext) {
         Map<String, Collection<?>> values = new HashMap<>();
 
         Object instance = instanceContext.getInstance();

@@ -190,6 +190,7 @@ public class InstanceProcessorTest {
         processor.add("common", task);
 
         SkeletonCollectorPath instanceClassPath = new SkeletonCollectorPath(Collections.singletonList("class"), ObjectNode.ei());
+        SkeletonCollectorPath instanceMembersPath = new SkeletonCollectorPath(Collections.singletonList("members"), ObjectNode.ei());
 
         new InstanceHandlerWrapper(
                 task,
@@ -199,19 +200,19 @@ public class InstanceProcessorTest {
         );
         new InstanceHandlerWrapper(
                 task,
-                new InstanceSpecificMemberTaskHandler(specificKind, serviceMembersPath, objectPath, classMembersHandler, instanceMembersHandler, new InstanceSerializationResult()),
+                new InstanceSpecificMemberTaskHandler(specificKind, instanceMembersPath, classMembersHandler, instanceMembersHandler, new InstanceSerializationResult()),
                 "specific",
                 new WrongResult()
         );
         new InstanceHandlerWrapper(
                 task,
-                new InstanceCollectionMemberTaskHandler(instanceMembersHandler, classMembersHandler, containerKind, new InstanceSerializationResult()),
+                new InstanceCollectionMemberTaskHandler(containerKind, instanceMembersPath, classMembersHandler, instanceMembersHandler, new InstanceSerializationResult()),
                 "container",
                 new WrongResult()
         );
         new InstanceHandlerWrapper(
                 task,
-                new InstanceCustomMemberTaskHandler(instanceMembersHandler, customKind, new InstanceSerializationResult()),
+                new InstanceCustomMemberTaskHandler(customKind, instanceMembersPath, instanceMembersHandler, new InstanceSerializationResult()),
                 "custom",
                 new WrongResult()
         );

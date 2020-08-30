@@ -21,9 +21,11 @@ public class SkeletonCollector implements Collector {
 
     @Override
     public void reset() {
-        while (target.getParent() != null){
-            target = target.getParent();
-        }
+        target = root;
+        //<
+//        while (target.getParent() != null){
+//            target = target.getParent();
+//        }
     }
 
     @Override

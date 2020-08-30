@@ -39,7 +39,9 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 Node oldNode = collector.detachNode();
 
                 processor.handle(newInstanceContext);
-                objectNode.addChild(property, collector.attachNode(oldNode));
+                Node newNode = collector.attachNode(oldNode);
+                collector.reset();
+                objectNode.addChild(property, newNode);
                 break;
         }
     }
@@ -68,7 +70,8 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 Node oldNode = collector.detachNode();
 
                 processor.handle(newInstanceContext);
-                arrayNode.addChild(collector.attachNode(oldNode));
+                Node newNode = collector.attachNode(oldNode);
+                arrayNode.addChild(newNode);
                 break;
         }
     }

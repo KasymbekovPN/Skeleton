@@ -187,6 +187,33 @@ public class SkeletonInstanceContext implements InstanceContext {
         return new MutableTriple<>(getClassPathResult.getLeft(), getClassPathResult.getMiddle(),new ObjectNode(null));
     }
 
+    @Override
+    public Triple<Boolean, String, List<String>> getMembersPath1() {
+        Triple<Boolean, String, Node> getPartResult = getPart1(serviceMembersPath);
+        ArrayList<String> path = new ArrayList<>();
+        if (getPartResult.getLeft()){
+            ArrayNode classPathNode = (ArrayNode) getPartResult.getRight();
+            return getPath1(classPathNode);
+        }
+
+        return new MutableTriple<>(false, getPartResult.getMiddle(), path);
+    }
+
+    @Override
+    public Triple<Boolean, String, ObjectNode> getMembersPart1() {
+        Triple<Boolean, String, List<String>> getClassPathResult = getMembersPath1();
+        if (getClassPathResult.getLeft()){
+            List<String> path = getClassPathResult.getRight();
+            objectPath.setEi(ObjectNode.ei());
+            objectPath.setPath(path);
+
+            Triple<Boolean, String, Node> getPartResult = getPart1(objectPath);
+            return new MutableTriple<>(getPartResult.getLeft(), getPartResult.getMiddle(), (ObjectNode) getPartResult.getRight());
+        }
+
+        return new MutableTriple<>(getClassPathResult.getLeft(), getClassPathResult.getMiddle(),new ObjectNode(null));
+    }
+
     public Triple<Boolean, String, Node> getPart1(CollectorPath collectorPath) {
 
         boolean success = false;

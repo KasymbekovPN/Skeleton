@@ -27,6 +27,8 @@ public interface InstanceContext {
 
     Triple<Boolean, String, List<String>> getClassPath1();
     Triple<Boolean, String, ObjectNode> getClassPart1();
+    Triple<Boolean, String, List<String>> getMembersPath1();
+    Triple<Boolean, String, ObjectNode> getMembersPart1();
 
 
     //< ???? may be need use attach/detach
