@@ -3,8 +3,8 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handl
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.BaseInstanceTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -21,26 +21,26 @@ public class InstanceSpecificMemberTaskHandler extends BaseInstanceTaskHandler {
 
     private final String kind;
     private final CollectorPath collectorPath;
-    private final ClassMembersHandler classMembersHandler;
-    private final InstanceMembersHandler instanceMembersHandler;
+    private final ClassMembersPartHandler classMembersPartHandler;
+    private final InstanceMembersPartHandler instanceMembersPartHandler;
 
     private Map<String, Node> memberNodes;
 
     public InstanceSpecificMemberTaskHandler(String kind,
                                              CollectorPath collectorPath,
-                                             ClassMembersHandler classMembersHandler,
-                                             InstanceMembersHandler instanceMembersHandler,
+                                             ClassMembersPartHandler classMembersPartHandler,
+                                             InstanceMembersPartHandler instanceMembersPartHandler,
                                              Result result) {
         super(result);
         this.kind = kind;
         this.collectorPath = collectorPath;
-        this.classMembersHandler = classMembersHandler;
-        this.instanceMembersHandler = instanceMembersHandler;
+        this.classMembersPartHandler = classMembersPartHandler;
+        this.instanceMembersPartHandler = instanceMembersPartHandler;
     }
 
     @Override
     protected void check(InstanceContext instanceContext, Task<InstanceContext> task) {
-        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart1();
+        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart();
         success = membersPartResult.getLeft();
         status = membersPartResult.getMiddle();
         if (success){
@@ -58,7 +58,7 @@ public class InstanceSpecificMemberTaskHandler extends BaseInstanceTaskHandler {
             for (Map.Entry<String, Object> entry : values.entrySet()) {
                 String member = entry.getKey();
                 Object value = entry.getValue();
-                instanceMembersHandler.set(targetNode, member, value);
+                instanceMembersPartHandler.set(targetNode, member, value);
             }
             collector.reset();
         }
@@ -88,7 +88,7 @@ public class InstanceSpecificMemberTaskHandler extends BaseInstanceTaskHandler {
 
         Optional<Object> ret = Optional.empty();
 
-        Optional<String> mayBeType = classMembersHandler.getType(memberNode);
+        Optional<String> mayBeType = classMembersPartHandler.getType(memberNode);
         if (mayBeType.isPresent()){
             String type = mayBeType.get();
             if (type.equals(field.getType().toString())){

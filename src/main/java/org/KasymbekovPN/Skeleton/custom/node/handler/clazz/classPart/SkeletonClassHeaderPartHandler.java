@@ -1,21 +1,20 @@
-package org.KasymbekovPN.Skeleton.custom.collector.part;
+package org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart;
 
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
 import org.KasymbekovPN.Skeleton.lib.node.NumberNode;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 
 import java.util.Optional;
 
-public class SkeletonClassHeaderHandler implements ClassHeaderHandler {
+public class SkeletonClassHeaderPartHandler implements ClassHeaderPartHandler {
 
     private final String typePropertyName;
     private final String namePropertyName;
     private final String modifiersPropertyName;
 
-    public SkeletonClassHeaderHandler(String typePropertyName,
-                                      String namePropertyName,
-                                      String modifiersPropertyName) {
+    public SkeletonClassHeaderPartHandler(String typePropertyName,
+                                          String namePropertyName,
+                                          String modifiersPropertyName) {
         this.typePropertyName = typePropertyName;
         this.namePropertyName = namePropertyName;
         this.modifiersPropertyName = modifiersPropertyName;

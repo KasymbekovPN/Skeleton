@@ -3,8 +3,8 @@ package org.KasymbekovPN.Skeleton.custom.serialization;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassHeaderHandler;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils.Utils;
 import org.KasymbekovPN.Skeleton.custom.filter.annotations.AllowedAnnotationTypeFilter;
 import org.KasymbekovPN.Skeleton.custom.filter.string.IgnoreStringFilter;
@@ -41,8 +41,8 @@ import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
@@ -81,13 +81,13 @@ public class SkeletonSerializerGroupTest {
     private SkeletonCollectorPath stringPath
             = new SkeletonCollectorPath(new ArrayList<>(), StringNode.ei());
 
-    private ClassHeaderHandler classHeaderHandler = new SkeletonClassHeaderHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersHandler classMembersHandler = new SkeletonClassMembersHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -132,10 +132,10 @@ public class SkeletonSerializerGroupTest {
 
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(skeletonClassAnnotationFilter, servicePaths, paths))
-                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderHandler))
-                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, specificKind))
-                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, customKind))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, containerKind))
+                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderPartHandler))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, specificKind))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, customKind))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, containerKind))
                 .build();
 
         return serializer;
@@ -193,7 +193,7 @@ public class SkeletonSerializerGroupTest {
         NodeTask checkNodeTypeTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
         new NodeProcessHandlerWrapper(
                 checkNodeTypeTask,
-                new NodeTypeChecker(systemTypeChecker, new NodeTypeCheckerResult(), serviceMembersPath, objectPath, classMembersHandler, customKind),
+                new NodeTypeChecker(systemTypeChecker, new NodeTypeCheckerResult(), serviceMembersPath, objectPath, classMembersPartHandler, customKind),
                 ObjectNode.ei(),
                 new WrongResult()
         );

@@ -1,13 +1,12 @@
-package org.KasymbekovPN.Skeleton.custom.collector.part;
+package org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart;
 
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SkeletonClassMembersHandler implements ClassMembersHandler {
+public class SkeletonClassMembersPartHandler implements ClassMembersPartHandler {
 
     private final String kindPropertyName;
     private final String typePropertyName;
@@ -15,11 +14,11 @@ public class SkeletonClassMembersHandler implements ClassMembersHandler {
     private final String modifiersPropertyName;
     private final String argumentsPropertyName;
 
-    public SkeletonClassMembersHandler(String kindPropertyName,
-                                       String typePropertyName,
-                                       String classNamePropertyName,
-                                       String modifiersPropertyName,
-                                       String argumentsPropertyName) {
+    public SkeletonClassMembersPartHandler(String kindPropertyName,
+                                           String typePropertyName,
+                                           String classNamePropertyName,
+                                           String modifiersPropertyName,
+                                           String argumentsPropertyName) {
         this.kindPropertyName = kindPropertyName;
         this.typePropertyName = typePropertyName;
         this.classNamePropertyName = classNamePropertyName;

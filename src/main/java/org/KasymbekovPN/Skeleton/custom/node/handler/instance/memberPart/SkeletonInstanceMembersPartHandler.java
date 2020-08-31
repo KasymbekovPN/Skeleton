@@ -1,17 +1,14 @@
-package org.KasymbekovPN.Skeleton.custom.collector.part;
+package org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart;
 
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 
-//< remove into node package, interface name like ...NodeHandler
-public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
+public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHandler {
 
     private final InstanceContext instanceContext;
 
-    public SkeletonInstanceMembersHandler(InstanceContext instanceContext) {
+    public SkeletonInstanceMembersPartHandler(InstanceContext instanceContext) {
         this.instanceContext = instanceContext;
     }
 
@@ -33,15 +30,17 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 objectNode.addChild(property, new CharacterNode(objectNode, (Character) value));
                 break;
             default:
-                InstanceContext newInstanceContext = instanceContext.createNew(value);
-                Processor<InstanceContext> processor = newInstanceContext.getProcessor();
-                Collector collector = newInstanceContext.getCollector();
+                Object oldInstance = instanceContext.attachInstance(value);
+                Collector collector = instanceContext.getCollector();
                 Node oldNode = collector.detachNode();
 
-                processor.handle(newInstanceContext);
+                instanceContext.getProcessor().handle(instanceContext);
+
                 Node newNode = collector.attachNode(oldNode);
                 collector.reset();
                 objectNode.addChild(property, newNode);
+
+                instanceContext.attachInstance(oldInstance);
                 break;
         }
     }
@@ -64,14 +63,16 @@ public class SkeletonInstanceMembersHandler implements InstanceMembersHandler {
                 arrayNode.addChild(new CharacterNode(arrayNode, (Character) value));
                 break;
             default:
-                InstanceContext newInstanceContext = instanceContext.createNew(value);
-                Processor<InstanceContext> processor = newInstanceContext.getProcessor();
-                Collector collector = newInstanceContext.getCollector();
+                Object oldInstance = instanceContext.attachInstance(value);
+                Collector collector = instanceContext.getCollector();
                 Node oldNode = collector.detachNode();
 
-                processor.handle(newInstanceContext);
+                instanceContext.getProcessor().handle(instanceContext);
+
                 Node newNode = collector.attachNode(oldNode);
                 arrayNode.addChild(newNode);
+
+                instanceContext.attachInstance(oldInstance);
                 break;
         }
     }

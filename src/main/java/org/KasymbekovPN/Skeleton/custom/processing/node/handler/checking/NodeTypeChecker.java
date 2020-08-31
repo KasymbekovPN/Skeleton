@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.NodeTypeCheckerResult;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -22,7 +22,7 @@ public class NodeTypeChecker implements TaskHandler<Node> {
     private final SimpleChecker<String> systemTypeChecker;
     private final CollectorPath serviceMembersPath;
     private final CollectorPath classPath;
-    private final ClassMembersHandler classMembersHandler;
+    private final ClassMembersPartHandler classMembersPartHandler;
     private final String customKind;
 
     private Result result;
@@ -36,13 +36,13 @@ public class NodeTypeChecker implements TaskHandler<Node> {
                            Result result,
                            CollectorPath serviceMembersPath,
                            CollectorPath classPath,
-                           ClassMembersHandler classMembersHandler,
+                           ClassMembersPartHandler classMembersPartHandler,
                            String customKind) {
         this.result = result;
         this.systemTypeChecker = systemTypeChecker;
         this.serviceMembersPath = serviceMembersPath;
         this.classPath = classPath;
-        this.classMembersHandler = classMembersHandler;
+        this.classMembersPartHandler = classMembersPartHandler;
         this.customKind = customKind;
     }
 
@@ -114,8 +114,8 @@ public class NodeTypeChecker implements TaskHandler<Node> {
         for (Map.Entry<String, Node> entry : memberNodes.getChildren().entrySet()) {
             ObjectNode memberNode = (ObjectNode) entry.getValue();
 
-            Optional<String> mayBeKind = classMembersHandler.getKind(memberNode);
-            Optional<String> mayBeClassName = classMembersHandler.getClassName(memberNode);
+            Optional<String> mayBeKind = classMembersPartHandler.getKind(memberNode);
+            Optional<String> mayBeClassName = classMembersPartHandler.getClassName(memberNode);
             if (mayBeKind.isPresent() && mayBeClassName.isPresent()){
                 String kind = mayBeKind.get();
                 String className = mayBeClassName.get();

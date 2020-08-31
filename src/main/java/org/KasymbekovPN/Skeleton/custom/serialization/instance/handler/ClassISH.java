@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.instance.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
@@ -22,7 +22,7 @@ public class ClassISH extends BaseISH {
     private final static String NOT_MARKED = "Class '%s' isn't marked by according annotation";
     private final static String UNKNOWN_CLASS_NAME = "Unknown class name '%s'";
 
-    private final ClassHeaderHandler classHeaderHandler;
+    private final ClassHeaderPartHandler classHeaderPartHandler;
     private final CollectorPath serviceClassPath;
     private final CollectorPath objectPath;
     private final Extractor<String, Annotation[]> annotationClassNameExtractor;
@@ -31,13 +31,13 @@ public class ClassISH extends BaseISH {
     private int modifiers;
     private List<String> path;
 
-    public ClassISH(ClassHeaderHandler classHeaderHandler,
+    public ClassISH(ClassHeaderPartHandler classHeaderPartHandler,
                     CollectorPath serviceClassPath,
                     CollectorPath objectPath,
                     Extractor<String, Annotation[]> annotationClassNameExtractor,
                     Result result) {
         super(result);
-        this.classHeaderHandler = classHeaderHandler;
+        this.classHeaderPartHandler = classHeaderPartHandler;
         this.serviceClassPath = serviceClassPath;
         this.objectPath = objectPath;
         this.annotationClassNameExtractor = annotationClassNameExtractor;
@@ -63,8 +63,8 @@ public class ClassISH extends BaseISH {
             if (mayBeClassPart.isPresent()){
                 ObjectNode classPart = (ObjectNode) mayBeClassPart.get();
 
-                Optional<String> mayBeName = classHeaderHandler.getName(classPart);
-                Optional<Number> mayBeModifiers = classHeaderHandler.getModifiers(classPart);
+                Optional<String> mayBeName = classHeaderPartHandler.getName(classPart);
+                Optional<Number> mayBeModifiers = classHeaderPartHandler.getModifiers(classPart);
                 if (mayBeModifiers.isPresent() && mayBeName.isPresent()){
                     success = true;
                     name = mayBeName.get();
@@ -90,8 +90,8 @@ public class ClassISH extends BaseISH {
     @Override
     protected boolean fillCollector(Collector collector) {
         ObjectNode targetNode = (ObjectNode) collector.setTarget(path);
-        classHeaderHandler.setName(targetNode, name);
-        classHeaderHandler.setModifiers(targetNode, modifiers);
+        classHeaderPartHandler.setName(targetNode, name);
+        classHeaderPartHandler.setModifiers(targetNode, modifiers);
         collector.reset();
 
         return false;

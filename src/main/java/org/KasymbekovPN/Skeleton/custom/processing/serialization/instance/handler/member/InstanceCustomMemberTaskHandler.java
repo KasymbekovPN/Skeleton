@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handl
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.BaseInstanceTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -20,23 +20,23 @@ public class InstanceCustomMemberTaskHandler extends BaseInstanceTaskHandler {
 
     private final String kind;
     private final CollectorPath collectorPath;
-    private final InstanceMembersHandler instanceMembersHandler;
+    private final InstanceMembersPartHandler instanceMembersPartHandler;
 
     private Map<String, Node> memberNodes;
 
     public InstanceCustomMemberTaskHandler(String kind,
                                            CollectorPath collectorPath,
-                                           InstanceMembersHandler instanceMembersHandler,
+                                           InstanceMembersPartHandler instanceMembersPartHandler,
                                            Result result) {
         super(result);
         this.kind = kind;
         this.collectorPath = collectorPath;
-        this.instanceMembersHandler = instanceMembersHandler;
+        this.instanceMembersPartHandler = instanceMembersPartHandler;
     }
 
     @Override
     protected void check(InstanceContext instanceContext, Task<InstanceContext> task) {
-        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart1();
+        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart();
         success = membersPartResult.getLeft();
         status = membersPartResult.getMiddle();
         if (success){
@@ -55,7 +55,7 @@ public class InstanceCustomMemberTaskHandler extends BaseInstanceTaskHandler {
             for (Map.Entry<String, Object> entry : values.entrySet()) {
                 String member = entry.getKey();
                 Object value = entry.getValue();
-                instanceMembersHandler.set(target, member, value);
+                instanceMembersPartHandler.set(target, member, value);
                 collector.reset();
             }
         }

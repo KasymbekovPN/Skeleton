@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-//< rename -> ??Context
 public interface InstanceContext {
     List<String> getTaskIds();
     List<String> getWrapperIds();
@@ -19,21 +18,10 @@ public interface InstanceContext {
     Optional<ObjectNode> getClassNode(String className);
     Map<String, Field> getFields(String kind);
     Collector getCollector();
-
-    Optional<ObjectNode> getClassPart(String className);
-    Optional<ObjectNode> getMembersPart(String className);
-    Optional<List<String>> getClassPath(String className);
-    Optional<List<String>> getMembersPath(String className);
-
-    Triple<Boolean, String, List<String>> getClassPath1();
-    Triple<Boolean, String, ObjectNode> getClassPart1();
-    Triple<Boolean, String, List<String>> getMembersPath1();
-    Triple<Boolean, String, ObjectNode> getMembersPart1();
-
-
-    //< ???? may be need use attach/detach
-    InstanceContext createNew(Object instance);
+    Triple<Boolean, String, List<String>> getClassPath();
+    Triple<Boolean, String, ObjectNode> getClassPart();
+    Triple<Boolean, String, List<String>> getMembersPath();
+    Triple<Boolean, String, ObjectNode> getMembersPart();
     Object attachInstance(Object instance);
-
     Processor<InstanceContext> getProcessor();
 }

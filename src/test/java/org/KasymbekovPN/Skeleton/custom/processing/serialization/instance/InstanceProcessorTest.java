@@ -3,9 +3,9 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassHeaderHandler;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassMembersHandler;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonInstanceMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.SkeletonClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.node.InstanceDataMembersExtractor;
 import org.KasymbekovPN.Skeleton.custom.filter.annotations.AllowedAnnotationTypeFilter;
@@ -40,9 +40,9 @@ import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -80,13 +80,13 @@ public class InstanceProcessorTest {
     private SkeletonCollectorPath stringPath
             = new SkeletonCollectorPath(new ArrayList<>(), StringNode.ei());
 
-    private ClassHeaderHandler classHeaderHandler = new SkeletonClassHeaderHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersHandler classMembersHandler = new SkeletonClassMembersHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -115,10 +115,10 @@ public class InstanceProcessorTest {
 
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(skeletonClassAnnotationFilter, servicePaths, paths))
-                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderHandler))
-                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, specificKind))
-                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, customKind))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, containerKind))
+                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderPartHandler))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, specificKind))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, customKind))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, containerKind))
                 .build();
 
         return serializer;
@@ -183,7 +183,7 @@ public class InstanceProcessorTest {
                 processor
         );
 
-        InstanceMembersHandler instanceMembersHandler = new SkeletonInstanceMembersHandler(instanceData);
+        InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler(instanceData);
 
         InstanceTask task = new InstanceTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
 
@@ -194,25 +194,25 @@ public class InstanceProcessorTest {
 
         new InstanceHandlerWrapper(
                 task,
-                new InstanceHeaderTaskHandler( classHeaderHandler, instanceClassPath, new InstanceSerializationResult()),
+                new InstanceHeaderTaskHandler(classHeaderPartHandler, instanceClassPath, new InstanceSerializationResult()),
                 "header",
                 new WrongResult()
         );
         new InstanceHandlerWrapper(
                 task,
-                new InstanceSpecificMemberTaskHandler(specificKind, instanceMembersPath, classMembersHandler, instanceMembersHandler, new InstanceSerializationResult()),
+                new InstanceSpecificMemberTaskHandler(specificKind, instanceMembersPath, classMembersPartHandler, instanceMembersPartHandler, new InstanceSerializationResult()),
                 "specific",
                 new WrongResult()
         );
         new InstanceHandlerWrapper(
                 task,
-                new InstanceCollectionMemberTaskHandler(containerKind, instanceMembersPath, classMembersHandler, instanceMembersHandler, new InstanceSerializationResult()),
+                new InstanceCollectionMemberTaskHandler(containerKind, instanceMembersPath, classMembersPartHandler, instanceMembersPartHandler, new InstanceSerializationResult()),
                 "container",
                 new WrongResult()
         );
         new InstanceHandlerWrapper(
                 task,
-                new InstanceCustomMemberTaskHandler(customKind, instanceMembersPath, instanceMembersHandler, new InstanceSerializationResult()),
+                new InstanceCustomMemberTaskHandler(customKind, instanceMembersPath, instanceMembersPartHandler, new InstanceSerializationResult()),
                 "custom",
                 new WrongResult()
         );

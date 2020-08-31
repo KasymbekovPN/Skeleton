@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.serialization.instance.serializer;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
@@ -26,7 +26,7 @@ public class SkeletonInstanceSerializer implements InstanceSerializer {
     private final static String NOT_MARKED = "Class '%s' isn't marked by according annotation";
     private final static String UNKNOWN_CLASS_NAME = "Unknown class name '%s'";
 
-    private final ClassHeaderHandler classHeaderHandler;
+    private final ClassHeaderPartHandler classHeaderPartHandler;
     private final CollectorPath serviceClassPath;
     private final CollectorPath objectPath;
     private final InstanceSerializationHandler instanceSerializationHandler;
@@ -37,7 +37,7 @@ public class SkeletonInstanceSerializer implements InstanceSerializer {
     private Map<String, ObjectNode> classNodes = new HashMap<>();
     private Result result;
 
-    public SkeletonInstanceSerializer(ClassHeaderHandler classHeaderHandler,
+    public SkeletonInstanceSerializer(ClassHeaderPartHandler classHeaderPartHandler,
                                       CollectorPath serviceClassPath,
                                       CollectorPath objectPath,
                                       InstanceSerializationHandler instanceSerializationHandler,
@@ -45,7 +45,7 @@ public class SkeletonInstanceSerializer implements InstanceSerializer {
                                       String id,
                                       Extractor<String, Annotation[]> annotationClassNameExtractor,
                                       Result result) {
-        this.classHeaderHandler = classHeaderHandler;
+        this.classHeaderPartHandler = classHeaderPartHandler;
         this.serviceClassPath = serviceClassPath;
         this.objectPath = objectPath;
         this.instanceSerializationHandler = instanceSerializationHandler;
@@ -98,7 +98,7 @@ public class SkeletonInstanceSerializer implements InstanceSerializer {
             if (mayBeClassNode.isPresent()){
                 ObjectNode classInfoNode = (ObjectNode) mayBeClassNode.get();
 
-                Optional<String> mayBeName = classHeaderHandler.getName(classInfoNode);
+                Optional<String> mayBeName = classHeaderPartHandler.getName(classInfoNode);
                 mayBeName.ifPresent(name -> classNodes.put(name, classNode));
             }
         }

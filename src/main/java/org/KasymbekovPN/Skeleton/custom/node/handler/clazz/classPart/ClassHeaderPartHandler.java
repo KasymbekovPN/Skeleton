@@ -1,13 +1,10 @@
-package org.KasymbekovPN.Skeleton.lib.collector.part;
+package org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart;
 
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
 import java.util.Optional;
 
-//<
-// replace with Extractor or remake via chain responsibility
-//<
-public interface ClassHeaderHandler {
+public interface ClassHeaderPartHandler {
     void setType(ObjectNode objectNode, String type);
     void setName(ObjectNode objectNode, String name);
     void setModifiers(ObjectNode objectNode, int modifiers);

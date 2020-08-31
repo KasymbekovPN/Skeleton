@@ -1,11 +1,11 @@
-package org.KasymbekovPN.Skeleton.lib.collector.part;
+package org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart;
 
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ClassMembersHandler {
+public interface ClassMembersPartHandler {
     void setKind(ObjectNode objectNode, String kind);
     void setType(ObjectNode objectNode, String type);
     void setClassName(ObjectNode objectNode, String className);

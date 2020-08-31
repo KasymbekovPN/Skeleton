@@ -128,59 +128,27 @@ public class SkeletonInstanceContext implements InstanceContext {
     }
 
     @Override
-    public Optional<ObjectNode> getClassPart(String className) {
-        return getPart(className, serviceClassPath);
-    }
+    public Triple<Boolean, String, List<String>> getClassPath() {
 
-    @Override
-    public Optional<ObjectNode> getMembersPart(String className) {
-        return getPart(className, serviceMembersPath);
-    }
-
-    @Override
-    public Optional<List<String>> getClassPath(String className) {
-        Optional<ObjectNode> maybeClassNode = getClassNode(className);
-        if (maybeClassNode.isPresent()){
-            ObjectNode classNode = maybeClassNode.get();
-            return getPath(serviceClassPath, classNode);
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<List<String>> getMembersPath(String className) {
-        Optional<ObjectNode> maybeClassNode = getClassNode(className);
-        if (maybeClassNode.isPresent()){
-            ObjectNode classNode = maybeClassNode.get();
-            return getPath(serviceMembersPath, classNode);
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public Triple<Boolean, String, List<String>> getClassPath1() {
-
-        Triple<Boolean, String, Node> getPartResult = getPart1(serviceClassPath);
+        Triple<Boolean, String, Node> getPartResult = getPart(serviceClassPath);
         ArrayList<String> path = new ArrayList<>();
         if (getPartResult.getLeft()){
             ArrayNode classPathNode = (ArrayNode) getPartResult.getRight();
-            return getPath1(classPathNode);
+            return getPath(classPathNode);
         }
 
         return new MutableTriple<>(false, getPartResult.getMiddle(), path);
     }
 
     @Override
-    public Triple<Boolean, String, ObjectNode> getClassPart1() {
-        Triple<Boolean, String, List<String>> getClassPathResult = getClassPath1();
+    public Triple<Boolean, String, ObjectNode> getClassPart() {
+        Triple<Boolean, String, List<String>> getClassPathResult = getClassPath();
         if (getClassPathResult.getLeft()){
             List<String> path = getClassPathResult.getRight();
             objectPath.setEi(ObjectNode.ei());
             objectPath.setPath(path);
 
-            Triple<Boolean, String, Node> getPartResult = getPart1(objectPath);
+            Triple<Boolean, String, Node> getPartResult = getPart(objectPath);
             return new MutableTriple<>(getPartResult.getLeft(), getPartResult.getMiddle(), (ObjectNode) getPartResult.getRight());
         }
 
@@ -188,33 +156,33 @@ public class SkeletonInstanceContext implements InstanceContext {
     }
 
     @Override
-    public Triple<Boolean, String, List<String>> getMembersPath1() {
-        Triple<Boolean, String, Node> getPartResult = getPart1(serviceMembersPath);
+    public Triple<Boolean, String, List<String>> getMembersPath() {
+        Triple<Boolean, String, Node> getPartResult = getPart(serviceMembersPath);
         ArrayList<String> path = new ArrayList<>();
         if (getPartResult.getLeft()){
             ArrayNode classPathNode = (ArrayNode) getPartResult.getRight();
-            return getPath1(classPathNode);
+            return getPath(classPathNode);
         }
 
         return new MutableTriple<>(false, getPartResult.getMiddle(), path);
     }
 
     @Override
-    public Triple<Boolean, String, ObjectNode> getMembersPart1() {
-        Triple<Boolean, String, List<String>> getClassPathResult = getMembersPath1();
+    public Triple<Boolean, String, ObjectNode> getMembersPart() {
+        Triple<Boolean, String, List<String>> getClassPathResult = getMembersPath();
         if (getClassPathResult.getLeft()){
             List<String> path = getClassPathResult.getRight();
             objectPath.setEi(ObjectNode.ei());
             objectPath.setPath(path);
 
-            Triple<Boolean, String, Node> getPartResult = getPart1(objectPath);
+            Triple<Boolean, String, Node> getPartResult = getPart(objectPath);
             return new MutableTriple<>(getPartResult.getLeft(), getPartResult.getMiddle(), (ObjectNode) getPartResult.getRight());
         }
 
         return new MutableTriple<>(getClassPathResult.getLeft(), getClassPathResult.getMiddle(),new ObjectNode(null));
     }
 
-    public Triple<Boolean, String, Node> getPart1(CollectorPath collectorPath) {
+    public Triple<Boolean, String, Node> getPart(CollectorPath collectorPath) {
 
         boolean success = false;
         String status = "";
@@ -243,7 +211,7 @@ public class SkeletonInstanceContext implements InstanceContext {
         return new MutableTriple<>(success, status, pathPart);
     }
 
-    private Triple<Boolean, String, List<String>> getPath1(ArrayNode node){
+    private Triple<Boolean, String, List<String>> getPath(ArrayNode node){
         ArrayList<String> path = new ArrayList<>();
 
         for (Node child : node.getChildren()) {
@@ -258,60 +226,6 @@ public class SkeletonInstanceContext implements InstanceContext {
         }
 
         return new MutableTriple<>(success, status, path);
-    }
-
-    private Optional<ObjectNode> getPart(String className, CollectorPath path){
-        Optional<ObjectNode> mayBeClassNode = getClassNode(className);
-        if (mayBeClassNode.isPresent()){
-            ObjectNode classNode = mayBeClassNode.get();
-            Optional<List<String>> mayBePath = getPath(path, classNode);
-            if (mayBePath.isPresent()){
-                objectPath.setPath(mayBePath.get());
-                objectPath.setEi(ObjectNode.ei());
-
-                Optional<Node> mayBePart = classNode.getChild(objectPath);
-                if (mayBePart.isPresent()){
-                    return Optional.of((ObjectNode) mayBePart.get());
-                }
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    private Optional<List<String>> getPath(CollectorPath collectorPath, ObjectNode classNode){
-        Optional<Node> mayBePathNode = classNode.getChild(collectorPath);
-        if (mayBePathNode.isPresent()){
-            ArrayNode pathNode = (ArrayNode) mayBePathNode.get();
-            ArrayList<String> path = new ArrayList<>();
-
-            for (Node child : pathNode.getChildren()) {
-                path.add(((StringNode) child).getValue());
-            }
-
-            if (path.size() > 0){
-                return Optional.of(path);
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public InstanceContext createNew(Object instance) {
-        return new SkeletonInstanceContext(
-                taskIds,
-                wrapperIds,
-                instance,
-                classNodes,
-                annotationClassNameExtractor,
-                memberExtractor,
-                collector,
-                serviceClassPath,
-                serviceMembersPath,
-                objectPath,
-                processor
-        );
     }
 
     @Override

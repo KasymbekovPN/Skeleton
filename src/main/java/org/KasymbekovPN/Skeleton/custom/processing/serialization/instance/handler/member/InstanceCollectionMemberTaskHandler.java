@@ -3,8 +3,8 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handl
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.BaseInstanceTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.part.InstanceMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -22,26 +22,26 @@ public class InstanceCollectionMemberTaskHandler extends BaseInstanceTaskHandler
 
     private final String kind;
     private final CollectorPath collectorPath;
-    private final ClassMembersHandler classMembersHandler;
-    private final InstanceMembersHandler instanceMembersHandler;
+    private final ClassMembersPartHandler classMembersPartHandler;
+    private final InstanceMembersPartHandler instanceMembersPartHandler;
 
     private Map<String, Node> memberNodes;
 
     public InstanceCollectionMemberTaskHandler(String kind,
                                                CollectorPath collectorPath,
-                                               ClassMembersHandler classMembersHandler,
-                                               InstanceMembersHandler instanceMembersHandler,
+                                               ClassMembersPartHandler classMembersPartHandler,
+                                               InstanceMembersPartHandler instanceMembersPartHandler,
                                                Result result) {
         super(result);
         this.kind = kind;
         this.collectorPath = collectorPath;
-        this.classMembersHandler = classMembersHandler;
-        this.instanceMembersHandler = instanceMembersHandler;
+        this.classMembersPartHandler = classMembersPartHandler;
+        this.instanceMembersPartHandler = instanceMembersPartHandler;
     }
 
     @Override
     protected void check(InstanceContext instanceContext, Task<InstanceContext> task) {
-        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart1();
+        Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart();
         success = membersPartResult.getLeft();
         status = membersPartResult.getMiddle();
         if (success){
@@ -62,7 +62,7 @@ public class InstanceCollectionMemberTaskHandler extends BaseInstanceTaskHandler
                 Collection<?> collection = entry.getValue();
                 ArrayNode target = (ArrayNode) collector.beginArray(member);
                 for (Object o : collection) {
-                    instanceMembersHandler.set(target, o);
+                    instanceMembersPartHandler.set(target, o);
                 }
                 collector.end();
             }
@@ -109,7 +109,7 @@ public class InstanceCollectionMemberTaskHandler extends BaseInstanceTaskHandler
     }
 
     private boolean checkType(Field field, ObjectNode memberNode){
-        Optional<String> maybeType = classMembersHandler.getType(memberNode);
+        Optional<String> maybeType = classMembersPartHandler.getType(memberNode);
         if (maybeType.isPresent()){
             String type = maybeType.get();
             return type.equals(field.getType().getName());
@@ -119,7 +119,7 @@ public class InstanceCollectionMemberTaskHandler extends BaseInstanceTaskHandler
     }
 
     private boolean checkArguments(Field field, ObjectNode memberNode){
-        Optional<List<String>> maybeArguments = classMembersHandler.getArguments(memberNode);
+        Optional<List<String>> maybeArguments = classMembersPartHandler.getArguments(memberNode);
         if (maybeArguments.isPresent()){
             List<String> arguments = maybeArguments.get();
 

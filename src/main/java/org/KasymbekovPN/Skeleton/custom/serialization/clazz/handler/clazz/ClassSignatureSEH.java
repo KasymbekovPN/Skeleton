@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.clazz;
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
@@ -18,7 +18,7 @@ public class ClassSignatureSEH extends BaseSEH {
 
     private final Filter<Annotation> annotationFilter;
     private final CollectorPath collectorServicePath;
-    private final ClassHeaderHandler classHeaderHandler;
+    private final ClassHeaderPartHandler classHeaderPartHandler;
 
     private String type;
     private String name;
@@ -27,10 +27,10 @@ public class ClassSignatureSEH extends BaseSEH {
 
     public ClassSignatureSEH(Filter<Annotation> annotationFilter,
                              CollectorPath collectorServicePath,
-                             ClassHeaderHandler classHeaderHandler) {
+                             ClassHeaderPartHandler classHeaderPartHandler) {
         this.annotationFilter = annotationFilter;
         this.collectorServicePath = collectorServicePath;
-        this.classHeaderHandler = classHeaderHandler;
+        this.classHeaderPartHandler = classHeaderPartHandler;
     }
 
     @Override
@@ -59,9 +59,9 @@ public class ClassSignatureSEH extends BaseSEH {
 //        collector.reset();
         //<
         ObjectNode targetNode = (ObjectNode) collector.setTarget(classPath);
-        classHeaderHandler.setType(targetNode, type);
-        classHeaderHandler.setName(targetNode, name);
-        classHeaderHandler.setModifiers(targetNode, modifiers);
+        classHeaderPartHandler.setType(targetNode, type);
+        classHeaderPartHandler.setName(targetNode, name);
+        classHeaderPartHandler.setModifiers(targetNode, modifiers);
         collector.reset();
 
         return false;

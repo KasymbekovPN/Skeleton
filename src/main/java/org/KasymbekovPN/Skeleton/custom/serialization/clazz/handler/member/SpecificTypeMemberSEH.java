@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
@@ -24,7 +24,7 @@ public class SpecificTypeMemberSEH extends BaseSEH {
     private final Processor<Node> nodeProcessor;
     private final String taskName;
     private final CollectorPath collectorServicePath;
-    private final ClassMembersHandler classMembersHandler;
+    private final ClassMembersPartHandler classMembersPartHandler;
     private final String kind;
 
     private String name;
@@ -37,14 +37,14 @@ public class SpecificTypeMemberSEH extends BaseSEH {
                                  Processor<Node> nodeProcessor,
                                  String taskName,
                                  CollectorPath collectorServicePath,
-                                 ClassMembersHandler classMembersHandler,
+                                 ClassMembersPartHandler classMembersPartHandler,
                                  String kind) {
         this.clazzChecker = clazzChecker;
         this.annotationFilter = annotationFilter;
         this.nodeProcessor = nodeProcessor;
         this.taskName = taskName;
         this.collectorServicePath = collectorServicePath;
-        this.classMembersHandler = classMembersHandler;
+        this.classMembersPartHandler = classMembersPartHandler;
         this.kind = kind;
     }
 
@@ -76,10 +76,10 @@ public class SpecificTypeMemberSEH extends BaseSEH {
         List<String> path = new ArrayList<>(membersPath);
         path.add(name);
         ObjectNode targetNode = (ObjectNode) collector.setTarget(path);
-        classMembersHandler.setKind(targetNode, kind);
-        classMembersHandler.setType(targetNode, typeName);
-        classMembersHandler.setClassName(targetNode, typeName);
-        classMembersHandler.setModifiers(targetNode, modifiers);
+        classMembersPartHandler.setKind(targetNode, kind);
+        classMembersPartHandler.setType(targetNode, typeName);
+        classMembersPartHandler.setClassName(targetNode, typeName);
+        classMembersPartHandler.setModifiers(targetNode, modifiers);
         collector.reset();
 
         return true;

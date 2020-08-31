@@ -3,8 +3,8 @@ package org.KasymbekovPN.Skeleton.custom.serialization.serializer.instance;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassHeaderHandler;
-import org.KasymbekovPN.Skeleton.custom.collector.part.SkeletonClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.SkeletonClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.filter.annotations.AllowedAnnotationTypeFilter;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandlerWrapper;
@@ -30,8 +30,8 @@ import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassHeaderHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.part.ClassMembersHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -68,13 +68,13 @@ public class SkeletonInstanceSerializerTest {
     private SkeletonCollectorPath stringPath
             = new SkeletonCollectorPath(new ArrayList<>(), StringNode.ei());
 
-    private ClassHeaderHandler classHeaderHandler = new SkeletonClassHeaderHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersHandler classMembersHandler = new SkeletonClassMembersHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -122,10 +122,10 @@ public class SkeletonInstanceSerializerTest {
 
         Serializer serializer = new SkeletonSerializer.Builder(collector, "common")
                 .addClassHandler(new ServiceSEH(skeletonClassAnnotationFilter, servicePaths, paths))
-                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderHandler))
-                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, specificKind))
-                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, customKind))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersHandler, containerKind))
+                .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderPartHandler))
+                .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, specificKind))
+                .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, customKind))
+                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, containerKind))
                 .build();
 
         return serializer;
@@ -140,11 +140,11 @@ public class SkeletonInstanceSerializerTest {
 
         ObjectNode instanceSerTC0Node = (ObjectNode) collector.detachNode();
 
-        ClassISH classISH = new ClassISH(classHeaderHandler, serviceClassPath, objectPath, new SkeletonClassNameExtractor(), new InstanceSerializationResult());
+        ClassISH classISH = new ClassISH(classHeaderPartHandler, serviceClassPath, objectPath, new SkeletonClassNameExtractor(), new InstanceSerializationResult());
         classISH.setNext(new SpecificISH());
 
         SkeletonInstanceSerializer instanceSerializer = new SkeletonInstanceSerializer(
-                classHeaderHandler,
+                classHeaderPartHandler,
                 serviceClassPath,
                 objectPath,
                 classISH,
