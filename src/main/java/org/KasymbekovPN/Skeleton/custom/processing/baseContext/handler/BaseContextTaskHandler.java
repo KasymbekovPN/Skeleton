@@ -1,24 +1,23 @@
-package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler;
+package org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-abstract public class BaseInstanceTaskHandler implements TaskHandler<InstanceContext> {
+abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
 
     private Result result;
 
     protected boolean success;
     protected String status;
 
-    public BaseInstanceTaskHandler(Result result) {
+    public BaseContextTaskHandler(Result result) {
         this.result = result;
     }
 
     @Override
-    public Result handle(InstanceContext object, Task<InstanceContext> task) {
-
+    public Result handle(Context object, Task<Context> task) {
         success = true;
         status = "";
 
@@ -36,10 +35,10 @@ abstract public class BaseInstanceTaskHandler implements TaskHandler<InstanceCon
         return result;
     }
 
-    protected void check(InstanceContext instanceContext, Task<InstanceContext> task){
+    protected void check(Context context, Task<Context> task){
     }
 
-    protected void fillCollector(InstanceContext instanceContext){
+    protected void fillCollector(Context context){
     }
 
     protected void resetResult(){
@@ -47,4 +46,5 @@ abstract public class BaseInstanceTaskHandler implements TaskHandler<InstanceCon
         result.setSuccess(success);
         result.setStatus(status);
     }
+
 }

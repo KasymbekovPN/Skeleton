@@ -1,6 +1,6 @@
-package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.processor;
+package org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
@@ -9,42 +9,42 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 import java.util.*;
 
-public class InstanceProcessor implements Processor<InstanceContext> {
+public class ContextProcessor implements Processor<Context> {
 
     private static final String TASK_IS_NOT_EXIST = "Task '%s' isn't exist";
 
-    private final Map<String, Task<InstanceContext>> tasks = new HashMap<>();
+    private final Map<String, Task<Context>> tasks = new HashMap<>();
     private final AggregateResult processorResult;
 
     private Result wrongResult;
 
-    public InstanceProcessor(AggregateResult processorResult,
-                             Result wrongResult) {
+    public ContextProcessor(AggregateResult processorResult,
+                            Result wrongResult) {
         this.processorResult = processorResult;
         this.wrongResult = wrongResult;
     }
 
     @Override
-    public Task<InstanceContext> add(String taskId, Task<InstanceContext> task) {
+    public Task<Context> add(String taskId, Task<Context> task) {
         return tasks.put(taskId, task);
     }
 
     @Override
-    public Optional<Task<InstanceContext>> get(String taskId) {
+    public Optional<Task<Context>> get(String taskId) {
         return tasks.containsKey(taskId)
                 ? Optional.of(tasks.get(taskId))
                 : Optional.empty();
     }
 
     @Override
-    public Optional<Task<InstanceContext>> remove(String taskId) {
+    public Optional<Task<Context>> remove(String taskId) {
         return tasks.containsKey(taskId)
                 ? Optional.of(tasks.remove(taskId))
                 : Optional.empty();
     }
 
     @Override
-    public AggregateResult handle(InstanceContext object, Filter<String> taskIdFilter) {
+    public AggregateResult handle(Context object, Filter<String> taskIdFilter) {
         List<String> taskIds = object.getTaskIds();
         Deque<String> filterKeys = taskIdFilter.filter(new ArrayDeque<>(taskIds));
         for (String filterKey : filterKeys) {
@@ -64,7 +64,7 @@ public class InstanceProcessor implements Processor<InstanceContext> {
     }
 
     @Override
-    public AggregateResult handle(InstanceContext object) {
+    public AggregateResult handle(Context object) {
         List<String> taskIds = object.getTaskIds();
         for (String taskId : taskIds) {
             Result result;

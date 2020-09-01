@@ -1,9 +1,10 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.BaseInstanceTaskHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class InstanceCustomMemberTaskHandler extends BaseInstanceTaskHandler {
+public class InstanceCustomMemberTaskHandler extends BaseContextTaskHandler {
 
     private final String kind;
     private final CollectorPath collectorPath;
@@ -35,7 +36,8 @@ public class InstanceCustomMemberTaskHandler extends BaseInstanceTaskHandler {
     }
 
     @Override
-    protected void check(InstanceContext instanceContext, Task<InstanceContext> task) {
+    protected void check(Context context, Task<Context> task) {
+        InstanceContext instanceContext = (InstanceContext) context;
         Triple<Boolean, String, ObjectNode> membersPartResult = instanceContext.getMembersPart();
         success = membersPartResult.getLeft();
         status = membersPartResult.getMiddle();
@@ -46,7 +48,8 @@ public class InstanceCustomMemberTaskHandler extends BaseInstanceTaskHandler {
     }
 
     @Override
-    protected void fillCollector(InstanceContext instanceContext) {
+    protected void fillCollector(Context context) {
+        InstanceContext instanceContext = (InstanceContext) context;
         Map<String, Object> values = getValues(instanceContext);
 
         if (values.size() > 0){

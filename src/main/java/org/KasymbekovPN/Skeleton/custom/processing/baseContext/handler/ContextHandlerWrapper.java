@@ -1,22 +1,24 @@
-package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler;
+package org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-public class InstanceHandlerWrapper implements TaskWrapper<InstanceContext> {
+public class ContextHandlerWrapper implements TaskWrapper<Context> {
 
-    private final Task<InstanceContext> task;
-    private final TaskHandler<InstanceContext> taskHandler;
+    private static final String HANDLER_IS_NULL = "Handler is null";
+
+    private final Task<Context> task;
+    private final TaskHandler<Context> taskHandler;
 
     private Result wrongResult;
 
-    public InstanceHandlerWrapper(Task<InstanceContext> task,
-                                  TaskHandler<InstanceContext> taskHandler,
-                                  String wrapperId,
-                                  Result wrongResult) {
+    public ContextHandlerWrapper(Task<Context> task,
+                                 TaskHandler<Context> taskHandler,
+                                 String wrapperId,
+                                 Result wrongResult) {
         this.task = task;
         this.taskHandler = taskHandler;
         this.wrongResult = wrongResult;
@@ -25,7 +27,7 @@ public class InstanceHandlerWrapper implements TaskWrapper<InstanceContext> {
     }
 
     @Override
-    public Result handle(InstanceContext object) {
+    public Result handle(Context object) {
         return taskHandler.handle(object, task);
     }
 
@@ -33,7 +35,7 @@ public class InstanceHandlerWrapper implements TaskWrapper<InstanceContext> {
     public Result getResult() {
         return taskHandler != null
                 ? taskHandler.getResult()
-                : getWrongResult("Handler is null");
+                : getWrongResult(HANDLER_IS_NULL);
     }
 
     private Result getWrongResult(String status){

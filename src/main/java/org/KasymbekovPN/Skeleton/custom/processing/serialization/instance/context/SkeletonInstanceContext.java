@@ -1,5 +1,6 @@
-package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data;
+package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context;
 
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
@@ -33,7 +34,7 @@ public class SkeletonInstanceContext implements InstanceContext {
     private final CollectorPath serviceClassPath;
     private final CollectorPath serviceMembersPath;
     private final CollectorPath objectPath;
-    private final Processor<InstanceContext> processor;
+    private final Processor<Context> processor;
 
     private Object instance;
 
@@ -47,7 +48,7 @@ public class SkeletonInstanceContext implements InstanceContext {
                                    CollectorPath serviceClassPath,
                                    CollectorPath serviceMembersPath,
                                    CollectorPath objectPath,
-                                   Processor<InstanceContext> processor
+                                   Processor<Context> processor
                                 ) {
         this.taskIds = taskIds;
         this.wrapperIds = wrapperIds;
@@ -236,7 +237,7 @@ public class SkeletonInstanceContext implements InstanceContext {
     }
 
     @Override
-    public Processor<InstanceContext> getProcessor() {
+    public Processor<Context> getProcessor() {
         return processor;
     }
 }

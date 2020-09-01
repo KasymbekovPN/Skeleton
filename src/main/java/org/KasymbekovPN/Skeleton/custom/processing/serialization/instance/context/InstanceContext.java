@@ -1,5 +1,6 @@
-package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.data;
+package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context;
 
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
@@ -10,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface InstanceContext {
-    List<String> getTaskIds();
-    List<String> getWrapperIds();
+public interface InstanceContext extends Context {
+//    List<String> getTaskIds();
+//    List<String> getWrapperIds();
+    //<
     Object getInstance();
     Optional<String> getClassName();
     Optional<ObjectNode> getClassNode(String className);
@@ -23,5 +25,5 @@ public interface InstanceContext {
     Triple<Boolean, String, List<String>> getMembersPath();
     Triple<Boolean, String, ObjectNode> getMembersPart();
     Object attachInstance(Object instance);
-    Processor<InstanceContext> getProcessor();
+    Processor<Context> getProcessor();
 }
