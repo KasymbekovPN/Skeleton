@@ -14,6 +14,7 @@ import org.KasymbekovPN.Skeleton.lib.serialization.clazz.handler.BaseSEH;
 import java.lang.annotation.Annotation;
 import java.util.*;
 
+//< del
 public class ClassSignatureSEH extends BaseSEH {
 
     private final Filter<Annotation> annotationFilter;
