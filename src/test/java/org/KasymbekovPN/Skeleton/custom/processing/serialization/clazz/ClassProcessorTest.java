@@ -1,14 +1,18 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz;
 
+import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.clazz.ClassSerializationResult;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.InstanceTaskResult;
@@ -26,6 +30,18 @@ public class ClassProcessorTest {
             "modifiers"
     );
 
+    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
+            "kind",
+            "type",
+            "className",
+            "modifiers",
+            "arguments"
+    );
+
+    private String containerKind = "container";
+    private String customKind = "custom";
+    private String specificKind = "specific";
+
     @Test
     void test(){
 
@@ -33,12 +49,14 @@ public class ClassProcessorTest {
 
         SkeletonClassContext context = new SkeletonClassContext(
                 Arrays.asList("common"),
-                Arrays.asList("signature"),
+                Arrays.asList("signature", specificKind),
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
                 ClassProcessorTC0.class,
-                collector
+                collector,
+                classHeaderPartHandler,
+                classMembersPartHandler
         );
 
         ContextProcessor processor
@@ -52,6 +70,12 @@ public class ClassProcessorTest {
                 task,
                 new ClassSignatureTaskHandler(classHeaderPartHandler, new ClassSerializationResult()),
                 "signature",
+                new WrongResult()
+        );
+        new ContextHandlerWrapper(
+                task,
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), specificKind, new ClassSerializationResult()),
+                "specific",
                 new WrongResult()
         );
 
