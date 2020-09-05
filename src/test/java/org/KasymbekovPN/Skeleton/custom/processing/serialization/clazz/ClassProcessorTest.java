@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz;
 
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
@@ -12,6 +13,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.clazz.ClassSerializationResult;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
@@ -49,7 +51,7 @@ public class ClassProcessorTest {
 
         SkeletonClassContext context = new SkeletonClassContext(
                 Arrays.asList("common"),
-                Arrays.asList("signature", specificKind),
+                Arrays.asList("signature", specificKind, customKind),
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
@@ -76,6 +78,12 @@ public class ClassProcessorTest {
                 task,
                 new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), specificKind, new ClassSerializationResult()),
                 "specific",
+                new WrongResult()
+        );
+        new ContextHandlerWrapper(
+                task,
+                new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), customKind, new ClassSerializationResult()),
+                customKind,
                 new WrongResult()
         );
 

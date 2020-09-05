@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes;
 
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 
@@ -14,4 +15,7 @@ public class ClassProcessorTC0 {
 
     @SkeletonMember
     private float floatValue;
+
+    @SkeletonMember(name = "InnerClassProcessorTC0")
+    private InnerInstanceProcessorTC0 innerInstanceProcessorTC0;
 }
