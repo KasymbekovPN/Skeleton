@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance;
 
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
-import org.KasymbekovPN.Skeleton.custom.checker.CollectionInstanceChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
@@ -108,7 +108,7 @@ public class InstanceProcessorTest {
 
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, InnerInstanceProcessorTC0.class));
-        CollectionInstanceChecker collectionInstanceChecker = new CollectionInstanceChecker(types, argumentTypes);
+        CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
 
         AllowedAnnotationTypeFilter skeletonClassAnnotationFilter = new AllowedAnnotationTypeFilter(SkeletonClass.class);
         AllowedAnnotationTypeFilter skeletonMembersAnnotationFilter = new AllowedAnnotationTypeFilter(SkeletonMember.class);
@@ -118,7 +118,7 @@ public class InstanceProcessorTest {
                 .addClassHandler(new ClassSignatureSEH(skeletonClassAnnotationFilter, serviceClassPath, classHeaderPartHandler))
                 .addMemberHandler(new SpecificTypeMemberSEH(allowedClassChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, specificKind))
                 .addMemberHandler(new CustomMemberSEH(allowedStringChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, customKind))
-                .addMemberHandler(new ContainerMemberSEH(collectionInstanceChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, containerKind))
+                .addMemberHandler(new ContainerMemberSEH(collectionTypeChecker, skeletonMembersAnnotationFilter, processor, taskName, serviceMembersPath, classMembersPartHandler, containerKind))
                 .build();
 
         return serializer;

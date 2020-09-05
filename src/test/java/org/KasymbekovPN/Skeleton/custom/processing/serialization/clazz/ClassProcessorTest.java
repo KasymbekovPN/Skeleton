@@ -2,6 +2,8 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz;
 
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
@@ -13,6 +15,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.clazz.ClassSerializationResult;
@@ -22,7 +25,7 @@ import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class ClassProcessorTest {
 
@@ -40,18 +43,28 @@ public class ClassProcessorTest {
             "arguments"
     );
 
-    private String containerKind = "container";
     private String customKind = "custom";
     private String specificKind = "specific";
+    private String collectionKind = "collection";
+    private String mapKind = "map";
 
     @Test
     void test(){
+
+        Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
+        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
+        CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
+
+        Set<Class<?>> mTypes = new HashSet<>(Collections.singletonList(Map.class));
+        Set<Class<?>> keyArgTypes = new HashSet<>(Arrays.asList(Integer.class));
+        Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
+        MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
         SkeletonCollector collector = new SkeletonCollector();
 
         SkeletonClassContext context = new SkeletonClassContext(
                 Arrays.asList("common"),
-                Arrays.asList("signature", specificKind, customKind),
+                Arrays.asList("signature", specificKind, customKind, collectionKind, mapKind),
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
@@ -84,6 +97,18 @@ public class ClassProcessorTest {
                 task,
                 new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), customKind, new ClassSerializationResult()),
                 customKind,
+                new WrongResult()
+        );
+        new ContextHandlerWrapper(
+                task,
+                new ClassContainerTaskHandler(collectionTypeChecker, collectionKind, new ClassSerializationResult()),
+                collectionKind,
+                new WrongResult()
+        );
+        new ContextHandlerWrapper(
+                task,
+                new ClassContainerTaskHandler(mapTypeChecker, mapKind, new ClassSerializationResult()),
+                mapKind,
                 new WrongResult()
         );
 

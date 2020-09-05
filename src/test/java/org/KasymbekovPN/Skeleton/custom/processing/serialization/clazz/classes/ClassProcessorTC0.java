@@ -4,6 +4,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classe
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 
+import java.util.Map;
+import java.util.Set;
+
 @SkeletonClass(name = "ClassProcessorTC0")
 public class ClassProcessorTC0 {
 
@@ -18,4 +21,10 @@ public class ClassProcessorTC0 {
 
     @SkeletonMember(name = "InnerClassProcessorTC0")
     private InnerInstanceProcessorTC0 innerInstanceProcessorTC0;
+
+    @SkeletonMember
+    private Set<Integer> intSet;
+
+    @SkeletonMember
+    private Map<Integer, Integer> intMap;
 }

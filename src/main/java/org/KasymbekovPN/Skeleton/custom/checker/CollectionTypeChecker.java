@@ -7,13 +7,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
 
-public class CollectionInstanceChecker implements SimpleChecker<Field> {
+public class CollectionTypeChecker implements SimpleChecker<Field> {
 
     private final Set<Class<?>> types;
     private final Set<Class<?>> arguments;
 
-    public CollectionInstanceChecker(Set<Class<?>> types,
-                                     Set<Class<?>> arguments) {
+    public CollectionTypeChecker(Set<Class<?>> types,
+                                 Set<Class<?>> arguments) {
         this.types = types;
         this.arguments = arguments;
     }
