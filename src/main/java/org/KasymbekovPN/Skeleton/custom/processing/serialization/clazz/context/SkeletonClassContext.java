@@ -20,11 +20,12 @@ public class SkeletonClassContext implements ClassContext {
     private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
     private final List<String> classPartPath;
     private final List<String> membersPartPath;
-    private final Class<?> clazz;
     private final Collector collector;
-    private final Set<Field> fields;
     private final ClassHeaderPartHandler classHeaderPartHandler;
     private final ClassMembersPartHandler classMembersPartHandler;
+
+    private Class<?> clazz;
+    private Set<Field> fields;
 
     public SkeletonClassContext(List<String> taskIds,
                                 List<String> wrapperIds,
@@ -40,11 +41,11 @@ public class SkeletonClassContext implements ClassContext {
         this.annotationExtractor = annotationExtractor;
         this.classPartPath = classPartPath;
         this.membersPartPath = membersPartPath;
-        this.clazz = clazz;
         this.collector = collector;
-        this.fields = new HashSet<>(Arrays.asList(clazz.getDeclaredFields()));
         this.classHeaderPartHandler = classHeaderPartHandler;
         this.classMembersPartHandler = classMembersPartHandler;
+
+        this.clazz = clazz;
     }
 
     @Override
@@ -103,5 +104,19 @@ public class SkeletonClassContext implements ClassContext {
     @Override
     public ClassMembersPartHandler getClassMembersPartHandler() {
         return classMembersPartHandler;
+    }
+
+    @Override
+    public Class<?> attachClass(Class<?> clazz) {
+        Class<?> oldClazz = this.clazz;
+        this.clazz = clazz;
+        fillFields();
+        return oldClazz;
+    }
+
+    private void fillFields(){
+        fields = clazz != null
+                ? new HashSet<>(Arrays.asList(clazz.getDeclaredFields()))
+                : new HashSet<>();
     }
 }

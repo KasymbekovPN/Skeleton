@@ -6,14 +6,15 @@ import org.KasymbekovPN.Skeleton.lib.node.*;
 
 public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHandler {
 
-    private final InstanceContext instanceContext;
-
-    public SkeletonInstanceMembersPartHandler(InstanceContext instanceContext) {
-        this.instanceContext = instanceContext;
-    }
+    //<
+//    private final InstanceContext instanceContext;
+//
+//    public SkeletonInstanceMembersPartHandler(InstanceContext instanceContext) {
+//        this.instanceContext = instanceContext;
+//    }
 
     @Override
-    public void set(ObjectNode objectNode, String property, Object value) {
+    public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){
@@ -46,7 +47,7 @@ public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHa
     }
 
     @Override
-    public void set(ArrayNode arrayNode, Object value) {
+    public void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){

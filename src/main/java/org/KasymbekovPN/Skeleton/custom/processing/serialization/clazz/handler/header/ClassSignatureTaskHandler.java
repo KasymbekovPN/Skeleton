@@ -29,6 +29,8 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
     public ClassSignatureTaskHandler(ClassHeaderPartHandler classHeaderPartHandler,
                                      Result result) {
         super(result);
+
+        //< !!! take from context
         this.classHeaderPartHandler = classHeaderPartHandler;
     }
 

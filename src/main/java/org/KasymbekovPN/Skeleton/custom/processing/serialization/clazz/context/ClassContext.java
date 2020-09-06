@@ -22,4 +22,5 @@ public interface ClassContext extends Context {
     Set<Field> getRemainingFields();
     ClassHeaderPartHandler getClassHeaderPartHandler();
     ClassMembersPartHandler getClassMembersPartHandler();
+    Class<?> attachClass(Class<?> clazz);
 }

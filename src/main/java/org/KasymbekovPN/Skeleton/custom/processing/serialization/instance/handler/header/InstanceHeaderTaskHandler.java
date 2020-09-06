@@ -6,58 +6,66 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseConte
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
-import org.apache.commons.lang3.tuple.Triple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class InstanceHeaderTaskHandler extends BaseContextTaskHandler {
 
-    private static final String NODE_CONTENT_IS_INVALID = "Node content is invalid";
-
-    private final ClassHeaderPartHandler classHeaderPartHandler;
-    private final CollectorPath collectorPath;
+    private final static Logger log = LoggerFactory.getLogger(InstanceHeaderTaskHandler.class);
 
     private String name;
     private int modifiers;
 
-    public InstanceHeaderTaskHandler(ClassHeaderPartHandler classHeaderPartHandler,
-                                     CollectorPath collectorPath,
-                                     Result result) {
+    public InstanceHeaderTaskHandler(Result result) {
         super(result);
-        this.classHeaderPartHandler = classHeaderPartHandler;
-        this.collectorPath = collectorPath;
     }
 
     @Override
     protected void check(Context context, Task<Context> task) {
         InstanceContext instanceContext = (InstanceContext) context;
-        Triple<Boolean, String, ObjectNode> classPartResult = instanceContext.getClassPart();
-        success = classPartResult.getLeft();
-        status = classPartResult.getMiddle();
-        ObjectNode classNode = classPartResult.getRight();
-        if (success){
-            Optional<String> maybeName = classHeaderPartHandler.getName(classNode);
-            Optional<Number> maybeModifiers = classHeaderPartHandler.getModifiers(classNode);
-            if (maybeName.isPresent() && maybeModifiers.isPresent()){
-                name = maybeName.get();
-                modifiers = (int) maybeModifiers.get();
+        if (instanceContext.isValid()){
+            ObjectNode classNode = instanceContext.getClassNode();
+            CollectorPath classPartPath = instanceContext.getClassPartPath();
+            ClassHeaderPartHandler classHeaderPartHandler = instanceContext.getClassHeaderPartHandler();
+
+            Optional<Node> maybeClassPart = classNode.getChild(classPartPath);
+            if (maybeClassPart.isPresent()){
+                ObjectNode classPart = (ObjectNode) maybeClassPart.get();
+
+                Optional<String> maybeName = classHeaderPartHandler.getName(classPart);
+                Optional<Number> maybeModifiers = classHeaderPartHandler.getModifiers(classPart);
+                if (maybeName.isPresent() && maybeModifiers.isPresent()){
+                    name = maybeName.get();
+                    modifiers = (int) maybeModifiers.get();
+                } else {
+                    log.error("The class part doesn't contain 'name' and/or 'modifiers'");
+                    success = false;
+                }
             } else {
+                log.error("The class part isn't exist");
                 success = false;
-                status = NODE_CONTENT_IS_INVALID;
             }
+        } else {
+            log.error("The context isn't valid");
+            success = false;
         }
     }
 
     @Override
     protected void fillCollector(Context context) {
         InstanceContext instanceContext = (InstanceContext) context;
+        CollectorPath classPartPath = instanceContext.getClassPartPath();
+        ClassHeaderPartHandler classHeaderPartHandler = instanceContext.getClassHeaderPartHandler();
         Collector collector = instanceContext.getCollector();
-        ObjectNode targetNode = (ObjectNode) collector.setTarget(collectorPath.getPath());
-        classHeaderPartHandler.setName(targetNode, name);
-        classHeaderPartHandler.setModifiers(targetNode, modifiers);
+        ObjectNode target = (ObjectNode) collector.setTarget(classPartPath.getPath());
+        classHeaderPartHandler.setName(target, name);
+        classHeaderPartHandler.setModifiers(target, modifiers);
         collector.reset();
     }
 }
