@@ -18,6 +18,7 @@ public class ContextTask implements Task<Context> {
     private final AggregateResult taskResult;
 
     private Result wrongResult;
+    private String id;
 
     public ContextTask(AggregateResult taskResult, Result wrongResult) {
         this.taskResult = taskResult;

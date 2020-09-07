@@ -11,7 +11,10 @@ public interface Processor<T> {
     Task<T> add(String taskId, Task<T> task);
     Optional<Task<T>> get(String taskId);
     Optional<Task<T>> remove(String taskId);
+
+    //< del
     AggregateResult handle(T object, Filter<String> taskIdFilter);
+
     AggregateResult handle(T object);
     AggregateResult getResult();
 
