@@ -1,13 +1,14 @@
 package org.KasymbekovPN.Skeleton.custom.processing.node.processor;
 
-import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
-import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
+import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class NodeProcessor implements Processor<Node> {
 
@@ -37,16 +38,17 @@ public class NodeProcessor implements Processor<Node> {
                 : Optional.empty();
     }
 
-    @Override
-    public AggregateResult handle(Node object, Filter<String> taskIdFilter) {
-        Deque<String> filterKeys = taskIdFilter.filter(new ArrayDeque<>(tasks.keySet()));
-        for (String filterKey : filterKeys) {
-            Result taskResult = (Result) tasks.get(filterKey).handle(object);
-            processorResult.put(filterKey, taskResult);
-        }
-
-        return processorResult;
-    }
+    //<
+//    @Override
+//    public AggregateResult handle(Node object, Filter<String> taskIdFilter) {
+//        Deque<String> filterKeys = taskIdFilter.filter(new ArrayDeque<>(tasks.keySet()));
+//        for (String filterKey : filterKeys) {
+//            Result taskResult = (Result) tasks.get(filterKey).handle(object);
+//            processorResult.put(filterKey, taskResult);
+//        }
+//
+//        return processorResult;
+//    }
 
     @Override
     public AggregateResult handle(Node object) {

@@ -13,6 +13,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
@@ -93,9 +94,13 @@ public class InstanceProcessorTest {
 
         SkeletonCollector collector = new SkeletonCollector();
 
+        SkeletonContextIds contextIds = new SkeletonContextIds();
+        contextIds.addIds(
+                TASK_COMMON,
+                KIND_SIGNATURE, KIND_SPECIFIC, KIND_CUSTOM, KIND_COLLECTION, KIND_MAP
+        );
         SkeletonClassContext context = new SkeletonClassContext(
-                Arrays.asList(TASK_COMMON),
-                Arrays.asList(KIND_SIGNATURE, KIND_SPECIFIC, KIND_CUSTOM, KIND_COLLECTION, KIND_MAP),
+                contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
@@ -171,9 +176,13 @@ public class InstanceProcessorTest {
 
         InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
 
+        SkeletonContextIds contextIds = new SkeletonContextIds();
+        contextIds.addIds(
+                TASK_COMMON,
+                KIND_HEADER, KIND_SPECIFIC, KIND_CUSTOM, KIND_COLLECTION, KIND_MAP
+        );
         SkeletonInstanceContext instanceContext = new SkeletonInstanceContext(
-                Arrays.asList(TASK_COMMON),
-                Arrays.asList(KIND_HEADER, KIND_SPECIFIC, KIND_CUSTOM, KIND_COLLECTION, KIND_MAP),
+                contextIds,
                 classNodes,
                 new SkeletonCollector(),
                 processor,

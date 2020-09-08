@@ -9,6 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
@@ -29,6 +30,13 @@ import java.util.*;
 
 public class ClassProcessorTest {
 
+    private static final String TASK_COMMON = "common";
+    private static final String KIND_SIGNATURE = "signature";
+    private static final String KIND_CUSTOM = "custom";
+    private static final String KIND_SPECIFIC = "specific";
+    private static final String KIND_COLLECTION = "collection";
+    private static final String KIND_MAP = "map";
+
     private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
             "type",
             "name",
@@ -42,11 +50,6 @@ public class ClassProcessorTest {
             "modifiers",
             "arguments"
     );
-
-    private String customKind = "custom";
-    private String specificKind = "specific";
-    private String collectionKind = "collection";
-    private String mapKind = "map";
 
     @Test
     void test(){
@@ -62,9 +65,18 @@ public class ClassProcessorTest {
 
         SkeletonCollector collector = new SkeletonCollector();
 
+        SkeletonContextIds skeletonContextIds = new SkeletonContextIds();
+        skeletonContextIds.addIds(
+                TASK_COMMON,
+                KIND_SIGNATURE,
+                KIND_SPECIFIC,
+                KIND_CUSTOM,
+                KIND_COLLECTION,
+                KIND_MAP
+        );
+
         SkeletonClassContext context = new SkeletonClassContext(
-                Arrays.asList("common"),
-                Arrays.asList("signature", specificKind, customKind, collectionKind, mapKind),
+                skeletonContextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
@@ -84,31 +96,31 @@ public class ClassProcessorTest {
         new ContextHandlerWrapper(
                 task,
                 new ClassSignatureTaskHandler(classHeaderPartHandler, new ClassSerializationResult()),
-                "signature",
+                KIND_SIGNATURE,
                 new WrongResult()
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), specificKind, new ClassSerializationResult()),
-                "specific",
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new ClassSerializationResult()),
+                KIND_SPECIFIC,
                 new WrongResult()
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), customKind, new ClassSerializationResult()),
-                customKind,
+                new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), KIND_CUSTOM, new ClassSerializationResult()),
+                KIND_CUSTOM,
                 new WrongResult()
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, collectionKind, new ClassSerializationResult()),
-                collectionKind,
+                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new ClassSerializationResult()),
+                KIND_COLLECTION,
                 new WrongResult()
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, mapKind, new ClassSerializationResult()),
-                mapKind,
+                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new ClassSerializationResult()),
+                KIND_MAP,
                 new WrongResult()
         );
 

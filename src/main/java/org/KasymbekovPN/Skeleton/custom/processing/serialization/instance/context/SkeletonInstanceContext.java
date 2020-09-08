@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
@@ -23,8 +24,7 @@ public class SkeletonInstanceContext implements InstanceContext {
 
     private final Logger log = LoggerFactory.getLogger(SkeletonInstanceContext.class);
 
-    private final List<String> taskIds;
-    private final List<String> wrapperIds;
+    private final ContextIds contextIds;
     private final Map<String, ObjectNode> classNodes;
     private final Collector collector;
     private final Processor<Context> processor;
@@ -40,8 +40,7 @@ public class SkeletonInstanceContext implements InstanceContext {
     private String className;
     private boolean valid;
 
-    public SkeletonInstanceContext(List<String> taskIds,
-                                   List<String> wrapperIds,
+    public SkeletonInstanceContext(ContextIds contextIds,
                                    Map<String, ObjectNode> classNodes,
                                    Collector collector,
                                    Processor<Context> processor,
@@ -53,8 +52,7 @@ public class SkeletonInstanceContext implements InstanceContext {
                                    InstanceMembersPartHandler instanceMembersPartHandler,
                                    Extractor<String, Annotation[]> annotationClassNameExtractor,
                                    Extractor<Set<String>, Pair<String, ObjectNode>> memberExtractor) {
-        this.taskIds = taskIds;
-        this.wrapperIds = wrapperIds;
+        this.contextIds = contextIds;
         this.classNodes = classNodes;
         this.collector = collector;
         this.processor = processor;
@@ -122,13 +120,8 @@ public class SkeletonInstanceContext implements InstanceContext {
     }
 
     @Override
-    public List<String> getTaskIds() {
-        return taskIds;
-    }
-
-    @Override
-    public List<String> getWrapperIds() {
-        return wrapperIds;
+    public ContextIds getContextIds() {
+        return contextIds;
     }
 
     @Override

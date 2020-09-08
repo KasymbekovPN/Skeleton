@@ -27,7 +27,7 @@ public class SkeletonContextIds implements ContextIds {
 
     @Override
     public Iterator<String> wrapperIterator() {
-        return null;
+        return new WrapperItr();
     }
 
     private class TaskItr implements Iterator<String>{
@@ -45,7 +45,7 @@ public class SkeletonContextIds implements ContextIds {
                 throw new NoSuchElementException();
             }
 
-            SkeletonContextIds.this.currentTaskId = SkeletonContextIds.this.taskIds.get(++cursor);
+            SkeletonContextIds.this.currentTaskId = SkeletonContextIds.this.taskIds.get(cursor++);
 
             return SkeletonContextIds.this.currentTaskId;
         }
@@ -66,7 +66,7 @@ public class SkeletonContextIds implements ContextIds {
                 throw new NoSuchElementException();
             }
 
-            return getWrapperIds().get(++cursor);
+            return getWrapperIds().get(cursor++);
         }
 
         private List<String> getWrapperIds(){

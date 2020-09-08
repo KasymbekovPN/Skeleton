@@ -7,7 +7,7 @@ import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ContextTask implements Task<Context> {
@@ -27,8 +27,9 @@ public class ContextTask implements Task<Context> {
 
     @Override
     public AggregateResult handle(Context object) {
-        List<String> wrapperIds = object.getWrapperIds();
-        for (String wrapperId : wrapperIds) {
+        Iterator<String> wrapperIterator = object.getContextIds().wrapperIterator();
+        while (wrapperIterator.hasNext()){
+            String wrapperId = wrapperIterator.next();
             taskResult.put(
                     wrapperId,
                     wrappers.containsKey(wrapperId)

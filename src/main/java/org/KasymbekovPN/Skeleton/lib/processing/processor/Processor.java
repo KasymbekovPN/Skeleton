@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.lib.processing.processor;
 
-import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 
@@ -13,7 +12,7 @@ public interface Processor<T> {
     Optional<Task<T>> remove(String taskId);
 
     //< del
-    AggregateResult handle(T object, Filter<String> taskIdFilter);
+//    AggregateResult handle(T object, Filter<String> taskIdFilter);
 
     AggregateResult handle(T object);
     AggregateResult getResult();

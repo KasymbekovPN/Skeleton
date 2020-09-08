@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
@@ -15,8 +16,7 @@ import java.util.*;
 
 public class SkeletonClassContext implements ClassContext {
 
-    private final List<String> taskIds;
-    private final List<String> wrapperIds;
+    private final ContextIds contextIds;
     private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
     private final List<String> classPartPath;
     private final List<String> membersPartPath;
@@ -27,8 +27,7 @@ public class SkeletonClassContext implements ClassContext {
     private Class<?> clazz;
     private Set<Field> fields;
 
-    public SkeletonClassContext(List<String> taskIds,
-                                List<String> wrapperIds,
+    public SkeletonClassContext(ContextIds contextIds,
                                 Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
                                 List<String> classPartPath,
                                 List<String> membersPartPath,
@@ -36,8 +35,7 @@ public class SkeletonClassContext implements ClassContext {
                                 Collector collector,
                                 ClassHeaderPartHandler classHeaderPartHandler,
                                 ClassMembersPartHandler classMembersPartHandler) {
-        this.taskIds = taskIds;
-        this.wrapperIds = wrapperIds;
+        this.contextIds = contextIds;
         this.annotationExtractor = annotationExtractor;
         this.classPartPath = classPartPath;
         this.membersPartPath = membersPartPath;
@@ -46,16 +44,12 @@ public class SkeletonClassContext implements ClassContext {
         this.classMembersPartHandler = classMembersPartHandler;
 
         this.clazz = clazz;
+        fillFields();
     }
 
     @Override
-    public List<String> getTaskIds() {
-        return taskIds;
-    }
-
-    @Override
-    public List<String> getWrapperIds() {
-        return wrapperIds;
+    public ContextIds getContextIds() {
+        return contextIds;
     }
 
     @Override

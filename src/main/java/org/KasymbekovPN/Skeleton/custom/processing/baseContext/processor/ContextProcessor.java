@@ -1,13 +1,15 @@
 package org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor;
 
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
-import org.KasymbekovPN.Skeleton.lib.filter.Filter;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
 
 public class ContextProcessor implements Processor<Context> {
 
@@ -44,30 +46,11 @@ public class ContextProcessor implements Processor<Context> {
     }
 
     @Override
-    public AggregateResult handle(Context object, Filter<String> taskIdFilter) {
-        List<String> taskIds = object.getTaskIds();
-        Deque<String> filterKeys = taskIdFilter.filter(new ArrayDeque<>(taskIds));
-        for (String filterKey : filterKeys) {
-
-            Result result;
-            if (tasks.containsKey(filterKey)){
-                result = (Result) tasks.get(filterKey).handle(object);
-            } else {
-                result = wrongResult.createNew();
-                result.setStatus(String.format(TASK_IS_NOT_EXIST, filterKey));
-            }
-
-            processorResult.put(filterKey, result);
-        }
-
-        return processorResult;
-    }
-
-    @Override
     public AggregateResult handle(Context object) {
-        List<String> taskIds = object.getTaskIds();
-        for (String taskId : taskIds) {
+        Iterator<String> taskIterator = object.getContextIds().taskIterator();
+        while (taskIterator.hasNext()){
             Result result;
+            String taskId = taskIterator.next();
             if (tasks.containsKey(taskId)){
                 result = (Result) tasks.get(taskId).handle(object);
             } else {
