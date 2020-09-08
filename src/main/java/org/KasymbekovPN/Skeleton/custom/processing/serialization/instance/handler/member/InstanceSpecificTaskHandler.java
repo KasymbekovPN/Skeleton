@@ -39,7 +39,7 @@ public class InstanceSpecificTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void fillCollector(Context context) {
+    protected void doIt(Context context) {
         InstanceContext instanceContext = (InstanceContext) context;
         InstanceMembersPartHandler instanceMembersPartHandler = instanceContext.getInstanceMembersPartHandler();
         CollectorPath membersPartPath = instanceContext.getMembersPartPath();

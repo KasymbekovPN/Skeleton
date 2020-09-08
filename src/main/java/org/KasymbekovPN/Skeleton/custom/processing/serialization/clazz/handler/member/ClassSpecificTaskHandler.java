@@ -68,7 +68,7 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void fillCollector(Context context) {
+    protected void doIt(Context context) {
         ClassContext classContext = (ClassContext) context;
 
         Collector collector = classContext.getCollector();

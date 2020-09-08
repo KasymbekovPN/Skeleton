@@ -23,7 +23,7 @@ abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
 
         check(object, task);
         if (success){
-            fillCollector(object);
+            doIt(object);
         }
         resetResult();
 
@@ -38,7 +38,7 @@ abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
     protected void check(Context context, Task<Context> task){
     }
 
-    protected void fillCollector(Context context){
+    protected void doIt(Context context){
     }
 
     protected void resetResult(){

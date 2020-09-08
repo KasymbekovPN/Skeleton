@@ -58,7 +58,7 @@ public class InstanceHeaderTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void fillCollector(Context context) {
+    protected void doIt(Context context) {
         InstanceContext instanceContext = (InstanceContext) context;
         CollectorPath classPartPath = instanceContext.getClassPartPath();
         ClassHeaderPartHandler classHeaderPartHandler = instanceContext.getClassHeaderPartHandler();

@@ -17,7 +17,7 @@ public class SerClassNodeAggregateTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void fillCollector(Context context) {
-        super.fillCollector(context);
+    protected void doIt(Context context) {
+        super.doIt(context);
     }
 }

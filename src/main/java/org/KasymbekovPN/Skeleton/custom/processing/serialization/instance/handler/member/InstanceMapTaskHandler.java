@@ -40,7 +40,7 @@ public class InstanceMapTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void fillCollector(Context context) {
+    protected void doIt(Context context) {
         InstanceContext instanceContext = (InstanceContext) context;
 
         InstanceMembersPartHandler instanceMembersPartHandler = instanceContext.getInstanceMembersPartHandler();
