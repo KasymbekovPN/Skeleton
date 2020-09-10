@@ -15,17 +15,25 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.Context
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.InnerSerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.SerTC0;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SkeletonSerClassNodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeAggregateTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeCheckingTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.SerClassNodeAggregateTaskHandlerResult;
+import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.SerClassNodeCheckingTaskHandlerResult;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.clazz.ClassSerializationResult;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
 import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.InstanceTaskResult;
 import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +48,9 @@ public class SerClassNodeTest {
     private static final String KIND_COLLECTION = "collection";
     private static final String KIND_MAP = "map";
 
+    private static final String WRAPPER_AGGR = "aggr";
+    private static final String WRAPPER_CHECK = "check";
+
     private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
             "type",
             "name",
@@ -52,6 +63,11 @@ public class SerClassNodeTest {
             "className",
             "modifiers",
             "arguments"
+    );
+
+    private final static CollectorPath membersPartCollectorPath = new SkeletonCollectorPath(
+            Arrays.asList("members"),
+            ObjectNode.ei()
     );
 
     @Test
@@ -72,6 +88,11 @@ public class SerClassNodeTest {
         //<
         System.out.println(classNodes);
         //<
+
+        SerClassNodeContext serClassNodeContext = createSerClassNodeContext(classNodes);
+        ContextProcessor serClassNodeProcessor = createSerClassNodeProcessor();
+
+        serClassNodeProcessor.handle(serClassNodeContext);
     }
 
     private ContextProcessor createSerProcessor(){
@@ -149,5 +170,41 @@ public class SerClassNodeTest {
                 classHeaderPartHandler,
                 classMembersPartHandler
         );
+    }
+
+    private SerClassNodeContext createSerClassNodeContext(Map<String, ObjectNode> classNodes){
+        SkeletonContextIds contextIds = new SkeletonContextIds();
+        contextIds.addIds(TASK_COMMON, WRAPPER_AGGR, WRAPPER_CHECK);
+        return new SkeletonSerClassNodeContext(
+                contextIds,
+                new AllowedStringChecker("int", "float", "java.util.Set", "java.util.Map"),
+                classNodes,
+                membersPartCollectorPath,
+                classMembersPartHandler
+        );
+    }
+
+    private ContextProcessor createSerClassNodeProcessor(){
+        ContextProcessor processor
+                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+
+        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+
+        processor.add(TASK_COMMON, task);
+
+        new ContextHandlerWrapper(
+                task,
+                new SerClassNodeAggregateTaskHandler(new SerClassNodeAggregateTaskHandlerResult()),
+                WRAPPER_AGGR,
+                new WrongResult()
+        );
+        new ContextHandlerWrapper(
+                task,
+                new SerClassNodeCheckingTaskHandler(new SerClassNodeCheckingTaskHandlerResult()),
+                WRAPPER_CHECK,
+                new WrongResult()
+        );
+
+        return processor;
     }
 }

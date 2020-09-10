@@ -84,7 +84,7 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler {
             ObjectNode targetNode = (ObjectNode) collector.setTarget(path);
             classMembersPartHandler.setKind(targetNode, kind);
             classMembersPartHandler.setType(targetNode, type);
-            classMembersPartHandler.setClassName(targetNode, name);
+            classMembersPartHandler.setClassName(targetNode, type);
             classMembersPartHandler.setModifiers(targetNode, modifiers);
             collector.reset();
 
