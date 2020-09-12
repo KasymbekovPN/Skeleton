@@ -17,6 +17,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
+//< del !!!
 public class NodeTypeChecker implements TaskHandler<Node> {
 
     private final SimpleChecker<String> systemTypeChecker;

@@ -15,9 +15,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.node.handler.NodeProcessHandl
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.ClassPartExistingChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.checking.NodeTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.node.handler.extracting.NodeClassNameExtractor;
-import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonArrayTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonObjectTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonPrimitiveTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonArrayTaskHandlerOLd;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonObjectTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.node.handler.writing.JsonPrimitiveTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.node.processor.NodeProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.node.task.NodeTask;
 import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.ClassPartExistingCheckerResult;
@@ -205,31 +205,31 @@ public class SkeletonSerializerGroupTest {
         NodeTask nodeTask = new NodeTask(new NodeTaskResult(new WrongResult()), new WrongResult());
         new NodeProcessHandlerWrapper(
                 nodeTask,
-                new JsonArrayTaskHandler(wfh, new WritingResult()),
+                new JsonArrayTaskHandlerOLd(wfh, new WritingResult()),
                 ArrayNode.ei(),
                 new WrongResult()
         );
         new NodeProcessHandlerWrapper(
                 nodeTask,
-                new JsonPrimitiveTaskHandler(wfh, new WritingResult()),
+                new JsonPrimitiveTaskHandlerOld(wfh, new WritingResult()),
                 BooleanNode.ei(),
                 new WrongResult()
         );
         new NodeProcessHandlerWrapper(
                 nodeTask,
-                new JsonPrimitiveTaskHandler(wfh, new WritingResult()),
+                new JsonPrimitiveTaskHandlerOld(wfh, new WritingResult()),
                 CharacterNode.ei(),
                 new WrongResult()
         );
         new NodeProcessHandlerWrapper(
                 nodeTask,
-                new JsonPrimitiveTaskHandler(wfh, new WritingResult()),
+                new JsonPrimitiveTaskHandlerOld(wfh, new WritingResult()),
                 NumberNode.ei(),
                 new WrongResult()
         );
         new NodeProcessHandlerWrapper(
                 nodeTask,
-                new JsonObjectTaskHandler(
+                new JsonObjectTaskHandlerOld(
                         wfh,
                         new IgnoreStringFilter(SERVICE),
                         new WritingResult()
@@ -239,7 +239,7 @@ public class SkeletonSerializerGroupTest {
         );
         new NodeProcessHandlerWrapper(
                 nodeTask,
-                new JsonPrimitiveTaskHandler(wfh, new WritingResult()),
+                new JsonPrimitiveTaskHandlerOld(wfh, new WritingResult()),
                 StringNode.ei(),
                 new WrongResult()
         );

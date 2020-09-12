@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.baseContext.context;
 
 import java.util.*;
 
-public class SkeletonContextIds implements ContextIds {
+public class SkeletonContextIds implements MutableContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
     private final Map<Integer, List<String>> wrapperIds = new HashMap<>();

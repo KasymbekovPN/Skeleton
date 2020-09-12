@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//< !!! del
 public class ClassPartExistingChecker implements TaskHandler<Node> {
 
     public static final String TASK_NAME = "classExist";

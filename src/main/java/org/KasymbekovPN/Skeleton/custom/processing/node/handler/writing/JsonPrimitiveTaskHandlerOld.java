@@ -6,14 +6,14 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-public class JsonPrimitiveTaskHandler implements TaskHandler<Node> {
+public class JsonPrimitiveTaskHandlerOld implements TaskHandler<Node> {
 
     private final WritingFormatterHandler writingFormatterHandler;
 
     private Result result;
 
-    public JsonPrimitiveTaskHandler(WritingFormatterHandler writingFormatterHandler,
-                                    Result result) {
+    public JsonPrimitiveTaskHandlerOld(WritingFormatterHandler writingFormatterHandler,
+                                       Result result) {
         this.writingFormatterHandler = writingFormatterHandler;
         this.result = result;
     }

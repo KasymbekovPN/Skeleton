@@ -10,16 +10,16 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 import java.util.*;
 
-public class JsonObjectTaskHandler implements TaskHandler<Node> {
+public class JsonObjectTaskHandlerOld implements TaskHandler<Node> {
 
     private final WritingFormatterHandler writingFormatterHandler;
     private final Filter<String> propertyNameFilter;
 
     private Result result;
 
-    public JsonObjectTaskHandler(WritingFormatterHandler writingFormatterHandler,
-                                 Filter<String> propertyNameFilter,
-                                 Result result) {
+    public JsonObjectTaskHandlerOld(WritingFormatterHandler writingFormatterHandler,
+                                    Filter<String> propertyNameFilter,
+                                    Result result) {
         this.writingFormatterHandler = writingFormatterHandler;
         this.propertyNameFilter = propertyNameFilter;
         this.result = result;

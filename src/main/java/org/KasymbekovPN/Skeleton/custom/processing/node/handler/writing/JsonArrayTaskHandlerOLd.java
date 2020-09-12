@@ -10,14 +10,14 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 import java.util.Iterator;
 import java.util.List;
 
-public class JsonArrayTaskHandler implements TaskHandler<Node> {
+public class JsonArrayTaskHandlerOLd implements TaskHandler<Node> {
 
     private final WritingFormatterHandler writingFormatterHandler;
 
     private Result result;
 
-    public JsonArrayTaskHandler(WritingFormatterHandler writingFormatterHandler,
-                                Result result) {
+    public JsonArrayTaskHandlerOLd(WritingFormatterHandler writingFormatterHandler,
+                                   Result result) {
         this.writingFormatterHandler = writingFormatterHandler;
         this.result = result;
     }
