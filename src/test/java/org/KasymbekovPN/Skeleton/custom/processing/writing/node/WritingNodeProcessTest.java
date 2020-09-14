@@ -17,6 +17,7 @@ import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.Insta
 import org.KasymbekovPN.Skeleton.custom.result.writing.node.WritingObjectTaskHandlerResult;
 import org.KasymbekovPN.Skeleton.custom.result.writing.node.WritingPrimitiveTaskHandlerResult;
 import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
+import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.junit.jupiter.api.Test;
@@ -29,16 +30,54 @@ public class WritingNodeProcessTest {
     private static final String WRAPPER_PRIMITIVE = "primitive";
 
     @Test
-    void test(){
+    void test() throws Exception {
+        Node node = createNode();
+        WritingFormatterHandler wfh = createWFH();
+        ContextProcessor processor = createContextProcessor();
+        WritingContext context = createContext(node, wfh, processor);
 
+        processor.handle(context);
+
+        //<
+        System.out.println(wfh.getDecoder().getString());
+        //<
     }
 
-    private WritingContext createContext(Node node, WritingFormatterHandler writingFormatterHandler){
+    private Node createNode(){
+        SkeletonCollector collector = new SkeletonCollector();
+
+        collector.addProperty("numberValue", 12.34);
+        collector.addProperty("stringValue", "hello");
+        collector.addProperty("booleanValue", true);
+        collector.addProperty("charValue", 'x');
+
+        collector.beginObject("objectValue");
+        collector.addProperty("innerInt", 12);
+        collector.end();
+
+        collector.beginArray("array");
+        collector.beginObject();
+        collector.addProperty("x", 123);
+        collector.end();
+        collector.addProperty( "world");
+        collector.addProperty(12);
+        collector.addProperty(false);
+        collector.addProperty('c');
+        collector.end();
+
+        collector.reset();
+        return collector.getNode();
+    }
+
+    private WritingContext createContext(Node node,
+                                         WritingFormatterHandler writingFormatterHandler,
+                                         ContextProcessor contextProcessor){
         return new SkeletonWritingContext(
                 new NodeWritingContextIds(TASK_COMMON, WRAPPER_ARRAY),
                 new NodeWritingContextIds(TASK_COMMON, WRAPPER_OBJECT),
                 new NodeWritingContextIds(TASK_COMMON, WRAPPER_PRIMITIVE),
                 writingFormatterHandler,
+                contextProcessor,
                 node
         );
     }

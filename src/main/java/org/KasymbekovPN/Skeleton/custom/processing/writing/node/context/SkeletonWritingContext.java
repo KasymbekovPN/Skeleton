@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.context;
 
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -12,6 +13,7 @@ public class SkeletonWritingContext implements WritingContext {
     private final ContextIds objectNodeContextIds;
     private final ContextIds primitiveNodeContextIds;
     private final WritingFormatterHandler writingFormatterHandler;
+    private final ContextProcessor contextProcessor;
 
     private Node node;
 
@@ -19,11 +21,13 @@ public class SkeletonWritingContext implements WritingContext {
                                   ContextIds objectNodeContextIds,
                                   ContextIds primitiveNodeContextIds,
                                   WritingFormatterHandler writingFormatterHandler,
+                                  ContextProcessor contextProcessor,
                                   Node node) {
         this.arrayNodeContextIds = arrayNodeContextIds;
         this.objectNodeContextIds = objectNodeContextIds;
         this.primitiveNodeContextIds = primitiveNodeContextIds;
         this.writingFormatterHandler = writingFormatterHandler;
+        this.contextProcessor = contextProcessor;
         this.node = node;
     }
 
@@ -53,5 +57,10 @@ public class SkeletonWritingContext implements WritingContext {
     @Override
     public WritingFormatterHandler getWritingFormatterHandler() {
         return writingFormatterHandler;
+    }
+
+    @Override
+    public void runProcessor() {
+        contextProcessor.handle(this);
     }
 }

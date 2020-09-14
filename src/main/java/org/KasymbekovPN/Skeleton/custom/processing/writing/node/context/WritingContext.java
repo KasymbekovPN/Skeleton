@@ -8,4 +8,5 @@ public interface WritingContext extends Context {
     Node getNode();
     Node attachNode(Node node);
     WritingFormatterHandler getWritingFormatterHandler();
+    void runProcessor();
 }
