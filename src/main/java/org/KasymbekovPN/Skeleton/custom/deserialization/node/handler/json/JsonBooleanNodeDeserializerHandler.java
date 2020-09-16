@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializ
 import java.util.HashSet;
 import java.util.Set;
 
+//< !!! del
 public class JsonBooleanNodeDeserializerHandler extends JsonBaseNodeDeserializerHandler {
 
     private static final Set<Character> VALUE_END_TRIGGERS = new HashSet<>(){{

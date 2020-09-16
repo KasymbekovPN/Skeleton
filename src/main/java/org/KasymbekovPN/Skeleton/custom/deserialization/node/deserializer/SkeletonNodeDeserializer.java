@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializ
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//< !!! del
 public class SkeletonNodeDeserializer implements NodeDeserializer {
 
     static private final Logger log = LoggerFactory.getLogger(SkeletonNodeDeserializer.class);

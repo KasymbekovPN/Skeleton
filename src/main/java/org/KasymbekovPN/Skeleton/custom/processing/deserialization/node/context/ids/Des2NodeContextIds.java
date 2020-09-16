@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context;
+package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.ids;
 
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
 

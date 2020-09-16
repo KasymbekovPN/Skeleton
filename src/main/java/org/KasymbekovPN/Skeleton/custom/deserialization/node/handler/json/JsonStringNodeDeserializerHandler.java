@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.deserialization.node.deserializer.NodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializerHandler;
 
+//< !!! del
 public class JsonStringNodeDeserializerHandler extends JsonBaseNodeDeserializerHandler {
 
     private static final Character SHIELD = '\\';

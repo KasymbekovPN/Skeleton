@@ -7,6 +7,7 @@ import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializ
 
 import java.util.Optional;
 
+//< !!! del
 public class JsonObjectNodeDeserializerHandler extends JsonBaseNodeDeserializerHandler {
 
     private static final Character NAME_BEGIN_TRIGGER = '"';

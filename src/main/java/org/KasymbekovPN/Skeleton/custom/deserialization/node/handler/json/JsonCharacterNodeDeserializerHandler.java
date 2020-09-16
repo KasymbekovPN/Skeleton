@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.deserialization.node.deserializer.NodeSerializedDataWrapper;
 import org.KasymbekovPN.Skeleton.lib.deserialization.node.handler.NodeDeserializerHandler;
 
+//< !!! del
 public class JsonCharacterNodeDeserializerHandler extends JsonBaseNodeDeserializerHandler {
 
     private static final Character CHARACTER_BEGIN_TRIGGER = '\'';

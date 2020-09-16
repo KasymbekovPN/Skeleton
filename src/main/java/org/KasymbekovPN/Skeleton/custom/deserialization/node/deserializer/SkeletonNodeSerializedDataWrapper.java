@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+//< !!! del
 public class SkeletonNodeSerializedDataWrapper implements NodeSerializedDataWrapper {
 
     private static final Logger log = LoggerFactory.getLogger(SkeletonNodeSerializedDataWrapper.class);
