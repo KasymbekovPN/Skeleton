@@ -20,9 +20,6 @@ public class Des2NodeInitTaskHandler extends BaseContextTaskHandler {
 
     @Override
     protected void doIt(Context context) {
-        //<
-        System.out.println("init b");
-        //<
         Des2NodeContext ctx = (Des2NodeContext) context;
 
         Finder finder = ctx.getFinder();
@@ -38,9 +35,5 @@ public class Des2NodeInitTaskHandler extends BaseContextTaskHandler {
             ctx.setMode(mode);
             ctx.runProcessor();
         }
-
-        //<
-        System.out.println("init e");
-        //<
     }
 }

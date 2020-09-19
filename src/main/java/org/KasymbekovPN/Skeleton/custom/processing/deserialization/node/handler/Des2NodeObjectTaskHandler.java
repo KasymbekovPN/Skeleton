@@ -22,12 +22,9 @@ public class Des2NodeObjectTaskHandler extends BaseContextTaskHandler {
 
     @Override
     protected void doIt(Context context) {
-
-        //<
-        System.out.println("object b");
-
         Des2NodeContext ctx = (Des2NodeContext) context;
 
+        boolean done = false;
         StringBuilder name = new StringBuilder();
         State state = State.NAME_BEGIN_FINDING;
         Des2NodeCharItr iterator = ctx.iterator();
@@ -37,7 +34,7 @@ public class Des2NodeObjectTaskHandler extends BaseContextTaskHandler {
         ObjectNode objectNode = new ObjectNode(parent);
         ctx.setParent(objectNode);
 
-        while (iterator.hasNext()){
+        while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
             switch (state){
@@ -45,6 +42,8 @@ public class Des2NodeObjectTaskHandler extends BaseContextTaskHandler {
                     if (finder.findPropertyNameBegin(next)){
                         state = State.NAME_END_FINDING;
                         name.setLength(0);
+                    } else if (finder.findValueEnd(next, Des2NodeMode.OBJECT)){
+                        done = true;
                     }
                     break;
                 case NAME_END_FINDING:
@@ -69,10 +68,6 @@ public class Des2NodeObjectTaskHandler extends BaseContextTaskHandler {
 
         ctx.setParent(parent);
         ctx.setNode(objectNode);
-        //<
-        System.out.println(objectNode);
-        System.out.println("object end");
-        //<
     }
 
     private enum State{

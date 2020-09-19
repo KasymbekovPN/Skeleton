@@ -40,12 +40,13 @@ public class Des2Node {
         ContextProcessor processor = createProcessor();
         Des2NodeContext context = createContext(line, processor);
 
-
         processor.handle(context);
+
+        System.out.println(context.getNode());
     }
 
     private String getLine(){
-        return "  {\"intValue\":123}";
+        return "  { \"shield\" : \"xx \\\"lll\\\" xx\"  \"obj\" : { \"innerInt\" : 65, \"innerBool\" : false},  \"intValue\":123, \"doubleValue\" : 456.7, \"boolValue\" : true, \"charValue\" : 'x', \"strValue\" : \"hello!!!\", \"arr\" : [{\"yyy\" : 't'},123,567]}";
     }
 
     private Des2NodeContext createContext(String line, ContextProcessor processor){
@@ -72,12 +73,21 @@ public class Des2Node {
         }};
 
         EnumMap<Des2NodeMode, SimpleChecker<Character>> valueBeginCheckers = new EnumMap<>(Des2NodeMode.class) {{
-            put(Des2NodeMode.NUMBER, new NumberCharacterChecker());
+            put(Des2NodeMode.ARRAY, new AllowedCharacterChecker('[', ','));
+            put(Des2NodeMode.CHARACTER, new AllowedCharacterChecker('\''));
+            put(Des2NodeMode.STRING, new AllowedCharacterChecker('"'));
         }};
 
         EnumMap<Des2NodeMode, SimpleChecker<Character>> valueEndCheckers = new EnumMap<>(Des2NodeMode.class) {{
             put(Des2NodeMode.NUMBER, new AllowedCharacterChecker(',', ']', '}'));
+            put(Des2NodeMode.BOOLEAN, new AllowedCharacterChecker(',', ']', '}'));
+            put(Des2NodeMode.CHARACTER, new AllowedCharacterChecker('\''));
+            put(Des2NodeMode.STRING, new AllowedCharacterChecker('"'));
+            put(Des2NodeMode.ARRAY, new AllowedCharacterChecker(']'));
+            put(Des2NodeMode.OBJECT, new AllowedCharacterChecker('}'));
         }};
+
+
 
         JsonFinder finder = new JsonFinder(
                 checkers,

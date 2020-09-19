@@ -22,10 +22,6 @@ public class Des2NodeNumberTaskHandler extends BaseContextTaskHandler {
 
     @Override
     protected void doIt(Context context) {
-        //<
-        System.out.println("number b");
-        //<
-
         Des2NodeContext cxt = (Des2NodeContext) context;
 
         Finder finder = cxt.getFinder();
@@ -33,39 +29,19 @@ public class Des2NodeNumberTaskHandler extends BaseContextTaskHandler {
         Node parent = cxt.getParent();
 
         boolean done = false;
-        StringBuilder sValue = new StringBuilder();
-        State state = State.VALUE_BEGIN_FINDING;
+        StringBuilder rawValue = new StringBuilder();
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
-            switch (state){
-                case VALUE_BEGIN_FINDING:
-                    if (finder.findValueBegin(next, Des2NodeMode.NUMBER)){
-                        state = State.VALUE_END_FINDING;
-                        sValue.append(next);
-                    }
-                    break;
-                case VALUE_END_FINDING:
-                    if (finder.findValueEnd(next, Des2NodeMode.NUMBER)){
-                        iterator.dec();
-                        done = true;
-                    } else {
-                        sValue.append(next);
-                    }
-                    break;
+            if (finder.findValueEnd(next, Des2NodeMode.NUMBER)){
+                iterator.dec();
+                done = true;
+            } else {
+                rawValue.append(next);
             }
         }
 
-        NumberNode numberNode = new NumberNode(parent, Double.valueOf(sValue.toString()));
+        NumberNode numberNode = new NumberNode(parent, Double.valueOf(rawValue.toString()));
         cxt.setNode(numberNode);
-
-        //<
-        System.out.println("number e");
-        //<
-    }
-
-    private enum State{
-        VALUE_BEGIN_FINDING,
-        VALUE_END_FINDING
     }
 }
