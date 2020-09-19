@@ -4,7 +4,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextId
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
+import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.EnumMap;
 
@@ -14,6 +16,7 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
     private final Des2NodeCharItr iterator;
     private final Finder finder;
     private final ContextProcessor processor;
+    private final Converter<Node, Triple<Node, String, Des2NodeMode>> converter;
 
     private Des2NodeMode mode = Des2NodeMode.INIT;
     private Node currentNode;
@@ -22,11 +25,13 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
     public SkeletonDes2NodeContext(EnumMap<Des2NodeMode, ContextIds> contextIds,
                                    Des2NodeCharItr iterator,
                                    Finder finder,
-                                   ContextProcessor processor) {
+                                   ContextProcessor processor,
+                                   Converter<Node, Triple<Node, String, Des2NodeMode>> converter) {
         this.contextIds = contextIds;
         this.iterator = iterator;
         this.finder = finder;
         this.processor = processor;
+        this.converter = converter;
     }
 
     @Override
@@ -74,14 +79,8 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
         return parent;
     }
 
-    //<
-//    public enum Mode {
-//        INIT,
-//        OBJECT,
-//        ARRAY,
-//        BOOLEAN,
-//        CHARACTER,
-//        NUMBER,
-//        STRING
-//    }
+    @Override
+    public Converter<Node, Triple<Node, String, Des2NodeMode>> getConverter() {
+        return converter;
+    }
 }

@@ -2,7 +2,6 @@ package org.KasymbekovPN.Skeleton.lib.node;
 
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
 import java.util.Optional;
 
@@ -13,7 +12,7 @@ import java.util.Optional;
 public interface Node {
 
     //< del
-    void apply(Task<Node> task);
+//    void apply(Task<Node> task);
 
     Node getParent();
     Node deepCopy(Node parent);

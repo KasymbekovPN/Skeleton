@@ -34,6 +34,10 @@ public class NodeEI implements EntityItem {
         return new NodeEI(Entity.STRING);
     }
 
+    public static EntityItem invalidEI() {
+        return new NodeEI(Entity.INVALID);
+    };
+
     public NodeEI() {
         this.entity = Entity.ARRAY;
     }
@@ -78,7 +82,8 @@ public class NodeEI implements EntityItem {
         CHARACTER(CharacterNode.class),
         NUMBER(NumberNode.class),
         OBJECT(ObjectNode.class),
-        STRING(StringNode.class);
+        STRING(StringNode.class),
+        INVALID(InvalidNode.class);
 
         private Class<? extends Node> clazz;
 

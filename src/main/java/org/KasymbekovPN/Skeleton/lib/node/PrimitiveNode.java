@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 
 public abstract class PrimitiveNode<T> implements Node {
 
@@ -22,10 +21,11 @@ public abstract class PrimitiveNode<T> implements Node {
         return parent;
     }
 
-    @Override
-    public void apply(Task<Node> task) {
-        task.handle(this);
-    }
+    //<
+//    @Override
+//    public void apply(Task<Node> task) {
+//        task.handle(this);
+//    }
 
     @Override
     public boolean is(EntityItem ei) {

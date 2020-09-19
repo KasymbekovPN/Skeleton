@@ -1,8 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.node;
 
-import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +50,11 @@ public class ArrayNode implements Node {
         return Optional.of(value);
     }
 
-    @Override
-    public void apply(Task<Node> task) {
-        task.handle(this);
-    }
+    //<
+//    @Override
+//    public void apply(Task<Node> task) {
+//        task.handle(this);
+//    }
 
     @Override
     public boolean is(EntityItem ei) {

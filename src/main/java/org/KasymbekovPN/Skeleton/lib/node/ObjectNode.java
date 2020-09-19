@@ -3,7 +3,6 @@ package org.KasymbekovPN.Skeleton.lib.node;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashMap;
@@ -58,10 +57,11 @@ public class ObjectNode implements Node {
         return ei();
     }
 
-    @Override
-    public void apply(Task<Node> task) {
-        task.handle(this);
-    }
+    //<
+//    @Override
+//    public void apply(Task<Node> task) {
+//        task.handle(this);
+//    }
 
     @Override
     public boolean containsKey(String key) {

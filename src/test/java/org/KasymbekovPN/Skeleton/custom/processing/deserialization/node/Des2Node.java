@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node;
 
 import org.KasymbekovPN.Skeleton.custom.checker.AllowedCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.NumberCharacterChecker;
+import org.KasymbekovPN.Skeleton.custom.converter.Str2NodeConverter;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
@@ -46,7 +47,7 @@ public class Des2Node {
     }
 
     private String getLine(){
-        return "  { \"shield\" : \"xx \\\"lll\\\" xx\"  \"obj\" : { \"innerInt\" : 65, \"innerBool\" : false},  \"intValue\":123, \"doubleValue\" : 456.7, \"boolValue\" : true, \"charValue\" : 'x', \"strValue\" : \"hello!!!\", \"arr\" : [{\"yyy\" : 't'},123,567]}";
+        return "  { \"shield\" : \"xx \\\"lll\\\" xx\"  \"obj\" : { \"innerInt\" : 65, \"innerBool\" : fa11lse},  \"intValue\":123, \"doubleValue\" : 456.7, \"boolValue\" : true, \"charValue\" : 'x', \"strValue\" : \"hello!!!\", \"arr\" : [{\"yyy\" : 't'},123,567]}";
     }
 
     private Des2NodeContext createContext(String line, ContextProcessor processor){
@@ -102,7 +103,8 @@ public class Des2Node {
                 contextIds,
                 iterator,
                 finder,
-                processor
+                processor,
+                new Str2NodeConverter()
         );
     }
 
