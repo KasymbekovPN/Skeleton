@@ -6,10 +6,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
-import org.KasymbekovPN.Skeleton.lib.node.CharacterNode;
+import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 public class Des2NodeCharacterTaskHandler extends BaseContextTaskHandler {
 
@@ -27,8 +29,9 @@ public class Des2NodeCharacterTaskHandler extends BaseContextTaskHandler {
         Finder finder = cxt.getFinder();
         Des2NodeCharItr iterator = cxt.iterator();
         Node parent = cxt.getParent();
+        Converter<Node, Triple<Node, String, Des2NodeMode>> converter = cxt.getConverter();
 
-        char ch = 0;
+        StringBuilder raw = new StringBuilder();
         boolean done = false;
         State state = State.BEGIN;
         while (iterator.hasNext() && !done){
@@ -38,13 +41,15 @@ public class Des2NodeCharacterTaskHandler extends BaseContextTaskHandler {
                 case BEGIN:
                     if (finder.findValueBegin(next, Des2NodeMode.CHARACTER)){
                         state = State.FILL;
+                        raw.append(next);
                     }
                     break;
                 case FILL:
-                    ch = next;
+                    raw.append(next);
                     state = State.END;
                     break;
                 case END:
+                    raw.append(next);
                     if (finder.findValueEnd(next, Des2NodeMode.CHARACTER)){
                         done = true;
                     }
@@ -52,8 +57,9 @@ public class Des2NodeCharacterTaskHandler extends BaseContextTaskHandler {
             }
         }
 
-        CharacterNode characterNode = new CharacterNode(parent, ch);
-        cxt.setNode(characterNode);
+        cxt.setNode(
+            converter.convert(new MutableTriple<>(parent, raw.toString(), Des2NodeMode.CHARACTER))
+        );
     }
 
     private enum State{

@@ -6,10 +6,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
+import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 public class Des2NodeStringTaskHandler extends BaseContextTaskHandler {
 
@@ -29,10 +31,11 @@ public class Des2NodeStringTaskHandler extends BaseContextTaskHandler {
         Finder finder = cxt.getFinder();
         Des2NodeCharItr iterator = cxt.iterator();
         Node parent = cxt.getParent();
+        Converter<Node, Triple<Node, String, Des2NodeMode>> converter = cxt.getConverter();
 
         boolean done = false;
         State state = State.BEGIN;
-        StringBuilder rawValue = new StringBuilder();
+        StringBuilder raw = new StringBuilder();
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
@@ -40,27 +43,27 @@ public class Des2NodeStringTaskHandler extends BaseContextTaskHandler {
                 case BEGIN:
                     if (finder.findValueBegin(next, Des2NodeMode.STRING)){
                         state = State.ADD;
+                        raw.append(next);
                     }
                     break;
                 case ADD:
                     if (finder.findValueEnd(next, Des2NodeMode.STRING)){
                         done = true;
-                    } else {
-                        if (next.equals(SHIELD)){
-                            state = State.SHIELD;
-                        }
-                        rawValue.append(next);
+                    } else if (next.equals(SHIELD)){
+                        state = State.SHIELD;
                     }
+                    raw.append(next);
                     break;
                 case SHIELD:
                     state = State.ADD;
-                    rawValue.append(next);
+                    raw.append(next);
                     break;
             }
         }
-
-        StringNode stringNode = new StringNode(parent, rawValue.toString());
-        cxt.setNode(stringNode);
+        
+        cxt.setNode(
+                converter.convert(new MutableTriple<>(parent, raw.toString(), Des2NodeMode.STRING))
+        );
     }
 
     private enum State{

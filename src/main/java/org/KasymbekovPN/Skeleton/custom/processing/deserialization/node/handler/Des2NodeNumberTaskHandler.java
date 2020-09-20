@@ -6,10 +6,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
+import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.node.NumberNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 public class Des2NodeNumberTaskHandler extends BaseContextTaskHandler {
 
@@ -27,9 +29,10 @@ public class Des2NodeNumberTaskHandler extends BaseContextTaskHandler {
         Finder finder = cxt.getFinder();
         Des2NodeCharItr iterator = cxt.iterator();
         Node parent = cxt.getParent();
+        Converter<Node, Triple<Node, String, Des2NodeMode>> converter = cxt.getConverter();
 
         boolean done = false;
-        StringBuilder rawValue = new StringBuilder();
+        StringBuilder raw = new StringBuilder();
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
@@ -37,11 +40,12 @@ public class Des2NodeNumberTaskHandler extends BaseContextTaskHandler {
                 iterator.dec();
                 done = true;
             } else {
-                rawValue.append(next);
+                raw.append(next);
             }
         }
 
-        NumberNode numberNode = new NumberNode(parent, Double.valueOf(rawValue.toString()));
-        cxt.setNode(numberNode);
+        cxt.setNode(
+                converter.convert(new MutableTriple<>(parent, raw.toString(), Des2NodeMode.NUMBER))
+        );
     }
 }

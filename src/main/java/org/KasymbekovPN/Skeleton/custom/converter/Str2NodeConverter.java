@@ -2,9 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.converter;
 
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
-import org.KasymbekovPN.Skeleton.lib.node.BooleanNode;
-import org.KasymbekovPN.Skeleton.lib.node.InvalidNode;
-import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.HashSet;
@@ -16,6 +14,9 @@ public class Str2NodeConverter implements Converter<Node, Triple<Node, String, D
         add("true");
         add("false");
     }};
+    private static final char CHAR_BORDER = '\'';
+    private static final char STRING_BORDER = '"';
+    private static final char NUMBER_SEPARATOR = '.';
 
     @Override
     public Node convert(Triple<Node, String, Des2NodeMode> value) {
@@ -50,18 +51,50 @@ public class Str2NodeConverter implements Converter<Node, Triple<Node, String, D
     }
 
     private Node handleNumber(String raw, Node parent){
-        return null;
+        int length = raw.length();
+        boolean hasInvalidCharacter = false;
+        int separatorCounter = 0;
+        for (int i = 0; i < length; i++) {
+            if (!Character.isDigit(raw.charAt(i))){
+                hasInvalidCharacter = true;
+            }
+            if (raw.charAt(i) == NUMBER_SEPARATOR){
+                separatorCounter++;
+            }
+        }
+
+        String status = "";
+        if (hasInvalidCharacter){
+            status += "has invalid character; ";
+        }
+        if (separatorCounter > 1){
+            status += "has more than one separator";
+        }
+        if (status.isEmpty()){
+            return new NumberNode(parent, Double.valueOf(raw));
+        }
+
+        return new InvalidNode(parent, status, raw);
     }
 
     private Node handleString(String raw, Node parent){
-        return null;
+        int length = raw.length();
+        if (raw.charAt(0) == STRING_BORDER && raw.charAt(length - 1) == STRING_BORDER){
+            return new StringNode(parent, raw.substring(1, length - 1));
+        }
+
+        return new InvalidNode(parent, "Value isn't string", raw);
     }
 
     private Node handleCharacter(String raw, Node parent){
-        return null;
+        if (raw.length() == 3 && raw.charAt(0) == CHAR_BORDER && raw.charAt(2) == CHAR_BORDER){
+            return new CharacterNode(parent, raw.charAt(1));
+        }
+
+        return new InvalidNode(parent, "Value isn't char", raw);
     }
 
     private Node handleInvalid(Node parent, Des2NodeMode mode){
-        return new InvalidNode(parent, "Wroong mode", mode.toString());
+        return new InvalidNode(parent, "Wrong mode", mode.toString());
     }
 }

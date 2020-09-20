@@ -44,12 +44,6 @@ public class Des2NodeBooleanTaskHandler extends BaseContextTaskHandler {
             }
         }
 
-        //<
-        System.out.println(rawValue);
-        //<
-
-
-//        BooleanNode booleanNode = new BooleanNode(parent, Boolean.valueOf(rawValue.toString()));
         cxt.setNode(
                 converter.convert(new MutableTriple<>(parent, rawValue.toString(), Des2NodeMode.BOOLEAN))
         );
