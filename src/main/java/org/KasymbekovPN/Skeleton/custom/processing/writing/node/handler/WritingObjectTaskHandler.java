@@ -23,7 +23,9 @@ public class WritingObjectTaskHandler extends BaseContextTaskHandler {
         WritingContext cxt = (WritingContext) context;
 
         if (!cxt.getNode().is(ObjectNode.ei())){
-            success = false;
+//            success = false;
+            //<
+            result.setSuccess(false);
         }
     }
 

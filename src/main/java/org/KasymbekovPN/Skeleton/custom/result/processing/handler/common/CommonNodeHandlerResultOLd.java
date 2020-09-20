@@ -3,14 +3,21 @@ package org.KasymbekovPN.Skeleton.custom.result.processing.handler.common;
 import org.KasymbekovPN.Skeleton.lib.result.BaseResultImpl;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
 
-public class CommonNodeHandlerResult extends BaseResultImpl {
+//< del
+public class CommonNodeHandlerResultOLd extends BaseResultImpl {
 
-    public CommonNodeHandlerResult() {
+    public CommonNodeHandlerResultOLd() {
         super();
     }
 
     @Override
+    public Result createInstance() {
+        return null;
+    }
+
+    //<
+    @Override
     public Result createNew() {
-        return new CommonNodeHandlerResult();
+        return new CommonNodeHandlerResultOLd();
     }
 }

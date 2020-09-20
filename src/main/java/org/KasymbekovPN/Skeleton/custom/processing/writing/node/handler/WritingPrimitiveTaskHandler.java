@@ -24,7 +24,9 @@ public class WritingPrimitiveTaskHandler extends BaseContextTaskHandler {
             !node.is(NumberNode.ei()) &&
             !node.is(StringNode.ei())) {
 
-            success = false;
+//            success = false;
+            //<
+            result.setSuccess(false);
         }
     }
 

@@ -58,7 +58,9 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
     @Override
     protected void doIt(Context context) {
         if (withoutMembersPart.size() != 0 || wrongTypeMembers.size() != 0){
-            success = false;
+//            success = false;
+            //<
+            result.setSuccess(false);
         }
     }
 

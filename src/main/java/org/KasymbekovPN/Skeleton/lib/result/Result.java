@@ -7,8 +7,13 @@ public interface Result{
     String getStatus();
     void setSuccess(boolean success);
     void setStatus(String status);
+    ResultData getResultData();
     void reset();
-    default boolean setOptionalData(String dataId, Object optionalData){return false;}
-    default Optional<Object> getOptionalData(String dataId){return Optional.empty();}
+    Result createInstance();
+
+    //< !!! del
+    boolean setOptionalData(String dataId, Object optionalData);
+    Optional<Object> getOptionalData(String dataId);
     Result createNew();
+    //<
 }

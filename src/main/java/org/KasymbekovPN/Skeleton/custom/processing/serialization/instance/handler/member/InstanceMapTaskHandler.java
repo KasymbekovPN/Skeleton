@@ -35,7 +35,9 @@ public class InstanceMapTaskHandler extends BaseContextTaskHandler {
             values = instanceContext.getValues(kind);
         } else {
             log.error("The context isn't valid");
-            success = false;
+//            success = false;
+            //<
+            result.setSuccess(false);
         }
     }
 

@@ -53,7 +53,9 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler {
                     SkeletonMember annotation = (SkeletonMember) maybeAnnotation.get();
                     String className = annotation.name();
                     if (classNameChecker.check(className)){
-                        success = true;
+//                        success = true;
+                        //< ???
+                        result.setSuccess(true);
 
                         data.add(
                                 new MutablePair<>(className, remainingField)

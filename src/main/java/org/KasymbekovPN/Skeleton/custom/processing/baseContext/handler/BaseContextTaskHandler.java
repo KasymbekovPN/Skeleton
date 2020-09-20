@@ -7,10 +7,7 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 
 abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
 
-    private Result result;
-
-    protected boolean success;
-    protected String status;
+    protected Result result;
 
     public BaseContextTaskHandler(Result result) {
         this.result = result;
@@ -18,14 +15,17 @@ abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
 
     @Override
     public Result handle(Context object, Task<Context> task) {
-        success = true;
-        status = "";
+
+        //<
+        Result r1 = result.createNew();
+        Result r2 = result.createInstance();
+        result = r2 != null ? r2 : r1;
+        //<
 
         check(object, task);
-        if (success){
+        if (result.isSuccess()){
             doIt(object);
         }
-        resetResult();
 
         return getResult();
     }
@@ -41,10 +41,11 @@ abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
     protected void doIt(Context context){
     }
 
-    protected void resetResult(){
-        result = result.createNew();
-        result.setSuccess(success);
-        result.setStatus(status);
-    }
+    //<
+//    protected void resetResult(){
+//        result = result.createNew();
+//        result.setSuccess(success);
+//        result.setStatus(status);
+//    }
 
 }

@@ -45,15 +45,21 @@ public class InstanceHeaderTaskHandler extends BaseContextTaskHandler {
                     modifiers = (int) maybeModifiers.get();
                 } else {
                     log.error("The class part doesn't contain 'name' and/or 'modifiers'");
-                    success = false;
+//                    success = false;
+                    //<
+                    result.setSuccess(false);
                 }
             } else {
                 log.error("The class part isn't exist");
-                success = false;
+//                success = false;
+                //<
+                result.setSuccess(false);
             }
         } else {
             log.error("The context isn't valid");
-            success = false;
+//            success = false;
+            //<
+            result.setSuccess(false);
         }
     }
 

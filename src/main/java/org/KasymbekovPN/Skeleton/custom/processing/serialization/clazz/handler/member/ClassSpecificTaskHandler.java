@@ -55,7 +55,9 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler {
                         new MutablePair<>(SkeletonMember.class, remainingField.getDeclaredAnnotations())
                 ).isPresent();
                 if (checkingResult){
-                    success = true;
+//                    success = true;
+                    //< ???
+                    result.setSuccess(true);
 
                     specificFields.add(remainingField);
                 }

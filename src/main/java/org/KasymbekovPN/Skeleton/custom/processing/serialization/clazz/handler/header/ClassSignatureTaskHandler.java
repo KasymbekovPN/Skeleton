@@ -49,8 +49,11 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
             type = clazz.getTypeName();
             modifiers = clazz.getModifiers();
         } else {
-            success = false;
-            status = NON_ANNOTATION;
+//            success = false;
+//            status = NON_ANNOTATION;
+            //<
+            result.setStatus(NON_ANNOTATION);
+            result.setSuccess(false);
         }
     }
 

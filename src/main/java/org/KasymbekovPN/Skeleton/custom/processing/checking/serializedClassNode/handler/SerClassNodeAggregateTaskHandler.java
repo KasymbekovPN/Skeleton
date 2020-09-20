@@ -31,9 +31,13 @@ public class SerClassNodeAggregateTaskHandler extends BaseContextTaskHandler {
         if (classNodes.size() > 0){
             classNames = classNodes.keySet();
         } else {
-            success = false;
-            status = "Number of nodes equals zero";
-            log.error(status);
+//            success = false;
+//            status = "Number of nodes equals zero";
+//            log.error(status);
+            //<
+            result.setSuccess(false);
+            result.setStatus("Number of nodes equals zero");
+            log.error(result.getStatus());
         }
     }
 

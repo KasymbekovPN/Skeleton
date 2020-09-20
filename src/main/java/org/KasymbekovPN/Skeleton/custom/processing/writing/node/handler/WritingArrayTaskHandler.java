@@ -23,7 +23,9 @@ public class WritingArrayTaskHandler extends BaseContextTaskHandler {
         WritingContext cxt = (WritingContext) context;
 
         if (!cxt.getNode().is(ArrayNode.ei())){
-            success = false;
+//            success = false;
+            //<
+            result.setSuccess(false);
         }
     }
 
