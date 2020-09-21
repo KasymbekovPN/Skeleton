@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +22,8 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
     private Set<String> withoutMembersPart = new HashSet<>();
     private Map<String, Set<String>> wrongTypeMembers = new HashMap<>();
 
-    public SerClassNodeCheckingTaskHandler(Result result) {
-        super(result);
+    public SerClassNodeCheckingTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
         if (withoutMembersPart.size() != 0 || wrongTypeMembers.size() != 0){
 //            success = false;
             //<
-            result.setSuccess(false);
+            simpleResult.setSuccess(false);
         }
     }
 

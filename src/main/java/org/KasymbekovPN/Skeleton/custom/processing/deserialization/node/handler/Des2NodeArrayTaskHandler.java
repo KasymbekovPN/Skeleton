@@ -9,12 +9,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public class Des2NodeArrayTaskHandler extends BaseContextTaskHandler {
 
-    public Des2NodeArrayTaskHandler(Result result) {
-        super(result);
+    public Des2NodeArrayTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override

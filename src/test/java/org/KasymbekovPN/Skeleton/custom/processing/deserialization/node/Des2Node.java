@@ -14,11 +14,10 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.ids.Des2NodeContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.SkeletonDes2NodeCharItr;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
-import org.KasymbekovPN.Skeleton.custom.result.deserialization.node.*;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.InstanceTaskResult;
-import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonResultData;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;
@@ -111,52 +110,45 @@ public class Des2Node {
     private ContextProcessor createProcessor(){
 
         ContextProcessor processor
-                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+                = new ContextProcessor(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+        ContextTask task = new ContextTask(new SkeletonAggregateResult());
         processor.add(TASK_COMMON, task);
 
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeInitTaskHandler(new Des2NodeInitTaskHandlerResult()),
-                WRAPPER_INIT,
-                new WrongResult()
+                new Des2NodeInitTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_INIT
         );
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeObjectTaskHandler(new Des2NodeObjectTaskHandlerResult()),
-                WRAPPER_OBJECT,
-                new WrongResult()
+                new Des2NodeObjectTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_OBJECT
         );
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeArrayTaskHandler(new Des2NodeArrayTaskHandlerResult()),
-                WRAPPER_ARRAY,
-                new WrongResult()
+                new Des2NodeArrayTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_ARRAY
         );
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeBooleanTaskHandler(new Des2NodeBooleanTaskHandlerResult()),
-                WRAPPER_BOOLEAN,
-                new WrongResult()
+                new Des2NodeBooleanTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_BOOLEAN
         );
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeCharacterTaskHandler(new Des2NodeCharacterTaskHandlerResult()),
-                WRAPPER_CHARACTER,
-                new WrongResult()
+                new Des2NodeCharacterTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_CHARACTER
         );
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeNumberTaskHandler(new Des2NodeNumberTaskHandlerResult()),
-                WRAPPER_NUMBER,
-                new WrongResult()
+                new Des2NodeNumberTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_NUMBER
         );
         new ContextHandlerWrapper(
                 task,
-                new Des2NodeStringTaskHandler(new Des2NodeStringTaskHandlerResult()),
-                WRAPPER_STRING,
-                new WrongResult()
+                new Des2NodeStringTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_STRING
         );
 
         return processor;

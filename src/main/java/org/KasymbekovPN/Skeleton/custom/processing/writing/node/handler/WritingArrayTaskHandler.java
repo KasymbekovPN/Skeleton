@@ -7,15 +7,15 @@ import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHand
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class WritingArrayTaskHandler extends BaseContextTaskHandler {
 
-    public WritingArrayTaskHandler(Result result) {
-        super(result);
+    public WritingArrayTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class WritingArrayTaskHandler extends BaseContextTaskHandler {
         if (!cxt.getNode().is(ArrayNode.ei())){
 //            success = false;
             //<
-            result.setSuccess(false);
+            simpleResult.setSuccess(false);
         }
     }
 

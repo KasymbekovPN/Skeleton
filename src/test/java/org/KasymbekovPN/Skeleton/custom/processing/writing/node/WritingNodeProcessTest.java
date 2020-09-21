@@ -12,14 +12,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingC
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.InstanceTaskResult;
-import org.KasymbekovPN.Skeleton.custom.result.writing.node.WritingObjectTaskHandlerResult;
-import org.KasymbekovPN.Skeleton.custom.result.writing.node.WritingPrimitiveTaskHandlerResult;
-import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonResultData;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
 public class WritingNodeProcessTest {
@@ -84,28 +82,25 @@ public class WritingNodeProcessTest {
 
     private ContextProcessor createContextProcessor(){
         ContextProcessor processor
-                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+                = new ContextProcessor(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+        ContextTask task = new ContextTask(new SkeletonAggregateResult());
         processor.add(TASK_COMMON, task);
 
         new ContextHandlerWrapper(
                 task,
-                new WritingArrayTaskHandler(new WritingPrimitiveTaskHandlerResult()),
-                WRAPPER_ARRAY,
-                new WrongResult()
+                new WritingArrayTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_ARRAY
         );
         new ContextHandlerWrapper(
                 task,
-                new WritingObjectTaskHandler(new WritingObjectTaskHandlerResult()),
-                WRAPPER_OBJECT,
-                new WrongResult()
+                new WritingObjectTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_OBJECT
         );
         new ContextHandlerWrapper(
                 task,
-                new WritingPrimitiveTaskHandler(new WritingPrimitiveTaskHandlerResult()),
-                WRAPPER_PRIMITIVE,
-                new WrongResult()
+                new WritingPrimitiveTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_PRIMITIVE
         );
 
         return processor;
@@ -122,6 +117,7 @@ public class WritingNodeProcessTest {
                 .addFormatter(CharacterNode.ei(), new JsonCharacterWritingFormatter(offset))
                 .addFormatter(NumberNode.ei(), new JsonNumberWritingFormatter(offset))
                 .addFormatter(StringNode.ei(), new JsonStringWritingFormatter(offset))
+                .addFormatter(InvalidNode.ei(), new JsonInvalidWritingFormatter())
                 .build();
 
         return wfh;

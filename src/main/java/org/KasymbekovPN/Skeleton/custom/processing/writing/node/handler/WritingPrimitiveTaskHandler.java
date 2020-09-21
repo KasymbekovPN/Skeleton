@@ -6,12 +6,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingC
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public class WritingPrimitiveTaskHandler extends BaseContextTaskHandler {
 
-    public WritingPrimitiveTaskHandler(Result result) {
-        super(result);
+    public WritingPrimitiveTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class WritingPrimitiveTaskHandler extends BaseContextTaskHandler {
 
 //            success = false;
             //<
-            result.setSuccess(false);
+            simpleResult.setSuccess(false);
         }
     }
 

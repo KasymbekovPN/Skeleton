@@ -9,14 +9,14 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
 public class Des2NodeBooleanTaskHandler extends BaseContextTaskHandler {
 
-    public Des2NodeBooleanTaskHandler(Result result) {
-        super(result);
+    public Des2NodeBooleanTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override

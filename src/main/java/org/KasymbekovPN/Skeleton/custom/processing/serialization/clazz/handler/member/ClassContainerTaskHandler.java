@@ -10,7 +10,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -32,8 +32,8 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler {
 
     public ClassContainerTaskHandler(SimpleChecker<Field> fieldChecker,
                                      String kind,
-                                     Result result) {
-        super(result);
+                                     SimpleResult simpleResult) {
+        super(simpleResult);
         this.fieldChecker = fieldChecker;
         this.kind = kind;
     }

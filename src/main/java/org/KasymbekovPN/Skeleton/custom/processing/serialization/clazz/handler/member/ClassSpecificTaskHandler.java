@@ -10,7 +10,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -33,8 +33,8 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler {
 
     public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker,
                                     String kind,
-                                    Result result) {
-        super(result);
+                                    SimpleResult simpleResult) {
+        super(simpleResult);
         this.fieldChecker = fieldChecker;
         this.kind = kind;
     }
@@ -57,7 +57,7 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler {
                 if (checkingResult){
 //                    success = true;
                     //< ???
-                    result.setSuccess(true);
+                    simpleResult.setSuccess(true);
 
                     specificFields.add(remainingField);
                 }

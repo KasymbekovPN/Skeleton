@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -27,8 +27,8 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
     private int modifiers;
 
     public ClassSignatureTaskHandler(ClassHeaderPartHandler classHeaderPartHandler,
-                                     Result result) {
-        super(result);
+                                     SimpleResult simpleResult) {
+        super(simpleResult);
 
         //< !!! take from context
         this.classHeaderPartHandler = classHeaderPartHandler;
@@ -52,8 +52,8 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
 //            success = false;
 //            status = NON_ANNOTATION;
             //<
-            result.setStatus(NON_ANNOTATION);
-            result.setSuccess(false);
+            simpleResult.setStatus(NON_ANNOTATION);
+            simpleResult.setSuccess(false);
         }
     }
 

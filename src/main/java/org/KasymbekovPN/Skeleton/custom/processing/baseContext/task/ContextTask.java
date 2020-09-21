@@ -5,6 +5,8 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,30 +14,25 @@ import java.util.Map;
 
 public class ContextTask implements Task<Context> {
 
-    private static final String WRAPPER_IS_NOT_EXIST = "Wrapper '%s' isn't exist";
+    private static final Logger log = LoggerFactory.getLogger(ContextTask.class);
 
     private final Map<String, TaskWrapper<Context>> wrappers = new HashMap<>();
     private final AggregateResult taskResult;
 
-    private Result wrongResult;
-    private String id;
-
-    public ContextTask(AggregateResult taskResult, Result wrongResult) {
+    public ContextTask(AggregateResult taskResult) {
         this.taskResult = taskResult;
-        this.wrongResult = wrongResult;
     }
 
     @Override
-    public AggregateResult handle(Context object) {
+    public Result handle(Context object) {
         Iterator<String> wrapperIterator = object.getContextIds().wrapperIterator();
         while (wrapperIterator.hasNext()){
             String wrapperId = wrapperIterator.next();
-            taskResult.put(
-                    wrapperId,
-                    wrappers.containsKey(wrapperId)
-                            ? wrappers.get(wrapperId).handle(object)
-                            : getWrongResult(String.format(WRAPPER_IS_NOT_EXIST, wrapperId))
-            );
+            if (wrappers.containsKey(wrapperId)){
+                taskResult.put(wrapperId, wrappers.get(wrapperId).handle(object));
+            } else {
+                log.warn("Context task doesn't contain wrapper with ID '{}'", wrapperId);
+            }
         }
 
         return taskResult;
@@ -48,14 +45,7 @@ public class ContextTask implements Task<Context> {
     }
 
     @Override
-    public Result getResult(String wrapperId) {
-        return taskResult.get(wrapperId);
-    }
-
-    private Result getWrongResult(String status){
-        Result newWrongResult = wrongResult.createNew();
-        newWrongResult.setStatus(status);
-
-        return newWrongResult;
+    public Result getTaskResult() {
+        return taskResult;
     }
 }

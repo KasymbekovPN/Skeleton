@@ -1,8 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.processing.handler;
 
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public interface TaskWrapper<T> {
-    Result handle(T object);
-    Result getResult();
+    SimpleResult handle(T object);
+    SimpleResult getResult();
 }

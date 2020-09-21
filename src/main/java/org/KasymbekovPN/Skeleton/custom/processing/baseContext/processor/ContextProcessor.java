@@ -5,6 +5,8 @@ import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,17 +15,13 @@ import java.util.Optional;
 
 public class ContextProcessor implements Processor<Context> {
 
-    private static final String TASK_IS_NOT_EXIST = "Task '%s' isn't exist";
+    private static final Logger log = LoggerFactory.getLogger(ContextProcessor.class);
 
     private final Map<String, Task<Context>> tasks = new HashMap<>();
     private final AggregateResult processorResult;
 
-    private Result wrongResult;
-
-    public ContextProcessor(AggregateResult processorResult,
-                            Result wrongResult) {
+    public ContextProcessor(AggregateResult processorResult) {
         this.processorResult = processorResult;
-        this.wrongResult = wrongResult;
     }
 
     @Override
@@ -46,26 +44,32 @@ public class ContextProcessor implements Processor<Context> {
     }
 
     @Override
-    public AggregateResult handle(Context object) {
+    public Result handle(Context object) {
         Iterator<String> taskIterator = object.getContextIds().taskIterator();
         while (taskIterator.hasNext()){
-            Result result;
             String taskId = taskIterator.next();
             if (tasks.containsKey(taskId)){
-                result = (Result) tasks.get(taskId).handle(object);
+                processorResult.put(taskId, tasks.get(taskId).handle(object));
             } else {
-                result = wrongResult.createNew();
-                result.setStatus(String.format(TASK_IS_NOT_EXIST, taskId));
+                log.warn("Processor doesn't contain task with ID '{}'", taskId);
             }
-
-            processorResult.put(taskId, result);
+            //<
+//            SimpleResult simpleResult;
+//            String taskId = taskIterator.next();
+//            if (tasks.containsKey(taskId)){
+//                simpleResult = (SimpleResult) tasks.get(taskId).handle(object);
+//            } else {
+//                simpleResult = wrongSimpleResult.createNew();
+//                simpleResult.setStatus(String.format(TASK_IS_NOT_EXIST, taskId));
+//            }
+//            processorResult.put(taskId, simpleResult);
         }
 
         return processorResult;
     }
 
     @Override
-    public AggregateResult getResult() {
+    public Result getProcessorResult() {
         return processorResult;
     }
 }

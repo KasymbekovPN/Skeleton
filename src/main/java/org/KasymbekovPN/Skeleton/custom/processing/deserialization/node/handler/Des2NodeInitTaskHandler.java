@@ -7,12 +7,12 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public class Des2NodeInitTaskHandler extends BaseContextTaskHandler {
 
-    public Des2NodeInitTaskHandler(Result result) {
-        super(result);
+    public Des2NodeInitTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override

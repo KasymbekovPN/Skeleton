@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.serialization.instance.handler;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -11,10 +11,10 @@ public abstract class BaseISH implements InstanceSerializationHandler {
 
     private InstanceSerializationHandler next;
     private InstanceSerializationHandler previous;
-    protected Result result;
+    protected SimpleResult simpleResult;
 
-    public BaseISH(Result result) {
-        this.result = result;
+    public BaseISH(SimpleResult simpleResult) {
+        this.simpleResult = simpleResult;
     }
 
     public BaseISH() {
@@ -25,7 +25,7 @@ public abstract class BaseISH implements InstanceSerializationHandler {
         if (this.next == null){
             this.next = next;
             this.next.setPrevious(this);
-            this.next.setResult(result);
+            this.next.setSimpleResult(simpleResult);
         } else {
             this.next.setNext(next);
         }
@@ -39,26 +39,26 @@ public abstract class BaseISH implements InstanceSerializationHandler {
     }
 
     @Override
-    public void setResult(Result result) {
-        this.result = result;
+    public void setSimpleResult(SimpleResult simpleResult) {
+        this.simpleResult = simpleResult;
     }
 
     @Override
-    public Result handleHeader(Object object, Collector collector, String className, Map<String, ObjectNode> classNodes) {
+    public SimpleResult handleHeader(Object object, Collector collector, String className, Map<String, ObjectNode> classNodes) {
         if (!runHeaderDataHandling(object, collector, className, classNodes) && next != null){
             next.handleHeader(object, collector, className, classNodes);
         }
 
-        return result;
+        return simpleResult;
     }
 
     @Override
-    public Result handleMember(Object object, Field field, Collector collector, String className, Map<String, ObjectNode> classNodes) {
+    public SimpleResult handleMember(Object object, Field field, Collector collector, String className, Map<String, ObjectNode> classNodes) {
         if (!runMemberDataHandling(object, field, collector, className, classNodes) && next != null){
             next.handleMember(object, field, collector, className, classNodes);
         }
 
-        return result;
+        return simpleResult;
     }
 
     protected boolean runHeaderDataHandling(Object object, Collector collector, String className, Map<String, ObjectNode> classNodes){

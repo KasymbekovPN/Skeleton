@@ -25,16 +25,13 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.h
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.SerClassNodeAggregateTaskHandlerResult;
-import org.KasymbekovPN.Skeleton.custom.result.processing.handler.checking.SerClassNodeCheckingTaskHandlerResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.clazz.ClassSerializationResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.InstanceTaskResult;
-import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonResultData;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -106,41 +103,36 @@ public class SerClassNodeTest {
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
         ContextProcessor processor
-                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+                = new ContextProcessor(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+        ContextTask task = new ContextTask(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
         new ContextHandlerWrapper(
                 task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler, new ClassSerializationResult()),
-                KIND_SIGNATURE,
-                new WrongResult()
+                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_SIGNATURE
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new ClassSerializationResult()),
-                KIND_SPECIFIC,
-                new WrongResult()
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_SPECIFIC
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InnerSerTC0"), KIND_CUSTOM, new ClassSerializationResult()),
-                KIND_CUSTOM,
-                new WrongResult()
+                new ClassCustomTaskHandler(new AllowedStringChecker("InnerSerTC0"), KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_CUSTOM
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new ClassSerializationResult()),
-                KIND_COLLECTION,
-                new WrongResult()
+                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_COLLECTION
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new ClassSerializationResult()),
-                KIND_MAP,
-                new WrongResult()
+                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_MAP
         );
 
         return processor;
@@ -186,23 +178,21 @@ public class SerClassNodeTest {
 
     private ContextProcessor createSerClassNodeProcessor(){
         ContextProcessor processor
-                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+                = new ContextProcessor(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+        ContextTask task = new ContextTask(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
         new ContextHandlerWrapper(
                 task,
-                new SerClassNodeAggregateTaskHandler(new SerClassNodeAggregateTaskHandlerResult()),
-                WRAPPER_AGGR,
-                new WrongResult()
+                new SerClassNodeAggregateTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_AGGR
         );
         new ContextHandlerWrapper(
                 task,
-                new SerClassNodeCheckingTaskHandler(new SerClassNodeCheckingTaskHandlerResult()),
-                WRAPPER_CHECK,
-                new WrongResult()
+                new SerClassNodeCheckingTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                WRAPPER_CHECK
         );
 
         return processor;

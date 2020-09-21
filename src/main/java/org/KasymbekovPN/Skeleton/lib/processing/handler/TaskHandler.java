@@ -1,10 +1,10 @@
 package org.KasymbekovPN.Skeleton.lib.processing.handler;
 
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public interface TaskHandler<T> {
     //< ??? del task
-    Result handle(T object, Task<T> task);
-    Result getResult();
+    SimpleResult handle(T object, Task<T> task);
+    SimpleResult getResult();
 }

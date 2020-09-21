@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
@@ -17,8 +17,8 @@ public class Des2NodeStringTaskHandler extends BaseContextTaskHandler {
 
     private static final Character SHIELD = '\\';
 
-    public Des2NodeStringTaskHandler(Result result) {
-        super(result);
+    public Des2NodeStringTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override

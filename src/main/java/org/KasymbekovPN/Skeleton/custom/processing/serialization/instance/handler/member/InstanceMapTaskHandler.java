@@ -8,7 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +23,8 @@ public class InstanceMapTaskHandler extends BaseContextTaskHandler {
     private Map<String, Object> values;
 
     public InstanceMapTaskHandler(String kind,
-                                  Result result) {
-        super(result);
+                                  SimpleResult simpleResult) {
+        super(simpleResult);
         this.kind = kind;
     }
 
@@ -37,7 +37,7 @@ public class InstanceMapTaskHandler extends BaseContextTaskHandler {
             log.error("The context isn't valid");
 //            success = false;
             //<
-            result.setSuccess(false);
+            simpleResult.setSuccess(false);
         }
     }
 

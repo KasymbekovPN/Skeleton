@@ -31,15 +31,13 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handle
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.clazz.ClassSerializationResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.InstanceSerializationResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.processor.InstanceProcessorResult;
-import org.KasymbekovPN.Skeleton.custom.result.serialization.instance.task.InstanceTaskResult;
-import org.KasymbekovPN.Skeleton.custom.result.wrong.WrongResult;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonResultData;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DisplayName;
@@ -111,41 +109,36 @@ public class InstanceProcessorTest {
         );
 
         ContextProcessor processor
-                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+                = new ContextProcessor(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+        ContextTask task = new ContextTask(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
         new ContextHandlerWrapper(
                 task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler, new ClassSerializationResult()),
-                KIND_SIGNATURE,
-                new WrongResult()
+                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_SIGNATURE
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new ClassSerializationResult()),
-                KIND_SPECIFIC,
-                new WrongResult()
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_SPECIFIC
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0"), KIND_CUSTOM, new ClassSerializationResult()),
-                KIND_CUSTOM,
-                new WrongResult()
+                new ClassCustomTaskHandler(new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0"), KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_CUSTOM
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new ClassSerializationResult()),
-                KIND_COLLECTION,
-                new WrongResult()
+                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_COLLECTION
         );
         new ContextHandlerWrapper(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new ClassSerializationResult()),
-                KIND_MAP,
-                new WrongResult()
+                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_MAP
         );
 
         return new MutablePair<>(context, processor);
@@ -172,7 +165,7 @@ public class InstanceProcessorTest {
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 
         ContextProcessor processor
-                = new ContextProcessor(new InstanceProcessorResult(new WrongResult()), new WrongResult());
+                = new ContextProcessor(new SkeletonAggregateResult());
 
         InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
 
@@ -196,39 +189,34 @@ public class InstanceProcessorTest {
                 new InstanceDataMembersExtractor()
         );
 
-        ContextTask task = new ContextTask(new InstanceTaskResult(new WrongResult()), new WrongResult());
+        ContextTask task = new ContextTask(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
         new ContextHandlerWrapper(
                 task,
-                new InstanceHeaderTaskHandler(new InstanceSerializationResult()),
-                KIND_HEADER,
-                new WrongResult()
+                new InstanceHeaderTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_HEADER
         );
         new ContextHandlerWrapper(
                 task,
-                new InstanceSpecificTaskHandler(KIND_SPECIFIC, new InstanceSerializationResult()),
-                KIND_SPECIFIC,
-                new WrongResult()
+                new InstanceSpecificTaskHandler(KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_SPECIFIC
         );
         new ContextHandlerWrapper(
                 task,
-                new InstanceCustomTaskHandler(KIND_CUSTOM, new InstanceSerializationResult()),
-                KIND_CUSTOM,
-                new WrongResult()
+                new InstanceCustomTaskHandler(KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_CUSTOM
         );
         new ContextHandlerWrapper(
                 task,
-                new InstanceCollectionTaskHandler(KIND_COLLECTION, new InstanceSerializationResult()),
-                KIND_COLLECTION,
-                new WrongResult()
+                new InstanceCollectionTaskHandler(KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_COLLECTION
         );
         new ContextHandlerWrapper(
                 task,
-                new InstanceMapTaskHandler(KIND_MAP, new InstanceSerializationResult()),
-                KIND_MAP,
-                new WrongResult()
+                new InstanceMapTaskHandler(KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
+                KIND_MAP
         );
 
         processor.handle(instanceContext);

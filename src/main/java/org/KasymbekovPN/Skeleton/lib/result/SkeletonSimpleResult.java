@@ -1,18 +1,13 @@
-package org.KasymbekovPN.Skeleton.custom.result;
+package org.KasymbekovPN.Skeleton.lib.result;
 
-import org.KasymbekovPN.Skeleton.lib.result.Result;
-import org.KasymbekovPN.Skeleton.lib.result.ResultData;
-
-import java.util.Optional;
-
-public class SkeletonResult implements Result {
+public class SkeletonSimpleResult implements SimpleResult {
 
     private final ResultData resultData;
 
     private boolean success;
     private String status;
 
-    public SkeletonResult(ResultData resultData) {
+    public SkeletonSimpleResult(ResultData resultData) {
         this.resultData = resultData;
         reset();
     }
@@ -50,26 +45,7 @@ public class SkeletonResult implements Result {
     }
 
     @Override
-    public Result createInstance() {
-        return new SkeletonResult(resultData.createInstance());
+    public SimpleResult createInstance() {
+        return new SkeletonSimpleResult(resultData.createInstance());
     }
-
-    //< del
-
-    @Override
-    public boolean setOptionalData(String dataId, Object optionalData) {
-        return false;
-    }
-
-    @Override
-    public Optional<Object> getOptionalData(String dataId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Result createNew() {
-        return null;
-    }
-
-    //<
 }

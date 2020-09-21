@@ -6,7 +6,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseConte
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +19,8 @@ public class SerClassNodeAggregateTaskHandler extends BaseContextTaskHandler {
 
     private Set<String> classNames;
 
-    public SerClassNodeAggregateTaskHandler(Result result) {
-        super(result);
+    public SerClassNodeAggregateTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override
@@ -35,9 +35,9 @@ public class SerClassNodeAggregateTaskHandler extends BaseContextTaskHandler {
 //            status = "Number of nodes equals zero";
 //            log.error(status);
             //<
-            result.setSuccess(false);
-            result.setStatus("Number of nodes equals zero");
-            log.error(result.getStatus());
+            simpleResult.setSuccess(false);
+            simpleResult.setStatus("Number of nodes equals zero");
+            log.error(simpleResult.getStatus());
         }
     }
 

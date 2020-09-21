@@ -10,7 +10,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -30,8 +30,8 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler {
 
     public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
                                   String kind,
-                                  Result result) {
-        super(result);
+                                  SimpleResult simpleResult) {
+        super(simpleResult);
         this.classNameChecker = classNameChecker;
         this.kind = kind;
     }
@@ -55,7 +55,7 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler {
                     if (classNameChecker.check(className)){
 //                        success = true;
                         //< ???
-                        result.setSuccess(true);
+                        simpleResult.setSuccess(true);
 
                         data.add(
                                 new MutablePair<>(className, remainingField)

@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +22,8 @@ public class InstanceHeaderTaskHandler extends BaseContextTaskHandler {
     private String name;
     private int modifiers;
 
-    public InstanceHeaderTaskHandler(Result result) {
-        super(result);
+    public InstanceHeaderTaskHandler(SimpleResult simpleResult) {
+        super(simpleResult);
     }
 
     @Override
@@ -47,19 +47,19 @@ public class InstanceHeaderTaskHandler extends BaseContextTaskHandler {
                     log.error("The class part doesn't contain 'name' and/or 'modifiers'");
 //                    success = false;
                     //<
-                    result.setSuccess(false);
+                    simpleResult.setSuccess(false);
                 }
             } else {
                 log.error("The class part isn't exist");
 //                success = false;
                 //<
-                result.setSuccess(false);
+                simpleResult.setSuccess(false);
             }
         } else {
             log.error("The context isn't valid");
 //            success = false;
             //<
-            result.setSuccess(false);
+            simpleResult.setSuccess(false);
         }
     }
 

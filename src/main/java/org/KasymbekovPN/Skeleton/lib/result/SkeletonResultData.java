@@ -1,6 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.result;
-
-import org.KasymbekovPN.Skeleton.lib.result.ResultData;
+package org.KasymbekovPN.Skeleton.lib.result;
 
 import java.util.HashMap;
 import java.util.Map;
