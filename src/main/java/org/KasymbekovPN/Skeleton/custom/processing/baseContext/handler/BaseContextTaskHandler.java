@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
-abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
+abstract public class BaseContextTaskHandler<T extends Context> implements TaskHandler<T> {
 
     protected SimpleResult simpleResult;
 
@@ -14,7 +14,7 @@ abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
     }
 
     @Override
-    public SimpleResult handle(Context object, Task<Context> task) {
+    public SimpleResult handle(T object, Task<T> task) {
         simpleResult = simpleResult.createInstance();
         check(object, task);
         if (simpleResult.isSuccess()){
@@ -29,9 +29,9 @@ abstract public class BaseContextTaskHandler implements TaskHandler<Context> {
         return simpleResult;
     }
 
-    protected void check(Context context, Task<Context> task){
+    protected void check(T context, Task<T> task){
     }
 
-    protected void doIt(Context context){
+    protected void doIt(T context){
     }
 }

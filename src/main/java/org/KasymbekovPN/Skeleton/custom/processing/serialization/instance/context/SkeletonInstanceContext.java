@@ -3,7 +3,6 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.conte
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
@@ -18,7 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public class SkeletonInstanceContext implements InstanceContext {
 
@@ -27,7 +29,7 @@ public class SkeletonInstanceContext implements InstanceContext {
     private final ContextIds contextIds;
     private final Map<String, ObjectNode> classNodes;
     private final Collector collector;
-    private final Processor<Context> processor;
+    private final Processor<InstanceContext> processor;
     private final CollectorPath classPartCollectorPath;
     private final CollectorPath membersPartCollectorPath;
     private final ClassHeaderPartHandler classHeaderPartHandler;
@@ -43,7 +45,7 @@ public class SkeletonInstanceContext implements InstanceContext {
     public SkeletonInstanceContext(ContextIds contextIds,
                                    Map<String, ObjectNode> classNodes,
                                    Collector collector,
-                                   Processor<Context> processor,
+                                   Processor<InstanceContext> processor,
                                    Object instance,
                                    CollectorPath classPartCollectorPath,
                                    CollectorPath membersPartCollectorPath,
@@ -91,7 +93,7 @@ public class SkeletonInstanceContext implements InstanceContext {
     }
 
     @Override
-    public Processor<Context> getProcessor() {
+    public Processor<InstanceContext> getProcessor() {
         return processor;
     }
 

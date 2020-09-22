@@ -25,6 +25,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SkeletonInstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandler;
@@ -80,7 +81,7 @@ public class InstanceProcessorTest {
     private final static String KIND_CUSTOM = "custom";
     private final static String KIND_SIGNATURE = "signature";
 
-    private Pair<ClassContext, ContextProcessor> createSerializingClassContext(){
+    private Pair<ClassContext, ContextProcessor<ClassContext>> createSerializingClassContext(){
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, InnerInstanceProcessorTC0.class));
         CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
@@ -108,34 +109,34 @@ public class InstanceProcessorTest {
                 classMembersPartHandler
         );
 
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+        ContextProcessor<ClassContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SIGNATURE
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SPECIFIC
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassCustomTaskHandler(new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0"), KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_CUSTOM
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_COLLECTION
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_MAP
@@ -148,9 +149,9 @@ public class InstanceProcessorTest {
     @Test
     void test() throws Exception {
 
-        Pair<ClassContext, ContextProcessor> pair = createSerializingClassContext();
+        Pair<ClassContext, ContextProcessor<ClassContext>> pair = createSerializingClassContext();
         ClassContext classContext = pair.getLeft();
-        ContextProcessor classProcessor = pair.getRight();
+        ContextProcessor<ClassContext> classProcessor = pair.getRight();
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
@@ -164,8 +165,8 @@ public class InstanceProcessorTest {
 
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+        ContextProcessor<InstanceContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
         InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
 
@@ -189,31 +190,31 @@ public class InstanceProcessorTest {
                 new InstanceDataMembersExtractor()
         );
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<InstanceContext> task = new ContextTask<>(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new InstanceHeaderTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_HEADER
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new InstanceSpecificTaskHandler(KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SPECIFIC
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new InstanceCustomTaskHandler(KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_CUSTOM
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new InstanceCollectionTaskHandler(KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_COLLECTION
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new InstanceMapTaskHandler(KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_MAP

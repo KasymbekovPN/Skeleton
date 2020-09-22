@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
@@ -14,9 +13,9 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.Optional;
 
-public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
+public class ClassSignatureTaskHandler extends BaseContextTaskHandler<ClassContext> {
 
     private final static String NON_ANNOTATION = "Annotation isn't exist";
 
@@ -30,16 +29,14 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
                                      SimpleResult simpleResult) {
         super(simpleResult);
 
-        //< !!! take from context
         this.classHeaderPartHandler = classHeaderPartHandler;
     }
 
     @Override
-    protected void check(Context context, Task<Context> task) {
-        ClassContext classContext = (ClassContext) context;
+    protected void check(ClassContext context, Task<ClassContext> task) {
         Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
-                = classContext.getAnnotationExtractor();
-        Class<?> clazz = classContext.getClazz();
+                = context.getAnnotationExtractor();
+        Class<?> clazz = context.getClazz();
         Optional<Annotation> maybeExtractionResult
                 = extractor.extract(new MutablePair<>(SkeletonClass.class, clazz.getDeclaredAnnotations()));
 
@@ -49,20 +46,16 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler {
             type = clazz.getTypeName();
             modifiers = clazz.getModifiers();
         } else {
-//            success = false;
-//            status = NON_ANNOTATION;
-            //<
             simpleResult.setStatus(NON_ANNOTATION);
             simpleResult.setSuccess(false);
         }
     }
 
     @Override
-    protected void doIt(Context context) {
-        ClassContext classContext = (ClassContext) context;
-        Collector collector = classContext.getCollector();
+    protected void doIt(ClassContext context) {
+        Collector collector = context.getCollector();
 
-        ObjectNode targetNode = (ObjectNode) collector.setTarget(classContext.getClassPartPath());
+        ObjectNode targetNode = (ObjectNode) collector.setTarget(context.getClassPartPath());
         classHeaderPartHandler.setType(targetNode, type);
         classHeaderPartHandler.setName(targetNode, name);
         classHeaderPartHandler.setModifiers(targetNode, modifiers);

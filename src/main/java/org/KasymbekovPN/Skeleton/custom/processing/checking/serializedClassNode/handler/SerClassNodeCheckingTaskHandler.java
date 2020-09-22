@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
@@ -15,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
+public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler<SerClassNodeContext> {
 
     private static final Logger log = LoggerFactory.getLogger(SerClassNodeCheckingTaskHandler.class);
 
@@ -27,11 +26,10 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void check(Context context, Task<Context> task) {
-        SerClassNodeContext cxt = (SerClassNodeContext) context;
+    protected void check(SerClassNodeContext context, Task<SerClassNodeContext> task) {
 
-        CollectorPath membersCollectorPath = cxt.getMembersCollectorPath();
-        Map<String, ObjectNode> classNodes = cxt.getClassNodes();
+        CollectorPath membersCollectorPath = context.getMembersCollectorPath();
+        Map<String, ObjectNode> classNodes = context.getClassNodes();
         for (Map.Entry<String, ObjectNode> entry : classNodes.entrySet()) {
             String className = entry.getKey();
             ObjectNode classNode = entry.getValue();
@@ -45,7 +43,7 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
                     String memberName = memberEntry.getKey();
                     ObjectNode memberNode = (ObjectNode) memberEntry.getValue();
 
-                    Optional<String> checkingResult = checkMember(memberNode, memberName, cxt);
+                    Optional<String> checkingResult = checkMember(memberNode, memberName, context);
                     checkingResult.ifPresent(s -> updateWrongTypeMembers(className, s));
                 }
             } else {
@@ -56,10 +54,8 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void doIt(Context context) {
+    protected void doIt(SerClassNodeContext context) {
         if (withoutMembersPart.size() != 0 || wrongTypeMembers.size() != 0){
-//            success = false;
-            //<
             simpleResult.setSuccess(false);
         }
     }

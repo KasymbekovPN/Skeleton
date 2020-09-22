@@ -6,13 +6,13 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
-public class ContextHandlerWrapper implements TaskWrapper<Context> {
+public class ContextHandlerWrapper<T extends Context> implements TaskWrapper<T> {
 
-    private final Task<Context> task;
-    private final TaskHandler<Context> taskHandler;
+    private final Task<T> task;
+    private final TaskHandler<T> taskHandler;
 
-    public ContextHandlerWrapper(Task<Context> task,
-                                 TaskHandler<Context> taskHandler,
+    public ContextHandlerWrapper(Task<T> task,
+                                 TaskHandler<T> taskHandler,
                                  String wrapperId) {
         this.task = task;
         this.taskHandler = taskHandler;
@@ -21,7 +21,7 @@ public class ContextHandlerWrapper implements TaskWrapper<Context> {
     }
 
     @Override
-    public SimpleResult handle(Context object) {
+    public SimpleResult handle(T object) {
         return taskHandler.handle(object, task);
     }
 

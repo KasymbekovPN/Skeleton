@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -23,7 +22,7 @@ import java.util.*;
 /**
  * For collections and maps
  */
-public class ClassContainerTaskHandler extends BaseContextTaskHandler {
+public class ClassContainerTaskHandler extends BaseContextTaskHandler<ClassContext> {
 
     private final SimpleChecker<Field> fieldChecker;
     private final String kind;
@@ -39,13 +38,12 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void check(Context context, Task<Context> task) {
-        ClassContext classContext = (ClassContext) context;
+    protected void check(ClassContext context, Task<ClassContext> task) {
 
-        if (classContext.checkClassPart()){
+        if (context.checkClassPart()){
             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
-                    = classContext.getAnnotationExtractor();
-            Set<Field> remainingFields = classContext.getRemainingFields();
+                    = context.getAnnotationExtractor();
+            Set<Field> remainingFields = context.getRemainingFields();
 
             for (Field remainingField : remainingFields) {
                 boolean fieldCheckingResult = fieldChecker.check(remainingField);
@@ -64,12 +62,11 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler {
     }
 
     @Override
-    protected void doIt(Context context) {
-        ClassContext classContext = (ClassContext) context;
+    protected void doIt(ClassContext context) {
 
-        Collector collector = classContext.getCollector();
-        ClassMembersPartHandler classMembersPartHandler = classContext.getClassMembersPartHandler();
-        ArrayList<String> path = new ArrayList<>(classContext.getMembersPartPath());
+        Collector collector = context.getCollector();
+        ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
+        ArrayList<String> path = new ArrayList<>(context.getMembersPartPath());
 
         for (Field field : fields) {
             String name = field.getName();

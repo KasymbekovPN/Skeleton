@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
@@ -12,29 +11,23 @@ import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import java.util.Iterator;
 import java.util.List;
 
-public class WritingArrayTaskHandler extends BaseContextTaskHandler {
+public class WritingArrayTaskHandler extends BaseContextTaskHandler<WritingContext> {
 
     public WritingArrayTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
     }
 
     @Override
-    protected void check(Context context, Task<Context> task) {
-        WritingContext cxt = (WritingContext) context;
-
-        if (!cxt.getNode().is(ArrayNode.ei())){
-//            success = false;
-            //<
+    protected void check(WritingContext context, Task<WritingContext> task) {
+        if (!context.getNode().is(ArrayNode.ei())){
             simpleResult.setSuccess(false);
         }
     }
 
     @Override
-    protected void doIt(Context context) {
-        WritingContext cxt = (WritingContext) context;
-
-        WritingFormatterHandler writingFormatterHandler = cxt.getWritingFormatterHandler();
-        ArrayNode node = (ArrayNode) cxt.getNode();
+    protected void doIt(WritingContext context) {
+        WritingFormatterHandler writingFormatterHandler = context.getWritingFormatterHandler();
+        ArrayNode node = (ArrayNode) context.getNode();
         List<Node> children = node.getChildren();
 
         writingFormatterHandler.addBeginBorder(node);
@@ -44,8 +37,8 @@ public class WritingArrayTaskHandler extends BaseContextTaskHandler {
         for (Node child : children) {
             writingFormatterHandler.addDelimiter(delimiterIterator);
 
-            cxt.attachNode(child);
-            cxt.runProcessor();
+            context.attachNode(child);
+            context.runProcessor();
         }
 
         writingFormatterHandler.addEndBorder(node);

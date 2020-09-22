@@ -37,7 +37,7 @@ public class Des2Node {
     void test(){
 
         String line = getLine();
-        ContextProcessor processor = createProcessor();
+        ContextProcessor<Des2NodeContext> processor = createProcessor();
         Des2NodeContext context = createContext(line, processor);
 
         processor.handle(context);
@@ -49,7 +49,7 @@ public class Des2Node {
         return "  { \"shield\" : \"xx \\\"lll\\\" xx\"  \"obj\" : { \"innerInt\" : 65, \"innerBool\" : fa11lse},  \"intValue\":123, \"doubleValue\" : 456.7, \"boolValue\" : true, \"charValue\" : 'x', \"strValue\" : \"hello!!!\", \"arr\" : [{\"yyy\" : 't'},123,567]}";
     }
 
-    private Des2NodeContext createContext(String line, ContextProcessor processor){
+    private Des2NodeContext createContext(String line, ContextProcessor<Des2NodeContext> processor){
 
         EnumMap<Des2NodeMode, ContextIds> contextIds = new EnumMap<>(Des2NodeMode.class) {{
             put(Des2NodeMode.INIT, new Des2NodeContextIds(TASK_COMMON, WRAPPER_INIT));
@@ -107,45 +107,45 @@ public class Des2Node {
         );
     }
 
-    private ContextProcessor createProcessor(){
+    private ContextProcessor<Des2NodeContext> createProcessor(){
 
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+        ContextProcessor<Des2NodeContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<Des2NodeContext> task = new ContextTask<>(new SkeletonAggregateResult());
         processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeInitTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_INIT
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeObjectTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_OBJECT
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeArrayTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_ARRAY
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeBooleanTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_BOOLEAN
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeCharacterTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_CHARACTER
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeNumberTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_NUMBER
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new Des2NodeStringTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_STRING

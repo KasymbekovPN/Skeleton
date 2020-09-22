@@ -12,11 +12,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ContextTask implements Task<Context> {
+public class ContextTask<T extends Context> implements Task<T> {
 
     private static final Logger log = LoggerFactory.getLogger(ContextTask.class);
 
-    private final Map<String, TaskWrapper<Context>> wrappers = new HashMap<>();
+    private final Map<String, TaskWrapper<T>> wrappers = new HashMap<>();
     private final AggregateResult taskResult;
 
     public ContextTask(AggregateResult taskResult) {
@@ -24,7 +24,7 @@ public class ContextTask implements Task<Context> {
     }
 
     @Override
-    public Result handle(Context object) {
+    public Result handle(T object) {
         Iterator<String> wrapperIterator = object.getContextIds().wrapperIterator();
         while (wrapperIterator.hasNext()){
             String wrapperId = wrapperIterator.next();
@@ -39,7 +39,7 @@ public class ContextTask implements Task<Context> {
     }
 
     @Override
-    public Task<Context> add(String wrapperId, TaskWrapper<Context> taskWrapper) {
+    public Task<T> add(String wrapperId, TaskWrapper<T> taskWrapper) {
         wrappers.put(wrapperId, taskWrapper);
         return this;
     }

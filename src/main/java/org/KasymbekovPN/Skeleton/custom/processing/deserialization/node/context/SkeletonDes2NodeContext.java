@@ -15,7 +15,7 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
     private final EnumMap<Des2NodeMode, ContextIds> contextIds;
     private final Des2NodeCharItr iterator;
     private final Finder finder;
-    private final ContextProcessor processor;
+    private final ContextProcessor<Des2NodeContext> processor;
     private final Converter<Node, Triple<Node, String, Des2NodeMode>> converter;
 
     private Des2NodeMode mode = Des2NodeMode.INIT;
@@ -25,7 +25,7 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
     public SkeletonDes2NodeContext(EnumMap<Des2NodeMode, ContextIds> contextIds,
                                    Des2NodeCharItr iterator,
                                    Finder finder,
-                                   ContextProcessor processor,
+                                   ContextProcessor<Des2NodeContext> processor,
                                    Converter<Node, Triple<Node, String, Des2NodeMode>> converter) {
         this.contextIds = contextIds;
         this.iterator = iterator;

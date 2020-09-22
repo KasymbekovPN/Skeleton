@@ -70,7 +70,7 @@ public class SerClassNodeTest {
     @Test
     void test(){
         ClassContext context = createSerContext();
-        ContextProcessor serProcessor = createSerProcessor();
+        ContextProcessor<ClassContext> serProcessor = createSerProcessor();
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
@@ -87,12 +87,12 @@ public class SerClassNodeTest {
         //<
 
         SerClassNodeContext serClassNodeContext = createSerClassNodeContext(classNodes);
-        ContextProcessor serClassNodeProcessor = createSerClassNodeProcessor();
+        ContextProcessor<SerClassNodeContext> serClassNodeProcessor = createSerClassNodeProcessor();
 
         serClassNodeProcessor.handle(serClassNodeContext);
     }
 
-    private ContextProcessor createSerProcessor(){
+    private ContextProcessor<ClassContext> createSerProcessor(){
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
         CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
@@ -102,34 +102,34 @@ public class SerClassNodeTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+        ContextProcessor<ClassContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SIGNATURE
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SPECIFIC
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassCustomTaskHandler(new AllowedStringChecker("InnerSerTC0"), KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_CUSTOM
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_COLLECTION
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_MAP
@@ -176,20 +176,20 @@ public class SerClassNodeTest {
         );
     }
 
-    private ContextProcessor createSerClassNodeProcessor(){
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+    private ContextProcessor<SerClassNodeContext> createSerClassNodeProcessor(){
+        ContextProcessor<SerClassNodeContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<SerClassNodeContext> task = new ContextTask<>(new SkeletonAggregateResult());
 
         processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new SerClassNodeAggregateTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_AGGR
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new SerClassNodeCheckingTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_CHECK

@@ -15,7 +15,7 @@ public interface InstanceContext extends Context {
     ObjectNode getClassNode();
     Collector getCollector();
     Object attachInstance(Object instance);
-    Processor<Context> getProcessor();
+    Processor<InstanceContext> getProcessor();
     Map<String, Object> getValues(String kind);
     CollectorPath getClassPartPath();
     CollectorPath getMembersPartPath();

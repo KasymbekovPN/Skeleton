@@ -14,6 +14,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHa
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
@@ -85,34 +86,34 @@ public class ClassProcessorTest {
                 classMembersPartHandler
         );
 
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+        ContextProcessor<ClassContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
 
         processor.add("common", task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SIGNATURE
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_SPECIFIC
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_CUSTOM
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_COLLECTION
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
                 KIND_MAP

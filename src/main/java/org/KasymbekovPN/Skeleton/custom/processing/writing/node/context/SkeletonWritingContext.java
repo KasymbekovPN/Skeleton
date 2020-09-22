@@ -13,7 +13,7 @@ public class SkeletonWritingContext implements WritingContext {
     private final ContextIds objectNodeContextIds;
     private final ContextIds primitiveNodeContextIds;
     private final WritingFormatterHandler writingFormatterHandler;
-    private final ContextProcessor contextProcessor;
+    private final ContextProcessor<WritingContext> contextProcessor;
 
     private Node node;
 
@@ -21,7 +21,7 @@ public class SkeletonWritingContext implements WritingContext {
                                   ContextIds objectNodeContextIds,
                                   ContextIds primitiveNodeContextIds,
                                   WritingFormatterHandler writingFormatterHandler,
-                                  ContextProcessor contextProcessor,
+                                  ContextProcessor<WritingContext> contextProcessor,
                                   Node node) {
         this.arrayNodeContextIds = arrayNodeContextIds;
         this.objectNodeContextIds = objectNodeContextIds;

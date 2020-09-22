@@ -31,7 +31,7 @@ public class WritingNodeProcessTest {
     void test() throws Exception {
         Node node = createNode();
         WritingFormatterHandler wfh = createWFH();
-        ContextProcessor processor = createContextProcessor();
+        ContextProcessor<WritingContext> processor = createContextProcessor();
         WritingContext context = createContext(node, wfh, processor);
 
         processor.handle(context);
@@ -69,7 +69,7 @@ public class WritingNodeProcessTest {
 
     private WritingContext createContext(Node node,
                                          WritingFormatterHandler writingFormatterHandler,
-                                         ContextProcessor contextProcessor){
+                                         ContextProcessor<WritingContext> contextProcessor){
         return new SkeletonWritingContext(
                 new NodeWritingContextIds(TASK_COMMON, WRAPPER_ARRAY),
                 new NodeWritingContextIds(TASK_COMMON, WRAPPER_OBJECT),
@@ -80,24 +80,24 @@ public class WritingNodeProcessTest {
         );
     }
 
-    private ContextProcessor createContextProcessor(){
-        ContextProcessor processor
-                = new ContextProcessor(new SkeletonAggregateResult());
+    private ContextProcessor<WritingContext> createContextProcessor(){
+        ContextProcessor<WritingContext> processor
+                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask task = new ContextTask(new SkeletonAggregateResult());
+        ContextTask<WritingContext> task = new ContextTask<>(new SkeletonAggregateResult());
         processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new WritingArrayTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_ARRAY
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new WritingObjectTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_OBJECT
         );
-        new ContextHandlerWrapper(
+        new ContextHandlerWrapper<>(
                 task,
                 new WritingPrimitiveTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_PRIMITIVE

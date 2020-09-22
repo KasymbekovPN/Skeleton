@@ -13,11 +13,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
-public class ContextProcessor implements Processor<Context> {
+public class ContextProcessor<T extends Context> implements Processor<T> {
 
     private static final Logger log = LoggerFactory.getLogger(ContextProcessor.class);
 
-    private final Map<String, Task<Context>> tasks = new HashMap<>();
+    private final Map<String, Task<T>> tasks = new HashMap<>();
     private final AggregateResult processorResult;
 
     public ContextProcessor(AggregateResult processorResult) {
@@ -25,26 +25,26 @@ public class ContextProcessor implements Processor<Context> {
     }
 
     @Override
-    public Task<Context> add(String taskId, Task<Context> task) {
+    public Task<T> add(String taskId, Task<T> task) {
         return tasks.put(taskId, task);
     }
 
     @Override
-    public Optional<Task<Context>> get(String taskId) {
+    public Optional<Task<T>> get(String taskId) {
         return tasks.containsKey(taskId)
                 ? Optional.of(tasks.get(taskId))
                 : Optional.empty();
     }
 
     @Override
-    public Optional<Task<Context>> remove(String taskId) {
+    public Optional<Task<T>> remove(String taskId) {
         return tasks.containsKey(taskId)
                 ? Optional.of(tasks.remove(taskId))
                 : Optional.empty();
     }
 
     @Override
-    public Result handle(Context object) {
+    public Result handle(T object) {
         Iterator<String> taskIterator = object.getContextIds().taskIterator();
         while (taskIterator.hasNext()){
             String taskId = taskIterator.next();
@@ -53,16 +53,6 @@ public class ContextProcessor implements Processor<Context> {
             } else {
                 log.warn("Processor doesn't contain task with ID '{}'", taskId);
             }
-            //<
-//            SimpleResult simpleResult;
-//            String taskId = taskIterator.next();
-//            if (tasks.containsKey(taskId)){
-//                simpleResult = (SimpleResult) tasks.get(taskId).handle(object);
-//            } else {
-//                simpleResult = wrongSimpleResult.createNew();
-//                simpleResult.setStatus(String.format(TASK_IS_NOT_EXIST, taskId));
-//            }
-//            processorResult.put(taskId, simpleResult);
         }
 
         return processorResult;
