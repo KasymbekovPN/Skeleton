@@ -158,17 +158,21 @@ public class SkeletonInstanceContext implements InstanceContext {
 
     private void validate() {
         valid = false;
-        Optional<String> maybeClassName
-                = annotationClassNameExtractor.extract(instance.getClass().getDeclaredAnnotations());
-        if (maybeClassName.isPresent()){
-            className = maybeClassName.get();
-            if (classNodes.containsKey(className)){
-                valid = true;
+        if (instance != null){
+            Optional<String> maybeClassName
+                    = annotationClassNameExtractor.extract(instance.getClass().getDeclaredAnnotations());
+            if (maybeClassName.isPresent()){
+                className = maybeClassName.get();
+                if (classNodes.containsKey(className)){
+                    valid = true;
+                } else {
+                    log.error("There isn't class node for '{}'", className);
+                }
             } else {
-                log.error("There isn't class node for '{}'", className);
+                log.error("Instance doesn't contain annotation with name");
             }
         } else {
-            log.error("Instance doesn't contain annotation with name");
+            log.error("Instance is null");
         }
     }
 
