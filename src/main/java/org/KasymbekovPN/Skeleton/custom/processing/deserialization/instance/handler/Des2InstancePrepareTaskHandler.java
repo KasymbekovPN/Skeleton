@@ -13,11 +13,10 @@ public class Des2InstancePrepareTaskHandler extends BaseContextTaskHandler<Des2I
 
     @Override
     protected void check(Des2InstanceContext context, Task<Des2InstanceContext> task) {
-        super.check(context, task);
+        System.out.println("1");
     }
 
     @Override
     protected void doIt(Des2InstanceContext context) {
-        super.doIt(context);
     }
 }

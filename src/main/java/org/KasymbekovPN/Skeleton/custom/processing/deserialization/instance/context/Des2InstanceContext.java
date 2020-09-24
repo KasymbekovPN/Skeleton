@@ -3,4 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.con
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 
 public interface Des2InstanceContext extends Context {
+    boolean isValid();
+    Object attachInstance(Object instance);
+    Object getInstance();
 }

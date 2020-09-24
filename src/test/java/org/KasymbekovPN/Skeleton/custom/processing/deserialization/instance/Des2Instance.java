@@ -92,8 +92,10 @@ public class Des2Instance {
         ContextProcessor<ClassContext> classContextProcessor = createClassContextProcessor();
         classContextProcessor.handle(classContext);
 
+        ObjectNode classNode = (ObjectNode) classContext.getCollector().getNode();
+
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
-        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().getNode());
+        classNodes.put("Des2InstanceTC0", classNode);
 
         ContextProcessor<InstanceContext> instanceProcessor = createInstanceProcessor();
         InstanceContext instanceContext = createInstanceContext(classNodes, instanceProcessor);
@@ -101,9 +103,16 @@ public class Des2Instance {
         instanceContext.attachInstance(original);
 
         instanceProcessor.handle(instanceContext);
+
+        Des2InstanceContext des2InstanceContext = createDes2InstanceContext(
+                classNodes
+        );
+        ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor = createDes2InstanceContextProcessor();
+
+        des2InstanceContextProcessor.handle(des2InstanceContext);
     }
 
-    private ContextProcessor<Des2InstanceContext> createDes2NodeContextProcessor(){
+    private ContextProcessor<Des2InstanceContext> createDes2InstanceContextProcessor(){
         ContextProcessor<Des2InstanceContext> processor = new ContextProcessor<>(new SkeletonAggregateResult());
 
         ContextTask<Des2InstanceContext> task = new ContextTask<>(new SkeletonAggregateResult());
@@ -123,7 +132,7 @@ public class Des2Instance {
         return processor;
     }
 
-    private Des2InstanceContext createDes2InstanceContext(){
+    private Des2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes){
 
         SimpleContextIds simpleContextIds = new SimpleContextIds(
                 TASK_COMMON,
@@ -132,7 +141,10 @@ public class Des2Instance {
         );
 
         return new SkeletonDes2InstanceContext(
-                simpleContextIds
+                simpleContextIds,
+                classNodes,
+                new SkeletonClassNameExtractor(),
+                new AnnotationExtractor()
         );
     }
 
