@@ -92,7 +92,7 @@ public class Des2Instance {
         ContextProcessor<ClassContext> classContextProcessor = createClassContextProcessor();
         classContextProcessor.handle(classContext);
 
-        ObjectNode classNode = (ObjectNode) classContext.getCollector().getNode();
+        ObjectNode classNode = (ObjectNode) classContext.getCollector().attachNode(null);
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
         classNodes.put("Des2InstanceTC0", classNode);
@@ -103,11 +103,16 @@ public class Des2Instance {
         instanceContext.attachInstance(original);
 
         instanceProcessor.handle(instanceContext);
+        ObjectNode serializedData = (ObjectNode) instanceContext.getCollector().attachNode(null);
 
         Des2InstanceContext des2InstanceContext = createDes2InstanceContext(
+                serializedData,
                 classNodes
         );
         ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor = createDes2InstanceContextProcessor();
+
+        Des2InstanceTC0 restoredInstance = new Des2InstanceTC0(12);
+        des2InstanceContext.attachInstance(restoredInstance);
 
         des2InstanceContextProcessor.handle(des2InstanceContext);
     }
@@ -132,7 +137,8 @@ public class Des2Instance {
         return processor;
     }
 
-    private Des2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes){
+    private Des2InstanceContext createDes2InstanceContext(ObjectNode serializedData,
+                                                          Map<String, ObjectNode> classNodes){
 
         SimpleContextIds simpleContextIds = new SimpleContextIds(
                 TASK_COMMON,
@@ -142,9 +148,14 @@ public class Des2Instance {
 
         return new SkeletonDes2InstanceContext(
                 simpleContextIds,
+                serializedData,
                 classNodes,
                 new SkeletonClassNameExtractor(),
-                new AnnotationExtractor()
+                new AnnotationExtractor(),
+                classMembersPartHandler,
+                membersPartCollectorPath,
+                classHeaderPartHandler,
+                classPartCollectorPath
         );
     }
 
