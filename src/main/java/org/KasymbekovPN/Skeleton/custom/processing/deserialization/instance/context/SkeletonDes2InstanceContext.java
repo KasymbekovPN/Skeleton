@@ -80,14 +80,17 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
             log.error("{}", handlingStatus.getRight());
         }
 
-        System.out.println(preparedFieldsData);
-
         return oldInstance;
     }
 
     @Override
     public Object getInstance() {
         return instance;
+    }
+
+    @Override
+    public Set<Pair<Field, Node>> getMembers(String kind) {
+        return preparedFieldsData.getOrDefault(kind, new HashSet<>());
     }
 
     private void handleAttaching(MutablePair<Boolean, String> handlingStatus){

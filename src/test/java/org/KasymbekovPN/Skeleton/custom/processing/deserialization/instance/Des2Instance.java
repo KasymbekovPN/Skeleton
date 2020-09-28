@@ -21,7 +21,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SkeletonDes2InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstancePrepareTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
@@ -76,7 +75,6 @@ public class Des2Instance {
     );
 
     private static final String TASK_COMMON = "common";
-    private static final String WRAPPER_PREPARE = "prepare";
     private static final String WRAPPER_HEADER = "header";
     private static final String WRAPPER_SIGNATURE = "signature";
     private static final String WRAPPER_SPECIFIC = "specific";
@@ -99,7 +97,20 @@ public class Des2Instance {
 
         ContextProcessor<InstanceContext> instanceProcessor = createInstanceProcessor();
         InstanceContext instanceContext = createInstanceContext(classNodes, instanceProcessor);
-        Des2InstanceTC0 original = new Des2InstanceTC0(123);
+
+        Des2InstanceTC0 original = new Des2InstanceTC0();
+        original.setIntValue(123);
+        original.setFloatValue(0.25f);
+        original.setDoubleValue(1.65);
+        original.setBooleanValue(true);
+        original.setCharValue('x');
+        original.setStringObject("hello");
+        original.setBooleanObject(true);
+        original.setIntegerObject(654);
+        original.setFloatObject(1.258f);
+        original.setDoubleObject(5566.558);
+        original.setCharacterObject('z');
+
         instanceContext.attachInstance(original);
 
         instanceProcessor.handle(instanceContext);
@@ -111,10 +122,16 @@ public class Des2Instance {
         );
         ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor = createDes2InstanceContextProcessor();
 
-        Des2InstanceTC0 restoredInstance = new Des2InstanceTC0(12);
+        Des2InstanceTC0 restoredInstance = new Des2InstanceTC0();
+        //<
+        System.out.println("before : " + restoredInstance);
+        //<
         des2InstanceContext.attachInstance(restoredInstance);
-
         des2InstanceContextProcessor.handle(des2InstanceContext);
+
+        //<
+        System.out.println("after : " + restoredInstance);
+        //<
     }
 
     private ContextProcessor<Des2InstanceContext> createDes2InstanceContextProcessor(){
@@ -125,12 +142,7 @@ public class Des2Instance {
 
         new ContextHandlerWrapper<>(
                 task,
-                new Des2InstancePrepareTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
-                WRAPPER_PREPARE
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2InstanceSpecificTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                new Des2InstanceSpecificTaskHandler(new SkeletonSimpleResult(new SkeletonResultData()), WRAPPER_SPECIFIC),
                 WRAPPER_SPECIFIC
         );
 
@@ -142,7 +154,6 @@ public class Des2Instance {
 
         SimpleContextIds simpleContextIds = new SimpleContextIds(
                 TASK_COMMON,
-                WRAPPER_PREPARE,
                 WRAPPER_SPECIFIC
         );
 
@@ -214,9 +225,23 @@ public class Des2Instance {
                 new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_SIGNATURE
         );
+
+        AllowedClassChecker specAllowedClassChecker = new AllowedClassChecker(
+                int.class,
+                float.class,
+                double.class,
+                boolean.class,
+                char.class,
+                String.class,
+                Boolean.class,
+                Integer.class,
+                Float.class,
+                Double.class,
+                Character.class
+        );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), WRAPPER_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassSpecificTaskHandler(specAllowedClassChecker, WRAPPER_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_SPECIFIC
         );
         new ContextHandlerWrapper<>(
