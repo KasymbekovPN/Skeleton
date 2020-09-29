@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.cont
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class Des2InstanceSpecificTaskHandler extends BaseContextTaskHandler<Des2
     private final String kind;
 
     private Object instance;
-    private Set<Pair<Field, Node>> members;
+    private Set<Triple<Field, Node, ObjectNode>> members;
 
     public Des2InstanceSpecificTaskHandler(SimpleResult simpleResult, String kind) {
         super(simpleResult);
@@ -52,9 +52,9 @@ public class Des2InstanceSpecificTaskHandler extends BaseContextTaskHandler<Des2
     @Override
     protected void doIt(Des2InstanceContext context) {
 
-        for (Pair<Field, Node> member : members) {
+        for (Triple<Field, Node, ObjectNode> member : members) {
             Field field = member.getLeft();
-            Node memberNode = member.getRight();
+            Node memberNode = member.getMiddle();
 
             Optional<Object> maybeValue = extractValue(memberNode);
             if (maybeValue.isPresent()){

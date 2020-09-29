@@ -13,6 +13,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
@@ -21,6 +22,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SkeletonDes2InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
@@ -110,6 +112,7 @@ public class Des2Instance {
         original.setFloatObject(1.258f);
         original.setDoubleObject(5566.558);
         original.setCharacterObject('z');
+        original.setIntSet(new HashSet<>(Arrays.asList(1,2,3)));
 
         instanceContext.attachInstance(original);
 
@@ -145,6 +148,11 @@ public class Des2Instance {
                 new Des2InstanceSpecificTaskHandler(new SkeletonSimpleResult(new SkeletonResultData()), WRAPPER_SPECIFIC),
                 WRAPPER_SPECIFIC
         );
+        new ContextHandlerWrapper<>(
+                task,
+                new Des2InstanceCollectionTaskHandler(new SkeletonSimpleResult(new SkeletonResultData()), WRAPPER_COLLECTION),
+                WRAPPER_COLLECTION
+        );
 
         return processor;
     }
@@ -154,7 +162,8 @@ public class Des2Instance {
 
         SimpleContextIds simpleContextIds = new SimpleContextIds(
                 TASK_COMMON,
-                WRAPPER_SPECIFIC
+                WRAPPER_SPECIFIC,
+                WRAPPER_COLLECTION
         );
 
         return new SkeletonDes2InstanceContext(
@@ -166,7 +175,8 @@ public class Des2Instance {
                 classMembersPartHandler,
                 membersPartCollectorPath,
                 classHeaderPartHandler,
-                classPartCollectorPath
+                classPartCollectorPath,
+                new StrType2CollectionOptConverter(classMembersPartHandler)
         );
     }
 

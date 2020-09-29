@@ -8,8 +8,11 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,12 +34,16 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     private final CollectorPath membersPath;
     private final ClassHeaderPartHandler classHeaderPartHandler;
     private final CollectorPath classPath;
+    private final OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter;
 
     private Object instance;
     private boolean valid;
     private String className;
     private ObjectNode classNode;
-    private Map<String, Set<Pair<Field, Node>>> preparedFieldsData = new HashMap<>();
+
+//    private Map<String, Set<Pair<Field, Node>>> preparedFieldsData = new HashMap<>();
+    //<
+    private Map<String, Set<Triple<Field, Node, ObjectNode>>> preparedFieldsData = new HashMap<>();
 
     public SkeletonDes2InstanceContext(ContextIds contextIds,
                                        ObjectNode serializedData,
@@ -46,7 +53,8 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
                                        ClassMembersPartHandler classMembersPartHandler,
                                        CollectorPath membersPath,
                                        ClassHeaderPartHandler classHeaderPartHandler,
-                                       CollectorPath classPath) {
+                                       CollectorPath classPath,
+                                       OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter) {
         this.contextIds = contextIds;
         this.serializedData = serializedData;
         this.classNodes = classNodes;
@@ -56,6 +64,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
         this.membersPath = membersPath;
         this.classHeaderPartHandler = classHeaderPartHandler;
         this.classPath = classPath;
+        this.strType2CollectionConverter = strType2CollectionConverter;
     }
 
     @Override
@@ -80,6 +89,10 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
             log.error("{}", handlingStatus.getRight());
         }
 
+        //<
+//        System.out.println(preparedFieldsData);
+        //<
+
         return oldInstance;
     }
 
@@ -89,8 +102,13 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     }
 
     @Override
-    public Set<Pair<Field, Node>> getMembers(String kind) {
+    public Set<Triple<Field, Node, ObjectNode>> getMembers(String kind) {
         return preparedFieldsData.getOrDefault(kind, new HashSet<>());
+    }
+
+    @Override
+    public OptionalConverter<Collection<Object>, ObjectNode> getStrType2CollectionConverter() {
+        return strType2CollectionConverter;
     }
 
     private void handleAttaching(MutablePair<Boolean, String> handlingStatus){
@@ -271,7 +289,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
             if (!preparedFieldsData.containsKey(kind)){
                 preparedFieldsData.put(kind, new HashSet<>());
             }
-            preparedFieldsData.get(kind).add(new MutablePair<>(field, serDataMember));
+            preparedFieldsData.get(kind).add(new MutableTriple<>(field, serDataMember, classMember));
         } else {
             log.warn("Class '{}': member '{}' doesn't contain 'kind'", className, memberName);
         }
