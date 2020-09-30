@@ -113,6 +113,17 @@ public class Des2Instance {
         original.setDoubleObject(5566.558);
         original.setCharacterObject('z');
         original.setIntSet(new HashSet<>(Arrays.asList(1,2,3)));
+        original.setIntList(Arrays.asList(4, 5, 6));
+        original.setFloatSet(new HashSet<>(Arrays.asList(1.1f, 1.2f)));
+        original.setFloatList(Arrays.asList(1.3f, 1.4f));
+        original.setDoubleSet(new HashSet<>(Arrays.asList(100.1, 100.2)));
+        original.setDoubleList(Arrays.asList(100.3, 100.4));
+        original.setBooleanSet(new HashSet<>(Arrays.asList(false, true)));
+        original.setBooleanList(Arrays.asList(true, false, true));
+        original.setCharacterSet(new HashSet<>(Arrays.asList('a', 'b')));
+        original.setCharacterList(Arrays.asList('c', 'd'));
+        original.setStringSet(new HashSet<>(Arrays.asList("hello", "world")));
+        original.setStringList(Arrays.asList("aaa", "bbb"));
 
         instanceContext.attachInstance(original);
 
@@ -205,7 +216,14 @@ public class Des2Instance {
 
     private SimpleChecker<Field> createCollectionTypeChecker(){
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
-        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
+        Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(
+                String.class,
+                Integer.class,
+                Float.class,
+                Double.class,
+                Character.class,
+                Boolean.class
+        ));
 
         return new CollectionTypeChecker(types, argumentTypes);
     }

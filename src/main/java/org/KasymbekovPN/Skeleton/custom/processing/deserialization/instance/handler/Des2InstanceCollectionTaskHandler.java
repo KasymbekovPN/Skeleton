@@ -2,8 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.han
 
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
-import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
@@ -63,52 +62,60 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
             Field field = member.getLeft();
             Node memberNode = member.getMiddle();
             ObjectNode classMember = member.getRight();
+            String name = field.getName();
 
             Optional<Collection<Object>> maybeCollection = strType2CollectionConverter.convert(classMember);
+            if (maybeCollection.isPresent()){
+                if (memberNode.is(ArrayNode.ei())){
+                    Collection<Object> collection = maybeCollection.get();
+                    ArrayNode arrayNode = (ArrayNode) memberNode;
 
-            System.out.println(maybeCollection);
-
-//            Collection<Object> collection = createEmptyCollection(field.getName(), classMember, classMembersPartHandler);
-
-//            Set<Object> objects = new HashSet<Object>();
-//
-//            objects.add(111);
-//            objects.add(222);
-//            objects.add(333);
-//
-//            System.out.println(field.getGenericType().getTypeName());
-//
-//
-//            //< !!!
-//            System.out.println(field);
-//            System.out.println(memberNode);
-//            System.out.println(classMember);
-//
-////            Optional<Object> maybeValue = extractValue(memberNode);
-////            if (maybeValue.isPresent()){
-//                field.setAccessible(true);
-//                try {
-//                    field.set(instance, objects);
-//                } catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    field.setAccessible(false);
-//                }
-////            } else {
-////                log.warn("{}: Member '{}' has wrong type", kind, field.getName());
-////            }
+                    fillCollection(collection, arrayNode);
+                    setField(field, collection);
+                } else {
+                    log.warn("'{}' : memberNode has wrong type - isn't ArrayNode", name);
+                }
+            } else {
+                log.warn("'{}' : failure attempt of collection creation", name);
+            }
         }
     }
 
-//    private Collection<Object> createEmptyCollection(String name,
-//                                                     ObjectNode classMember,
-//                                                     ClassMembersPartHandler classMembersPartHandler){
-//
-//        Optional<String> maybeClassName = classMembersPartHandler.getClassName(classMember);
-//        if (maybeClassName.isPresent()){
-//            String className = maybeClassName.get();
-//        } else {
-//            log.warn("Field '{}': class member doesn't contain classname", name);
-//        }
-//    }
+    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode){
+        for (Node child : arrayNode.getChildren()) {
+            Optional<Object> maybeValue = extractValue(child);
+            if (maybeValue.isPresent()){
+                collection.add(maybeValue.get());
+            } else {
+                log.warn("Failure attempt of conversion : {}", child);
+            }
+        }
+    }
+
+    private Optional<Object> extractValue(Node node){
+        if (node.is(BooleanNode.ei())){
+            return Optional.of(((BooleanNode) node).getValue());
+        } else if (node.is(CharacterNode.ei())){
+            return Optional.of(((CharacterNode) node).getValue());
+        } else if (node.is(NumberNode.ei())){
+            return Optional.of(((NumberNode) node).getValue());
+        } else if (node.is(StringNode.ei())){
+            return Optional.of(((StringNode) node).getValue());
+        }
+
+        //< !!! other node types
+
+        return Optional.empty();
+    }
+
+    private void setField(Field field, Collection<Object> collection){
+        field.setAccessible(true);
+        try {
+            field.set(instance, collection);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
+            field.setAccessible(false);
+        }
+    }
 }

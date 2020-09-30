@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.cla
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 
+import java.util.List;
 import java.util.Set;
 
 @SkeletonClass(name = "Des2InstanceTC0")
@@ -43,6 +44,39 @@ public class Des2InstanceTC0 {
 
     @SkeletonMember
     private Set<Integer> intSet;
+
+    @SkeletonMember
+    private List<Integer> intList;
+
+    @SkeletonMember
+    private Set<Float> floatSet;
+
+    @SkeletonMember
+    private List<Float> floatList;
+
+    @SkeletonMember
+    private Set<Double> doubleSet;
+
+    @SkeletonMember
+    private List<Double> doubleList;
+
+    @SkeletonMember
+    private Set<Boolean> booleanSet;
+
+    @SkeletonMember
+    private List<Boolean> booleanList;
+
+    @SkeletonMember
+    private Set<Character> characterSet;
+
+    @SkeletonMember
+    private List<Character> characterList;
+
+    @SkeletonMember
+    private Set<String> stringSet;
+
+    @SkeletonMember
+    private List<String> stringList;
 
     public void setIntValue(int intValue) {
         this.intValue = intValue;
@@ -92,6 +126,50 @@ public class Des2InstanceTC0 {
         this.intSet = intSet;
     }
 
+    public void setIntList(List<Integer> intList) {
+        this.intList = intList;
+    }
+
+    public void setFloatSet(Set<Float> floatSet) {
+        this.floatSet = floatSet;
+    }
+
+    public void setFloatList(List<Float> floatList) {
+        this.floatList = floatList;
+    }
+
+    public void setDoubleSet(Set<Double> doubleSet) {
+        this.doubleSet = doubleSet;
+    }
+
+    public void setDoubleList(List<Double> doubleList) {
+        this.doubleList = doubleList;
+    }
+
+    public void setBooleanSet(Set<Boolean> booleanSet) {
+        this.booleanSet = booleanSet;
+    }
+
+    public void setBooleanList(List<Boolean> booleanList) {
+        this.booleanList = booleanList;
+    }
+
+    public void setCharacterSet(Set<Character> characterSet) {
+        this.characterSet = characterSet;
+    }
+
+    public void setCharacterList(List<Character> characterList) {
+        this.characterList = characterList;
+    }
+
+    public void setStringSet(Set<String> stringSet) {
+        this.stringSet = stringSet;
+    }
+
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
+    }
+
     @Override
     public String toString() {
         return "Des2InstanceTC0{" +
@@ -107,6 +185,17 @@ public class Des2InstanceTC0 {
                 ", doubleObject=" + doubleObject +
                 ", characterObject=" + characterObject +
                 ", intSet=" + intSet +
+                ", intList=" + intList +
+                ", floatSet=" + floatSet +
+                ", floatList=" + floatList +
+                ", doubleSet=" + doubleSet +
+                ", doubleList=" + doubleList +
+                ", booleanSet=" + booleanSet +
+                ", booleanList=" + booleanList +
+                ", characterSet=" + characterSet +
+                ", characterList=" + characterList +
+                ", stringSet=" + stringSet +
+                ", stringList=" + stringList +
                 '}';
     }
 }

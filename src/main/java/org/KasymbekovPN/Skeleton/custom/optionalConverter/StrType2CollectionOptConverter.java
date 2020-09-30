@@ -26,8 +26,11 @@ public class StrType2CollectionOptConverter implements OptionalConverter<Collect
             switch (className){
                 case "java.util.Set":
                     return Optional.of(new HashSet<>());
-                case "java.util.Array":
+                case "java.util.List":
                     return Optional.of(new ArrayList<>());
+                default:
+                    log.warn("Wrong type");
+                    break;
             }
         } else {
             log.warn("Class name doesn't exist");
