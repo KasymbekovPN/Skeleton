@@ -13,16 +13,19 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceInnerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SkeletonDes2InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
@@ -86,16 +89,22 @@ public class Des2Instance {
 
     @Test
     void test(){
-        ClassContext classContext = createClassContext();
-        classContext.attachClass(Des2InstanceTC0.class);
-
-        ContextProcessor<ClassContext> classContextProcessor = createClassContextProcessor();
-        classContextProcessor.handle(classContext);
-
-        ObjectNode classNode = (ObjectNode) classContext.getCollector().attachNode(null);
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
-        classNodes.put("Des2InstanceTC0", classNode);
+
+        ContextProcessor<ClassContext> classContextProcessor = createClassContextProcessor();
+
+        ClassContext classContext = createClassContext();
+        classContext.attachClass(Des2InstanceTC0.class);
+        classContextProcessor.handle(classContext);
+        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().attachNode(new ObjectNode(null)));
+
+        classContext.attachClass(Des2InstanceInnerTC0.class);
+        classContextProcessor.handle(classContext);
+        classNodes.put("Des2InstanceInnerTC0", (ObjectNode) classContext.getCollector().attachNode(null));
+
+        //<
+        System.out.println(classNodes);
 
         ContextProcessor<InstanceContext> instanceProcessor = createInstanceProcessor();
         InstanceContext instanceContext = createInstanceContext(classNodes, instanceProcessor);
@@ -125,22 +134,34 @@ public class Des2Instance {
         original.setStringSet(new HashSet<>(Arrays.asList("hello", "world")));
         original.setStringList(Arrays.asList("aaa", "bbb"));
 
+        Des2InstanceInnerTC0 custom = new Des2InstanceInnerTC0();
+        custom.setIntValue(456);
+        original.setCustom(custom);
+
+        Des2InstanceInnerTC0 custom2 = new Des2InstanceInnerTC0();
+        custom2.setIntValue(789);
+        original.setCustom2(custom2);
+
+        original.setIntValue2(963);
+
         instanceContext.attachInstance(original);
 
         instanceProcessor.handle(instanceContext);
         ObjectNode serializedData = (ObjectNode) instanceContext.getCollector().attachNode(null);
 
-        Des2InstanceContext des2InstanceContext = createDes2InstanceContext(
-                serializedData,
-                classNodes
-        );
         ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor = createDes2InstanceContextProcessor();
+        Des2InstanceContext des2InstanceContext = createDes2InstanceContext(
+                classNodes,
+                des2InstanceContextProcessor
+        );
 
         Des2InstanceTC0 restoredInstance = new Des2InstanceTC0();
         //<
         System.out.println("before : " + restoredInstance);
         //<
-        des2InstanceContext.attachInstance(restoredInstance);
+//        des2InstanceContext.attachInstance(restoredInstance);
+        //<
+        des2InstanceContext.push(restoredInstance, serializedData);
         des2InstanceContextProcessor.handle(des2InstanceContext);
 
         //<
@@ -164,22 +185,31 @@ public class Des2Instance {
                 new Des2InstanceCollectionTaskHandler(new SkeletonSimpleResult(new SkeletonResultData()), WRAPPER_COLLECTION),
                 WRAPPER_COLLECTION
         );
+        new ContextHandlerWrapper<>(
+                task,
+                new Des2InstanceCustomTaskHandler(new SkeletonSimpleResult(new SkeletonResultData()), WRAPPER_CUSTOM),
+                WRAPPER_CUSTOM
+        );
 
         return processor;
     }
 
-    private Des2InstanceContext createDes2InstanceContext(ObjectNode serializedData,
-                                                          Map<String, ObjectNode> classNodes){
+    private Des2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes,
+                                                          ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor){
 
         SimpleContextIds simpleContextIds = new SimpleContextIds(
                 TASK_COMMON,
                 WRAPPER_SPECIFIC,
-                WRAPPER_COLLECTION
+                WRAPPER_COLLECTION,
+                WRAPPER_CUSTOM
         );
+
+        HashMap<String, Class<?>> map = new HashMap<>();
+        map.put("Des2InstanceTC0", Des2InstanceTC0.class);
+        map.put("Des2InstanceInnerTC0", Des2InstanceInnerTC0.class);
 
         return new SkeletonDes2InstanceContext(
                 simpleContextIds,
-                serializedData,
                 classNodes,
                 new SkeletonClassNameExtractor(),
                 new AnnotationExtractor(),
@@ -187,7 +217,9 @@ public class Des2Instance {
                 membersPartCollectorPath,
                 classHeaderPartHandler,
                 classPartCollectorPath,
-                new StrType2CollectionOptConverter(classMembersPartHandler)
+                new StrType2CollectionOptConverter(classMembersPartHandler),
+                new ClassName2Instance(map),
+                des2InstanceContextProcessor
         );
     }
 
@@ -274,7 +306,7 @@ public class Des2Instance {
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker(), WRAPPER_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassCustomTaskHandler(new AllowedStringChecker("Des2InstanceInnerTC0"), WRAPPER_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
                 WRAPPER_CUSTOM
         );
         new ContextHandlerWrapper<>(
