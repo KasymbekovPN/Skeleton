@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
 import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
@@ -30,5 +31,5 @@ public interface Collector {
 
     Node getNode();
     Node detachNode();
-    Node attachNode(Node node);
+    Pair<Node, Node> attach(Node root, Node target);
 }

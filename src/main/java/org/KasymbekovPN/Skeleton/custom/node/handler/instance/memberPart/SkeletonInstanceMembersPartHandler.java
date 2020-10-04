@@ -3,15 +3,9 @@ package org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.*;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHandler {
-
-    //<
-//    private final InstanceContext instanceContext;
-//
-//    public SkeletonInstanceMembersPartHandler(InstanceContext instanceContext) {
-//        this.instanceContext = instanceContext;
-//    }
 
     @Override
     public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) {
@@ -33,12 +27,14 @@ public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHa
             default:
                 Object oldInstance = instanceContext.attachInstance(value);
                 Collector collector = instanceContext.getCollector();
-                Node oldNode = collector.detachNode();
+
+                ObjectNode newNode = new ObjectNode(objectNode);
+                Pair<Node, Node> old = collector.attach(newNode, newNode);
 
                 instanceContext.getProcessor().handle(instanceContext);
 
-                Node newNode = collector.attachNode(oldNode);
-                collector.reset();
+                collector.attach(old.getLeft(), old.getRight());
+
                 objectNode.addChild(property, newNode);
 
                 instanceContext.attachInstance(oldInstance);
@@ -66,11 +62,13 @@ public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHa
             default:
                 Object oldInstance = instanceContext.attachInstance(value);
                 Collector collector = instanceContext.getCollector();
-                Node oldNode = collector.detachNode();
+
+                ObjectNode newNode = new ObjectNode(arrayNode);
+                Pair<Node, Node> old = collector.attach(newNode, newNode);
 
                 instanceContext.getProcessor().handle(instanceContext);
 
-                Node newNode = collector.attachNode(oldNode);
+                collector.attach(old.getLeft(), old.getRight());
                 arrayNode.addChild(newNode);
 
                 instanceContext.attachInstance(oldInstance);

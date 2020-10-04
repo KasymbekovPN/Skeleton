@@ -19,6 +19,7 @@ public interface Des2InstanceContext extends Context {
     Set<Triple<Field, Node, ObjectNode>> getMembers(String kind);
     OptionalConverter<Collection<Object>, ObjectNode> getStrType2CollectionConverter();
     OptionalConverter<Object, String> getClassName2InstanceConverter();
+    OptionalConverter<Object, ObjectNode> getToInstanceConverter();
     ClassMembersPartHandler getClassMembersPartHandler();
     void runProcessor();
 }

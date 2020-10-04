@@ -87,11 +87,11 @@ public class Des2InstanceTC0 {
     @SkeletonMember
     private int intValue2;
 
-//    @SkeletonMember
-//    private Set<Des2InstanceInnerTC0> customSet;
-//
-//    @SkeletonMember
-//    private List<Des2InstanceInnerTC0> customList;
+    @SkeletonMember
+    private Set<Des2InstanceInnerTC0> customSet;
+
+    @SkeletonMember
+    private List<Des2InstanceInnerTC0> customList;
 
     public void setIntValue(int intValue) {
         this.intValue = intValue;
@@ -197,14 +197,13 @@ public class Des2InstanceTC0 {
         this.intValue2 = intValue2;
     }
 
-    //    public void setCustomSet(Set<Des2InstanceInnerTC0> customSet) {
-//        this.customSet = customSet;
-//    }
-//
-//    public void setCustomList(List<Des2InstanceInnerTC0> customList) {
-//        this.customList = customList;
-//    }
+    public void setCustomSet(Set<Des2InstanceInnerTC0> customSet) {
+        this.customSet = customSet;
+    }
 
+    public void setCustomList(List<Des2InstanceInnerTC0> customList) {
+        this.customList = customList;
+    }
 
     @Override
     public String toString() {
@@ -235,6 +234,8 @@ public class Des2InstanceTC0 {
                 ", custom=" + custom +
                 ", custom2=" + custom2 +
                 ", intValue2=" + intValue2 +
+                ", customSet=" + customSet +
+                ", customList=" + customList +
                 '}';
     }
 }

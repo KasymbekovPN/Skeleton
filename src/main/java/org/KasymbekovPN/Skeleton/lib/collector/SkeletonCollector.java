@@ -1,6 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.collector;
 
 import org.KasymbekovPN.Skeleton.lib.node.*;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +24,6 @@ public class SkeletonCollector implements Collector {
     @Override
     public void reset() {
         target = root;
-        //<
-//        while (target.getParent() != null){
-//            target = target.getParent();
-//        }
     }
 
     @Override
@@ -129,10 +127,12 @@ public class SkeletonCollector implements Collector {
     }
 
     @Override
-    public Node attachNode(Node node) {
-        Node oldRoot = root;
-        root = node;
-        return oldRoot;
+    public Pair<Node, Node> attach(Node root, Node target) {
+        Node oldRoot = this.root;
+        Node oldTarget = this.target;
+        this.root = root;
+        this.target = target;
+        return new MutablePair<>(oldRoot, oldTarget);
     }
 
     private void setEachTarget(List<String> path){

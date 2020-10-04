@@ -15,6 +15,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.Instanc
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
+import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
@@ -97,11 +98,15 @@ public class Des2Instance {
         ClassContext classContext = createClassContext();
         classContext.attachClass(Des2InstanceTC0.class);
         classContextProcessor.handle(classContext);
-        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().attachNode(new ObjectNode(null)));
+
+//        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().attachNode(new ObjectNode(null)));
+        //<
+        ObjectNode objectNode1 = new ObjectNode(null);
+        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().attach(objectNode1, objectNode1).getLeft());
 
         classContext.attachClass(Des2InstanceInnerTC0.class);
         classContextProcessor.handle(classContext);
-        classNodes.put("Des2InstanceInnerTC0", (ObjectNode) classContext.getCollector().attachNode(null));
+        classNodes.put("Des2InstanceInnerTC0", (ObjectNode) classContext.getCollector().getNode());
 
         //<
         System.out.println(classNodes);
@@ -144,10 +149,37 @@ public class Des2Instance {
 
         original.setIntValue2(963);
 
+        Des2InstanceInnerTC0 setCustom1 = new Des2InstanceInnerTC0();
+        setCustom1.setIntValue(101);
+        Des2InstanceInnerTC0 setCustom2 = new Des2InstanceInnerTC0();
+        setCustom2.setIntValue(102);
+        Des2InstanceInnerTC0 setCustom3 = new Des2InstanceInnerTC0();
+        setCustom3.setIntValue(103);
+        original.setCustomSet(new HashSet<>(Arrays.asList(
+                setCustom1,
+                setCustom2,
+                setCustom3
+        )));
+
+        Des2InstanceInnerTC0 listCustom1 = new Des2InstanceInnerTC0();
+        listCustom1.setIntValue(1001);
+        Des2InstanceInnerTC0 listCustom2 = new Des2InstanceInnerTC0();
+        listCustom2.setIntValue(1002);
+        original.setCustomList(Arrays.asList(listCustom1, listCustom2));
+
+        //<
+        System.out.println("original : " + original);
+
         instanceContext.attachInstance(original);
 
         instanceProcessor.handle(instanceContext);
-        ObjectNode serializedData = (ObjectNode) instanceContext.getCollector().attachNode(null);
+//        ObjectNode serializedData = (ObjectNode) instanceContext.getCollector().attachNode(null);
+        //<
+        ObjectNode serializedData = (ObjectNode) instanceContext.getCollector().getNode();
+
+        //<
+        System.out.println("SD : " + serializedData);
+        //<
 
         ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor = createDes2InstanceContextProcessor();
         Des2InstanceContext des2InstanceContext = createDes2InstanceContext(
@@ -219,6 +251,7 @@ public class Des2Instance {
                 classPartCollectorPath,
                 new StrType2CollectionOptConverter(classMembersPartHandler),
                 new ClassName2Instance(map),
+                new ToInstanceOC(map, classHeaderPartHandler, classPartCollectorPath),
                 des2InstanceContextProcessor
         );
     }
@@ -254,7 +287,8 @@ public class Des2Instance {
                 Float.class,
                 Double.class,
                 Character.class,
-                Boolean.class
+                Boolean.class,
+                Des2InstanceInnerTC0.class
         ));
 
         return new CollectionTypeChecker(types, argumentTypes);

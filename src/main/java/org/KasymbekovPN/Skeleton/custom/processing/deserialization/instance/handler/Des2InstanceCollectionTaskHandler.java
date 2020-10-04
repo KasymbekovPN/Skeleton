@@ -70,7 +70,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
                     Collection<Object> collection = maybeCollection.get();
                     ArrayNode arrayNode = (ArrayNode) memberNode;
 
-                    fillCollection(collection, arrayNode);
+                    fillCollection(collection, arrayNode, context);
                     setField(field, collection);
                 } else {
                     log.warn("'{}' : memberNode has wrong type - isn't ArrayNode", name);
@@ -81,9 +81,9 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         }
     }
 
-    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode){
+    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode, Des2InstanceContext context){
         for (Node child : arrayNode.getChildren()) {
-            Optional<Object> maybeValue = extractValue(child);
+            Optional<Object> maybeValue = extractValue(child, context);
             if (maybeValue.isPresent()){
                 collection.add(maybeValue.get());
             } else {
@@ -92,7 +92,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         }
     }
 
-    private Optional<Object> extractValue(Node node){
+    private Optional<Object> extractValue(Node node, Des2InstanceContext context){
         if (node.is(BooleanNode.ei())){
             return Optional.of(((BooleanNode) node).getValue());
         } else if (node.is(CharacterNode.ei())){
@@ -101,6 +101,17 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
             return Optional.of(((NumberNode) node).getValue());
         } else if (node.is(StringNode.ei())){
             return Optional.of(((StringNode) node).getValue());
+        } else if (node.is(ObjectNode.ei())){
+
+            OptionalConverter<Object, ObjectNode> toInstanceConverter = context.getToInstanceConverter();
+            Optional<Object> maybeInstance = toInstanceConverter.convert((ObjectNode) node);
+            if (maybeInstance.isPresent()){
+                Object instance = maybeInstance.get();
+                context.push(instance, (ObjectNode) node);
+                context.runProcessor();
+
+                return Optional.of(context.pop());
+            }
         }
 
         //< !!! other node types

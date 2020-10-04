@@ -36,6 +36,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     private final CollectorPath classPath;
     private final OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter;
     private final OptionalConverter<Object, String> className2InstanceConverter;
+    private final OptionalConverter<Object, ObjectNode> toInstanceConverter;
     private final ContextProcessor<Des2InstanceContext> processor;
 
     private Storage storage = new Storage();
@@ -50,6 +51,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
                                        CollectorPath classPath,
                                        OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter,
                                        OptionalConverter<Object, String> className2InstanceConverter,
+                                       OptionalConverter<Object, ObjectNode> toInstanceConverter,
                                        ContextProcessor<Des2InstanceContext> processor) {
         this.contextIds = contextIds;
         this.classNodes = classNodes;
@@ -61,6 +63,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
         this.classPath = classPath;
         this.strType2CollectionConverter = strType2CollectionConverter;
         this.className2InstanceConverter = className2InstanceConverter;
+        this.toInstanceConverter = toInstanceConverter;
         this.processor = processor;
     }
 
@@ -122,6 +125,11 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     @Override
     public ClassMembersPartHandler getClassMembersPartHandler() {
         return classMembersPartHandler;
+    }
+
+    @Override
+    public OptionalConverter<Object, ObjectNode> getToInstanceConverter() {
+        return toInstanceConverter;
     }
 
     @Override
