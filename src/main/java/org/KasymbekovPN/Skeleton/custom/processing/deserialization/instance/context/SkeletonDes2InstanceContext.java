@@ -35,6 +35,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     private final ClassHeaderPartHandler classHeaderPartHandler;
     private final CollectorPath classPath;
     private final OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter;
+    private final OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter;
     private final OptionalConverter<Object, String> className2InstanceConverter;
     private final OptionalConverter<Object, ObjectNode> toInstanceConverter;
     private final ContextProcessor<Des2InstanceContext> processor;
@@ -50,6 +51,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
                                        ClassHeaderPartHandler classHeaderPartHandler,
                                        CollectorPath classPath,
                                        OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter,
+                                       OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter,
                                        OptionalConverter<Object, String> className2InstanceConverter,
                                        OptionalConverter<Object, ObjectNode> toInstanceConverter,
                                        ContextProcessor<Des2InstanceContext> processor) {
@@ -62,6 +64,7 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
         this.classHeaderPartHandler = classHeaderPartHandler;
         this.classPath = classPath;
         this.strType2CollectionConverter = strType2CollectionConverter;
+        this.strType2MapConverter = strType2MapConverter;
         this.className2InstanceConverter = className2InstanceConverter;
         this.toInstanceConverter = toInstanceConverter;
         this.processor = processor;
@@ -115,6 +118,11 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     @Override
     public OptionalConverter<Collection<Object>, ObjectNode> getStrType2CollectionConverter() {
         return strType2CollectionConverter;
+    }
+
+    @Override
+    public OptionalConverter<Map<Object, Object>, ObjectNode> getStrType2MapConverter() {
+        return strType2MapConverter;
     }
 
     @Override
