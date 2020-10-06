@@ -30,7 +30,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonResultData;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
@@ -111,27 +110,27 @@ public class SerClassNodeTest {
 
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult()),
                 KIND_SIGNATURE
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult()),
                 KIND_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InnerSerTC0"), KIND_CUSTOM, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassCustomTaskHandler(new AllowedStringChecker("InnerSerTC0"), KIND_CUSTOM, new SkeletonSimpleResult()),
                 KIND_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult()),
                 KIND_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult(new SkeletonResultData())),
+                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult()),
                 KIND_MAP
         );
 
@@ -186,12 +185,12 @@ public class SerClassNodeTest {
 
         new ContextHandlerWrapper<>(
                 task,
-                new SerClassNodeAggregateTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                new SerClassNodeAggregateTaskHandler(new SkeletonSimpleResult()),
                 WRAPPER_AGGR
         );
         new ContextHandlerWrapper<>(
                 task,
-                new SerClassNodeCheckingTaskHandler(new SkeletonSimpleResult(new SkeletonResultData())),
+                new SerClassNodeCheckingTaskHandler(new SkeletonSimpleResult()),
                 WRAPPER_CHECK
         );
 

@@ -8,6 +8,8 @@ public class SkeletonResultData implements ResultData {
 
     private final Map<String, Object> data = new HashMap<>();
 
+    public SkeletonResultData() {}
+
     @Override
     public void set(String key, Object value) {
         if (!data.containsKey(key)){
@@ -32,10 +34,5 @@ public class SkeletonResultData implements ResultData {
     @Override
     public void clear() {
         data.clear();
-    }
-
-    @Override
-    public ResultData createInstance() {
-        return new SkeletonResultData();
     }
 }

@@ -1,11 +1,19 @@
 package org.KasymbekovPN.Skeleton.lib.result;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class SkeletonSimpleResult implements SimpleResult {
 
-    private final ResultData resultData;
+    private static final Class<? extends ResultData> RESULT_DATA_CLASS = SkeletonResultData.class;
 
+    private ResultData resultData;
     private boolean success;
     private String status;
+
+    public SkeletonSimpleResult() {
+        reset();
+    }
 
     public SkeletonSimpleResult(ResultData resultData) {
         this.resultData = resultData;
@@ -33,7 +41,11 @@ public class SkeletonSimpleResult implements SimpleResult {
     }
 
     @Override
-    public ResultData getResultData() {
+    public ResultData getResultData() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        if (resultData != null){
+            resultData = createResultData();
+        }
+
         return resultData;
     }
 
@@ -41,11 +53,21 @@ public class SkeletonSimpleResult implements SimpleResult {
     public void reset() {
         success = true;
         status = "";
-        resultData.clear();
+        if (resultData != null){
+            resultData.clear();
+        }
     }
 
     @Override
     public SimpleResult createInstance() {
-        return new SkeletonSimpleResult(resultData.createInstance());
+        return new SkeletonSimpleResult();
+    }
+
+    private ResultData createResultData() throws NoSuchMethodException,
+                                                 IllegalAccessException,
+                                                 InvocationTargetException,
+                                                 InstantiationException {
+        Constructor<? extends ResultData> constructor = RESULT_DATA_CLASS.getConstructor();
+        return constructor.newInstance();
     }
 }
