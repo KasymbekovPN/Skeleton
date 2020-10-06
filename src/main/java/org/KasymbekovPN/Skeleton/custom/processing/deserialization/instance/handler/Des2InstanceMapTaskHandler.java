@@ -135,7 +135,7 @@ public class Des2InstanceMapTaskHandler extends BaseContextTaskHandler<Des2Insta
             return Optional.of(((NumberNode) node).getValue());
         } else if (node.is(StringNode.ei())){
             return Optional.of(((StringNode) node).getValue());
-        } /*else if (node.is(ObjectNode.ei())){
+        } else if (node.is(ObjectNode.ei())){
 
             OptionalConverter<Object, ObjectNode> toInstanceConverter = context.getToInstanceConverter();
             Optional<Object> maybeInstance = toInstanceConverter.convert((ObjectNode) node);
@@ -146,9 +146,7 @@ public class Des2InstanceMapTaskHandler extends BaseContextTaskHandler<Des2Insta
 
                 return Optional.of(context.pop());
             }
-        }*/
-
-        //< !!! other node types
+        }
 
         return Optional.empty();
     }

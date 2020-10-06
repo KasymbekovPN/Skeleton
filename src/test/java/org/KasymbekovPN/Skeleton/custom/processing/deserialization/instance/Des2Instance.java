@@ -117,63 +117,73 @@ public class Des2Instance {
         InstanceContext instanceContext = createInstanceContext(classNodes, instanceProcessor);
 
         Des2InstanceTC0 original = new Des2InstanceTC0();
-//        original.setIntValue(123);
-//        original.setFloatValue(0.25f);
-//        original.setDoubleValue(1.65);
-//        original.setBooleanValue(true);
-//        original.setCharValue('x');
-//        original.setStringObject("hello");
-//        original.setBooleanObject(true);
-//        original.setIntegerObject(654);
-//        original.setFloatObject(1.258f);
-//        original.setDoubleObject(5566.558);
-//        original.setCharacterObject('z');
-//        original.setIntSet(new HashSet<>(Arrays.asList(1,2,3)));
-//        original.setIntList(Arrays.asList(4, 5, 6));
-//        original.setFloatSet(new HashSet<>(Arrays.asList(1.1f, 1.2f)));
-//        original.setFloatList(Arrays.asList(1.3f, 1.4f));
-//        original.setDoubleSet(new HashSet<>(Arrays.asList(100.1, 100.2)));
-//        original.setDoubleList(Arrays.asList(100.3, 100.4));
-//        original.setBooleanSet(new HashSet<>(Arrays.asList(false, true)));
-//        original.setBooleanList(Arrays.asList(true, false, true));
-//        original.setCharacterSet(new HashSet<>(Arrays.asList('a', 'b')));
-//        original.setCharacterList(Arrays.asList('c', 'd'));
-//        original.setStringSet(new HashSet<>(Arrays.asList("hello", "world")));
-//        original.setStringList(Arrays.asList("aaa", "bbb"));
-//
-//        Des2InstanceInnerTC0 custom = new Des2InstanceInnerTC0();
-//        custom.setIntValue(456);
-//        original.setCustom(custom);
-//
-//        Des2InstanceInnerTC0 custom2 = new Des2InstanceInnerTC0();
-//        custom2.setIntValue(789);
-//        original.setCustom2(custom2);
-//
-//        original.setIntValue2(963);
-//
-//        Des2InstanceInnerTC0 setCustom1 = new Des2InstanceInnerTC0();
-//        setCustom1.setIntValue(101);
-//        Des2InstanceInnerTC0 setCustom2 = new Des2InstanceInnerTC0();
-//        setCustom2.setIntValue(102);
-//        Des2InstanceInnerTC0 setCustom3 = new Des2InstanceInnerTC0();
-//        setCustom3.setIntValue(103);
-//        original.setCustomSet(new HashSet<>(Arrays.asList(
-//                setCustom1,
-//                setCustom2,
-//                setCustom3
-//        )));
-//
-//        Des2InstanceInnerTC0 listCustom1 = new Des2InstanceInnerTC0();
-//        listCustom1.setIntValue(1001);
-//        Des2InstanceInnerTC0 listCustom2 = new Des2InstanceInnerTC0();
-//        listCustom2.setIntValue(1002);
-//        original.setCustomList(Arrays.asList(listCustom1, listCustom2));
+        original.setIntValue(123);
+        original.setFloatValue(0.25f);
+        original.setDoubleValue(1.65);
+        original.setBooleanValue(true);
+        original.setCharValue('x');
+        original.setStringObject("hello");
+        original.setBooleanObject(true);
+        original.setIntegerObject(654);
+        original.setFloatObject(1.258f);
+        original.setDoubleObject(5566.558);
+        original.setCharacterObject('z');
+        original.setIntSet(new HashSet<>(Arrays.asList(1,2,3)));
+        original.setIntList(Arrays.asList(4, 5, 6));
+        original.setFloatSet(new HashSet<>(Arrays.asList(1.1f, 1.2f)));
+        original.setFloatList(Arrays.asList(1.3f, 1.4f));
+        original.setDoubleSet(new HashSet<>(Arrays.asList(100.1, 100.2)));
+        original.setDoubleList(Arrays.asList(100.3, 100.4));
+        original.setBooleanSet(new HashSet<>(Arrays.asList(false, true)));
+        original.setBooleanList(Arrays.asList(true, false, true));
+        original.setCharacterSet(new HashSet<>(Arrays.asList('a', 'b')));
+        original.setCharacterList(Arrays.asList('c', 'd'));
+        original.setStringSet(new HashSet<>(Arrays.asList("hello", "world")));
+        original.setStringList(Arrays.asList("aaa", "bbb"));
+
+        Des2InstanceInnerTC0 custom = new Des2InstanceInnerTC0();
+        custom.setIntValue(456);
+        original.setCustom(custom);
+
+        Des2InstanceInnerTC0 custom2 = new Des2InstanceInnerTC0();
+        custom2.setIntValue(789);
+        original.setCustom2(custom2);
+
+        original.setIntValue2(963);
+
+        Des2InstanceInnerTC0 setCustom1 = new Des2InstanceInnerTC0();
+        setCustom1.setIntValue(101);
+        Des2InstanceInnerTC0 setCustom2 = new Des2InstanceInnerTC0();
+        setCustom2.setIntValue(102);
+        Des2InstanceInnerTC0 setCustom3 = new Des2InstanceInnerTC0();
+        setCustom3.setIntValue(103);
+        original.setCustomSet(new HashSet<>(Arrays.asList(
+                setCustom1,
+                setCustom2,
+                setCustom3
+        )));
+
+        Des2InstanceInnerTC0 listCustom1 = new Des2InstanceInnerTC0();
+        listCustom1.setIntValue(1001);
+        Des2InstanceInnerTC0 listCustom2 = new Des2InstanceInnerTC0();
+        listCustom2.setIntValue(1002);
+        original.setCustomList(Arrays.asList(listCustom1, listCustom2));
 
         HashMap<Integer, String> strByIntMap = new HashMap<>() {{
             put(12, "Hello");
             put(13, "world");
         }};
         original.setStringByIntegerMap(strByIntMap);
+
+        Des2InstanceInnerTC0 mapCustom1 = new Des2InstanceInnerTC0();
+        mapCustom1.setIntValue(777);
+        Des2InstanceInnerTC0 mapCustom2 = new Des2InstanceInnerTC0();
+        mapCustom2.setIntValue(888);
+        HashMap<String, Des2InstanceInnerTC0> customMap = new HashMap<>() {{
+            put("first", mapCustom1);
+            put("second", mapCustom2);
+        }};
+        original.setCustomByStringMap(customMap);
 
         //<
         System.out.println("original : " + original);
@@ -312,7 +322,7 @@ public class Des2Instance {
     private SimpleChecker<Field> createMapTypeChecker(){
         Set<Class<?>> mTypes = new HashSet<>(Collections.singletonList(Map.class));
         Set<Class<?>> keyArgTypes = new HashSet<>(Arrays.asList(Integer.class, String.class));
-        Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class, String.class));
+        Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class, String.class, Des2InstanceInnerTC0.class));
 
         return new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
     }
