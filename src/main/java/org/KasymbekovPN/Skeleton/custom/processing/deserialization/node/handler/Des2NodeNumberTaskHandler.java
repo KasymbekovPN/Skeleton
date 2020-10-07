@@ -13,6 +13,8 @@ import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
 public class Des2NodeNumberTaskHandler extends BaseContextTaskHandler<Des2NodeContext> {
+    public Des2NodeNumberTaskHandler() {
+    }
 
     public Des2NodeNumberTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);

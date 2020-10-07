@@ -16,9 +16,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 
 public class Des2Node {
@@ -33,7 +33,7 @@ public class Des2Node {
     private static final String WRAPPER_STRING = "string";
 
     @Test
-    void test(){
+    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         String line = getLine();
         ContextProcessor<Des2NodeContext> processor = createProcessor();
@@ -116,37 +116,37 @@ public class Des2Node {
 
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeInitTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeInitTaskHandler(),
                 WRAPPER_INIT
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeObjectTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeObjectTaskHandler(),
                 WRAPPER_OBJECT
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeArrayTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeArrayTaskHandler(),
                 WRAPPER_ARRAY
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeBooleanTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeBooleanTaskHandler(),
                 WRAPPER_BOOLEAN
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeCharacterTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeCharacterTaskHandler(),
                 WRAPPER_CHARACTER
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeNumberTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeNumberTaskHandler(),
                 WRAPPER_NUMBER
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2NodeStringTaskHandler(new SkeletonSimpleResult()),
+                new Des2NodeStringTaskHandler(),
                 WRAPPER_STRING
         );
 

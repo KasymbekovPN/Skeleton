@@ -5,10 +5,12 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHandler {
 
     @Override
-    public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) {
+    public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){
@@ -43,7 +45,7 @@ public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHa
     }
 
     @Override
-    public void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) {
+    public void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){

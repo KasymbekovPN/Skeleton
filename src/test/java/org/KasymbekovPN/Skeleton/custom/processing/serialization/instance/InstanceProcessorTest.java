@@ -37,7 +37,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DisplayName;
@@ -117,27 +116,27 @@ public class InstanceProcessorTest {
 
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult()),
+                new ClassSignatureTaskHandler(classHeaderPartHandler),
                 KIND_SIGNATURE
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult()),
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC),
                 KIND_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0"), KIND_CUSTOM, new SkeletonSimpleResult()),
+                new ClassCustomTaskHandler(new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0"), KIND_CUSTOM),
                 KIND_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult()),
+                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION),
                 KIND_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult()),
+                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP),
                 KIND_MAP
         );
 
@@ -195,27 +194,27 @@ public class InstanceProcessorTest {
 
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceHeaderTaskHandler(new SkeletonSimpleResult()),
+                new InstanceHeaderTaskHandler(),
                 KIND_HEADER
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceSpecificTaskHandler(KIND_SPECIFIC, new SkeletonSimpleResult()),
+                new InstanceSpecificTaskHandler(KIND_SPECIFIC),
                 KIND_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceCustomTaskHandler(KIND_CUSTOM, new SkeletonSimpleResult()),
+                new InstanceCustomTaskHandler(KIND_CUSTOM),
                 KIND_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceCollectionTaskHandler(KIND_COLLECTION, new SkeletonSimpleResult()),
+                new InstanceCollectionTaskHandler(KIND_COLLECTION),
                 KIND_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceMapTaskHandler(KIND_MAP, new SkeletonSimpleResult()),
+                new InstanceMapTaskHandler(KIND_MAP),
                 KIND_MAP
         );
 

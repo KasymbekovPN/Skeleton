@@ -30,6 +30,12 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler<ClassConte
     private Set<Field> fields = new HashSet<>();
 
     public ClassContainerTaskHandler(SimpleChecker<Field> fieldChecker,
+                                     String kind) {
+        this.fieldChecker = fieldChecker;
+        this.kind = kind;
+    }
+
+    public ClassContainerTaskHandler(SimpleChecker<Field> fieldChecker,
                                      String kind,
                                      SimpleResult simpleResult) {
         super(simpleResult);

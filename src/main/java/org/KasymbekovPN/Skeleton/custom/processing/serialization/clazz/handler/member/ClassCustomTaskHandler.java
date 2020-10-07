@@ -28,6 +28,13 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext>
     private Set<Pair<String, Field>> data = new HashSet<>();
 
     public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
+                                  String kind) {
+        super();
+        this.classNameChecker = classNameChecker;
+        this.kind = kind;
+    }
+
+    public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
                                   String kind,
                                   SimpleResult simpleResult) {
         super(simpleResult);

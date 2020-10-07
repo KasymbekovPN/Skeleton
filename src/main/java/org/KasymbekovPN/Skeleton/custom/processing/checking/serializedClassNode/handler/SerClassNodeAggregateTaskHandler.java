@@ -18,6 +18,9 @@ public class SerClassNodeAggregateTaskHandler extends BaseContextTaskHandler<Ser
 
     private Set<String> classNames;
 
+    public SerClassNodeAggregateTaskHandler() {
+    }
+
     public SerClassNodeAggregateTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
     }

@@ -21,6 +21,10 @@ public class InstanceHeaderTaskHandler extends BaseContextTaskHandler<InstanceCo
     private String name;
     private int modifiers;
 
+    public InstanceHeaderTaskHandler() {
+        super();
+    }
+
     public InstanceHeaderTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
     }

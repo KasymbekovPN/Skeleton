@@ -41,8 +41,11 @@ public class SkeletonSimpleResult implements SimpleResult {
     }
 
     @Override
-    public ResultData getResultData() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        if (resultData != null){
+    public ResultData getResultData() throws InvocationTargetException,
+                                             NoSuchMethodException,
+                                             InstantiationException,
+                                             IllegalAccessException {
+        if (resultData == null){
             resultData = createResultData();
         }
 
@@ -56,11 +59,6 @@ public class SkeletonSimpleResult implements SimpleResult {
         if (resultData != null){
             resultData.clear();
         }
-    }
-
-    @Override
-    public SimpleResult createInstance() {
-        return new SkeletonSimpleResult();
     }
 
     private ResultData createResultData() throws NoSuchMethodException,

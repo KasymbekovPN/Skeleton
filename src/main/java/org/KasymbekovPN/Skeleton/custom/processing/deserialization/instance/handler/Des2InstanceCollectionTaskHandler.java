@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -24,8 +25,12 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
     private Object instance;
     private Set<Triple<Field, Node, ObjectNode>> members;
 
-    public Des2InstanceCollectionTaskHandler(SimpleResult simpleResult,
-                                             String kind) {
+    public Des2InstanceCollectionTaskHandler(String kind) {
+        this.kind = kind;
+    }
+
+    public Des2InstanceCollectionTaskHandler(String kind,
+                                             SimpleResult simpleResult) {
         super(simpleResult);
         this.kind = kind;
     }
@@ -53,7 +58,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
     }
 
     @Override
-    protected void doIt(Des2InstanceContext context) {
+    protected void doIt(Des2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter
                 = context.getStrType2CollectionConverter();
@@ -81,7 +86,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         }
     }
 
-    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode, Des2InstanceContext context){
+    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode, Des2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         for (Node child : arrayNode.getChildren()) {
             Optional<Object> maybeValue = extractValue(child, context);
             if (maybeValue.isPresent()){
@@ -92,7 +97,10 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         }
     }
 
-    private Optional<Object> extractValue(Node node, Des2InstanceContext context){
+    private Optional<Object> extractValue(Node node, Des2InstanceContext context) throws InvocationTargetException,
+                                                                                         NoSuchMethodException,
+                                                                                         InstantiationException,
+                                                                                         IllegalAccessException {
         if (node.is(BooleanNode.ei())){
             return Optional.of(((BooleanNode) node).getValue());
         } else if (node.is(CharacterNode.ei())){

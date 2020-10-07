@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -23,5 +24,5 @@ public interface Des2InstanceContext extends Context {
     OptionalConverter<Object, String> getClassName2InstanceConverter();
     OptionalConverter<Object, ObjectNode> getToInstanceConverter();
     ClassMembersPartHandler getClassMembersPartHandler();
-    void runProcessor();
+    void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
 }

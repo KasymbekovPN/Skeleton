@@ -22,9 +22,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class ClassProcessorTest {
@@ -51,7 +51,7 @@ public class ClassProcessorTest {
     );
 
     @Test
-    void test(){
+    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
@@ -94,27 +94,27 @@ public class ClassProcessorTest {
 
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult()),
+                new ClassSignatureTaskHandler(classHeaderPartHandler),
                 KIND_SIGNATURE
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC, new SkeletonSimpleResult()),
+                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC),
                 KIND_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), KIND_CUSTOM, new SkeletonSimpleResult()),
+                new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), KIND_CUSTOM),
                 KIND_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION, new SkeletonSimpleResult()),
+                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION),
                 KIND_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP, new SkeletonSimpleResult()),
+                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP),
                 KIND_MAP
         );
 

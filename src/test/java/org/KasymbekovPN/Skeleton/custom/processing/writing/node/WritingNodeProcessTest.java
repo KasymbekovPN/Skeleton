@@ -16,7 +16,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
 public class WritingNodeProcessTest {
@@ -88,17 +87,17 @@ public class WritingNodeProcessTest {
 
         new ContextHandlerWrapper<>(
                 task,
-                new WritingArrayTaskHandler(new SkeletonSimpleResult()),
+                new WritingArrayTaskHandler(),
                 WRAPPER_ARRAY
         );
         new ContextHandlerWrapper<>(
                 task,
-                new WritingObjectTaskHandler(new SkeletonSimpleResult()),
+                new WritingObjectTaskHandler(),
                 WRAPPER_OBJECT
         );
         new ContextHandlerWrapper<>(
                 task,
-                new WritingPrimitiveTaskHandler(new SkeletonSimpleResult()),
+                new WritingPrimitiveTaskHandler(),
                 WRAPPER_PRIMITIVE
         );
 

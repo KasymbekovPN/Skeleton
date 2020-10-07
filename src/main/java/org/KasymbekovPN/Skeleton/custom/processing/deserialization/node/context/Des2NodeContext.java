@@ -7,10 +7,12 @@ import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.apache.commons.lang3.tuple.Triple;
 
+import java.lang.reflect.InvocationTargetException;
+
 public interface Des2NodeContext extends Context {
     Des2NodeCharItr iterator();
     Finder getFinder();
-    void runProcessor();
+    void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
     void setMode(Des2NodeMode mode);
     void setNode(Node node);
     Node getNode();

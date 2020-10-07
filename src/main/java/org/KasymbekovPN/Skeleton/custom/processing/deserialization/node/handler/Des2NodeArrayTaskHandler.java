@@ -10,7 +10,12 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class Des2NodeArrayTaskHandler extends BaseContextTaskHandler<Des2NodeContext> {
+
+    public Des2NodeArrayTaskHandler() {
+    }
 
     public Des2NodeArrayTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
@@ -20,7 +25,7 @@ public class Des2NodeArrayTaskHandler extends BaseContextTaskHandler<Des2NodeCon
     protected void check(Des2NodeContext context, Task<Des2NodeContext> task) {}
 
     @Override
-    protected void doIt(Des2NodeContext context) {
+    protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         boolean done = false;
         State state = State.BEGIN_END;

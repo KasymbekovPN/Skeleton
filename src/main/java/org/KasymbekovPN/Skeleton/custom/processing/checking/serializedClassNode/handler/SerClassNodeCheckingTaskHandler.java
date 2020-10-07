@@ -21,6 +21,9 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler<SerC
     private Set<String> withoutMembersPart = new HashSet<>();
     private Map<String, Set<String>> wrongTypeMembers = new HashMap<>();
 
+    public SerClassNodeCheckingTaskHandler() {
+    }
+
     public SerClassNodeCheckingTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
     }

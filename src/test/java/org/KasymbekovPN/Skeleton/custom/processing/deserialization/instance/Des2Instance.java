@@ -49,10 +49,10 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Des2Instance {
@@ -90,7 +90,7 @@ public class Des2Instance {
     private static final String WRAPPER_MAP = "map";
 
     @Test
-    void test(){
+    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
@@ -226,22 +226,22 @@ public class Des2Instance {
 
         new ContextHandlerWrapper<>(
                 task,
-                new Des2InstanceSpecificTaskHandler(new SkeletonSimpleResult(), WRAPPER_SPECIFIC),
+                new Des2InstanceSpecificTaskHandler(WRAPPER_SPECIFIC),
                 WRAPPER_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2InstanceCollectionTaskHandler(new SkeletonSimpleResult(), WRAPPER_COLLECTION),
+                new Des2InstanceCollectionTaskHandler(WRAPPER_COLLECTION),
                 WRAPPER_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2InstanceCustomTaskHandler(new SkeletonSimpleResult(), WRAPPER_CUSTOM),
+                new Des2InstanceCustomTaskHandler(WRAPPER_CUSTOM),
                 WRAPPER_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new Des2InstanceMapTaskHandler(new SkeletonSimpleResult(), WRAPPER_MAP),
+                new Des2InstanceMapTaskHandler(WRAPPER_MAP),
                 WRAPPER_MAP
         );
 
@@ -340,7 +340,7 @@ public class Des2Instance {
 
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler, new SkeletonSimpleResult()),
+                new ClassSignatureTaskHandler(classHeaderPartHandler),
                 WRAPPER_SIGNATURE
         );
 
@@ -359,22 +359,22 @@ public class Des2Instance {
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassSpecificTaskHandler(specAllowedClassChecker, WRAPPER_SPECIFIC, new SkeletonSimpleResult()),
+                new ClassSpecificTaskHandler(specAllowedClassChecker, WRAPPER_SPECIFIC),
                 WRAPPER_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("Des2InstanceInnerTC0"), WRAPPER_CUSTOM, new SkeletonSimpleResult()),
+                new ClassCustomTaskHandler(new AllowedStringChecker("Des2InstanceInnerTC0"), WRAPPER_CUSTOM),
                 WRAPPER_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(collectionTypeChecker, WRAPPER_COLLECTION, new SkeletonSimpleResult()),
+                new ClassContainerTaskHandler(collectionTypeChecker, WRAPPER_COLLECTION),
                 WRAPPER_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new ClassContainerTaskHandler(mapTypeChecker, WRAPPER_MAP, new SkeletonSimpleResult()),
+                new ClassContainerTaskHandler(mapTypeChecker, WRAPPER_MAP),
                 WRAPPER_MAP
         );
 
@@ -392,27 +392,27 @@ public class Des2Instance {
 
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceHeaderTaskHandler(new SkeletonSimpleResult()),
+                new InstanceHeaderTaskHandler(),
                 WRAPPER_HEADER
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceSpecificTaskHandler(WRAPPER_SPECIFIC, new SkeletonSimpleResult()),
+                new InstanceSpecificTaskHandler(WRAPPER_SPECIFIC),
                 WRAPPER_SPECIFIC
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceCustomTaskHandler(WRAPPER_CUSTOM, new SkeletonSimpleResult()),
+                new InstanceCustomTaskHandler(WRAPPER_CUSTOM),
                 WRAPPER_CUSTOM
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceCollectionTaskHandler(WRAPPER_COLLECTION, new SkeletonSimpleResult()),
+                new InstanceCollectionTaskHandler(WRAPPER_COLLECTION),
                 WRAPPER_COLLECTION
         );
         new ContextHandlerWrapper<>(
                 task,
-                new InstanceMapTaskHandler(WRAPPER_MAP, new SkeletonSimpleResult()),
+                new InstanceMapTaskHandler(WRAPPER_MAP),
                 WRAPPER_MAP
         );
 

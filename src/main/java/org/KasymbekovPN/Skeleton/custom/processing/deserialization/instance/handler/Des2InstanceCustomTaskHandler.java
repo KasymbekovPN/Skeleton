@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -25,8 +26,12 @@ public class Des2InstanceCustomTaskHandler extends BaseContextTaskHandler<Des2In
     private Object instance;
     private Set<Triple<Field, Node, ObjectNode>> members;
 
-    public Des2InstanceCustomTaskHandler(SimpleResult simpleResult,
-                                         String kind) {
+    public Des2InstanceCustomTaskHandler(String kind) {
+        this.kind = kind;
+    }
+
+    public Des2InstanceCustomTaskHandler(String kind,
+                                         SimpleResult simpleResult) {
         super(simpleResult);
         this.kind = kind;
     }
@@ -54,7 +59,7 @@ public class Des2InstanceCustomTaskHandler extends BaseContextTaskHandler<Des2In
     }
 
     @Override
-    protected void doIt(Des2InstanceContext context) {
+    protected void doIt(Des2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
         ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
         OptionalConverter<Object, String> className2InstanceConverter = context.getClassName2InstanceConverter();
@@ -83,7 +88,7 @@ public class Des2InstanceCustomTaskHandler extends BaseContextTaskHandler<Des2In
         }
     }
 
-    private void fillInstance(Object instance, Des2InstanceContext context, ObjectNode serData){
+    private void fillInstance(Object instance, Des2InstanceContext context, ObjectNode serData) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         context.push(instance, serData);
         context.runProcessor();
         context.pop();

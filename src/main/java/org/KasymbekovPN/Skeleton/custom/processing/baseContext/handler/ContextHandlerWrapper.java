@@ -6,6 +6,8 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class ContextHandlerWrapper<T extends Context> implements TaskWrapper<T> {
 
     private final Task<T> task;
@@ -21,7 +23,10 @@ public class ContextHandlerWrapper<T extends Context> implements TaskWrapper<T> 
     }
 
     @Override
-    public SimpleResult handle(T object) {
+    public SimpleResult handle(T object) throws InvocationTargetException,
+                                                NoSuchMethodException,
+                                                InstantiationException,
+                                                IllegalAccessException {
         return taskHandler.handle(object, task);
     }
 

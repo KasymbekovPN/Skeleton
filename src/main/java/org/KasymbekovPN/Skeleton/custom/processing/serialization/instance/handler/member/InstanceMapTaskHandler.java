@@ -11,6 +11,7 @@ import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 public class InstanceMapTaskHandler extends BaseContextTaskHandler<InstanceContext> {
@@ -20,6 +21,11 @@ public class InstanceMapTaskHandler extends BaseContextTaskHandler<InstanceConte
     private final String kind;
 
     private Map<String, Object> values;
+
+    public InstanceMapTaskHandler(String kind) {
+        super();
+        this.kind = kind;
+    }
 
     public InstanceMapTaskHandler(String kind,
                                   SimpleResult simpleResult) {
@@ -38,7 +44,7 @@ public class InstanceMapTaskHandler extends BaseContextTaskHandler<InstanceConte
     }
 
     @Override
-    protected void doIt(InstanceContext context) {
+    protected void doIt(InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         InstanceMembersPartHandler instanceMembersPartHandler = context.getInstanceMembersPartHandler();
         CollectorPath membersPartPath = context.getMembersPartPath();

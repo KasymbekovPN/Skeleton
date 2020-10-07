@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -44,7 +45,10 @@ public class ContextProcessor<T extends Context> implements Processor<T> {
     }
 
     @Override
-    public Result handle(T object) {
+    public Result handle(T object) throws InvocationTargetException,
+                                          NoSuchMethodException,
+                                          InstantiationException,
+                                          IllegalAccessException {
         Iterator<String> taskIterator = object.getContextIds().taskIterator();
         while (taskIterator.hasNext()){
             String taskId = taskIterator.next();

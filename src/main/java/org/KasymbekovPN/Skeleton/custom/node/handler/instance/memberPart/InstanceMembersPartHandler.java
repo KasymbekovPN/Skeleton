@@ -4,7 +4,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.contex
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
+import java.lang.reflect.InvocationTargetException;
+
 public interface InstanceMembersPartHandler {
-    void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext);
-    void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext);
+    void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
+    void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
 }

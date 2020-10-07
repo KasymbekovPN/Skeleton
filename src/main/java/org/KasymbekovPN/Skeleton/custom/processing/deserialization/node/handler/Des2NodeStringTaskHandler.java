@@ -16,6 +16,9 @@ public class Des2NodeStringTaskHandler extends BaseContextTaskHandler<Des2NodeCo
 
     private static final Character SHIELD = '\\';
 
+    public Des2NodeStringTaskHandler() {
+    }
+
     public Des2NodeStringTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
     }

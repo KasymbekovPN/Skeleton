@@ -7,6 +7,8 @@ import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class SkeletonWritingContext implements WritingContext {
 
     private final ContextIds arrayNodeContextIds;
@@ -60,7 +62,10 @@ public class SkeletonWritingContext implements WritingContext {
     }
 
     @Override
-    public void runProcessor() {
+    public void runProcessor() throws NoSuchMethodException,
+                                      InstantiationException,
+                                      IllegalAccessException,
+                                      InvocationTargetException {
         contextProcessor.handle(this);
     }
 }

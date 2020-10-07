@@ -31,6 +31,13 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler<ClassContex
     private Set<Field> specificFields = new HashSet<>();
 
     public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker,
+                                    String kind) {
+        super();
+        this.fieldChecker = fieldChecker;
+        this.kind = kind;
+    }
+
+    public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker,
                                     String kind,
                                     SimpleResult simpleResult) {
         super(simpleResult);

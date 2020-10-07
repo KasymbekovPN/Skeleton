@@ -8,10 +8,15 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
 public class WritingArrayTaskHandler extends BaseContextTaskHandler<WritingContext> {
+
+    public WritingArrayTaskHandler() {
+        super();
+    }
 
     public WritingArrayTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
@@ -25,7 +30,10 @@ public class WritingArrayTaskHandler extends BaseContextTaskHandler<WritingConte
     }
 
     @Override
-    protected void doIt(WritingContext context) {
+    protected void doIt(WritingContext context) throws InvocationTargetException,
+                                                       NoSuchMethodException,
+                                                       InstantiationException,
+                                                       IllegalAccessException {
         WritingFormatterHandler writingFormatterHandler = context.getWritingFormatterHandler();
         ArrayNode node = (ArrayNode) context.getNode();
         List<Node> children = node.getChildren();

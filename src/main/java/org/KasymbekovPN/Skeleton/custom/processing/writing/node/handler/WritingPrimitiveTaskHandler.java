@@ -9,6 +9,10 @@ import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public class WritingPrimitiveTaskHandler extends BaseContextTaskHandler<WritingContext> {
 
+    public WritingPrimitiveTaskHandler() {
+        super();
+    }
+
     public WritingPrimitiveTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
     }

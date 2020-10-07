@@ -22,7 +22,12 @@ public class Des2InstanceSpecificTaskHandler extends BaseContextTaskHandler<Des2
     private Object instance;
     private Set<Triple<Field, Node, ObjectNode>> members;
 
-    public Des2InstanceSpecificTaskHandler(SimpleResult simpleResult, String kind) {
+    public Des2InstanceSpecificTaskHandler(String kind) {
+        this.kind = kind;
+    }
+
+    public Des2InstanceSpecificTaskHandler(String kind,
+                                           SimpleResult simpleResult) {
         super(simpleResult);
         this.kind = kind;
     }

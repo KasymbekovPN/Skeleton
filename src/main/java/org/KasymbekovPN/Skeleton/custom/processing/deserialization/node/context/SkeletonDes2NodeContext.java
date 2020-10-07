@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.apache.commons.lang3.tuple.Triple;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 
 public class SkeletonDes2NodeContext implements Des2NodeContext {
@@ -50,7 +51,7 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
     }
 
     @Override
-    public void runProcessor() {
+    public void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         processor.handle(this);
     }
 

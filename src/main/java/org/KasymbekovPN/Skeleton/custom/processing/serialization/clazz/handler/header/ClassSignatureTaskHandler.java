@@ -25,6 +25,10 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler<ClassConte
     private String name;
     private int modifiers;
 
+    public ClassSignatureTaskHandler(ClassHeaderPartHandler classHeaderPartHandler) {
+        this.classHeaderPartHandler = classHeaderPartHandler;
+    }
+
     public ClassSignatureTaskHandler(ClassHeaderPartHandler classHeaderPartHandler,
                                      SimpleResult simpleResult) {
         super(simpleResult);

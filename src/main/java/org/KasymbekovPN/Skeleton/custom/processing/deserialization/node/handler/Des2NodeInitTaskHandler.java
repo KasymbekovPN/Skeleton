@@ -8,7 +8,11 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class Des2NodeInitTaskHandler extends BaseContextTaskHandler<Des2NodeContext> {
+    public Des2NodeInitTaskHandler() {
+    }
 
     public Des2NodeInitTaskHandler(SimpleResult simpleResult) {
         super(simpleResult);
@@ -18,7 +22,7 @@ public class Des2NodeInitTaskHandler extends BaseContextTaskHandler<Des2NodeCont
     protected void check(Des2NodeContext context, Task<Des2NodeContext> task) {}
 
     @Override
-    protected void doIt(Des2NodeContext context) {
+    protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         Finder finder = context.getFinder();
         Des2NodeCharItr iterator = context.iterator();

@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
@@ -141,7 +142,10 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
     }
 
     @Override
-    public void runProcessor() {
+    public void runProcessor() throws NoSuchMethodException,
+                                      InstantiationException,
+                                      IllegalAccessException,
+                                      InvocationTargetException {
         processor.handle(this);
     }
 

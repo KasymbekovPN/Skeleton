@@ -11,6 +11,7 @@ import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -22,7 +23,13 @@ public class InstanceCollectionTaskHandler extends BaseContextTaskHandler<Instan
 
     private Map<String, Object> values;
 
-    public InstanceCollectionTaskHandler(String kind, SimpleResult simpleResult) {
+    public InstanceCollectionTaskHandler(String kind) {
+        super();
+        this.kind = kind;
+    }
+
+    public InstanceCollectionTaskHandler(String kind,
+                                         SimpleResult simpleResult) {
         super(simpleResult);
         this.kind = kind;
     }
@@ -37,7 +44,7 @@ public class InstanceCollectionTaskHandler extends BaseContextTaskHandler<Instan
     }
 
     @Override
-    protected void doIt(InstanceContext context) {
+    protected void doIt(InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         CollectorPath membersPartPath = context.getMembersPartPath();
         InstanceMembersPartHandler instanceMembersPartHandler = context.getInstanceMembersPartHandler();
         Collector collector = context.getCollector();
