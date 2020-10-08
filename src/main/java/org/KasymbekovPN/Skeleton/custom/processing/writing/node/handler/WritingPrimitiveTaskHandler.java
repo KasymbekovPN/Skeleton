@@ -4,21 +4,20 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseConte
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 public class WritingPrimitiveTaskHandler extends BaseContextTaskHandler<WritingContext> {
 
-    public WritingPrimitiveTaskHandler() {
-        super();
+    public WritingPrimitiveTaskHandler(String id) {
+        super(id);
     }
 
-    public WritingPrimitiveTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public WritingPrimitiveTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(WritingContext context, Task<WritingContext> task) {
+    protected void check(WritingContext context) {
         Node node = context.getNode();
         if (!node.is(BooleanNode.ei()) &&
             !node.is(CharacterNode.ei()) &&

@@ -11,11 +11,11 @@ import java.util.List;
 public class Des2NodeContextIds implements ContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
-    private final List<String> wrapperIds;
+    private final List<String> handlerIds;
 
-    public Des2NodeContextIds(String taskId, String... wrapperIds) {
+    public Des2NodeContextIds(String taskId, String... handlerIds) {
         this.taskIds.add(taskId);
-        this.wrapperIds = Arrays.asList(wrapperIds);
+        this.handlerIds = Arrays.asList(handlerIds);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Des2NodeContextIds implements ContextIds {
     }
 
     @Override
-    public Iterator<String> wrapperIterator() {
-        return wrapperIds.iterator();
+    public Iterator<String> handlerIterator() {
+        return handlerIds.iterator();
     }
 }

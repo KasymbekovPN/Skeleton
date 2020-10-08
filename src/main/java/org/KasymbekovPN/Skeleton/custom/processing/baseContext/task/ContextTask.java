@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.baseContext.task;
 
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
-import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskWrapper;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
@@ -17,10 +17,12 @@ public class ContextTask<T extends Context> implements Task<T> {
 
     private static final Logger log = LoggerFactory.getLogger(ContextTask.class);
 
-    private final Map<String, TaskWrapper<T>> wrappers = new HashMap<>();
+    private final String id;
+    private final Map<String, TaskHandler<T>> handlers = new HashMap<>();
     private final AggregateResult taskResult;
 
-    public ContextTask(AggregateResult taskResult) {
+    public ContextTask(String id, AggregateResult taskResult) {
+        this.id = id;
         this.taskResult = taskResult;
     }
 
@@ -29,13 +31,13 @@ public class ContextTask<T extends Context> implements Task<T> {
                                           InstantiationException,
                                           IllegalAccessException,
                                           InvocationTargetException {
-        Iterator<String> wrapperIterator = object.getContextIds().wrapperIterator();
-        while (wrapperIterator.hasNext()){
-            String wrapperId = wrapperIterator.next();
-            if (wrappers.containsKey(wrapperId)){
-                taskResult.put(wrapperId, wrappers.get(wrapperId).handle(object));
+        Iterator<String> handlerIterator = object.getContextIds().handlerIterator();
+        while (handlerIterator.hasNext()){
+            String handlerId = handlerIterator.next();
+            if (handlers.containsKey(handlerId)){
+                taskResult.put(handlerId, handlers.get(handlerId).handle(object));
             } else {
-                log.warn("Context task doesn't contain wrapper with ID '{}'", wrapperId);
+                log.warn("Context task doesn't contain handler with ID '{}'", handlerId);
             }
         }
 
@@ -43,13 +45,24 @@ public class ContextTask<T extends Context> implements Task<T> {
     }
 
     @Override
-    public Task<T> add(String wrapperId, TaskWrapper<T> taskWrapper) {
-        wrappers.put(wrapperId, taskWrapper);
+    public Task<T> add(TaskHandler<T> taskHandler) {
+        String id = taskHandler.getId();
+        if (handlers.containsKey(id)){
+            log.warn("Handler with ID '{}' already is added", id);
+        } else {
+            handlers.put(id, taskHandler);
+        }
+
         return this;
     }
 
     @Override
     public Result getTaskResult() {
         return taskResult;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 }

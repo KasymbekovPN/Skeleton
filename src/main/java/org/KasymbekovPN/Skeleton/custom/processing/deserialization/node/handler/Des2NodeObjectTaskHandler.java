@@ -7,21 +7,22 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.InvocationTargetException;
 
 public class Des2NodeObjectTaskHandler extends BaseContextTaskHandler<Des2NodeContext> {
-    public Des2NodeObjectTaskHandler() {
+
+    public Des2NodeObjectTaskHandler(String id) {
+        super(id);
     }
 
-    public Des2NodeObjectTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public Des2NodeObjectTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(Des2NodeContext context, Task<Des2NodeContext> task) {}
+    protected void check(Des2NodeContext context) {}
 
     @Override
     protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

@@ -2,7 +2,6 @@ package org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler;
 
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.ResultData;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
@@ -14,22 +13,26 @@ abstract public class BaseContextTaskHandler<T extends Context> implements TaskH
 
     private static final Class<? extends SimpleResult> SIMPLE_RESULT_CLASS = SkeletonSimpleResult.class;
 
+    protected final String id;
     protected SimpleResult simpleResult;
 
-    public BaseContextTaskHandler() {
+    public BaseContextTaskHandler(String id) {
+        this.id = id;
     }
 
-    public BaseContextTaskHandler(SimpleResult simpleResult) {
+    public BaseContextTaskHandler(String id,
+                                  SimpleResult simpleResult) {
         this.simpleResult = simpleResult;
+        this.id = id;
     }
 
     @Override
-    public SimpleResult handle(T object, Task<T> task) throws NoSuchMethodException,
+    public SimpleResult handle(T object) throws NoSuchMethodException,
                                                               InstantiationException,
                                                               IllegalAccessException,
                                                               InvocationTargetException {
         simpleResult = createSimpleResult();
-        check(object, task);
+        check(object);
         if (simpleResult.isSuccess()){
             doIt(object);
         }
@@ -42,7 +45,12 @@ abstract public class BaseContextTaskHandler<T extends Context> implements TaskH
         return simpleResult;
     }
 
-    protected void check(T context, Task<T> task){
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    protected void check(T context){
     }
 
     protected void doIt(T context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

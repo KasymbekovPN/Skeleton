@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +17,16 @@ public class SerClassNodeAggregateTaskHandler extends BaseContextTaskHandler<Ser
 
     private Set<String> classNames;
 
-    public SerClassNodeAggregateTaskHandler() {
+    public SerClassNodeAggregateTaskHandler(String id) {
+        super(id);
     }
 
-    public SerClassNodeAggregateTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public SerClassNodeAggregateTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(SerClassNodeContext context, Task<SerClassNodeContext> task) {
+    protected void check(SerClassNodeContext context) {
 
         Map<String, ObjectNode> classNodes = context.getClassNodes();
         if (classNodes.size() > 0){

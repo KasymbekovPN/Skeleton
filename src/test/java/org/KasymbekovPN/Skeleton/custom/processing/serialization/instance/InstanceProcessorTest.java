@@ -14,7 +14,6 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonCl
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
@@ -107,38 +106,16 @@ public class InstanceProcessorTest {
                 classMembersPartHandler
         );
 
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
+                .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0")))
+                .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
+
         ContextProcessor<ClassContext> processor
                 = new ContextProcessor<>(new SkeletonAggregateResult());
-
-        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
-
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler),
-                KIND_SIGNATURE
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC),
-                KIND_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0"), KIND_CUSTOM),
-                KIND_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION),
-                KIND_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP),
-                KIND_MAP
-        );
+        processor.add(task);
 
         return new MutablePair<>(context, processor);
     }
@@ -188,36 +165,14 @@ public class InstanceProcessorTest {
                 new InstanceDataMembersExtractor()
         );
 
-        ContextTask<InstanceContext> task = new ContextTask<>(new SkeletonAggregateResult());
+        ContextTask<InstanceContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new InstanceHeaderTaskHandler(KIND_HEADER))
+                .add(new InstanceSpecificTaskHandler(KIND_SPECIFIC))
+                .add(new InstanceCustomTaskHandler(KIND_CUSTOM))
+                .add(new InstanceCollectionTaskHandler(KIND_COLLECTION))
+                .add(new InstanceMapTaskHandler(KIND_MAP));
 
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceHeaderTaskHandler(),
-                KIND_HEADER
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceSpecificTaskHandler(KIND_SPECIFIC),
-                KIND_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceCustomTaskHandler(KIND_CUSTOM),
-                KIND_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceCollectionTaskHandler(KIND_COLLECTION),
-                KIND_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceMapTaskHandler(KIND_MAP),
-                KIND_MAP
-        );
-
+        processor.add(task);
         processor.handle(instanceContext);
 
         //<

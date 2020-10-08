@@ -6,7 +6,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.contex
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,25 +18,20 @@ public class InstanceCollectionTaskHandler extends BaseContextTaskHandler<Instan
 
     private static final Logger log = LoggerFactory.getLogger(InstanceCollectionTaskHandler.class);
 
-    private final String kind;
-
     private Map<String, Object> values;
 
-    public InstanceCollectionTaskHandler(String kind) {
-        super();
-        this.kind = kind;
+    public InstanceCollectionTaskHandler(String id) {
+        super(id);
     }
 
-    public InstanceCollectionTaskHandler(String kind,
-                                         SimpleResult simpleResult) {
-        super(simpleResult);
-        this.kind = kind;
+    public InstanceCollectionTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(InstanceContext context, Task<InstanceContext> task) {
+    protected void check(InstanceContext context) {
         if (context.isValid()){
-            values = context.getValues(kind);
+            values = context.getValues(id);
         } else {
             log.error("The context isn't valid");
         }

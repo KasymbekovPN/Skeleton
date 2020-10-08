@@ -19,7 +19,6 @@ import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverte
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceInnerTC0;
@@ -219,33 +218,14 @@ public class Des2Instance {
     }
 
     private ContextProcessor<Des2InstanceContext> createDes2InstanceContextProcessor(){
-        ContextProcessor<Des2InstanceContext> processor = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask<Des2InstanceContext> task = new ContextTask<>(new SkeletonAggregateResult());
-        processor.add(TASK_COMMON, task);
+        ContextTask<Des2InstanceContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new Des2InstanceSpecificTaskHandler(WRAPPER_SPECIFIC))
+                .add(new Des2InstanceCollectionTaskHandler(WRAPPER_COLLECTION))
+                .add(new Des2InstanceCustomTaskHandler(WRAPPER_CUSTOM))
+                .add(new Des2InstanceMapTaskHandler(WRAPPER_MAP));
 
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2InstanceSpecificTaskHandler(WRAPPER_SPECIFIC),
-                WRAPPER_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2InstanceCollectionTaskHandler(WRAPPER_COLLECTION),
-                WRAPPER_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2InstanceCustomTaskHandler(WRAPPER_CUSTOM),
-                WRAPPER_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2InstanceMapTaskHandler(WRAPPER_MAP),
-                WRAPPER_MAP
-        );
-
-        return processor;
+        return new ContextProcessor<Des2InstanceContext>(new SkeletonAggregateResult()).add(task);
     }
 
     private Des2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes,
@@ -330,20 +310,6 @@ public class Des2Instance {
 
         SimpleChecker<Field> collectionTypeChecker = createCollectionTypeChecker();
         SimpleChecker<Field> mapTypeChecker = createMapTypeChecker();
-
-        ContextProcessor<ClassContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
-
-        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
-
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler),
-                WRAPPER_SIGNATURE
-        );
-
         AllowedClassChecker specAllowedClassChecker = new AllowedClassChecker(
                 int.class,
                 float.class,
@@ -357,66 +323,27 @@ public class Des2Instance {
                 Double.class,
                 Character.class
         );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSpecificTaskHandler(specAllowedClassChecker, WRAPPER_SPECIFIC),
-                WRAPPER_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("Des2InstanceInnerTC0"), WRAPPER_CUSTOM),
-                WRAPPER_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(collectionTypeChecker, WRAPPER_COLLECTION),
-                WRAPPER_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(mapTypeChecker, WRAPPER_MAP),
-                WRAPPER_MAP
-        );
 
-        return processor;
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new ClassSignatureTaskHandler(WRAPPER_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandler(WRAPPER_SPECIFIC, specAllowedClassChecker))
+                .add(new ClassCustomTaskHandler(WRAPPER_CUSTOM, new AllowedStringChecker("Des2InstanceInnerTC0")))
+                .add(new ClassContainerTaskHandler(WRAPPER_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandler(WRAPPER_MAP, mapTypeChecker));
+
+        return new ContextProcessor<ClassContext>(new SkeletonAggregateResult()).add(task);
     }
 
     private ContextProcessor<InstanceContext> createInstanceProcessor(){
-        ContextProcessor<InstanceContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
 
+        ContextTask<InstanceContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new InstanceHeaderTaskHandler(WRAPPER_HEADER))
+                .add(new InstanceSpecificTaskHandler(WRAPPER_SPECIFIC))
+                .add(new InstanceCustomTaskHandler(WRAPPER_CUSTOM))
+                .add(new InstanceCollectionTaskHandler(WRAPPER_COLLECTION))
+                .add(new InstanceMapTaskHandler(WRAPPER_MAP));
 
-        ContextTask<InstanceContext> task = new ContextTask<>(new SkeletonAggregateResult());
-
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceHeaderTaskHandler(),
-                WRAPPER_HEADER
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceSpecificTaskHandler(WRAPPER_SPECIFIC),
-                WRAPPER_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceCustomTaskHandler(WRAPPER_CUSTOM),
-                WRAPPER_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceCollectionTaskHandler(WRAPPER_COLLECTION),
-                WRAPPER_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new InstanceMapTaskHandler(WRAPPER_MAP),
-                WRAPPER_MAP
-        );
-
-        return processor;
+        return new ContextProcessor<InstanceContext>(new SkeletonAggregateResult()).add(task);
     }
 
     private InstanceContext createInstanceContext(Map<String, ObjectNode> classNodes,

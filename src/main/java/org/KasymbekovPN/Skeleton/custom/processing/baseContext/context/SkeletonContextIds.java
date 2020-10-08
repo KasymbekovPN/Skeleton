@@ -5,18 +5,18 @@ import java.util.*;
 public class SkeletonContextIds implements MutableContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
-    private final Map<Integer, List<String>> wrapperIds = new HashMap<>();
+    private final Map<Integer, List<String>> handlerIds = new HashMap<>();
 
     private String currentTaskId;
 
     @Override
     public void addIds(String taskId, String... wrapperIds) {
         int hash = taskId.hashCode();
-        if (this.wrapperIds.containsKey(hash)){
-            this.wrapperIds.get(hash).addAll(Arrays.asList(wrapperIds));
+        if (this.handlerIds.containsKey(hash)){
+            this.handlerIds.get(hash).addAll(Arrays.asList(wrapperIds));
         } else {
             this.taskIds.add(taskId);
-            this.wrapperIds.put(hash, Arrays.asList(wrapperIds));
+            this.handlerIds.put(hash, Arrays.asList(wrapperIds));
         }
     }
 
@@ -26,8 +26,8 @@ public class SkeletonContextIds implements MutableContextIds {
     }
 
     @Override
-    public Iterator<String> wrapperIterator() {
-        return new WrapperItr();
+    public Iterator<String> handlerIterator() {
+        return new HandlerItr();
     }
 
     private class TaskItr implements Iterator<String>{
@@ -51,13 +51,13 @@ public class SkeletonContextIds implements MutableContextIds {
         }
     }
 
-    private class WrapperItr implements Iterator<String>{
+    private class HandlerItr implements Iterator<String>{
 
         private int cursor;
 
         @Override
         public boolean hasNext() {
-            return cursor < getWrapperIds().size();
+            return cursor < getHandlerIds().size();
         }
 
         @Override
@@ -66,12 +66,12 @@ public class SkeletonContextIds implements MutableContextIds {
                 throw new NoSuchElementException();
             }
 
-            return getWrapperIds().get(cursor++);
+            return getHandlerIds().get(cursor++);
         }
 
-        private List<String> getWrapperIds(){
+        private List<String> getHandlerIds(){
             int hash = SkeletonContextIds.this.currentTaskId.hashCode();
-            return SkeletonContextIds.this.wrapperIds.get(hash);
+            return SkeletonContextIds.this.handlerIds.get(hash);
         }
     }
 }

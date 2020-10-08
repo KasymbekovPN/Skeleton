@@ -8,7 +8,6 @@ import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,27 +22,21 @@ import java.util.Set;
 public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext> {
 
     private final SimpleChecker<String> classNameChecker;
-    private final String kind;
 
     private Set<Pair<String, Field>> data = new HashSet<>();
 
-    public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
-                                  String kind) {
-        super();
+    public ClassCustomTaskHandler(String id, SimpleChecker<String> classNameChecker) {
+        super(id);
         this.classNameChecker = classNameChecker;
-        this.kind = kind;
     }
 
-    public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
-                                  String kind,
-                                  SimpleResult simpleResult) {
-        super(simpleResult);
+    public ClassCustomTaskHandler(String id, SimpleResult simpleResult, SimpleChecker<String> classNameChecker) {
+        super(id, simpleResult);
         this.classNameChecker = classNameChecker;
-        this.kind = kind;
     }
 
     @Override
-    protected void check(ClassContext context, Task<ClassContext> task) {
+    protected void check(ClassContext context) {
 
         if (context.checkClassPart()){
             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
@@ -89,7 +82,7 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext>
             path.add(name);
 
             ObjectNode target = (ObjectNode) collector.setTarget(path);
-            classMembersPartHandler.setKind(target, kind);
+            classMembersPartHandler.setKind(target, id);
             classMembersPartHandler.setType(target, type);
             classMembersPartHandler.setClassName(target, className);
             classMembersPartHandler.setModifiers(target, modifiers);

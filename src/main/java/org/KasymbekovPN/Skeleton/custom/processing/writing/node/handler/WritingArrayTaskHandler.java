@@ -5,7 +5,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingC
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,16 +13,16 @@ import java.util.List;
 
 public class WritingArrayTaskHandler extends BaseContextTaskHandler<WritingContext> {
 
-    public WritingArrayTaskHandler() {
-        super();
+    public WritingArrayTaskHandler(String id) {
+        super(id);
     }
 
-    public WritingArrayTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public WritingArrayTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(WritingContext context, Task<WritingContext> task) {
+    protected void check(WritingContext context) {
         if (!context.getNode().is(ArrayNode.ei())){
             simpleResult.setSuccess(false);
         }

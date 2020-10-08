@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
@@ -16,15 +15,16 @@ public class Des2NodeStringTaskHandler extends BaseContextTaskHandler<Des2NodeCo
 
     private static final Character SHIELD = '\\';
 
-    public Des2NodeStringTaskHandler() {
+    public Des2NodeStringTaskHandler(String id) {
+        super(id);
     }
 
-    public Des2NodeStringTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public Des2NodeStringTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(Des2NodeContext context, Task<Des2NodeContext> task) {}
+    protected void check(Des2NodeContext context) {}
 
     @Override
     protected void doIt(Des2NodeContext context) {

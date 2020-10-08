@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +20,16 @@ public class SerClassNodeCheckingTaskHandler extends BaseContextTaskHandler<SerC
     private Set<String> withoutMembersPart = new HashSet<>();
     private Map<String, Set<String>> wrongTypeMembers = new HashMap<>();
 
-    public SerClassNodeCheckingTaskHandler() {
+    public SerClassNodeCheckingTaskHandler(String id) {
+        super(id);
     }
 
-    public SerClassNodeCheckingTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public SerClassNodeCheckingTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(SerClassNodeContext context, Task<SerClassNodeContext> task) {
+    protected void check(SerClassNodeContext context) {
 
         CollectorPath membersCollectorPath = context.getMembersCollectorPath();
         Map<String, ObjectNode> classNodes = context.getClassNodes();

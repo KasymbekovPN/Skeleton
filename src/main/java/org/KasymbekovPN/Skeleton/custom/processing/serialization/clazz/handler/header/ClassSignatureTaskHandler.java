@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,19 +24,18 @@ public class ClassSignatureTaskHandler extends BaseContextTaskHandler<ClassConte
     private String name;
     private int modifiers;
 
-    public ClassSignatureTaskHandler(ClassHeaderPartHandler classHeaderPartHandler) {
+    public ClassSignatureTaskHandler(String id, ClassHeaderPartHandler classHeaderPartHandler) {
+        super(id);
         this.classHeaderPartHandler = classHeaderPartHandler;
     }
 
-    public ClassSignatureTaskHandler(ClassHeaderPartHandler classHeaderPartHandler,
-                                     SimpleResult simpleResult) {
-        super(simpleResult);
-
+    public ClassSignatureTaskHandler(String id, SimpleResult simpleResult, ClassHeaderPartHandler classHeaderPartHandler) {
+        super(id, simpleResult);
         this.classHeaderPartHandler = classHeaderPartHandler;
     }
 
     @Override
-    protected void check(ClassContext context, Task<ClassContext> task) {
+    protected void check(ClassContext context) {
         Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
                 = context.getAnnotationExtractor();
         Class<?> clazz = context.getClazz();

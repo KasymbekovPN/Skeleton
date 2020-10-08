@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.NumberCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.converter.Str2NodeConverter;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
@@ -108,48 +107,15 @@ public class Des2Node {
 
     private ContextProcessor<Des2NodeContext> createProcessor(){
 
-        ContextProcessor<Des2NodeContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
+        ContextTask<Des2NodeContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new Des2NodeInitTaskHandler(WRAPPER_INIT))
+                .add(new Des2NodeObjectTaskHandler(WRAPPER_OBJECT))
+                .add(new Des2NodeArrayTaskHandler(WRAPPER_ARRAY))
+                .add(new Des2NodeBooleanTaskHandler(WRAPPER_BOOLEAN))
+                .add(new Des2NodeCharacterTaskHandler(WRAPPER_CHARACTER))
+                .add(new Des2NodeNumberTaskHandler(WRAPPER_NUMBER))
+                .add(new Des2NodeStringTaskHandler(WRAPPER_STRING));
 
-        ContextTask<Des2NodeContext> task = new ContextTask<>(new SkeletonAggregateResult());
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeInitTaskHandler(),
-                WRAPPER_INIT
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeObjectTaskHandler(),
-                WRAPPER_OBJECT
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeArrayTaskHandler(),
-                WRAPPER_ARRAY
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeBooleanTaskHandler(),
-                WRAPPER_BOOLEAN
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeCharacterTaskHandler(),
-                WRAPPER_CHARACTER
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeNumberTaskHandler(),
-                WRAPPER_NUMBER
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new Des2NodeStringTaskHandler(),
-                WRAPPER_STRING
-        );
-
-        return processor;
+        return new ContextProcessor<Des2NodeContext>(new SkeletonAggregateResult()).add(task);
     }
 }

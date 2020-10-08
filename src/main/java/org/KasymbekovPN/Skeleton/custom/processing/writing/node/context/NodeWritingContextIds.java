@@ -8,11 +8,11 @@ import java.util.*;
 public class NodeWritingContextIds implements ContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
-    private final List<String> wrapperIds;
+    private final List<String> handlerIds;
 
-    public NodeWritingContextIds(String taskId, String... wrapperIds) {
+    public NodeWritingContextIds(String taskId, String... handlerIds) {
         this.taskIds.add(taskId);
-        this.wrapperIds = Arrays.asList(wrapperIds);
+        this.handlerIds = Arrays.asList(handlerIds);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class NodeWritingContextIds implements ContextIds {
     }
 
     @Override
-    public Iterator<String> wrapperIterator() {
-        return wrapperIds.iterator();
+    public Iterator<String> handlerIterator() {
+        return handlerIds.iterator();
     }
 }

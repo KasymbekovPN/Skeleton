@@ -3,7 +3,6 @@ package org.KasymbekovPN.Skeleton.custom.processing.writing.node;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.NodeWritingContextIds;
@@ -79,29 +78,14 @@ public class WritingNodeProcessTest {
     }
 
     private ContextProcessor<WritingContext> createContextProcessor(){
-        ContextProcessor<WritingContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask<WritingContext> task = new ContextTask<>(new SkeletonAggregateResult());
-        processor.add(TASK_COMMON, task);
 
-        new ContextHandlerWrapper<>(
-                task,
-                new WritingArrayTaskHandler(),
-                WRAPPER_ARRAY
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new WritingObjectTaskHandler(),
-                WRAPPER_OBJECT
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new WritingPrimitiveTaskHandler(),
-                WRAPPER_PRIMITIVE
-        );
+        ContextTask<WritingContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new WritingArrayTaskHandler(WRAPPER_ARRAY))
+                .add(new WritingObjectTaskHandler(WRAPPER_OBJECT))
+                .add(new WritingPrimitiveTaskHandler(WRAPPER_PRIMITIVE));
 
-        return processor;
+        return new ContextProcessor<WritingContext>(new SkeletonAggregateResult()).add(task);
     }
 
     private WritingFormatterHandler createWFH() throws Exception {

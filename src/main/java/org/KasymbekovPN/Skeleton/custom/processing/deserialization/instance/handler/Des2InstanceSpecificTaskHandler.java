@@ -3,7 +3,6 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.han
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.node.*;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
@@ -17,26 +16,22 @@ public class Des2InstanceSpecificTaskHandler extends BaseContextTaskHandler<Des2
 
     private static final Logger log = LoggerFactory.getLogger(Des2InstanceSpecificTaskHandler.class);
 
-    private final String kind;
-
     private Object instance;
     private Set<Triple<Field, Node, ObjectNode>> members;
 
-    public Des2InstanceSpecificTaskHandler(String kind) {
-        this.kind = kind;
+    public Des2InstanceSpecificTaskHandler(String id) {
+        super(id);
     }
 
-    public Des2InstanceSpecificTaskHandler(String kind,
-                                           SimpleResult simpleResult) {
-        super(simpleResult);
-        this.kind = kind;
+    public Des2InstanceSpecificTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(Des2InstanceContext context, Task<Des2InstanceContext> task) {
+    protected void check(Des2InstanceContext context) {
         String status = "";
         if (context.isValid()){
-            members = context.getMembers(kind);
+            members = context.getMembers(id);
             if (members.size() > 0){
                 instance = context.getInstance();
             } else {
@@ -72,7 +67,7 @@ public class Des2InstanceSpecificTaskHandler extends BaseContextTaskHandler<Des2
                     field.setAccessible(false);
                 }
             } else {
-                log.warn("{}: Member '{}' has wrong type", kind, field.getName());
+                log.warn("{}: Member '{}' has wrong type", id, field.getName());
             }
         }
     }

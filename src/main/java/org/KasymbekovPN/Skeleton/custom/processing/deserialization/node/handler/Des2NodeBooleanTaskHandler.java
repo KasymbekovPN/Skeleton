@@ -7,21 +7,22 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
 public class Des2NodeBooleanTaskHandler extends BaseContextTaskHandler<Des2NodeContext> {
-    public Des2NodeBooleanTaskHandler() {
+
+    public Des2NodeBooleanTaskHandler(String id) {
+        super(id);
     }
 
-    public Des2NodeBooleanTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public Des2NodeBooleanTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(Des2NodeContext context, Task<Des2NodeContext> task) {}
+    protected void check(Des2NodeContext context) {}
 
     @Override
     protected void doIt(Des2NodeContext context) {

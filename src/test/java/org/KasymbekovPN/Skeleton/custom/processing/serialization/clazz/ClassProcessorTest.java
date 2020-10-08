@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonCla
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
@@ -85,38 +84,16 @@ public class ClassProcessorTest {
                 classMembersPartHandler
         );
 
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
+                .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InnerClassProcessorTC0")))
+                .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
+
         ContextProcessor<ClassContext> processor
                 = new ContextProcessor<>(new SkeletonAggregateResult());
-
-        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
-
-        processor.add("common", task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler),
-                KIND_SIGNATURE
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC),
-                KIND_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InnerClassProcessorTC0"), KIND_CUSTOM),
-                KIND_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION),
-                KIND_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP),
-                KIND_MAP
-        );
+        processor.add(task);
 
         processor.handle(context);
 

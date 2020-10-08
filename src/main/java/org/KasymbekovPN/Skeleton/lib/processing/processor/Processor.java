@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 public interface Processor<T> {
-    Task<T> add(String taskId, Task<T> task);
+    Processor<T> add(Task<T> task);
     Optional<Task<T>> get(String taskId);
     Optional<Task<T>> remove(String taskId);
     Result handle(T object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;

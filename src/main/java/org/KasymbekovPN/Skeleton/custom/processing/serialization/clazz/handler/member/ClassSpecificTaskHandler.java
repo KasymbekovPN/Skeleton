@@ -8,7 +8,6 @@ import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -26,27 +25,21 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler<ClassContex
     private final static Logger log = LoggerFactory.getLogger(ClassSpecificTaskHandler.class);
 
     private final SimpleChecker<Class<?>> fieldChecker;
-    private final String kind;
 
     private Set<Field> specificFields = new HashSet<>();
 
-    public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker,
-                                    String kind) {
-        super();
+    public ClassSpecificTaskHandler(String id, SimpleChecker<Class<?>> fieldChecker) {
+        super(id);
         this.fieldChecker = fieldChecker;
-        this.kind = kind;
     }
 
-    public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker,
-                                    String kind,
-                                    SimpleResult simpleResult) {
-        super(simpleResult);
+    public ClassSpecificTaskHandler(String id, SimpleResult simpleResult, SimpleChecker<Class<?>> fieldChecker) {
+        super(id, simpleResult);
         this.fieldChecker = fieldChecker;
-        this.kind = kind;
     }
 
     @Override
-    protected void check(ClassContext context, Task<ClassContext> task) {
+    protected void check(ClassContext context) {
 
         if (context.checkClassPart()){
             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
@@ -86,7 +79,7 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler<ClassContex
 
             path.add(name);
             ObjectNode targetNode = (ObjectNode) collector.setTarget(path);
-            classMembersPartHandler.setKind(targetNode, kind);
+            classMembersPartHandler.setKind(targetNode, id);
             classMembersPartHandler.setType(targetNode, type);
             classMembersPartHandler.setClassName(targetNode, type);
             classMembersPartHandler.setModifiers(targetNode, modifiers);

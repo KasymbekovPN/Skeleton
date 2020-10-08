@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonCla
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.ContextHandlerWrapper;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.InnerSerTC0;
@@ -101,40 +100,15 @@ public class SerClassNodeTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        ContextProcessor<ClassContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
+                .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InnerSerTC0")))
+                .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
 
-        ContextTask<ClassContext> task = new ContextTask<>(new SkeletonAggregateResult());
+        return new ContextProcessor<ClassContext>(new SkeletonAggregateResult()).add(task);
 
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSignatureTaskHandler(classHeaderPartHandler),
-                KIND_SIGNATURE
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassSpecificTaskHandler(new AllowedClassChecker(int.class, float.class), KIND_SPECIFIC),
-                KIND_SPECIFIC
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassCustomTaskHandler(new AllowedStringChecker("InnerSerTC0"), KIND_CUSTOM),
-                KIND_CUSTOM
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(collectionTypeChecker, KIND_COLLECTION),
-                KIND_COLLECTION
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new ClassContainerTaskHandler(mapTypeChecker, KIND_MAP),
-                KIND_MAP
-        );
-
-        return processor;
     }
 
     private ClassContext createSerContext(){
@@ -176,24 +150,11 @@ public class SerClassNodeTest {
     }
 
     private ContextProcessor<SerClassNodeContext> createSerClassNodeProcessor(){
-        ContextProcessor<SerClassNodeContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
 
-        ContextTask<SerClassNodeContext> task = new ContextTask<>(new SkeletonAggregateResult());
+        ContextTask<SerClassNodeContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        task.add(new SerClassNodeAggregateTaskHandler(WRAPPER_AGGR))
+                .add(new SerClassNodeCheckingTaskHandler(WRAPPER_CHECK));
 
-        processor.add(TASK_COMMON, task);
-
-        new ContextHandlerWrapper<>(
-                task,
-                new SerClassNodeAggregateTaskHandler(),
-                WRAPPER_AGGR
-        );
-        new ContextHandlerWrapper<>(
-                task,
-                new SerClassNodeCheckingTaskHandler(),
-                WRAPPER_CHECK
-        );
-
-        return processor;
+        return new ContextProcessor<SerClassNodeContext>(new SkeletonAggregateResult()).add(task);
     }
 }

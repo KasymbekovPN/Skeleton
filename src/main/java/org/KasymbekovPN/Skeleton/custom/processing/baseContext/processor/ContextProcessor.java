@@ -26,8 +26,15 @@ public class ContextProcessor<T extends Context> implements Processor<T> {
     }
 
     @Override
-    public Task<T> add(String taskId, Task<T> task) {
-        return tasks.put(taskId, task);
+    public ContextProcessor<T> add(Task<T> task) {
+        String id = task.getId();
+        if (tasks.containsKey(id)){
+            log.warn("Task with ID '{}' already is added", id);
+        } else {
+            tasks.put(id, task);
+        }
+
+        return this;
     }
 
     @Override

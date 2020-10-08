@@ -8,11 +8,11 @@ import java.util.List;
 public class SimpleContextIds implements ContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
-    private final List<String> wrapperIds;
+    private final List<String> handlerIds;
 
-    public SimpleContextIds(String taskId, String... wrapperIds) {
+    public SimpleContextIds(String taskId, String... handlerIds) {
         this.taskIds.add(taskId);
-        this.wrapperIds = Arrays.asList(wrapperIds);
+        this.handlerIds = Arrays.asList(handlerIds);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class SimpleContextIds implements ContextIds {
     }
 
     @Override
-    public Iterator<String> wrapperIterator() {
-        return wrapperIds.iterator();
+    public Iterator<String> handlerIterator() {
+        return handlerIds.iterator();
     }
 }

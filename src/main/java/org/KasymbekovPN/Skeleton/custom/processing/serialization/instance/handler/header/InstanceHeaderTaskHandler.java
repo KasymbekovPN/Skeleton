@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +20,16 @@ public class InstanceHeaderTaskHandler extends BaseContextTaskHandler<InstanceCo
     private String name;
     private int modifiers;
 
-    public InstanceHeaderTaskHandler() {
-        super();
+    public InstanceHeaderTaskHandler(String id) {
+        super(id);
     }
 
-    public InstanceHeaderTaskHandler(SimpleResult simpleResult) {
-        super(simpleResult);
+    public InstanceHeaderTaskHandler(String id, SimpleResult simpleResult) {
+        super(id, simpleResult);
     }
 
     @Override
-    protected void check(InstanceContext context, Task<InstanceContext> task) {
+    protected void check(InstanceContext context) {
         if (context.isValid()){
             ObjectNode classNode = context.getClassNode();
             CollectorPath classPartPath = context.getClassPartPath();
