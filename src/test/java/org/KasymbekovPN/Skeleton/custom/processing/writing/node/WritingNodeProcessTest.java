@@ -14,7 +14,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingP
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.junit.jupiter.api.Test;
 
 public class WritingNodeProcessTest {
@@ -80,12 +79,12 @@ public class WritingNodeProcessTest {
     private ContextProcessor<WritingContext> createContextProcessor(){
 
 
-        ContextTask<WritingContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<WritingContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new WritingArrayTaskHandler(WRAPPER_ARRAY))
                 .add(new WritingObjectTaskHandler(WRAPPER_OBJECT))
                 .add(new WritingPrimitiveTaskHandler(WRAPPER_PRIMITIVE));
 
-        return new ContextProcessor<WritingContext>(new SkeletonAggregateResult()).add(task);
+        return new ContextProcessor<WritingContext>().add(task);
     }
 
     private WritingFormatterHandler createWFH() throws Exception {

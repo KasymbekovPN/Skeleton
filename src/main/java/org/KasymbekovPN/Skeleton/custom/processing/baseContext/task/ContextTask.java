@@ -5,9 +5,11 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,11 +17,17 @@ import java.util.Map;
 
 public class ContextTask<T extends Context> implements Task<T> {
 
+    private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SkeletonAggregateResult.class;
     private static final Logger log = LoggerFactory.getLogger(ContextTask.class);
 
     private final String id;
     private final Map<String, TaskHandler<T>> handlers = new HashMap<>();
-    private final AggregateResult taskResult;
+
+    private AggregateResult taskResult;
+
+    public ContextTask(String id) {
+        this.id = id;
+    }
 
     public ContextTask(String id, AggregateResult taskResult) {
         this.id = id;
@@ -31,6 +39,7 @@ public class ContextTask<T extends Context> implements Task<T> {
                                           InstantiationException,
                                           IllegalAccessException,
                                           InvocationTargetException {
+        checkTaskResult();
         Iterator<String> handlerIterator = object.getContextIds().handlerIterator();
         while (handlerIterator.hasNext()){
             String handlerId = handlerIterator.next();
@@ -57,12 +66,26 @@ public class ContextTask<T extends Context> implements Task<T> {
     }
 
     @Override
-    public Result getTaskResult() {
+    public Result getTaskResult() throws InvocationTargetException,
+                                         NoSuchMethodException,
+                                         InstantiationException,
+                                         IllegalAccessException {
+        checkTaskResult();
         return taskResult;
     }
 
     @Override
     public String getId() {
         return id;
+    }
+
+    private void checkTaskResult() throws NoSuchMethodException,
+                                          IllegalAccessException,
+                                          InvocationTargetException,
+                                          InstantiationException {
+        if (taskResult == null){
+            Constructor<? extends AggregateResult> constructor = AGGREGATE_RESULT_CLASS.getConstructor();
+            taskResult = constructor.newInstance();
+        }
     }
 }

@@ -28,7 +28,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -100,14 +99,14 @@ public class SerClassNodeTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
                 .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
                 .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InnerSerTC0")))
                 .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
                 .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
 
-        return new ContextProcessor<ClassContext>(new SkeletonAggregateResult()).add(task);
+        return new ContextProcessor<ClassContext>().add(task);
 
     }
 
@@ -151,10 +150,10 @@ public class SerClassNodeTest {
 
     private ContextProcessor<SerClassNodeContext> createSerClassNodeProcessor(){
 
-        ContextTask<SerClassNodeContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<SerClassNodeContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new SerClassNodeAggregateTaskHandler(WRAPPER_AGGR))
                 .add(new SerClassNodeCheckingTaskHandler(WRAPPER_CHECK));
 
-        return new ContextProcessor<SerClassNodeContext>(new SkeletonAggregateResult()).add(task);
+        return new ContextProcessor<SerClassNodeContext>().add(task);
     }
 }

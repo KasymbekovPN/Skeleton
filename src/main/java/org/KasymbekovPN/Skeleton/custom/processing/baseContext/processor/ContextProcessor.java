@@ -5,9 +5,11 @@ import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,14 +18,18 @@ import java.util.Optional;
 
 public class ContextProcessor<T extends Context> implements Processor<T> {
 
+    private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SkeletonAggregateResult.class;
     private static final Logger log = LoggerFactory.getLogger(ContextProcessor.class);
 
     private final Map<String, Task<T>> tasks = new HashMap<>();
-    private final AggregateResult processorResult;
+    private AggregateResult processorResult;
 
-    public ContextProcessor(AggregateResult processorResult) {
-        this.processorResult = processorResult;
+    public ContextProcessor() {
     }
+    //<
+    //    public ContextProcessor(AggregateResult processorResult) {
+//        this.processorResult = processorResult;
+//    }
 
     @Override
     public ContextProcessor<T> add(Task<T> task) {
@@ -56,6 +62,7 @@ public class ContextProcessor<T extends Context> implements Processor<T> {
                                           NoSuchMethodException,
                                           InstantiationException,
                                           IllegalAccessException {
+        checkAggregateResult();
         Iterator<String> taskIterator = object.getContextIds().taskIterator();
         while (taskIterator.hasNext()){
             String taskId = taskIterator.next();
@@ -70,7 +77,21 @@ public class ContextProcessor<T extends Context> implements Processor<T> {
     }
 
     @Override
-    public Result getProcessorResult() {
+    public Result getProcessorResult() throws InvocationTargetException,
+                                              NoSuchMethodException,
+                                              InstantiationException,
+                                              IllegalAccessException {
+        checkAggregateResult();
         return processorResult;
+    }
+
+    private void checkAggregateResult() throws IllegalAccessException,
+                                               InvocationTargetException,
+                                               InstantiationException,
+                                               NoSuchMethodException {
+        if (processorResult == null){
+            Constructor<? extends AggregateResult> constructor = AGGREGATE_RESULT_CLASS.getConstructor();
+            processorResult = constructor.newInstance();
+        }
     }
 }

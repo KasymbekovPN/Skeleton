@@ -11,5 +11,5 @@ public interface Processor<T> {
     Optional<Task<T>> get(String taskId);
     Optional<Task<T>> remove(String taskId);
     Result handle(T object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
-    Result getProcessorResult();
+    Result getProcessorResult() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 }

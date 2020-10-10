@@ -8,6 +8,6 @@ import java.lang.reflect.InvocationTargetException;
 public interface Task<T> {
     Result handle(T object) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
     Task<T> add(TaskHandler<T> taskHandler);
-    Result getTaskResult();
+    Result getTaskResult() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
     String getId();
 }

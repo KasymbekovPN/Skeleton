@@ -20,7 +20,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -84,7 +83,7 @@ public class ClassProcessorTest {
                 classMembersPartHandler
         );
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
                 .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
                 .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InnerClassProcessorTC0")))
@@ -92,7 +91,7 @@ public class ClassProcessorTest {
                 .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
 
         ContextProcessor<ClassContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
+                = new ContextProcessor<>();
         processor.add(task);
 
         processor.handle(context);

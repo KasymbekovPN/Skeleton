@@ -14,7 +14,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.SkeletonDes2NodeCharItr;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -107,7 +106,7 @@ public class Des2Node {
 
     private ContextProcessor<Des2NodeContext> createProcessor(){
 
-        ContextTask<Des2NodeContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<Des2NodeContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new Des2NodeInitTaskHandler(WRAPPER_INIT))
                 .add(new Des2NodeObjectTaskHandler(WRAPPER_OBJECT))
                 .add(new Des2NodeArrayTaskHandler(WRAPPER_ARRAY))
@@ -116,6 +115,6 @@ public class Des2Node {
                 .add(new Des2NodeNumberTaskHandler(WRAPPER_NUMBER))
                 .add(new Des2NodeStringTaskHandler(WRAPPER_STRING));
 
-        return new ContextProcessor<Des2NodeContext>(new SkeletonAggregateResult()).add(task);
+        return new ContextProcessor<Des2NodeContext>().add(task);
     }
 }

@@ -35,7 +35,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DisplayName;
@@ -106,7 +105,7 @@ public class InstanceProcessorTest {
                 classMembersPartHandler
         );
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
                 .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
                 .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0")))
@@ -114,7 +113,7 @@ public class InstanceProcessorTest {
                 .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
 
         ContextProcessor<ClassContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
+                = new ContextProcessor<>();
         processor.add(task);
 
         return new MutablePair<>(context, processor);
@@ -141,7 +140,7 @@ public class InstanceProcessorTest {
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 
         ContextProcessor<InstanceContext> processor
-                = new ContextProcessor<>(new SkeletonAggregateResult());
+                = new ContextProcessor<>();
 
         InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
 
@@ -165,7 +164,7 @@ public class InstanceProcessorTest {
                 new InstanceDataMembersExtractor()
         );
 
-        ContextTask<InstanceContext> task = new ContextTask<>(TASK_COMMON, new SkeletonAggregateResult());
+        ContextTask<InstanceContext> task = new ContextTask<>(TASK_COMMON);
         task.add(new InstanceHeaderTaskHandler(KIND_HEADER))
                 .add(new InstanceSpecificTaskHandler(KIND_SPECIFIC))
                 .add(new InstanceCustomTaskHandler(KIND_CUSTOM))
