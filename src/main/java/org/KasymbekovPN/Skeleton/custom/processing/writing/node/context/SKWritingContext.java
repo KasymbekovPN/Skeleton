@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.context;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;

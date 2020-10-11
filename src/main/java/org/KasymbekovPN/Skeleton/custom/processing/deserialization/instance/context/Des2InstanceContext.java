@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
+import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;

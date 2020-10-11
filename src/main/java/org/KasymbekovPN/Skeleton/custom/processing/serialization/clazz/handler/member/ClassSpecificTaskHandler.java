@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;

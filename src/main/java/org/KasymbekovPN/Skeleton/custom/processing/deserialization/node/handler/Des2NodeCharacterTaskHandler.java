@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;

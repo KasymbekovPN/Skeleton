@@ -1,6 +1,6 @@
-package org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor;
+package org.KasymbekovPN.Skeleton.lib.processing.processor.context;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
+import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;

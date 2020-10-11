@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;

@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
+import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;

@@ -2,8 +2,8 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.con
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;

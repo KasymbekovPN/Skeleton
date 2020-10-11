@@ -9,9 +9,9 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.InnerSerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.SerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;

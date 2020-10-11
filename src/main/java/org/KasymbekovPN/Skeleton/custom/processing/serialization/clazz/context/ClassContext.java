@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
+import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.apache.commons.lang3.tuple.Pair;

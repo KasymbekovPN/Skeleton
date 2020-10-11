@@ -13,9 +13,9 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;

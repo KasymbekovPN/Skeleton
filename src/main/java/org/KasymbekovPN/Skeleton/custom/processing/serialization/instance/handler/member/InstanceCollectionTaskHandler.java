@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;

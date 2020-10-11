@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.conte
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;

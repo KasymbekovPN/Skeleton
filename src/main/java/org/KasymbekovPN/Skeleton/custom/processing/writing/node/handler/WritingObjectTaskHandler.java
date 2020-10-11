@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.handler.BaseContextTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
