@@ -3,9 +3,9 @@ package org.KasymbekovPN.Skeleton.custom.processing.writing.node;
 import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.NodeWritingContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.SkeletonWritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandler;
@@ -67,9 +67,9 @@ public class WritingNodeProcessTest {
                                          WritingFormatterHandler writingFormatterHandler,
                                          ContextProcessor<WritingContext> contextProcessor){
         return new SkeletonWritingContext(
-                new NodeWritingContextIds(TASK_COMMON, WRAPPER_ARRAY),
-                new NodeWritingContextIds(TASK_COMMON, WRAPPER_OBJECT),
-                new NodeWritingContextIds(TASK_COMMON, WRAPPER_PRIMITIVE),
+                new SKSimpleContextIds(TASK_COMMON, WRAPPER_ARRAY),
+                new SKSimpleContextIds(TASK_COMMON, WRAPPER_OBJECT),
+                new SKSimpleContextIds(TASK_COMMON, WRAPPER_PRIMITIVE),
                 writingFormatterHandler,
                 contextProcessor,
                 node

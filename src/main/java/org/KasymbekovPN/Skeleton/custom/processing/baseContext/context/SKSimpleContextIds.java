@@ -1,16 +1,16 @@
-package org.KasymbekovPN.Skeleton.custom.processing.writing.node.context;
+package org.KasymbekovPN.Skeleton.custom.processing.baseContext.context;
 
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
-import java.util.*;
-
-//< make simple contextIds
-public class NodeWritingContextIds implements ContextIds {
+public class SKSimpleContextIds implements ContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
     private final List<String> handlerIds;
 
-    public NodeWritingContextIds(String taskId, String... handlerIds) {
+    public SKSimpleContextIds(String taskId, String... handlerIds) {
         this.taskIds.add(taskId);
         this.handlerIds = Arrays.asList(handlerIds);
     }

@@ -17,8 +17,7 @@ import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SimpleContextIds;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceInnerTC0;
@@ -230,7 +229,7 @@ public class Des2Instance {
     private Des2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes,
                                                           ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor){
 
-        SimpleContextIds simpleContextIds = new SimpleContextIds(
+        SKSimpleContextIds SKSimpleContextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 WRAPPER_SPECIFIC,
                 WRAPPER_COLLECTION,
@@ -243,7 +242,7 @@ public class Des2Instance {
         map.put("Des2InstanceInnerTC0", Des2InstanceInnerTC0.class);
 
         return new SkeletonDes2InstanceContext(
-                simpleContextIds,
+                SKSimpleContextIds,
                 classNodes,
                 new SkeletonClassNameExtractor(),
                 new AnnotationExtractor(),
@@ -260,8 +259,7 @@ public class Des2Instance {
     }
 
     private ClassContext createClassContext(){
-        SkeletonContextIds contextIds = new SkeletonContextIds();
-        contextIds.addIds(
+        SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 WRAPPER_SIGNATURE,
                 WRAPPER_SPECIFIC,
@@ -349,8 +347,7 @@ public class Des2Instance {
                                                   ContextProcessor<InstanceContext> processor){
         InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
 
-        SkeletonContextIds contextIds = new SkeletonContextIds();
-        contextIds.addIds(
+        SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 WRAPPER_HEADER, WRAPPER_SPECIFIC, WRAPPER_CUSTOM, WRAPPER_COLLECTION, WRAPPER_MAP
         );

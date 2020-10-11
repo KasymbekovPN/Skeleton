@@ -4,13 +4,13 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.NumberCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.converter.Str2NodeConverter;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.SkeletonDes2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.JsonFinder;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.ids.Des2NodeContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.SkeletonDes2NodeCharItr;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
@@ -49,13 +49,13 @@ public class Des2Node {
     private Des2NodeContext createContext(String line, ContextProcessor<Des2NodeContext> processor){
 
         EnumMap<Des2NodeMode, ContextIds> contextIds = new EnumMap<>(Des2NodeMode.class) {{
-            put(Des2NodeMode.INIT, new Des2NodeContextIds(TASK_COMMON, WRAPPER_INIT));
-            put(Des2NodeMode.OBJECT, new Des2NodeContextIds(TASK_COMMON, WRAPPER_OBJECT));
-            put(Des2NodeMode.ARRAY, new Des2NodeContextIds(TASK_COMMON, WRAPPER_ARRAY));
-            put(Des2NodeMode.BOOLEAN, new Des2NodeContextIds(TASK_COMMON, WRAPPER_BOOLEAN));
-            put(Des2NodeMode.CHARACTER, new Des2NodeContextIds(TASK_COMMON, WRAPPER_CHARACTER));
-            put(Des2NodeMode.NUMBER, new Des2NodeContextIds(TASK_COMMON, WRAPPER_NUMBER));
-            put(Des2NodeMode.STRING, new Des2NodeContextIds(TASK_COMMON, WRAPPER_STRING));
+            put(Des2NodeMode.INIT, new SKSimpleContextIds(TASK_COMMON, WRAPPER_INIT));
+            put(Des2NodeMode.OBJECT, new SKSimpleContextIds(TASK_COMMON, WRAPPER_OBJECT));
+            put(Des2NodeMode.ARRAY, new SKSimpleContextIds(TASK_COMMON, WRAPPER_ARRAY));
+            put(Des2NodeMode.BOOLEAN, new SKSimpleContextIds(TASK_COMMON, WRAPPER_BOOLEAN));
+            put(Des2NodeMode.CHARACTER, new SKSimpleContextIds(TASK_COMMON, WRAPPER_CHARACTER));
+            put(Des2NodeMode.NUMBER, new SKSimpleContextIds(TASK_COMMON, WRAPPER_NUMBER));
+            put(Des2NodeMode.STRING, new SKSimpleContextIds(TASK_COMMON, WRAPPER_STRING));
         }};
 
         SkeletonDes2NodeCharItr iterator = new SkeletonDes2NodeCharItr(line);

@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.InnerSerTC0;
@@ -113,9 +113,7 @@ public class SerClassNodeTest {
     private ClassContext createSerContext(){
 
         SkeletonCollector collector = new SkeletonCollector();
-
-        SkeletonContextIds skeletonContextIds = new SkeletonContextIds();
-        skeletonContextIds.addIds(
+        SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 KIND_SIGNATURE,
                 KIND_SPECIFIC,
@@ -123,9 +121,8 @@ public class SerClassNodeTest {
                 KIND_COLLECTION,
                 KIND_MAP
         );
-
         return new SkeletonClassContext(
-                skeletonContextIds,
+                contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
@@ -137,8 +134,7 @@ public class SerClassNodeTest {
     }
 
     private SerClassNodeContext createSerClassNodeContext(Map<String, ObjectNode> classNodes){
-        SkeletonContextIds contextIds = new SkeletonContextIds();
-        contextIds.addIds(TASK_COMMON, WRAPPER_AGGR, WRAPPER_CHECK);
+        SKSimpleContextIds contextIds = new SKSimpleContextIds(TASK_COMMON, WRAPPER_AGGR, WRAPPER_CHECK);
         return new SkeletonSerClassNodeContext(
                 contextIds,
                 new AllowedStringChecker("int", "float", "java.util.Set", "java.util.Map"),

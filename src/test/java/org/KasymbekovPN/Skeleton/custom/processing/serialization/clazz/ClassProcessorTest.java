@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SkeletonContextIds;
+import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
@@ -61,9 +61,7 @@ public class ClassProcessorTest {
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
         SkeletonCollector collector = new SkeletonCollector();
-
-        SkeletonContextIds skeletonContextIds = new SkeletonContextIds();
-        skeletonContextIds.addIds(
+        SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 KIND_SIGNATURE,
                 KIND_SPECIFIC,
@@ -73,7 +71,7 @@ public class ClassProcessorTest {
         );
 
         SkeletonClassContext context = new SkeletonClassContext(
-                skeletonContextIds,
+                contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
