@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class SkeletonResultData implements ResultData {
+public class SKResultData implements ResultData {
 
     private final Map<String, Object> data = new HashMap<>();
 
-    public SkeletonResultData() {}
+    public SKResultData() {}
 
     @Override
     public void set(String key, Object value) {

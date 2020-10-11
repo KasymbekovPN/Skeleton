@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class SkeletonClassContext implements ClassContext {
+public class SKClassContext implements ClassContext {
 
     private final ContextIds contextIds;
     private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
@@ -27,14 +27,14 @@ public class SkeletonClassContext implements ClassContext {
     private Class<?> clazz;
     private Set<Field> fields;
 
-    public SkeletonClassContext(ContextIds contextIds,
-                                Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                List<String> classPartPath,
-                                List<String> membersPartPath,
-                                Class<?> clazz,
-                                Collector collector,
-                                ClassHeaderPartHandler classHeaderPartHandler,
-                                ClassMembersPartHandler classMembersPartHandler) {
+    public SKClassContext(ContextIds contextIds,
+                          Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                          List<String> classPartPath,
+                          List<String> membersPartPath,
+                          Class<?> clazz,
+                          Collector collector,
+                          ClassHeaderPartHandler classHeaderPartHandler,
+                          ClassMembersPartHandler classMembersPartHandler) {
         this.contextIds = contextIds;
         this.annotationExtractor = annotationExtractor;
         this.classPartPath = classPartPath;
@@ -80,7 +80,7 @@ public class SkeletonClassContext implements ClassContext {
     @Override
     public boolean checkClassPart() {
         Optional<Node> maybeClassPart = collector.getNode().getChild(
-                new SkeletonCollectorPath(classPartPath, ObjectNode.ei())
+                new SKCollectorPath(classPartPath, ObjectNode.ei())
         );
         return maybeClassPart.isPresent();
     }

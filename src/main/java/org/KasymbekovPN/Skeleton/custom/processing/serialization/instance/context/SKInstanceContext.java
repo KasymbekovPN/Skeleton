@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class SkeletonInstanceContext implements InstanceContext {
+public class SKInstanceContext implements InstanceContext {
 
-    private final Logger log = LoggerFactory.getLogger(SkeletonInstanceContext.class);
+    private final Logger log = LoggerFactory.getLogger(SKInstanceContext.class);
 
     private final ContextIds contextIds;
     private final Map<String, ObjectNode> classNodes;
@@ -42,18 +42,18 @@ public class SkeletonInstanceContext implements InstanceContext {
     private String className;
     private boolean valid;
 
-    public SkeletonInstanceContext(ContextIds contextIds,
-                                   Map<String, ObjectNode> classNodes,
-                                   Collector collector,
-                                   Processor<InstanceContext> processor,
-                                   Object instance,
-                                   CollectorPath classPartCollectorPath,
-                                   CollectorPath membersPartCollectorPath,
-                                   ClassHeaderPartHandler classHeaderPartHandler,
-                                   ClassMembersPartHandler classMembersPartHandler,
-                                   InstanceMembersPartHandler instanceMembersPartHandler,
-                                   Extractor<String, Annotation[]> annotationClassNameExtractor,
-                                   Extractor<Set<String>, Pair<String, ObjectNode>> memberExtractor) {
+    public SKInstanceContext(ContextIds contextIds,
+                             Map<String, ObjectNode> classNodes,
+                             Collector collector,
+                             Processor<InstanceContext> processor,
+                             Object instance,
+                             CollectorPath classPartCollectorPath,
+                             CollectorPath membersPartCollectorPath,
+                             ClassHeaderPartHandler classHeaderPartHandler,
+                             ClassMembersPartHandler classMembersPartHandler,
+                             InstanceMembersPartHandler instanceMembersPartHandler,
+                             Extractor<String, Annotation[]> annotationClassNameExtractor,
+                             Extractor<Set<String>, Pair<String, ObjectNode>> memberExtractor) {
         this.contextIds = contextIds;
         this.classNodes = classNodes;
         this.collector = collector;

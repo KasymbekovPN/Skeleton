@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.collector.process.writing.handler.utils;
 
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +11,7 @@ public class Utils {
 
     //del
     public static Collector createCollector() throws Exception {
-        return new SkeletonCollector();
+        return new SKCollector();
     }
 
     //< del

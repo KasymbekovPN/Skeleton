@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.SKAggregateResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public class ContextProcessor<T extends Context> implements Processor<T> {
 
-    private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SkeletonAggregateResult.class;
+    private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SKAggregateResult.class;
     private static final Logger log = LoggerFactory.getLogger(ContextProcessor.class);
 
     private final Map<String, Task<T>> tasks = new HashMap<>();
@@ -26,10 +26,10 @@ public class ContextProcessor<T extends Context> implements Processor<T> {
 
     public ContextProcessor() {
     }
-    //<
-    //    public ContextProcessor(AggregateResult processorResult) {
-//        this.processorResult = processorResult;
-//    }
+
+    public ContextProcessor(AggregateResult processorResult) {
+        this.processorResult = processorResult;
+    }
 
     @Override
     public ContextProcessor<T> add(Task<T> task) {

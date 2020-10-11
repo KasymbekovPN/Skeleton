@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.format.offset;
 
 import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 
-public class SkeletonOffset implements Offset {
+public class SKOffset implements Offset {
 
     private static final String REPLACED_STRING = "%offset%";
     private static final String OFFSET_INIT_VALUE = "";
@@ -13,7 +13,7 @@ public class SkeletonOffset implements Offset {
     private String offset;
     private int counter;
 
-    public SkeletonOffset(String offsetStep) {
+    public SKOffset(String offsetStep) {
         this.offsetStep = offsetStep;
         reset();
     }

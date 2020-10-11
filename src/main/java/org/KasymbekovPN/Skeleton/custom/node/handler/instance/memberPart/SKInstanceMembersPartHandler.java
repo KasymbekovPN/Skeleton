@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SkeletonInstanceMembersPartHandler implements InstanceMembersPartHandler {
+public class SKInstanceMembersPartHandler implements InstanceMembersPartHandler {
 
     @Override
     public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {

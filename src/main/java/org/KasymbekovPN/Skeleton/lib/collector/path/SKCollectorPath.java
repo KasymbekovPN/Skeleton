@@ -9,12 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class SkeletonCollectorPath implements CollectorPath {
+public class SKCollectorPath implements CollectorPath {
 
     private List<String> path;
     private EntityItem ei;
 
-    public SkeletonCollectorPath(List<String> path, EntityItem ei) {
+    public SKCollectorPath(List<String> path, EntityItem ei) {
         this.path = path;
         this.ei = ei;
     }
@@ -41,7 +41,7 @@ public class SkeletonCollectorPath implements CollectorPath {
 
     @Override
     public Iterator<Pair<String, EntityItem>> iterator() {
-        return new SkeletonCollectorPath.Itr();
+        return new SKCollectorPath.Itr();
     }
 
     private class Itr implements Iterator<Pair<String, EntityItem>>{
@@ -50,7 +50,7 @@ public class SkeletonCollectorPath implements CollectorPath {
 
         @Override
         public boolean hasNext() {
-            return cursor < SkeletonCollectorPath.this.path.size();
+            return cursor < SKCollectorPath.this.path.size();
         }
 
         @Override
@@ -61,11 +61,11 @@ public class SkeletonCollectorPath implements CollectorPath {
 
             int i = cursor++;
 
-            EntityItem ei = i == SkeletonCollectorPath.this.path.size() - 1
-                    ? SkeletonCollectorPath.this.ei
+            EntityItem ei = i == SKCollectorPath.this.path.size() - 1
+                    ? SKCollectorPath.this.ei
                     : ObjectNode.ei();
 
-            return new MutablePair<>(SkeletonCollectorPath.this.path.get(i), ei);
+            return new MutablePair<>(SKCollectorPath.this.path.get(i), ei);
         }
     }
 }

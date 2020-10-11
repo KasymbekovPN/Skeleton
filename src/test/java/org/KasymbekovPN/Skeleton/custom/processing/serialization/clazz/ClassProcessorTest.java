@@ -6,20 +6,20 @@ import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -34,13 +34,13 @@ public class ClassProcessorTest {
     private static final String KIND_COLLECTION = "collection";
     private static final String KIND_MAP = "map";
 
-    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SKClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SKClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -60,7 +60,7 @@ public class ClassProcessorTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        SkeletonCollector collector = new SkeletonCollector();
+        SKCollector collector = new SKCollector();
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 KIND_SIGNATURE,
@@ -70,7 +70,7 @@ public class ClassProcessorTest {
                 KIND_MAP
         );
 
-        SkeletonClassContext context = new SkeletonClassContext(
+        SKClassContext context = new SKClassContext(
                 contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),

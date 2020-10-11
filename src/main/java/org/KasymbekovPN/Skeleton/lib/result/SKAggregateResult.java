@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class SkeletonAggregateResult implements AggregateResult {
+public class SKAggregateResult implements AggregateResult {
 
     private final Map<String, Result> results = new HashMap<>();
 

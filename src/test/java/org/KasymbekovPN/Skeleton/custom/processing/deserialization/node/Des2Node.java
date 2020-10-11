@@ -9,9 +9,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.Context
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.SkeletonDes2NodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.SKDes2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.JsonFinder;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.SkeletonDes2NodeCharItr;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.SKDes2NodeCharItr;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ public class Des2Node {
             put(Des2NodeMode.STRING, new SKSimpleContextIds(TASK_COMMON, WRAPPER_STRING));
         }};
 
-        SkeletonDes2NodeCharItr iterator = new SkeletonDes2NodeCharItr(line);
+        SKDes2NodeCharItr iterator = new SKDes2NodeCharItr(line);
 
         EnumMap<Des2NodeMode, SimpleChecker<Character>> checkers = new EnumMap<>(Des2NodeMode.class) {{
             put(Des2NodeMode.ARRAY, new AllowedCharacterChecker('['));
@@ -95,7 +95,7 @@ public class Des2Node {
                 valueEndCheckers
         );
 
-        return new SkeletonDes2NodeContext(
+        return new SKDes2NodeContext(
                 contextIds,
                 iterator,
                 finder,

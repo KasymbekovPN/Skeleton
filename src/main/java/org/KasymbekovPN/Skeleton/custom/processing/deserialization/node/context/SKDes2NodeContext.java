@@ -11,7 +11,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 
-public class SkeletonDes2NodeContext implements Des2NodeContext {
+public class SKDes2NodeContext implements Des2NodeContext {
 
     private final EnumMap<Des2NodeMode, ContextIds> contextIds;
     private final Des2NodeCharItr iterator;
@@ -23,11 +23,11 @@ public class SkeletonDes2NodeContext implements Des2NodeContext {
     private Node currentNode;
     private Node parent;
 
-    public SkeletonDes2NodeContext(EnumMap<Des2NodeMode, ContextIds> contextIds,
-                                   Des2NodeCharItr iterator,
-                                   Finder finder,
-                                   ContextProcessor<Des2NodeContext> processor,
-                                   Converter<Node, Triple<Node, String, Des2NodeMode>> converter) {
+    public SKDes2NodeContext(EnumMap<Des2NodeMode, ContextIds> contextIds,
+                             Des2NodeCharItr iterator,
+                             Finder finder,
+                             ContextProcessor<Des2NodeContext> processor,
+                             Converter<Node, Triple<Node, String, Des2NodeMode>> converter) {
         this.contextIds = contextIds;
         this.iterator = iterator;
         this.finder = finder;

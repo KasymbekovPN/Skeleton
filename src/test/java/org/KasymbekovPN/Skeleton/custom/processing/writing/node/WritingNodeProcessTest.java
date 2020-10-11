@@ -1,17 +1,17 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node;
 
-import org.KasymbekovPN.Skeleton.custom.format.offset.SkeletonOffset;
+import org.KasymbekovPN.Skeleton.custom.format.offset.SKOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.SkeletonWritingContext;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.SKWritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class WritingNodeProcessTest {
     }
 
     private Node createNode(){
-        SkeletonCollector collector = new SkeletonCollector();
+        SKCollector collector = new SKCollector();
 
         collector.addProperty("numberValue", 12.34);
         collector.addProperty("stringValue", "hello");
@@ -66,7 +66,7 @@ public class WritingNodeProcessTest {
     private WritingContext createContext(Node node,
                                          WritingFormatterHandler writingFormatterHandler,
                                          ContextProcessor<WritingContext> contextProcessor){
-        return new SkeletonWritingContext(
+        return new SKWritingContext(
                 new SKSimpleContextIds(TASK_COMMON, WRAPPER_ARRAY),
                 new SKSimpleContextIds(TASK_COMMON, WRAPPER_OBJECT),
                 new SKSimpleContextIds(TASK_COMMON, WRAPPER_PRIMITIVE),
@@ -89,7 +89,7 @@ public class WritingNodeProcessTest {
 
     private WritingFormatterHandler createWFH() throws Exception {
 
-        SkeletonOffset offset = new SkeletonOffset("    ");
+        SKOffset offset = new SKOffset("    ");
 
         WritingFormatterHandler wfh = new JsonWritingFormatterHandler.Builder(offset)
                 .addFormatter(ObjectNode.ei(), new JsonObjectWritingFormatter(offset))

@@ -6,27 +6,27 @@ import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.InnerSerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.SerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SkeletonSerClassNodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SKSerClassNodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeAggregateTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeCheckingTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
@@ -45,13 +45,13 @@ public class SerClassNodeTest {
     private static final String WRAPPER_AGGR = "aggr";
     private static final String WRAPPER_CHECK = "check";
 
-    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SKClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SKClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -59,7 +59,7 @@ public class SerClassNodeTest {
             "arguments"
     );
 
-    private final static CollectorPath membersPartCollectorPath = new SkeletonCollectorPath(
+    private final static CollectorPath membersPartCollectorPath = new SKCollectorPath(
             Arrays.asList("members"),
             ObjectNode.ei()
     );
@@ -112,7 +112,7 @@ public class SerClassNodeTest {
 
     private ClassContext createSerContext(){
 
-        SkeletonCollector collector = new SkeletonCollector();
+        SKCollector collector = new SKCollector();
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 KIND_SIGNATURE,
@@ -121,7 +121,7 @@ public class SerClassNodeTest {
                 KIND_COLLECTION,
                 KIND_MAP
         );
-        return new SkeletonClassContext(
+        return new SKClassContext(
                 contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
@@ -135,7 +135,7 @@ public class SerClassNodeTest {
 
     private SerClassNodeContext createSerClassNodeContext(Map<String, ObjectNode> classNodes){
         SKSimpleContextIds contextIds = new SKSimpleContextIds(TASK_COMMON, WRAPPER_AGGR, WRAPPER_CHECK);
-        return new SkeletonSerClassNodeContext(
+        return new SKSerClassNodeContext(
                 contextIds,
                 new AllowedStringChecker("int", "float", "java.util.Set", "java.util.Map"),
                 classNodes,

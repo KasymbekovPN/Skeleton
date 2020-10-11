@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
 import org.KasymbekovPN.Skeleton.lib.result.Result;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonAggregateResult;
+import org.KasymbekovPN.Skeleton.lib.result.SKAggregateResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class ContextTask<T extends Context> implements Task<T> {
 
-    private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SkeletonAggregateResult.class;
+    private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SKAggregateResult.class;
     private static final Logger log = LoggerFactory.getLogger(ContextTask.class);
 
     private final String id;

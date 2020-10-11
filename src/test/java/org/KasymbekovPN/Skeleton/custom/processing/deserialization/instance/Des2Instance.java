@@ -5,14 +5,14 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.SkeletonClassNameExtractor;
+import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.node.InstanceDataMembersExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
@@ -23,28 +23,28 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceInnerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SkeletonDes2InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SKDes2InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceMapTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SkeletonInstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SKInstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
@@ -54,13 +54,13 @@ import java.util.*;
 
 public class Des2Instance {
 
-    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SKClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SKClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -68,12 +68,12 @@ public class Des2Instance {
             "arguments"
     );
 
-    private final static CollectorPath classPartCollectorPath = new SkeletonCollectorPath(
+    private final static CollectorPath classPartCollectorPath = new SKCollectorPath(
             Arrays.asList("class"),
             ObjectNode.ei()
     );
 
-    private final static CollectorPath membersPartCollectorPath = new SkeletonCollectorPath(
+    private final static CollectorPath membersPartCollectorPath = new SKCollectorPath(
             Arrays.asList("members"),
             ObjectNode.ei()
     );
@@ -241,10 +241,10 @@ public class Des2Instance {
         map.put("Des2InstanceTC0", Des2InstanceTC0.class);
         map.put("Des2InstanceInnerTC0", Des2InstanceInnerTC0.class);
 
-        return new SkeletonDes2InstanceContext(
+        return new SKDes2InstanceContext(
                 SKSimpleContextIds,
                 classNodes,
-                new SkeletonClassNameExtractor(),
+                new ClassNameExtractor(),
                 new AnnotationExtractor(),
                 classMembersPartHandler,
                 membersPartCollectorPath,
@@ -268,13 +268,13 @@ public class Des2Instance {
                 WRAPPER_MAP
         );
 
-        return new SkeletonClassContext(
+        return new SKClassContext(
                 contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
                 Arrays.asList("members"),
                 null,
-                new SkeletonCollector(),
+                new SKCollector(),
                 classHeaderPartHandler,
                 classMembersPartHandler
         );
@@ -345,17 +345,17 @@ public class Des2Instance {
 
     private InstanceContext createInstanceContext(Map<String, ObjectNode> classNodes,
                                                   ContextProcessor<InstanceContext> processor){
-        InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
+        InstanceMembersPartHandler instanceMembersPartHandler = new SKInstanceMembersPartHandler();
 
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 WRAPPER_HEADER, WRAPPER_SPECIFIC, WRAPPER_CUSTOM, WRAPPER_COLLECTION, WRAPPER_MAP
         );
 
-        return new SkeletonInstanceContext(
+        return new SKInstanceContext(
                 contextIds,
                 classNodes,
-                new SkeletonCollector(),
+                new SKCollector(),
                 processor,
                 null,
                 classPartCollectorPath,
@@ -363,7 +363,7 @@ public class Des2Instance {
                 classHeaderPartHandler,
                 classMembersPartHandler,
                 instanceMembersPartHandler,
-                new SkeletonClassNameExtractor(),
+                new ClassNameExtractor(),
                 new InstanceDataMembersExtractor()
         );
     }

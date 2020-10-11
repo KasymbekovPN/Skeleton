@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
 import java.util.Map;
 
-public class SkeletonSerClassNodeContext implements SerClassNodeContext {
+public class SKSerClassNodeContext implements SerClassNodeContext {
 
     private final ContextIds contextIds;
     private final SimpleChecker<String> systemTypeChecker;
@@ -19,11 +19,11 @@ public class SkeletonSerClassNodeContext implements SerClassNodeContext {
 
     private SimpleChecker<String> customTypeChecker = new AllowedStringChecker();
 
-    public SkeletonSerClassNodeContext(ContextIds contextIds,
-                                       SimpleChecker<String> systemTypeChecker,
-                                       Map<String, ObjectNode> classNodes,
-                                       CollectorPath membersPartCollectorPath,
-                                       ClassMembersPartHandler classMembersPartHandler) {
+    public SKSerClassNodeContext(ContextIds contextIds,
+                                 SimpleChecker<String> systemTypeChecker,
+                                 Map<String, ObjectNode> classNodes,
+                                 CollectorPath membersPartCollectorPath,
+                                 ClassMembersPartHandler classMembersPartHandler) {
         this.contextIds = contextIds;
         this.systemTypeChecker = systemTypeChecker;
         this.classNodes = classNodes;

@@ -7,12 +7,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SkeletonCollector implements Collector {
+public class SKCollector implements Collector {
 
     private Node root;
     private Node target;
 
-    public SkeletonCollector() {
+    public SKCollector() {
         clear();
     }
 

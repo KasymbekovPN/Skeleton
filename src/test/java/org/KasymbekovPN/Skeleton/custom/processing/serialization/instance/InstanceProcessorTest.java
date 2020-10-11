@@ -5,19 +5,19 @@ import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.SkeletonClassNameExtractor;
+import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.node.InstanceDataMembersExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SkeletonClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SkeletonClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SkeletonInstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.processor.ContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.baseContext.task.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SkeletonClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
@@ -25,15 +25,15 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SkeletonInstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SKInstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.lib.collector.SkeletonCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.collector.path.SkeletonCollectorPath;
+import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -45,13 +45,13 @@ import java.util.*;
 @DisplayName("InstanceProcessor. Testing of:")
 public class InstanceProcessorTest {
 
-    private ClassHeaderPartHandler classHeaderPartHandler = new SkeletonClassHeaderPartHandler(
+    private ClassHeaderPartHandler classHeaderPartHandler = new SKClassHeaderPartHandler(
             "type",
             "name",
             "modifiers"
     );
 
-    private ClassMembersPartHandler classMembersPartHandler = new SkeletonClassMembersPartHandler(
+    private ClassMembersPartHandler classMembersPartHandler = new SKClassMembersPartHandler(
             "kind",
             "type",
             "className",
@@ -59,12 +59,12 @@ public class InstanceProcessorTest {
             "arguments"
     );
 
-    private final static CollectorPath classPartCollectorPath = new SkeletonCollectorPath(
+    private final static CollectorPath classPartCollectorPath = new SKCollectorPath(
             Arrays.asList("class"),
             ObjectNode.ei()
     );
 
-    private final static CollectorPath membersPartCollectorPath = new SkeletonCollectorPath(
+    private final static CollectorPath membersPartCollectorPath = new SKCollectorPath(
             Arrays.asList("members"),
             ObjectNode.ei()
     );
@@ -87,12 +87,12 @@ public class InstanceProcessorTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class, InnerInstanceProcessorTC0.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        SkeletonCollector collector = new SkeletonCollector();
+        SKCollector collector = new SKCollector();
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 KIND_SIGNATURE, KIND_SPECIFIC, KIND_CUSTOM, KIND_COLLECTION, KIND_MAP
         );
-        SkeletonClassContext context = new SkeletonClassContext(
+        SKClassContext context = new SKClassContext(
                 contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
@@ -140,15 +140,15 @@ public class InstanceProcessorTest {
         ContextProcessor<InstanceContext> processor
                 = new ContextProcessor<>();
 
-        InstanceMembersPartHandler instanceMembersPartHandler = new SkeletonInstanceMembersPartHandler();
+        InstanceMembersPartHandler instanceMembersPartHandler = new SKInstanceMembersPartHandler();
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 KIND_HEADER, KIND_SPECIFIC, KIND_CUSTOM, KIND_COLLECTION, KIND_MAP
         );
-        SkeletonInstanceContext instanceContext = new SkeletonInstanceContext(
+        SKInstanceContext instanceContext = new SKInstanceContext(
                 contextIds,
                 classNodes,
-                new SkeletonCollector(),
+                new SKCollector(),
                 processor,
                 instance,
                 classPartCollectorPath,
@@ -156,7 +156,7 @@ public class InstanceProcessorTest {
                 classHeaderPartHandler,
                 classMembersPartHandler,
                 instanceMembersPartHandler,
-                new SkeletonClassNameExtractor(),
+                new ClassNameExtractor(),
                 new InstanceDataMembersExtractor()
         );
 

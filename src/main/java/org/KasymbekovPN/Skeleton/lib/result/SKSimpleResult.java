@@ -3,19 +3,19 @@ package org.KasymbekovPN.Skeleton.lib.result;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class SkeletonSimpleResult implements SimpleResult {
+public class SKSimpleResult implements SimpleResult {
 
-    private static final Class<? extends ResultData> RESULT_DATA_CLASS = SkeletonResultData.class;
+    private static final Class<? extends ResultData> RESULT_DATA_CLASS = SKResultData.class;
 
     private ResultData resultData;
     private boolean success;
     private String status;
 
-    public SkeletonSimpleResult() {
+    public SKSimpleResult() {
         reset();
     }
 
-    public SkeletonSimpleResult(ResultData resultData) {
+    public SKSimpleResult(ResultData resultData) {
         this.resultData = resultData;
         reset();
     }

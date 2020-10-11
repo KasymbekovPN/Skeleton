@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SkeletonClassMembersPartHandler implements ClassMembersPartHandler {
+public class SKClassMembersPartHandler implements ClassMembersPartHandler {
 
     private final String kindPropertyName;
     private final String typePropertyName;
@@ -14,11 +14,11 @@ public class SkeletonClassMembersPartHandler implements ClassMembersPartHandler 
     private final String modifiersPropertyName;
     private final String argumentsPropertyName;
 
-    public SkeletonClassMembersPartHandler(String kindPropertyName,
-                                           String typePropertyName,
-                                           String classNamePropertyName,
-                                           String modifiersPropertyName,
-                                           String argumentsPropertyName) {
+    public SKClassMembersPartHandler(String kindPropertyName,
+                                     String typePropertyName,
+                                     String classNamePropertyName,
+                                     String modifiersPropertyName,
+                                     String argumentsPropertyName) {
         this.kindPropertyName = kindPropertyName;
         this.typePropertyName = typePropertyName;
         this.classNamePropertyName = classNamePropertyName;

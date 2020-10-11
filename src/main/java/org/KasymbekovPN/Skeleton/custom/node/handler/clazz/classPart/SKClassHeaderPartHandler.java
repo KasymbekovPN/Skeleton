@@ -6,15 +6,15 @@ import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 
 import java.util.Optional;
 
-public class SkeletonClassHeaderPartHandler implements ClassHeaderPartHandler {
+public class SKClassHeaderPartHandler implements ClassHeaderPartHandler {
 
     private final String typePropertyName;
     private final String namePropertyName;
     private final String modifiersPropertyName;
 
-    public SkeletonClassHeaderPartHandler(String typePropertyName,
-                                          String namePropertyName,
-                                          String modifiersPropertyName) {
+    public SKClassHeaderPartHandler(String typePropertyName,
+                                    String namePropertyName,
+                                    String modifiersPropertyName) {
         this.typePropertyName = typePropertyName;
         this.namePropertyName = namePropertyName;
         this.modifiersPropertyName = modifiersPropertyName;

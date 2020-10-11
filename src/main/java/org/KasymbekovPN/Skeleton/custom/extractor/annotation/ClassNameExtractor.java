@@ -6,7 +6,7 @@ import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 
-public class SkeletonClassNameExtractor implements Extractor<String, Annotation[]> {
+public class ClassNameExtractor implements Extractor<String, Annotation[]> {
 
 
     @Override

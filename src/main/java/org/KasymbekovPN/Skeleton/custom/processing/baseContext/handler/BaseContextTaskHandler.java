@@ -4,14 +4,14 @@ import org.KasymbekovPN.Skeleton.custom.processing.baseContext.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.result.ResultData;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
-import org.KasymbekovPN.Skeleton.lib.result.SkeletonSimpleResult;
+import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 abstract public class BaseContextTaskHandler<T extends Context> implements TaskHandler<T> {
 
-    private static final Class<? extends SimpleResult> SIMPLE_RESULT_CLASS = SkeletonSimpleResult.class;
+    private static final Class<? extends SimpleResult> SIMPLE_RESULT_CLASS = SKSimpleResult.class;
 
     protected final String id;
     protected SimpleResult simpleResult;

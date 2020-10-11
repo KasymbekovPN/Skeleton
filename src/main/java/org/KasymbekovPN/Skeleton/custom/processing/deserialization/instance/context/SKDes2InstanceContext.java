@@ -23,9 +23,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class SkeletonDes2InstanceContext implements Des2InstanceContext {
+public class SKDes2InstanceContext implements Des2InstanceContext {
 
-    private static final Logger log = LoggerFactory.getLogger(SkeletonDes2InstanceContext.class);
+    private static final Logger log = LoggerFactory.getLogger(SKDes2InstanceContext.class);
 
     private final ContextIds contextIds;
     private final Map<String, ObjectNode> classNodes;
@@ -43,19 +43,19 @@ public class SkeletonDes2InstanceContext implements Des2InstanceContext {
 
     private Storage storage = new Storage();
 
-    public SkeletonDes2InstanceContext(ContextIds contextIds,
-                                       Map<String, ObjectNode> classNodes,
-                                       Extractor<String, Annotation[]> annotationNameExtractor,
-                                       Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                       ClassMembersPartHandler classMembersPartHandler,
-                                       CollectorPath membersPath,
-                                       ClassHeaderPartHandler classHeaderPartHandler,
-                                       CollectorPath classPath,
-                                       OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter,
-                                       OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter,
-                                       OptionalConverter<Object, String> className2InstanceConverter,
-                                       OptionalConverter<Object, ObjectNode> toInstanceConverter,
-                                       ContextProcessor<Des2InstanceContext> processor) {
+    public SKDes2InstanceContext(ContextIds contextIds,
+                                 Map<String, ObjectNode> classNodes,
+                                 Extractor<String, Annotation[]> annotationNameExtractor,
+                                 Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                 ClassMembersPartHandler classMembersPartHandler,
+                                 CollectorPath membersPath,
+                                 ClassHeaderPartHandler classHeaderPartHandler,
+                                 CollectorPath classPath,
+                                 OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter,
+                                 OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter,
+                                 OptionalConverter<Object, String> className2InstanceConverter,
+                                 OptionalConverter<Object, ObjectNode> toInstanceConverter,
+                                 ContextProcessor<Des2InstanceContext> processor) {
         this.contextIds = contextIds;
         this.classNodes = classNodes;
         this.annotationNameExtractor = annotationNameExtractor;

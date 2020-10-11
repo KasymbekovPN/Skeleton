@@ -2,13 +2,13 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context
 
 import java.util.NoSuchElementException;
 
-public class SkeletonDes2NodeCharItr implements Des2NodeCharItr {
+public class SKDes2NodeCharItr implements Des2NodeCharItr {
 
     private final String line;
 
     private int cursor = 0;
 
-    public SkeletonDes2NodeCharItr(String line) {
+    public SKDes2NodeCharItr(String line) {
         this.line = line;
     }
 
