@@ -2,8 +2,9 @@ package org.KasymbekovPN.Skeleton.lib.processing.context.state;
 
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 
-public interface ContextStateCareTaker {
+public interface ContextStateCareTaker<T extends ContextStateMemento> {
     boolean isEmpty();
-    boolean push(ContextStateMemento contextStateMemento);
-    ContextStateMemento pop() throws ContextStateCareTakerIsEmpty;
+    void push(T contextStateMemento);
+    T pop() throws ContextStateCareTakerIsEmpty;
+    T peek() throws ContextStateCareTakerIsEmpty;
 }

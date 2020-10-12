@@ -1,7 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode;
 
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
@@ -9,25 +7,26 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
-import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.InnerSerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.classes.SerTC0;
-import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SKSerClassNodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeAggregateTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeCheckingTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeAggregateTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeCheckingTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.OLdContextTask;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -67,7 +66,7 @@ public class SerClassNodeTest {
     @Test
     void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         ClassContext context = createSerContext();
-        ContextProcessor<ClassContext> serProcessor = createSerProcessor();
+        OldContextProcessor<ClassContext> serProcessor = createSerProcessor();
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
@@ -84,12 +83,12 @@ public class SerClassNodeTest {
         //<
 
         SerClassNodeContext serClassNodeContext = createSerClassNodeContext(classNodes);
-        ContextProcessor<SerClassNodeContext> serClassNodeProcessor = createSerClassNodeProcessor();
+        OldContextProcessor<SerClassNodeContext> serClassNodeProcessor = createSerClassNodeProcessor();
 
         serClassNodeProcessor.handle(serClassNodeContext);
     }
 
-    private ContextProcessor<ClassContext> createSerProcessor(){
+    private OldContextProcessor<ClassContext> createSerProcessor(){
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
         CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
@@ -99,14 +98,14 @@ public class SerClassNodeTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
-                .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
-                .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InnerSerTC0")))
-                .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
-                .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
+        OLdContextTask<ClassContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new ClassSignatureTaskHandlerOld(KIND_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandlerOld(KIND_SPECIFIC, new SKSimpleChecker<>(int.class, float.class)))
+                .add(new ClassCustomTaskHandlerOld(KIND_CUSTOM, new SKSimpleChecker<>("InnerSerTC0")))
+                .add(new ClassContainerTaskHandlerOld(KIND_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandlerOld(KIND_MAP, mapTypeChecker));
 
-        return new ContextProcessor<ClassContext>().add(task);
+        return new OldContextProcessor<ClassContext>().add(task);
 
     }
 
@@ -137,19 +136,19 @@ public class SerClassNodeTest {
         SKSimpleContextIds contextIds = new SKSimpleContextIds(TASK_COMMON, WRAPPER_AGGR, WRAPPER_CHECK);
         return new SKSerClassNodeContext(
                 contextIds,
-                new AllowedStringChecker("int", "float", "java.util.Set", "java.util.Map"),
+                new SKSimpleChecker<>("int", "float", "java.util.Set", "java.util.Map"),
                 classNodes,
                 membersPartCollectorPath,
                 classMembersPartHandler
         );
     }
 
-    private ContextProcessor<SerClassNodeContext> createSerClassNodeProcessor(){
+    private OldContextProcessor<SerClassNodeContext> createSerClassNodeProcessor(){
 
-        ContextTask<SerClassNodeContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new SerClassNodeAggregateTaskHandler(WRAPPER_AGGR))
-                .add(new SerClassNodeCheckingTaskHandler(WRAPPER_CHECK));
+        OLdContextTask<SerClassNodeContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new SerClassNodeAggregateTaskHandlerOld(WRAPPER_AGGR))
+                .add(new SerClassNodeCheckingTaskHandlerOld(WRAPPER_CHECK));
 
-        return new ContextProcessor<SerClassNodeContext>().add(task);
+        return new OldContextProcessor<SerClassNodeContext>().add(task);
     }
 }

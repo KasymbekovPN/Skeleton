@@ -1,11 +1,11 @@
 package org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context;
 
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
+import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class SKSerClassNodeContext implements SerClassNodeContext {
     private final CollectorPath membersPartCollectorPath;
     private final ClassMembersPartHandler classMembersPartHandler;
 
-    private SimpleChecker<String> customTypeChecker = new AllowedStringChecker();
+    private SimpleChecker<String> customTypeChecker = new SKSimpleChecker<>();
 
     public SKSerClassNodeContext(ContextIds contextIds,
                                  SimpleChecker<String> systemTypeChecker,

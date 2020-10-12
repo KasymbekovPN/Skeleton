@@ -1,7 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz;
 
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
@@ -9,17 +7,18 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.SKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
-import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.OLdContextTask;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -81,15 +80,15 @@ public class ClassProcessorTest {
                 classMembersPartHandler
         );
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
-                .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
-                .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InnerClassProcessorTC0")))
-                .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
-                .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
+        OLdContextTask<ClassContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new ClassSignatureTaskHandlerOld(KIND_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandlerOld(KIND_SPECIFIC, new SKSimpleChecker<>(int.class, float.class)))
+                .add(new ClassCustomTaskHandlerOld(KIND_CUSTOM, new SKSimpleChecker<>("InnerClassProcessorTC0")))
+                .add(new ClassContainerTaskHandlerOld(KIND_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandlerOld(KIND_MAP, mapTypeChecker));
 
-        ContextProcessor<ClassContext> processor
-                = new ContextProcessor<>();
+        OldContextProcessor<ClassContext> processor
+                = new OldContextProcessor<>();
         processor.add(task);
 
         processor.handle(context);

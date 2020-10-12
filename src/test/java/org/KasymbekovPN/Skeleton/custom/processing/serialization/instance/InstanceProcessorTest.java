@@ -1,7 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance;
 
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
@@ -13,28 +11,29 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
-import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SKInstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.OLdContextTask;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.DisplayName;
@@ -77,7 +76,7 @@ public class InstanceProcessorTest {
     private final static String KIND_CUSTOM = "custom";
     private final static String KIND_SIGNATURE = "signature";
 
-    private Pair<ClassContext, ContextProcessor<ClassContext>> createSerializingClassContext(){
+    private Pair<ClassContext, OldContextProcessor<ClassContext>> createSerializingClassContext(){
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class, InnerInstanceProcessorTC0.class));
         CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
@@ -103,15 +102,15 @@ public class InstanceProcessorTest {
                 classMembersPartHandler
         );
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new ClassSignatureTaskHandler(KIND_SIGNATURE, classHeaderPartHandler))
-                .add(new ClassSpecificTaskHandler(KIND_SPECIFIC, new AllowedClassChecker(int.class, float.class)))
-                .add(new ClassCustomTaskHandler(KIND_CUSTOM, new AllowedStringChecker("InstanceProcessorTC0", "InnerInstanceProcessorTC0")))
-                .add(new ClassContainerTaskHandler(KIND_COLLECTION, collectionTypeChecker))
-                .add(new ClassContainerTaskHandler(KIND_MAP, mapTypeChecker));
+        OLdContextTask<ClassContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new ClassSignatureTaskHandlerOld(KIND_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandlerOld(KIND_SPECIFIC, new SKSimpleChecker<>(int.class, float.class)))
+                .add(new ClassCustomTaskHandlerOld(KIND_CUSTOM, new SKSimpleChecker<>("InstanceProcessorTC0", "InnerInstanceProcessorTC0")))
+                .add(new ClassContainerTaskHandlerOld(KIND_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandlerOld(KIND_MAP, mapTypeChecker));
 
-        ContextProcessor<ClassContext> processor
-                = new ContextProcessor<>();
+        OldContextProcessor<ClassContext> processor
+                = new OldContextProcessor<>();
         processor.add(task);
 
         return new MutablePair<>(context, processor);
@@ -121,9 +120,9 @@ public class InstanceProcessorTest {
     @Test
     void test() throws Exception {
 
-        Pair<ClassContext, ContextProcessor<ClassContext>> pair = createSerializingClassContext();
+        Pair<ClassContext, OldContextProcessor<ClassContext>> pair = createSerializingClassContext();
         ClassContext classContext = pair.getLeft();
-        ContextProcessor<ClassContext> classProcessor = pair.getRight();
+        OldContextProcessor<ClassContext> classProcessor = pair.getRight();
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
@@ -137,8 +136,8 @@ public class InstanceProcessorTest {
 
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 
-        ContextProcessor<InstanceContext> processor
-                = new ContextProcessor<>();
+        OldContextProcessor<InstanceContext> processor
+                = new OldContextProcessor<>();
 
         InstanceMembersPartHandler instanceMembersPartHandler = new SKInstanceMembersPartHandler();
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
@@ -160,12 +159,12 @@ public class InstanceProcessorTest {
                 new InstanceDataMembersExtractor()
         );
 
-        ContextTask<InstanceContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new InstanceHeaderTaskHandler(KIND_HEADER))
-                .add(new InstanceSpecificTaskHandler(KIND_SPECIFIC))
-                .add(new InstanceCustomTaskHandler(KIND_CUSTOM))
-                .add(new InstanceCollectionTaskHandler(KIND_COLLECTION))
-                .add(new InstanceMapTaskHandler(KIND_MAP));
+        OLdContextTask<InstanceContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new InstanceHeaderTaskHandlerOld(KIND_HEADER))
+                .add(new InstanceSpecificTaskHandlerOld(KIND_SPECIFIC))
+                .add(new InstanceCustomTaskHandlerOld(KIND_CUSTOM))
+                .add(new InstanceCollectionTaskHandlerOld(KIND_COLLECTION))
+                .add(new InstanceMapTaskHandlerOld(KIND_MAP));
 
         processor.add(task);
         processor.handle(instanceContext);

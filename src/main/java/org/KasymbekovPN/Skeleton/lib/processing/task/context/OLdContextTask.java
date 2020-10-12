@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.processing.task.context;
 
-import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
-import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
@@ -16,30 +15,30 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ContextTask<T extends Context<? extends ContextStateMemento>> implements Task<T> {
+public class OLdContextTask<T extends OldContext> implements Task<T> {
 
     private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SKAggregateResult.class;
-    private static final Logger log = LoggerFactory.getLogger(ContextTask.class);
+    private static final Logger log = LoggerFactory.getLogger(OLdContextTask.class);
 
     private final String id;
     private final Map<String, TaskHandler<T>> handlers = new HashMap<>();
 
     private AggregateResult taskResult;
 
-    public ContextTask(String id) {
+    public OLdContextTask(String id) {
         this.id = id;
     }
 
-    public ContextTask(String id, AggregateResult taskResult) {
+    public OLdContextTask(String id, AggregateResult taskResult) {
         this.id = id;
         this.taskResult = taskResult;
     }
 
     @Override
     public Result handle(T object) throws NoSuchMethodException,
-            InstantiationException,
-            IllegalAccessException,
-            InvocationTargetException {
+                                          InstantiationException,
+                                          IllegalAccessException,
+                                          InvocationTargetException {
         checkTaskResult();
         Iterator<String> handlerIterator = object.getContextIds().handlerIterator();
         while (handlerIterator.hasNext()){
@@ -68,9 +67,9 @@ public class ContextTask<T extends Context<? extends ContextStateMemento>> imple
 
     @Override
     public Result getTaskResult() throws InvocationTargetException,
-            NoSuchMethodException,
-            InstantiationException,
-            IllegalAccessException {
+                                         NoSuchMethodException,
+                                         InstantiationException,
+                                         IllegalAccessException {
         checkTaskResult();
         return taskResult;
     }
@@ -81,9 +80,9 @@ public class ContextTask<T extends Context<? extends ContextStateMemento>> imple
     }
 
     private void checkTaskResult() throws NoSuchMethodException,
-            IllegalAccessException,
-            InvocationTargetException,
-            InstantiationException {
+                                          IllegalAccessException,
+                                          InvocationTargetException,
+                                          InstantiationException {
         if (taskResult == null){
             Constructor<? extends AggregateResult> constructor = AGGREGATE_RESULT_CLASS.getConstructor();
             taskResult = constructor.newInstance();

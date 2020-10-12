@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context;
 
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
@@ -16,7 +16,7 @@ public class SKDes2NodeContext implements Des2NodeContext {
     private final EnumMap<Des2NodeMode, ContextIds> contextIds;
     private final Des2NodeCharItr iterator;
     private final Finder finder;
-    private final ContextProcessor<Des2NodeContext> processor;
+    private final OldContextProcessor<Des2NodeContext> processor;
     private final Converter<Node, Triple<Node, String, Des2NodeMode>> converter;
 
     private Des2NodeMode mode = Des2NodeMode.INIT;
@@ -26,7 +26,7 @@ public class SKDes2NodeContext implements Des2NodeContext {
     public SKDes2NodeContext(EnumMap<Des2NodeMode, ContextIds> contextIds,
                              Des2NodeCharItr iterator,
                              Finder finder,
-                             ContextProcessor<Des2NodeContext> processor,
+                             OldContextProcessor<Des2NodeContext> processor,
                              Converter<Node, Triple<Node, String, Des2NodeMode>> converter) {
         this.contextIds = contextIds;
         this.iterator = iterator;

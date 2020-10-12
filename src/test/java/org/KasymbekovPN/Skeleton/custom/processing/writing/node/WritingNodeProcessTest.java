@@ -4,13 +4,13 @@ import org.KasymbekovPN.Skeleton.custom.format.offset.SKOffset;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter.*;
 import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
-import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.OLdContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.SKWritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
@@ -27,7 +27,7 @@ public class WritingNodeProcessTest {
     void test() throws Exception {
         Node node = createNode();
         WritingFormatterHandler wfh = createWFH();
-        ContextProcessor<WritingContext> processor = createContextProcessor();
+        OldContextProcessor<WritingContext> processor = createContextProcessor();
         WritingContext context = createContext(node, wfh, processor);
 
         processor.handle(context);
@@ -65,26 +65,26 @@ public class WritingNodeProcessTest {
 
     private WritingContext createContext(Node node,
                                          WritingFormatterHandler writingFormatterHandler,
-                                         ContextProcessor<WritingContext> contextProcessor){
+                                         OldContextProcessor<WritingContext> oldContextProcessor){
         return new SKWritingContext(
                 new SKSimpleContextIds(TASK_COMMON, WRAPPER_ARRAY),
                 new SKSimpleContextIds(TASK_COMMON, WRAPPER_OBJECT),
                 new SKSimpleContextIds(TASK_COMMON, WRAPPER_PRIMITIVE),
                 writingFormatterHandler,
-                contextProcessor,
+                oldContextProcessor,
                 node
         );
     }
 
-    private ContextProcessor<WritingContext> createContextProcessor(){
+    private OldContextProcessor<WritingContext> createContextProcessor(){
 
 
-        ContextTask<WritingContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new WritingArrayTaskHandler(WRAPPER_ARRAY))
-                .add(new WritingObjectTaskHandler(WRAPPER_OBJECT))
-                .add(new WritingPrimitiveTaskHandler(WRAPPER_PRIMITIVE));
+        OLdContextTask<WritingContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new WritingArrayTaskHandlerOld(WRAPPER_ARRAY))
+                .add(new WritingObjectTaskHandlerOld(WRAPPER_OBJECT))
+                .add(new WritingPrimitiveTaskHandlerOld(WRAPPER_PRIMITIVE));
 
-        return new ContextProcessor<WritingContext>().add(task);
+        return new OldContextProcessor<WritingContext>().add(task);
     }
 
     private WritingFormatterHandler createWFH() throws Exception {

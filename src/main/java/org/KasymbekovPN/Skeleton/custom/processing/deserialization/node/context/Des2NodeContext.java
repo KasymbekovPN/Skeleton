@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context;
 
-import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
+import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface Des2NodeContext extends Context {
+public interface Des2NodeContext extends OldContext {
     Des2NodeCharItr iterator();
     Finder getFinder();
     void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;

@@ -1,7 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance;
 
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedClassChecker;
-import org.KasymbekovPN.Skeleton.custom.checker.AllowedStringChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
@@ -17,35 +15,36 @@ import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
-import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
-import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceInnerTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.classes.Des2InstanceTC0;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SKDes2InstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceMapTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.OldDes2InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SKOldDes2InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceMapTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SKInstanceContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.header.InstanceHeaderTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCollectionTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.collector.path.SKCollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.OLdContextTask;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -91,11 +90,11 @@ public class Des2Instance {
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
-        ContextProcessor<ClassContext> classContextProcessor = createClassContextProcessor();
+        OldContextProcessor<ClassContext> classOldContextProcessor = createClassContextProcessor();
 
         ClassContext classContext = createClassContext();
         classContext.attachClass(Des2InstanceTC0.class);
-        classContextProcessor.handle(classContext);
+        classOldContextProcessor.handle(classContext);
 
 //        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().attachNode(new ObjectNode(null)));
         //<
@@ -103,13 +102,13 @@ public class Des2Instance {
         classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().attach(objectNode1, objectNode1).getLeft());
 
         classContext.attachClass(Des2InstanceInnerTC0.class);
-        classContextProcessor.handle(classContext);
+        classOldContextProcessor.handle(classContext);
         classNodes.put("Des2InstanceInnerTC0", (ObjectNode) classContext.getCollector().getNode());
 
         //<
         System.out.println(classNodes);
 
-        ContextProcessor<InstanceContext> instanceProcessor = createInstanceProcessor();
+        OldContextProcessor<InstanceContext> instanceProcessor = createInstanceProcessor();
         InstanceContext instanceContext = createInstanceContext(classNodes, instanceProcessor);
 
         Des2InstanceTC0 original = new Des2InstanceTC0();
@@ -195,10 +194,10 @@ public class Des2Instance {
         System.out.println("SD : " + serializedData);
         //<
 
-        ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor = createDes2InstanceContextProcessor();
-        Des2InstanceContext des2InstanceContext = createDes2InstanceContext(
+        OldContextProcessor<OldDes2InstanceContext> des2InstanceOldContextProcessor = createDes2InstanceContextProcessor();
+        OldDes2InstanceContext oldDes2InstanceContext = createDes2InstanceContext(
                 classNodes,
-                des2InstanceContextProcessor
+                des2InstanceOldContextProcessor
         );
 
         Des2InstanceTC0 restoredInstance = new Des2InstanceTC0();
@@ -207,27 +206,27 @@ public class Des2Instance {
         //<
 //        des2InstanceContext.attachInstance(restoredInstance);
         //<
-        des2InstanceContext.push(restoredInstance, serializedData);
-        des2InstanceContextProcessor.handle(des2InstanceContext);
+        oldDes2InstanceContext.push(restoredInstance, serializedData);
+        des2InstanceOldContextProcessor.handle(oldDes2InstanceContext);
 
         //<
         System.out.println("after : " + restoredInstance);
         //<
     }
 
-    private ContextProcessor<Des2InstanceContext> createDes2InstanceContextProcessor(){
+    private OldContextProcessor<OldDes2InstanceContext> createDes2InstanceContextProcessor(){
 
-        ContextTask<Des2InstanceContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new Des2InstanceSpecificTaskHandler(WRAPPER_SPECIFIC))
-                .add(new Des2InstanceCollectionTaskHandler(WRAPPER_COLLECTION))
-                .add(new Des2InstanceCustomTaskHandler(WRAPPER_CUSTOM))
-                .add(new Des2InstanceMapTaskHandler(WRAPPER_MAP));
+        OLdContextTask<OldDes2InstanceContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new Des2InstanceSpecificTaskHandlerOld(WRAPPER_SPECIFIC))
+                .add(new Des2InstanceCollectionTaskHandlerOld(WRAPPER_COLLECTION))
+                .add(new Des2InstanceCustomTaskHandlerOld(WRAPPER_CUSTOM))
+                .add(new Des2InstanceMapTaskHandlerOld(WRAPPER_MAP));
 
-        return new ContextProcessor<Des2InstanceContext>().add(task);
+        return new OldContextProcessor<OldDes2InstanceContext>().add(task);
     }
 
-    private Des2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes,
-                                                          ContextProcessor<Des2InstanceContext> des2InstanceContextProcessor){
+    private OldDes2InstanceContext createDes2InstanceContext(Map<String, ObjectNode> classNodes,
+                                                             OldContextProcessor<OldDes2InstanceContext> des2InstanceOldContextProcessor){
 
         SKSimpleContextIds SKSimpleContextIds = new SKSimpleContextIds(
                 TASK_COMMON,
@@ -241,7 +240,7 @@ public class Des2Instance {
         map.put("Des2InstanceTC0", Des2InstanceTC0.class);
         map.put("Des2InstanceInnerTC0", Des2InstanceInnerTC0.class);
 
-        return new SKDes2InstanceContext(
+        return new SKOldDes2InstanceContext(
                 SKSimpleContextIds,
                 classNodes,
                 new ClassNameExtractor(),
@@ -254,7 +253,7 @@ public class Des2Instance {
                 new StrType2MapOptConverter(classMembersPartHandler),
                 new ClassName2Instance(map),
                 new ToInstanceOC(map, classHeaderPartHandler, classPartCollectorPath),
-                des2InstanceContextProcessor
+                des2InstanceOldContextProcessor
         );
     }
 
@@ -303,11 +302,11 @@ public class Des2Instance {
         return new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
     }
 
-    private ContextProcessor<ClassContext> createClassContextProcessor(){
+    private OldContextProcessor<ClassContext> createClassContextProcessor(){
 
         SimpleChecker<Field> collectionTypeChecker = createCollectionTypeChecker();
         SimpleChecker<Field> mapTypeChecker = createMapTypeChecker();
-        AllowedClassChecker specAllowedClassChecker = new AllowedClassChecker(
+        SimpleChecker<Class<?>> specAllowedClassChecker = new SKSimpleChecker<>(
                 int.class,
                 float.class,
                 double.class,
@@ -321,30 +320,30 @@ public class Des2Instance {
                 Character.class
         );
 
-        ContextTask<ClassContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new ClassSignatureTaskHandler(WRAPPER_SIGNATURE, classHeaderPartHandler))
-                .add(new ClassSpecificTaskHandler(WRAPPER_SPECIFIC, specAllowedClassChecker))
-                .add(new ClassCustomTaskHandler(WRAPPER_CUSTOM, new AllowedStringChecker("Des2InstanceInnerTC0")))
-                .add(new ClassContainerTaskHandler(WRAPPER_COLLECTION, collectionTypeChecker))
-                .add(new ClassContainerTaskHandler(WRAPPER_MAP, mapTypeChecker));
+        OLdContextTask<ClassContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new ClassSignatureTaskHandlerOld(WRAPPER_SIGNATURE, classHeaderPartHandler))
+                .add(new ClassSpecificTaskHandlerOld(WRAPPER_SPECIFIC, specAllowedClassChecker))
+                .add(new ClassCustomTaskHandlerOld(WRAPPER_CUSTOM, new SKSimpleChecker<>("Des2InstanceInnerTC0")))
+                .add(new ClassContainerTaskHandlerOld(WRAPPER_COLLECTION, collectionTypeChecker))
+                .add(new ClassContainerTaskHandlerOld(WRAPPER_MAP, mapTypeChecker));
 
-        return new ContextProcessor<ClassContext>().add(task);
+        return new OldContextProcessor<ClassContext>().add(task);
     }
 
-    private ContextProcessor<InstanceContext> createInstanceProcessor(){
+    private OldContextProcessor<InstanceContext> createInstanceProcessor(){
 
-        ContextTask<InstanceContext> task = new ContextTask<>(TASK_COMMON);
-        task.add(new InstanceHeaderTaskHandler(WRAPPER_HEADER))
-                .add(new InstanceSpecificTaskHandler(WRAPPER_SPECIFIC))
-                .add(new InstanceCustomTaskHandler(WRAPPER_CUSTOM))
-                .add(new InstanceCollectionTaskHandler(WRAPPER_COLLECTION))
-                .add(new InstanceMapTaskHandler(WRAPPER_MAP));
+        OLdContextTask<InstanceContext> task = new OLdContextTask<>(TASK_COMMON);
+        task.add(new InstanceHeaderTaskHandlerOld(WRAPPER_HEADER))
+                .add(new InstanceSpecificTaskHandlerOld(WRAPPER_SPECIFIC))
+                .add(new InstanceCustomTaskHandlerOld(WRAPPER_CUSTOM))
+                .add(new InstanceCollectionTaskHandlerOld(WRAPPER_COLLECTION))
+                .add(new InstanceMapTaskHandlerOld(WRAPPER_MAP));
 
-        return new ContextProcessor<InstanceContext>().add(task);
+        return new OldContextProcessor<InstanceContext>().add(task);
     }
 
     private InstanceContext createInstanceContext(Map<String, ObjectNode> classNodes,
-                                                  ContextProcessor<InstanceContext> processor){
+                                                  OldContextProcessor<InstanceContext> processor){
         InstanceMembersPartHandler instanceMembersPartHandler = new SKInstanceMembersPartHandler();
 
         SKSimpleContextIds contextIds = new SKSimpleContextIds(

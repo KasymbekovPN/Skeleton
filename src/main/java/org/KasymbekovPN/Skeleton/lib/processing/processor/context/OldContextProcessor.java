@@ -1,7 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.processing.processor.context;
 
-import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
-import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
 import org.KasymbekovPN.Skeleton.lib.result.AggregateResult;
@@ -17,22 +16,23 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
-public class ContextProcessor<T extends Context<? extends ContextStateMemento>> implements Processor<T> {
+public class OldContextProcessor<T extends OldContext> implements Processor<T> {
+
     private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SKAggregateResult.class;
-    private static final Logger log = LoggerFactory.getLogger(ContextProcessor.class);
+    private static final Logger log = LoggerFactory.getLogger(OldContextProcessor.class);
 
     private final Map<String, Task<T>> tasks = new HashMap<>();
     private AggregateResult processorResult;
 
-    public ContextProcessor() {
+    public OldContextProcessor() {
     }
 
-    public ContextProcessor(AggregateResult processorResult) {
+    public OldContextProcessor(AggregateResult processorResult) {
         this.processorResult = processorResult;
     }
 
     @Override
-    public ContextProcessor<T> add(Task<T> task) {
+    public OldContextProcessor<T> add(Task<T> task) {
         String id = task.getId();
         if (tasks.containsKey(id)){
             log.warn("Task with ID '{}' already is added", id);
@@ -59,9 +59,9 @@ public class ContextProcessor<T extends Context<? extends ContextStateMemento>> 
 
     @Override
     public Result handle(T object) throws InvocationTargetException,
-            NoSuchMethodException,
-            InstantiationException,
-            IllegalAccessException {
+                                          NoSuchMethodException,
+                                          InstantiationException,
+                                          IllegalAccessException {
         checkAggregateResult();
         Iterator<String> taskIterator = object.getContextIds().taskIterator();
         while (taskIterator.hasNext()){
@@ -78,17 +78,17 @@ public class ContextProcessor<T extends Context<? extends ContextStateMemento>> 
 
     @Override
     public Result getProcessorResult() throws InvocationTargetException,
-            NoSuchMethodException,
-            InstantiationException,
-            IllegalAccessException {
+                                              NoSuchMethodException,
+                                              InstantiationException,
+                                              IllegalAccessException {
         checkAggregateResult();
         return processorResult;
     }
 
     private void checkAggregateResult() throws IllegalAccessException,
-            InvocationTargetException,
-            InstantiationException,
-            NoSuchMethodException {
+                                               InvocationTargetException,
+                                               InstantiationException,
+                                               NoSuchMethodException {
         if (processorResult == null){
             Constructor<? extends AggregateResult> constructor = AGGREGATE_RESULT_CLASS.getConstructor();
             processorResult = constructor.newInstance();
