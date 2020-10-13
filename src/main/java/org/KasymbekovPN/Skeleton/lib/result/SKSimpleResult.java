@@ -8,8 +8,8 @@ public class SKSimpleResult implements SimpleResult {
     private static final Class<? extends ResultData> RESULT_DATA_CLASS = SKResultData.class;
 
     private ResultData resultData;
-    private boolean success;
-    private String status;
+    private boolean success = true;
+    private String status = "";
 
     public SKSimpleResult() {
         reset();
@@ -37,6 +37,12 @@ public class SKSimpleResult implements SimpleResult {
 
     @Override
     public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public void setFailStatus(String status) {
+        this.success = false;
         this.status = status;
     }
 

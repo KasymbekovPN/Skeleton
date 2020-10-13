@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,11 @@ public class SKContextStateCareTaker<T extends ContextStateMemento> implements C
     }
 
     @Override
-    public void push(T contextStateMemento) {
+    public void push(T contextStateMemento) throws NoSuchMethodException,
+                                                   InstantiationException,
+                                                   IllegalAccessException,
+                                                   InvocationTargetException {
+        contextStateMemento.validate();
         mementos.add(contextStateMemento);
     }
 

@@ -10,5 +10,6 @@ public interface SimpleResult extends Result {
     String getStatus();
     void setSuccess(boolean success);
     void setStatus(String status);
+    void setFailStatus(String status);
     ResultData getResultData() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 }
