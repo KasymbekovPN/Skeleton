@@ -4,8 +4,11 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMemento;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+import org.KasymbekovPN.Skeleton.lib.result.Result;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.InvocationTargetException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -15,7 +18,7 @@ public class SKContextStateCareTakerTest {
 
     @DisplayName("isEmpty")
     @Test
-    void testIsEmpty() throws ContextStateCareTakerIsEmpty {
+    void testIsEmpty() throws ContextStateCareTakerIsEmpty, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         ContextStateCareTaker<ContextStateMementoImpl> ct = createContextStateCareTaker();
         assertThat(ct.isEmpty()).isTrue();
 
@@ -28,7 +31,7 @@ public class SKContextStateCareTakerTest {
 
     @DisplayName("test pop")
     @Test
-    void testPop() throws ContextStateCareTakerIsEmpty {
+    void testPop() throws ContextStateCareTakerIsEmpty, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         ContextStateCareTaker<ContextStateMementoImpl> ct = createContextStateCareTaker();
         ContextStateMementoImpl mem = new ContextStateMementoImpl();
         ct.push(mem);
@@ -51,7 +54,7 @@ public class SKContextStateCareTakerTest {
 
     @DisplayName("peek with throwable")
     @Test
-    void testPeek() throws ContextStateCareTakerIsEmpty {
+    void testPeek() throws ContextStateCareTakerIsEmpty, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         ContextStateCareTaker<ContextStateMementoImpl> ct = createContextStateCareTaker();
         ContextStateMementoImpl mem = new ContextStateMementoImpl();
         ct.push(mem);
@@ -77,9 +80,15 @@ public class SKContextStateCareTakerTest {
     }
 
     private static class ContextStateMementoImpl implements ContextStateMemento{
+
         @Override
-        public boolean isValid() {
-            return false;
+        public void validate() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+        }
+
+        @Override
+        public Result getValidationResult() {
+            return null;
         }
     }
 }
