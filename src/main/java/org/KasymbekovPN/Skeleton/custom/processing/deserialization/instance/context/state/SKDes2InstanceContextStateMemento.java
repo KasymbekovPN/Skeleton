@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -80,7 +79,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     }
 
     @Override
-    public Result getValidationResult() {
+    public SimpleResult getValidationResult() {
         return result;
     }
 

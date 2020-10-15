@@ -8,12 +8,12 @@ import java.util.Collections;
 
 public class USKCollectorPath {
 
-    private final static CollectorPath DEFAULT_CLASS_PART_PATH = new SKCollectorPath(
+    public final static CollectorPath DEFAULT_CLASS_PART_PATH = new SKCollectorPath(
             Collections.singletonList("class"),
             ObjectNode.ei()
     );
 
-    private final static CollectorPath DEFAULT_MEMBERS_PATH_PATH = new SKCollectorPath(
+    public final static CollectorPath DEFAULT_MEMBERS_PATH_PATH = new SKCollectorPath(
             Collections.singletonList("members"),
             ObjectNode.ei()
     );

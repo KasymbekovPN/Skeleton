@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMemento;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
-import org.KasymbekovPN.Skeleton.lib.result.Result;
+import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -87,7 +87,7 @@ public class SKContextStateCareTakerTest {
         }
 
         @Override
-        public Result getValidationResult() {
+        public SimpleResult getValidationResult() {
             return null;
         }
     }
