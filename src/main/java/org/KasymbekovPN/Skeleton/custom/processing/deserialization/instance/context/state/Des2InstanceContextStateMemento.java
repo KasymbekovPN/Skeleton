@@ -6,9 +6,8 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMement
 import org.apache.commons.lang3.tuple.Triple;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.Set;
 
 public interface Des2InstanceContextStateMemento extends ContextStateMemento {
-    Map<String, Set<Triple<Field, Node, ObjectNode>>> getPreparedFieldsData();
+    Set<Triple<Field, Node, ObjectNode>> getMembersData(String kind);
 }

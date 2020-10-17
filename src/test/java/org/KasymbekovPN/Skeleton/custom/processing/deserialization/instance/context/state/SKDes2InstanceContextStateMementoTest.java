@@ -451,11 +451,9 @@ public class SKDes2InstanceContextStateMementoTest {
         mem.validate();
         SimpleResult validationResult = mem.getValidationResult();
 
-        System.out.println(mem.getPreparedFieldsData());
-
         assertThat(validationResult.isSuccess()).isTrue();
         assertThat(validationResult.getStatus()).isEmpty();
-        assertThat(mem.getPreparedFieldsData().size() != 0).isTrue();
+        assertThat(mem.getMembersData("specific").size() != 0).isTrue();
     }
 
     private static class TestClassWithoutAnnotation {}

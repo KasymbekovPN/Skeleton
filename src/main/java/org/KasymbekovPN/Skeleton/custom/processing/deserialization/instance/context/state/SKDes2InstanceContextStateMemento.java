@@ -84,8 +84,8 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     }
 
     @Override
-    public Map<String, Set<Triple<Field, Node, ObjectNode>>> getPreparedFieldsData() {
-        return preparedFieldsData;
+    public Set<Triple<Field, Node, ObjectNode>> getMembersData(String kind) {
+        return preparedFieldsData.getOrDefault(kind, new HashSet<>());
     }
 
     private SimpleResult createResultInstance() throws NoSuchMethodException,

@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.node.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class SKClassMembersPartHandler implements ClassMembersPartHandler {
@@ -95,5 +96,22 @@ public class SKClassMembersPartHandler implements ClassMembersPartHandler {
     private Optional<String> extractString(ObjectNode objectNode, String propertyName){
         return objectNode.get(propertyName, StringNode.ei())
                 .map(node -> ((StringNode) node).getValue());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKClassMembersPartHandler that = (SKClassMembersPartHandler) o;
+        return Objects.equals(kindPropertyName, that.kindPropertyName) &&
+                Objects.equals(typePropertyName, that.typePropertyName) &&
+                Objects.equals(classNamePropertyName, that.classNamePropertyName) &&
+                Objects.equals(modifiersPropertyName, that.modifiersPropertyName) &&
+                Objects.equals(argumentsPropertyName, that.argumentsPropertyName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(kindPropertyName, typePropertyName, classNamePropertyName, modifiersPropertyName, argumentsPropertyName);
     }
 }
