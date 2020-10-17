@@ -83,6 +83,11 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
         return result;
     }
 
+    @Override
+    public Map<String, Set<Triple<Field, Node, ObjectNode>>> getPreparedFieldsData() {
+        return preparedFieldsData;
+    }
+
     private SimpleResult createResultInstance() throws NoSuchMethodException,
                                                        IllegalAccessException,
                                                        InvocationTargetException,

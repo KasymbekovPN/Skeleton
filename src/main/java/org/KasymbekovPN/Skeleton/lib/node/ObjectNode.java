@@ -57,12 +57,6 @@ public class ObjectNode implements Node {
         return ei();
     }
 
-    //<
-//    @Override
-//    public void apply(Task<Node> task) {
-//        task.handle(this);
-//    }
-
     @Override
     public boolean containsKey(String key) {
         return children.containsKey(key);
