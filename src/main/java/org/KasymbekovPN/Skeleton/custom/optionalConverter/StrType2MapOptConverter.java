@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class StrType2MapOptConverter implements OptionalConverter<Map<Object, Object>, ObjectNode> {
@@ -35,5 +36,18 @@ public class StrType2MapOptConverter implements OptionalConverter<Map<Object, Ob
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StrType2MapOptConverter that = (StrType2MapOptConverter) o;
+        return Objects.equals(classMembersPartHandler, that.classMembersPartHandler);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classMembersPartHandler);
     }
 }

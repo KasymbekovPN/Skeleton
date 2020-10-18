@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.lib.node.NumberNode;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class SKClassHeaderPartHandler implements ClassHeaderPartHandler {
@@ -49,6 +50,21 @@ public class SKClassHeaderPartHandler implements ClassHeaderPartHandler {
     public Optional<Number> getModifiers(ObjectNode objectNode) {
         return objectNode.get(modifiersPropertyName, NumberNode.ei())
                 .map(node -> ((NumberNode)node).getValue());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKClassHeaderPartHandler that = (SKClassHeaderPartHandler) o;
+        return Objects.equals(typePropertyName, that.typePropertyName) &&
+                Objects.equals(namePropertyName, that.namePropertyName) &&
+                Objects.equals(modifiersPropertyName, that.modifiersPropertyName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(typePropertyName, namePropertyName, modifiersPropertyName);
     }
 
     private Optional<String> extractString(ObjectNode objectNode, String propertyName){

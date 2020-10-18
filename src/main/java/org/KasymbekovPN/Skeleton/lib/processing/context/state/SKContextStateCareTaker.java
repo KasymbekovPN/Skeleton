@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SKContextStateCareTaker<T extends ContextStateMemento> implements ContextStateCareTaker<T> {
 
@@ -44,5 +45,18 @@ public class SKContextStateCareTaker<T extends ContextStateMemento> implements C
         if (isEmpty()){
             throw new ContextStateCareTakerIsEmpty("SKContextStateCareTaker is empty");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKContextStateCareTaker<?> that = (SKContextStateCareTaker<?>) o;
+        return Objects.equals(mementos, that.mementos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mementos);
     }
 }

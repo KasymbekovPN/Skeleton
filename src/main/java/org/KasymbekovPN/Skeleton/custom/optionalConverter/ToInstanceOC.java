@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ToInstanceOC implements OptionalConverter<Object, ObjectNode> {
@@ -61,5 +62,20 @@ public class ToInstanceOC implements OptionalConverter<Object, ObjectNode> {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ToInstanceOC that = (ToInstanceOC) o;
+        return Objects.equals(classes, that.classes) &&
+                Objects.equals(classHeaderPartHandler, that.classHeaderPartHandler) &&
+                Objects.equals(classPath, that.classPath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classes, classHeaderPartHandler, classPath);
     }
 }

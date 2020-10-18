@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.con
 
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
+import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -23,11 +24,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SKDes2InstanceCxtTest {
 
     private static Des2InstanceCxt context;
+    private static SKContextStateCareTaker<Des2InstanceContextStateMemento> careTaker;
 
     @BeforeAll
     private static void beforeAll(){
         Map<String, Class<?>> map = createMap();
-        SKContextStateCareTaker<Des2InstanceContextStateMemento> careTaker = new SKContextStateCareTaker<>();
+        careTaker = new SKContextStateCareTaker<>();
         context = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 createClassNodes(),
@@ -62,5 +64,45 @@ public class SKDes2InstanceCxtTest {
     void testGetStrType2CollectionConverter(){
         assertThat(context.getStrType2CollectionConverter())
                 .isEqualTo(new StrType2CollectionOptConverter(USKClassMembersPartHandler.DEFAULT));
+    }
+
+    @DisplayName("getStrType2MapConverter method")
+    @Test
+    void testGetStrType2MapConverter(){
+        assertThat(context.getStrType2MapConverter())
+                .isEqualTo(new StrType2MapOptConverter(USKClassMembersPartHandler.DEFAULT));
+    }
+
+    @DisplayName("getClassName2InstanceConverter method")
+    @Test
+    void testGetClassName2InstanceConverter(){
+        assertThat(context.getClassName2InstanceConverter())
+                .isEqualTo(new ClassName2Instance(createMap()));
+    }
+
+    @DisplayName("getToInstanceConverter method")
+    @Test
+    void testGetToInstanceConverter(){
+        assertThat(context.getToInstanceConverter())
+                .isEqualTo(new ToInstanceOC(createMap(), USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH));
+    }
+
+    @DisplayName("getClassMembersPartHandler method")
+    @Test
+    void testGetClassMembersPartHandler(){
+        assertThat(context.getClassMembersPartHandler())
+                .isEqualTo(USKClassMembersPartHandler.DEFAULT);
+    }
+
+    @DisplayName("getContextIds method")
+    @Test
+    void testGetContextIds(){
+        assertThat(context.getContextIds()).isEqualTo(USKDes2Instance.createContextIds());
+    }
+
+    @DisplayName("getContextStateCareTaker method")
+    @Test
+    void testGetContextStateCareTaker(){
+        assertThat(context.getContextStateCareTaker()).isEqualTo(careTaker);
     }
 }

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SKCollectorPath implements CollectorPath {
 
@@ -42,6 +43,20 @@ public class SKCollectorPath implements CollectorPath {
     @Override
     public Iterator<Pair<String, EntityItem>> iterator() {
         return new SKCollectorPath.Itr();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKCollectorPath that = (SKCollectorPath) o;
+        return Objects.equals(path, that.path) &&
+                Objects.equals(ei, that.ei);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(path, ei);
     }
 
     private class Itr implements Iterator<Pair<String, EntityItem>>{

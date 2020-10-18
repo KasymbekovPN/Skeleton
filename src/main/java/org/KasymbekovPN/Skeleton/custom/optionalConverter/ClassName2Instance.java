@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ClassName2Instance implements OptionalConverter<Object, String> {
@@ -39,5 +40,18 @@ public class ClassName2Instance implements OptionalConverter<Object, String> {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassName2Instance that = (ClassName2Instance) o;
+        return Objects.equals(classes, that.classes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classes);
     }
 }
