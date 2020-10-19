@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -25,5 +26,5 @@ public interface OldDes2InstanceContext extends OldContext {
     OptionalConverter<Object, String> getClassName2InstanceConverter();
     OptionalConverter<Object, ObjectNode> getToInstanceConverter();
     ClassMembersPartHandler getClassMembersPartHandler();
-    void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
+    void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty;
 }

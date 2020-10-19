@@ -19,6 +19,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.h
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
@@ -64,7 +65,7 @@ public class SerClassNodeTest {
     );
 
     @Test
-    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         ClassContext context = createSerContext();
         OldContextProcessor<ClassContext> serProcessor = createSerProcessor();
 

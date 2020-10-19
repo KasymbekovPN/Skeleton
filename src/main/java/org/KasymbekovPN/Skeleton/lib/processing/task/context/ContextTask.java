@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.processing.task.context;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMemento;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
@@ -40,7 +41,7 @@ public class ContextTask<T extends Context<? extends ContextStateMemento>> imple
     public Result handle(T object) throws NoSuchMethodException,
             InstantiationException,
             IllegalAccessException,
-            InvocationTargetException {
+            InvocationTargetException, ContextStateCareTakerIsEmpty {
         checkTaskResult();
         Iterator<String> handlerIterator = object.getContextIds().handlerIterator();
         while (handlerIterator.hasNext()){

@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
@@ -30,9 +31,9 @@ public class WritingObjectTaskHandlerOld extends OldBaseContextTaskHandler<Writi
 
     @Override
     protected void doIt(WritingContext context) throws InvocationTargetException,
-                                                       NoSuchMethodException,
-                                                       InstantiationException,
-                                                       IllegalAccessException {
+            NoSuchMethodException,
+            InstantiationException,
+            IllegalAccessException, ContextStateCareTakerIsEmpty {
         WritingFormatterHandler writingFormatterHandler = context.getWritingFormatterHandler();
         ObjectNode node = (ObjectNode) context.getNode();
         Map<String, Node> children = node.getChildren();

@@ -36,6 +36,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handle
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceCustomTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandlerOld;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
@@ -86,7 +87,7 @@ public class Des2Instance {
     private static final String WRAPPER_MAP = "map";
 
     @Test
-    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 

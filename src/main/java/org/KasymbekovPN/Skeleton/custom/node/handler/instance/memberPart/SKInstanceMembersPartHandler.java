@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart;
 
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.apache.commons.lang3.tuple.Pair;
@@ -10,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 public class SKInstanceMembersPartHandler implements InstanceMembersPartHandler {
 
     @Override
-    public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){
@@ -45,7 +46,7 @@ public class SKInstanceMembersPartHandler implements InstanceMembersPartHandler 
     }
 
     @Override
-    public void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    public void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){

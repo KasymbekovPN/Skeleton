@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.con
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -144,9 +145,9 @@ public class SKOldDes2InstanceContext implements OldDes2InstanceContext {
 
     @Override
     public void runProcessor() throws NoSuchMethodException,
-                                      InstantiationException,
-                                      IllegalAccessException,
-                                      InvocationTargetException {
+            InstantiationException,
+            IllegalAccessException,
+            InvocationTargetException, ContextStateCareTakerIsEmpty {
         processor.handle(this);
     }
 

@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.processing.handler.context;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.result.ResultData;
@@ -28,9 +29,9 @@ abstract public class OldBaseContextTaskHandler<T extends OldContext> implements
 
     @Override
     public SimpleResult handle(T object) throws NoSuchMethodException,
-                                                              InstantiationException,
-                                                              IllegalAccessException,
-                                                              InvocationTargetException {
+            InstantiationException,
+            IllegalAccessException,
+            InvocationTargetException, ContextStateCareTakerIsEmpty {
         simpleResult = createSimpleResult();
         check(object);
         if (simpleResult.isSuccess()){
@@ -53,7 +54,7 @@ abstract public class OldBaseContextTaskHandler<T extends OldContext> implements
     protected void check(T context){
     }
 
-    protected void doIt(T context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void doIt(T context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
     }
 
     private SimpleResult createSimpleResult() throws InvocationTargetException,

@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.processing.handler.context;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateMemento;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
@@ -33,7 +34,7 @@ abstract public class BaseContextTaskHandler<T extends Context<? extends Context
     public SimpleResult handle(T object) throws NoSuchMethodException,
             InstantiationException,
             IllegalAccessException,
-            InvocationTargetException {
+            InvocationTargetException, ContextStateCareTakerIsEmpty {
         simpleResult = createSimpleResult();
         check(object);
         if (simpleResult.isSuccess()){
@@ -53,7 +54,7 @@ abstract public class BaseContextTaskHandler<T extends Context<? extends Context
         return id;
     }
 
-    protected void check(T context){
+    protected void check(T context) throws ContextStateCareTakerIsEmpty {
     }
 
     protected void doIt(T context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

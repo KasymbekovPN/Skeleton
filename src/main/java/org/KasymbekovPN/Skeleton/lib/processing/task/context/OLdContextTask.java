@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.processing.task.context;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.TaskHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.task.Task;
@@ -36,9 +37,9 @@ public class OLdContextTask<T extends OldContext> implements Task<T> {
 
     @Override
     public Result handle(T object) throws NoSuchMethodException,
-                                          InstantiationException,
-                                          IllegalAccessException,
-                                          InvocationTargetException {
+            InstantiationException,
+            IllegalAccessException,
+            InvocationTargetException, ContextStateCareTakerIsEmpty {
         checkTaskResult();
         Iterator<String> handlerIterator = object.getContextIds().handlerIterator();
         while (handlerIterator.hasNext()){

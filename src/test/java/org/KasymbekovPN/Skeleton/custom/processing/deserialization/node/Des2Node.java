@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.JsonFinder;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.SKDes2NodeCharItr;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
@@ -31,7 +32,7 @@ public class Des2Node {
     private static final String WRAPPER_STRING = "string";
 
     @Test
-    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
 
         String line = getLine();
         OldContextProcessor<Des2NodeContext> processor = createProcessor();

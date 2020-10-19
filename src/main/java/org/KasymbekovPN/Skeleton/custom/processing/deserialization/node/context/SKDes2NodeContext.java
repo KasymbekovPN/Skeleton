@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
@@ -51,7 +52,7 @@ public class SKDes2NodeContext implements Des2NodeContext {
     }
 
     @Override
-    public void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    public void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         processor.handle(this);
     }
 

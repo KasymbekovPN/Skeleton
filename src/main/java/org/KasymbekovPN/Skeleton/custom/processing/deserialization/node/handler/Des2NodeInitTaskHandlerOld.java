@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
@@ -23,7 +24,7 @@ public class Des2NodeInitTaskHandlerOld extends OldBaseContextTaskHandler<Des2No
     protected void check(Des2NodeContext context) {}
 
     @Override
-    protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         Finder finder = context.getFinder();
         Des2NodeCharItr iterator = context.iterator();

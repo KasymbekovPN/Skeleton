@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.OldDes2InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.node.*;
@@ -43,7 +44,7 @@ public class Des2InstanceMapTaskHandlerOld extends OldBaseContextTaskHandler<Old
     }
 
     @Override
-    protected void doIt(OldDes2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void doIt(OldDes2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter = context.getStrType2MapConverter();
 
         for (Triple<Field, Node, ObjectNode> member : members) {
@@ -98,7 +99,7 @@ public class Des2InstanceMapTaskHandlerOld extends OldBaseContextTaskHandler<Old
         }
     }
 
-    private void fillMap(Map<Object, Object> map, ArrayNode arrayNode, OldDes2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private void fillMap(Map<Object, Object> map, ArrayNode arrayNode, OldDes2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         for (Node child : arrayNode.getChildren()) {
             Optional<ObjectNode> maybeObjectNode = checkChildNode(child);
             if (maybeObjectNode.isPresent()){
@@ -127,7 +128,7 @@ public class Des2InstanceMapTaskHandlerOld extends OldBaseContextTaskHandler<Old
         return Optional.empty();
     }
 
-    private Optional<Object> extract(Node node, OldDes2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private Optional<Object> extract(Node node, OldDes2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         if (node.is(BooleanNode.ei())){
             return Optional.of(((BooleanNode) node).getValue());
         } else if (node.is(CharacterNode.ei())){

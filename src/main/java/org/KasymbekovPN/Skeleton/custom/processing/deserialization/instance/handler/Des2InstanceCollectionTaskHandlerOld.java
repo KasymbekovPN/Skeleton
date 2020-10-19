@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.OldDes2InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.node.*;
@@ -53,7 +54,7 @@ public class Des2InstanceCollectionTaskHandlerOld extends OldBaseContextTaskHand
     }
 
     @Override
-    protected void doIt(OldDes2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void doIt(OldDes2InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter
                 = context.getStrType2CollectionConverter();
@@ -81,7 +82,7 @@ public class Des2InstanceCollectionTaskHandlerOld extends OldBaseContextTaskHand
         }
     }
 
-    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode, OldDes2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode, OldDes2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         for (Node child : arrayNode.getChildren()) {
             Optional<Object> maybeValue = extractValue(child, context);
             if (maybeValue.isPresent()){
@@ -93,9 +94,9 @@ public class Des2InstanceCollectionTaskHandlerOld extends OldBaseContextTaskHand
     }
 
     private Optional<Object> extractValue(Node node, OldDes2InstanceContext context) throws InvocationTargetException,
-                                                                                         NoSuchMethodException,
-                                                                                         InstantiationException,
-                                                                                         IllegalAccessException {
+            NoSuchMethodException,
+            InstantiationException,
+            IllegalAccessException, ContextStateCareTakerIsEmpty {
         if (node.is(BooleanNode.ei())){
             return Optional.of(((BooleanNode) node).getValue());
         } else if (node.is(CharacterNode.ei())){

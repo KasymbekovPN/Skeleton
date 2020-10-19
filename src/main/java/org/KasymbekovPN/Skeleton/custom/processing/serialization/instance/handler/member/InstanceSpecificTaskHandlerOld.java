@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -37,7 +38,7 @@ public class InstanceSpecificTaskHandlerOld extends OldBaseContextTaskHandler<In
     }
 
     @Override
-    protected void doIt(InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void doIt(InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         InstanceMembersPartHandler instanceMembersPartHandler = context.getInstanceMembersPartHandler();
         CollectorPath membersPartPath = context.getMembersPartPath();
         Collector collector = context.getCollector();

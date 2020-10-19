@@ -84,6 +84,11 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     }
 
     @Override
+    public Object getInstance() {
+        return instance;
+    }
+
+    @Override
     public Set<Triple<Field, Node, ObjectNode>> getMembersData(String kind) {
         return preparedFieldsData.getOrDefault(kind, new HashSet<>());
     }

@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.OldDes2InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -54,7 +55,7 @@ public class Des2InstanceCustomTaskHandlerOld extends OldBaseContextTaskHandler<
     }
 
     @Override
-    protected void doIt(OldDes2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    protected void doIt(OldDes2InstanceContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
 
         ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
         OptionalConverter<Object, String> className2InstanceConverter = context.getClassName2InstanceConverter();
@@ -83,7 +84,7 @@ public class Des2InstanceCustomTaskHandlerOld extends OldBaseContextTaskHandler<
         }
     }
 
-    private void fillInstance(Object instance, OldDes2InstanceContext context, ObjectNode serData) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private void fillInstance(Object instance, OldDes2InstanceContext context, ObjectNode serData) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         context.push(instance, serData);
         context.runProcessor();
         context.pop();

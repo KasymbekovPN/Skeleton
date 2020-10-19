@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.context;
 
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
@@ -63,9 +64,9 @@ public class SKWritingContext implements WritingContext {
 
     @Override
     public void runProcessor() throws NoSuchMethodException,
-                                      InstantiationException,
-                                      IllegalAccessException,
-                                      InvocationTargetException {
+            InstantiationException,
+            IllegalAccessException,
+            InvocationTargetException, ContextStateCareTakerIsEmpty {
         oldContextProcessor.handle(this);
     }
 }
