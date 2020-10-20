@@ -121,7 +121,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
             return Optional.of(((StringNode) node).getValue());
         } else if (node.is(ObjectNode.ei())){
 
-            //<
+            //< after custom
 //            OptionalConverter<Object, ObjectNode> toInstanceConverter = context.getToInstanceConverter();
 //            Optional<Object> maybeInstance = toInstanceConverter.convert((ObjectNode) node);
 //            if (maybeInstance.isPresent()){
