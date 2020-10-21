@@ -1,13 +1,13 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -49,11 +49,9 @@ public class ClassContainerTaskHandlerOld extends OldBaseContextTaskHandler<Clas
             Set<Field> remainingFields = context.getRemainingFields();
 
             for (Field remainingField : remainingFields) {
-                boolean fieldCheckingResult = fieldChecker.check(remainingField);
                 Optional<Annotation> maybeAnnotation
                         = extractor.extract(new MutablePair<>(SkeletonMember.class, remainingField.getDeclaredAnnotations()));
-
-                if (fieldCheckingResult && maybeAnnotation.isPresent()){
+                if (maybeAnnotation.isPresent() && fieldChecker.check(remainingField)){
                     fields.add(remainingField);
                 }
             }
