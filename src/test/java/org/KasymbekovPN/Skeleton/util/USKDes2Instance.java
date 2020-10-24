@@ -6,20 +6,23 @@ import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverte
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SKDes2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceMapTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 
 import java.util.Map;
 
 public class USKDes2Instance {
 
     private static final String TASK_COMMON = "common";
-    private static final String HANDLER_HEADER = "header";
-    private static final String HANDLER_SIGNATURE = "signature";
     private static final String HANDLER_SPECIFIC = "specific";
     private static final String HANDLER_CUSTOM = "custom";
     private static final String HANDLER_COLLECTION = "collection";
@@ -57,6 +60,12 @@ public class USKDes2Instance {
     }
 
     static public ContextProcessor<Des2InstanceCxt> createProcessor(){
-        return new ContextProcessor<>();
+        ContextTask<Des2InstanceCxt> task = new ContextTask<>(TASK_COMMON);
+        task.add(new Des2InstanceSpecificTaskHandler(HANDLER_SPECIFIC))
+                .add(new Des2InstanceCustomTaskHandler(HANDLER_CUSTOM))
+                .add(new Des2InstanceCollectionTaskHandler(HANDLER_COLLECTION))
+                .add(new Des2InstanceMapTaskHandler(HANDLER_MAP));
+
+        return new ContextProcessor<Des2InstanceCxt>().add(task);
     }
 }
