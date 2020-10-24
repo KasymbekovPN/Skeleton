@@ -19,10 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -456,6 +453,86 @@ public class SKDes2InstanceContextStateMementoTest {
         assertThat(mem.getMembersData("specific").size() != 0).isTrue();
     }
 
+    @DisplayName("createNew")
+    @Test
+    void testCreateNew() throws Exception {
+
+        CollectionTypeChecker collectionTypeChecker = new UCollectionTypeCheckerBuilder()
+                .setTypes(Set.class, List.class)
+                .setArgumentTypes(String.class, Integer.class, Float.class)
+                .build();
+
+        MapTypeChecker mapTypeChecker = new UMapTypeCheckerBuilder()
+                .setTypes(Map.class)
+                .setKeyArgumentsTypes(Integer.class)
+                .setValueArgumentsTypes(Integer.class)
+                .build();
+
+        OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
+                USKClassHeaderPartHandler.DEFAULT,
+                new SKSimpleChecker<Class<?>>(int.class),
+                new SKSimpleChecker<String>(""),
+                collectionTypeChecker,
+                mapTypeChecker
+        );
+
+        ClassContext classContext = UClassSerialization.createClassContext(
+                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
+                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
+                null,
+                USKClassHeaderPartHandler.DEFAULT,
+                USKClassMembersPartHandler.DEFAULT
+        );
+
+        classContext.attachClass(ClassWithChangedValue.class);
+        classProcessor.handle(classContext);
+
+        HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
+            put("ClassWithChangedValue", (ObjectNode) classContext.getCollector().detachNode());
+        }};
+
+        OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
+
+        InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(
+                classNodes,
+                instanceProcessor,
+                null,
+                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
+                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
+                USKClassHeaderPartHandler.DEFAULT,
+                USKClassMembersPartHandler.DEFAULT,
+                new SKInstanceMembersPartHandler()
+        );
+
+        ClassWithChangedValue classWithValue123 = new ClassWithChangedValue();
+        classWithValue123.setIntValue(123);
+        instanceContext.attachInstance(classWithValue123);
+        instanceProcessor.handle(instanceContext);
+        ObjectNode serData123 = (ObjectNode) instanceContext.getCollector().detachNode();
+
+        ClassWithChangedValue classWithChangedValue = new ClassWithChangedValue();
+        classWithChangedValue.setIntValue(456);
+        instanceContext.attachInstance(classWithChangedValue);
+        instanceProcessor.handle(instanceContext);
+        ObjectNode serData456 = (ObjectNode) instanceContext.getCollector().detachNode();
+
+        SKDes2InstanceContextStateMemento mem = new SKDes2InstanceContextStateMemento(
+                classWithValue123,
+                serData123,
+                classNodes,
+                new ClassNameExtractor(),
+                USKClassHeaderPartHandler.DEFAULT,
+                USKClassMembersPartHandler.DEFAULT,
+                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
+                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
+                new AnnotationExtractor()
+        );
+
+        Des2InstanceContextStateMemento newMem = mem.createNew(classWithChangedValue, serData456);
+
+        assertThat(classWithValue123).isNotEqualTo(classWithChangedValue);
+    }
+
     private static class TestClassWithoutAnnotation {}
 
     @SkeletonClass(name = "EmptyTestClass")
@@ -478,5 +555,29 @@ public class SKDes2InstanceContextStateMementoTest {
 
         @SkeletonMember
         private int intValue = 10;
+    }
+
+    @SkeletonClass(name = "ClassWithChangedValue")
+    private static class ClassWithChangedValue{
+
+        @SkeletonMember
+        private int intValue;
+
+        public void setIntValue(int intValue) {
+            this.intValue = intValue;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ClassWithChangedValue that = (ClassWithChangedValue) o;
+            return intValue == that.intValue;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(intValue);
+        }
     }
 }

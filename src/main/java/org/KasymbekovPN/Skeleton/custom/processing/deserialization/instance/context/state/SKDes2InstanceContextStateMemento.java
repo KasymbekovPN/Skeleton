@@ -93,7 +93,6 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
         return preparedFieldsData.getOrDefault(kind, new HashSet<>());
     }
 
-    //< need test
     @Override
     public Des2InstanceContextStateMemento createNew(Object instance, ObjectNode serData) {
         return new SKDes2InstanceContextStateMemento(
@@ -107,6 +106,31 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
                 this.membersPath,
                 this.annotationExtractor
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKDes2InstanceContextStateMemento that = (SKDes2InstanceContextStateMemento) o;
+        return Objects.equals(instance, that.instance) &&
+                Objects.equals(serData, that.serData) &&
+                Objects.equals(classNodes, that.classNodes) &&
+                Objects.equals(annotationNameExtractor, that.annotationNameExtractor) &&
+                Objects.equals(classHeaderPartHandler, that.classHeaderPartHandler) &&
+                Objects.equals(classMembersPartHandler, that.classMembersPartHandler) &&
+                Objects.equals(classPath, that.classPath) &&
+                Objects.equals(membersPath, that.membersPath) &&
+                Objects.equals(annotationExtractor, that.annotationExtractor) &&
+                Objects.equals(result, that.result) &&
+                Objects.equals(className, that.className) &&
+                Objects.equals(classNode, that.classNode) &&
+                Objects.equals(preparedFieldsData, that.preparedFieldsData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(instance, serData, classNodes, annotationNameExtractor, classHeaderPartHandler, classMembersPartHandler, classPath, membersPath, annotationExtractor, result, className, classNode, preparedFieldsData);
     }
 
     private SimpleResult createResultInstance() throws NoSuchMethodException,
