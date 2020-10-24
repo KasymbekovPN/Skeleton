@@ -33,16 +33,15 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Des2InstanceCollectionTaskHandler. Testing of:")
-public class Des2InstanceCollectionTaskHandlerTest {
-
+@DisplayName("Des2InstanceMapTaskHandler. Testing of:")
+public class Des2InstanceMapTaskHandlerTest {
     private static final String NOT_VALID = "not valid";
     private static final String NUMBER_OF_MEMBERS_ARE_ZERO = "Number of members are zero";
 
     @DisplayName("check method - check valid")
     @Test
     void testCheckMethodNotValid() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
-        TestedClassWrapper tested = new TestedClassWrapper("collection");
+        TestedClassWrapper tested = new TestedClassWrapper("map");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
@@ -65,7 +64,7 @@ public class Des2InstanceCollectionTaskHandlerTest {
     @DisplayName("doIt method - get members")
     @Test
     void testCheckMethodGetMembers() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
-        TestedClassWrapper tested = new TestedClassWrapper("collection");
+        TestedClassWrapper tested = new TestedClassWrapper("map");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
@@ -90,22 +89,14 @@ public class Des2InstanceCollectionTaskHandlerTest {
     void testDoItMethod() throws Exception {
 
         CollectionTypeChecker collectionTypeChecker = new UCollectionTypeCheckerBuilder()
-                .setTypes(
-                        Set.class,
-                        List.class
-                )
-                .setArgumentTypes(
-                        Integer.class,
-                        Boolean.class,
-                        Character.class,
-                        String.class
-                )
+                .setTypes()
+                .setArgumentTypes()
                 .build();
 
         MapTypeChecker mapTypeChecker = new UMapTypeCheckerBuilder()
-                .setTypes()
-                .setKeyArgumentsTypes()
-                .setValueArgumentsTypes()
+                .setTypes(Map.class)
+                .setKeyArgumentsTypes(Integer.class, String.class)
+                .setValueArgumentsTypes(Integer.class, String.class, Double.class)
                 .build();
 
         ClassContext classContext = UClassSerialization.createClassContext(
@@ -144,38 +135,18 @@ public class Des2InstanceCollectionTaskHandlerTest {
         );
 
         TestClass original = new TestClass();
-        original.setIntSet(new HashSet<>(){{
-            add(1);
-            add(2);
+        original.setDoubleByStr(new HashMap<>(){{
+            put("double_0", 123.0);
+            put("double_1", 456.0);
         }});
-        original.setIntList(new ArrayList<>(){{
-            add(10);
-            add(20);
+        original.setIntByInt(new HashMap<>(){{
+            put(1, 1);
+            put(2, 8);
+            put(3, 27);
         }});
-        original.setBooleanSet(new HashSet<>(){{
-            add(false);
-            add(true);
-        }});
-        original.setBooleanList(new ArrayList<>(){{
-            add(true);
-            add(false);
-            add(true);
-        }});
-        original.setCharacterSet(new HashSet<>(){{
-            add('a');
-            add('b');
-        }});
-        original.setCharacterList(new ArrayList<>(){{
-            add('0');
-            add('1');
-        }});
-        original.setStringSet(new HashSet<>(){{
-            add("hello");
-            add("world");
-        }});
-        original.setStringList(new ArrayList<>(){{
-            add("abc");
-            add("xyz");
+        original.setStrByInt(new HashMap<>(){{
+            put(10, "ten");
+            put(11, "eleven");
         }});
 
         instanceContext.attachInstance(original);
@@ -183,7 +154,7 @@ public class Des2InstanceCollectionTaskHandlerTest {
 
         ObjectNode serData = (ObjectNode) instanceContext.getCollector().detachNode();
 
-        TestedClassWrapper tested = new TestedClassWrapper("collection");
+        TestedClassWrapper tested = new TestedClassWrapper("map");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
@@ -216,7 +187,7 @@ public class Des2InstanceCollectionTaskHandlerTest {
         assertThat(context.getContextStateCareTaker().peek().getInstance()).isEqualTo(original);
     }
 
-    private static class TestedClassWrapper extends Des2InstanceCollectionTaskHandler{
+    private static class TestedClassWrapper extends Des2InstanceMapTaskHandler{
         public TestedClassWrapper(String id) {
             super(id);
             simpleResult = new SKSimpleResult();
@@ -237,7 +208,7 @@ public class Des2InstanceCollectionTaskHandlerTest {
         }
     }
 
-    private static class NotValidMemento implements Des2InstanceContextStateMemento{
+    private static class NotValidMemento implements Des2InstanceContextStateMemento {
         @Override
         public Object getInstance() {
             return null;
@@ -296,59 +267,24 @@ public class Des2InstanceCollectionTaskHandlerTest {
     private static class TestClass{
 
         @SkeletonMember
-        private Set<Integer> intSet;
+        private Map<Integer, Integer> intByInt;
 
         @SkeletonMember
-        private List<Integer> intList;
+        private Map<Integer, String> strByInt;
 
         @SkeletonMember
-        private Set<Boolean> booleanSet;
+        private Map<String, Double> doubleByStr;
 
-        @SkeletonMember
-        private List<Boolean> booleanList;
-
-        @SkeletonMember
-        private Set<Character> characterSet;
-
-        @SkeletonMember
-        private List<Character> characterList;
-
-        @SkeletonMember
-        private Set<String> stringSet;
-
-        @SkeletonMember
-        private List<String> stringList;
-
-        public void setIntSet(Set<Integer> intSet) {
-            this.intSet = intSet;
+        public void setIntByInt(Map<Integer, Integer> intByInt) {
+            this.intByInt = intByInt;
         }
 
-        public void setIntList(List<Integer> intList) {
-            this.intList = intList;
+        public void setStrByInt(Map<Integer, String> strByInt) {
+            this.strByInt = strByInt;
         }
 
-        public void setBooleanSet(Set<Boolean> booleanSet) {
-            this.booleanSet = booleanSet;
-        }
-
-        public void setBooleanList(List<Boolean> booleanList) {
-            this.booleanList = booleanList;
-        }
-
-        public void setCharacterSet(Set<Character> characterSet) {
-            this.characterSet = characterSet;
-        }
-
-        public void setCharacterList(List<Character> characterList) {
-            this.characterList = characterList;
-        }
-
-        public void setStringSet(Set<String> stringSet) {
-            this.stringSet = stringSet;
-        }
-
-        public void setStringList(List<String> stringList) {
-            this.stringList = stringList;
+        public void setDoubleByStr(Map<String, Double> doubleByStr) {
+            this.doubleByStr = doubleByStr;
         }
 
         @Override
@@ -356,33 +292,14 @@ public class Des2InstanceCollectionTaskHandlerTest {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TestClass testClass = (TestClass) o;
-            return Objects.equals(intSet, testClass.intSet) &&
-                    Objects.equals(intList, testClass.intList) &&
-                    Objects.equals(booleanSet, testClass.booleanSet) &&
-                    Objects.equals(booleanList, testClass.booleanList) &&
-                    Objects.equals(characterSet, testClass.characterSet) &&
-                    Objects.equals(characterList, testClass.characterList) &&
-                    Objects.equals(stringSet, testClass.stringSet) &&
-                    Objects.equals(stringList, testClass.stringList);
+            return Objects.equals(intByInt, testClass.intByInt) &&
+                    Objects.equals(strByInt, testClass.strByInt) &&
+                    Objects.equals(doubleByStr, testClass.doubleByStr);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(intSet, intList, booleanSet, booleanList, characterSet, characterList, stringSet, stringList);
-        }
-
-        @Override
-        public String toString() {
-            return "TestClass{" +
-                    "intSet=" + intSet +
-                    ", intList=" + intList +
-                    ", booleanSet=" + booleanSet +
-                    ", booleanList=" + booleanList +
-                    ", characterSet=" + characterSet +
-                    ", characterList=" + characterList +
-                    ", stringSet=" + stringSet +
-                    ", stringList=" + stringList +
-                    '}';
+            return Objects.hash(intByInt, strByInt, doubleByStr);
         }
     }
 }

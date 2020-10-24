@@ -13,23 +13,22 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<Des2InstanceCxt> {
+public class Des2InstanceMapTaskHandler extends BaseContextTaskHandler<Des2InstanceCxt> {
 
-    private static final Logger log = LoggerFactory.getLogger(Des2InstanceCollectionTaskHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(Des2InstanceMapTaskHandler.class);
 
     private Object instance;
     private Set<Triple<Field, Node, ObjectNode>> members;
 
-    public Des2InstanceCollectionTaskHandler(String id) {
+    public Des2InstanceMapTaskHandler(String id) {
         super(id);
     }
 
-    public Des2InstanceCollectionTaskHandler(String id,
-                                             SimpleResult simpleResult) {
+    public Des2InstanceMapTaskHandler(String id, SimpleResult simpleResult) {
         super(id, simpleResult);
     }
 
@@ -45,34 +44,30 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
     }
 
     @Override
-    protected void doIt(Des2InstanceCxt context) throws InvocationTargetException,
-            NoSuchMethodException,
-            InstantiationException,
-            IllegalAccessException, ContextStateCareTakerIsEmpty {
-            OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter
-                    = context.getStrType2CollectionConverter();
+    protected void doIt(Des2InstanceCxt context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
+        OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter = context.getStrType2MapConverter();
 
-            for (Triple<Field, Node, ObjectNode> member : members) {
-                Field field = member.getLeft();
-                Node memberNode = member.getMiddle();
-                ObjectNode classMember = member.getRight();
-                String name = field.getName();
+        for (Triple<Field, Node, ObjectNode> member : members) {
+            Field field = member.getLeft();
+            String fieldName = field.getName();
+            Node memberNode = member.getMiddle();
+            ObjectNode classMember = member.getRight();
 
-                Optional<Collection<Object>> maybeCollection = strType2CollectionConverter.convert(classMember);
-                if (maybeCollection.isPresent()){
-                    if (memberNode.is(ArrayNode.ei())){
-                        Collection<Object> collection = maybeCollection.get();
-                        ArrayNode arrayNode = (ArrayNode) memberNode;
+            Optional<Map<Object, Object>> maybeMap = strType2MapConverter.convert(classMember);
+            if (maybeMap.isPresent()){
+                if (memberNode.is(ArrayNode.ei())){
+                    Map<Object, Object> map = maybeMap.get();
+                    ArrayNode arrayNode = (ArrayNode) memberNode;
 
-                        fillCollection(collection, arrayNode, context);
-                        setField(field, collection);
-                    } else {
-                        log.warn("'{}' : memberNode has wrong type - isn't ArrayNode", name);
-                    }
+                    fillMap(map, arrayNode, context);
+                    setField(field, map);
                 } else {
-                    log.warn("'{}' : failure attempt of collection creation", name);
+                    log.warn("{} : memberNode has wrong type - isn't ArrayNode", fieldName);
                 }
+            } else {
+                log.warn("{} : failure attempt of map creation", fieldName);
             }
+        }
     }
 
     private void checkValid(Des2InstanceCxt context) throws ContextStateCareTakerIsEmpty {
@@ -97,21 +92,36 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         }
     }
 
-    private void fillCollection(Collection<Object> collection, ArrayNode arrayNode, Des2InstanceCxt context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
+    private void fillMap(Map<Object, Object> map, ArrayNode arrayNode, Des2InstanceCxt context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         for (Node child : arrayNode.getChildren()) {
-            Optional<Object> maybeValue = extractValue(child, context);
-            if (maybeValue.isPresent()){
-                collection.add(maybeValue.get());
-            } else {
-                log.warn("Failure attempt of conversion : {}", child);
+            Optional<ObjectNode> maybeObjectNode = checkChildNode(child);
+            if (maybeObjectNode.isPresent()){
+                Map<String, Node> children = maybeObjectNode.get().getChildren();
+                Optional<Object> value = extract(children.get("value"), context);
+                Optional<Object> key = extract(children.get("key"), context);
+                if (key.isPresent() && value.isPresent()){
+                    map.put(key.get(), value.get());
+                }
             }
         }
     }
 
-    private Optional<Object> extractValue(Node node, Des2InstanceCxt context) throws InvocationTargetException,
-            NoSuchMethodException,
-            InstantiationException,
-            IllegalAccessException, ContextStateCareTakerIsEmpty {
+    private Optional<ObjectNode> checkChildNode(Node node){
+        if (node.is(ObjectNode.ei())){
+            ObjectNode objectNode = (ObjectNode) node;
+            if (objectNode.getChildren().containsKey("key") && objectNode.getChildren().containsKey("value")){
+                return Optional.of(objectNode);
+            } else {
+                log.warn("Child node doesn't contain some mandatory child");
+            }
+        } else {
+            log.warn("Child node has wrong type : {}", node);
+        }
+
+        return Optional.empty();
+    }
+
+    private Optional<Object> extract(Node node, Des2InstanceCxt context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         if (node.is(BooleanNode.ei())){
             return Optional.of(((BooleanNode) node).getValue());
         } else if (node.is(CharacterNode.ei())){
@@ -121,6 +131,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         } else if (node.is(StringNode.ei())){
             return Optional.of(((StringNode) node).getValue());
         } else if (node.is(ObjectNode.ei())){
+
             OptionalConverter<Object, ObjectNode> toInstanceConverter = context.getToInstanceConverter();
             Optional<Object> maybeInstance = toInstanceConverter.convert((ObjectNode) node);
             if (maybeInstance.isPresent()){
@@ -138,10 +149,10 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
         return Optional.empty();
     }
 
-    private void setField(Field field, Collection<Object> collection){
+    private void setField(Field field, Map<Object, Object> map){
         field.setAccessible(true);
         try {
-            field.set(instance, collection);
+            field.set(instance, map);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } finally {
