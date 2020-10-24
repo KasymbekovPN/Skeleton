@@ -93,6 +93,22 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
         return preparedFieldsData.getOrDefault(kind, new HashSet<>());
     }
 
+    //< need test
+    @Override
+    public Des2InstanceContextStateMemento createNew(Object instance, ObjectNode serData) {
+        return new SKDes2InstanceContextStateMemento(
+                instance,
+                serData,
+                this.classNodes,
+                this.annotationNameExtractor,
+                this.classHeaderPartHandler,
+                this.classMembersPartHandler,
+                this.classPath,
+                this.membersPath,
+                this.annotationExtractor
+        );
+    }
+
     private SimpleResult createResultInstance() throws NoSuchMethodException,
                                                        IllegalAccessException,
                                                        InvocationTargetException,

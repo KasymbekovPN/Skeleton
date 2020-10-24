@@ -258,6 +258,11 @@ public class Des2InstanceCollectionTaskHandlerTest {
             result.setFailStatus(NOT_VALID);
             return result;
         }
+
+        @Override
+        public Des2InstanceContextStateMemento createNew(Object instance, ObjectNode serData) {
+            return null;
+        }
     }
 
     private static class ZeroMembersMemento implements Des2InstanceContextStateMemento{
@@ -279,6 +284,11 @@ public class Des2InstanceCollectionTaskHandlerTest {
         @Override
         public SimpleResult getValidationResult() {
             return new SKSimpleResult();
+        }
+
+        @Override
+        public Des2InstanceContextStateMemento createNew(Object instance, ObjectNode serData) {
+            return null;
         }
     }
 

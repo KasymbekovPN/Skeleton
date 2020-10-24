@@ -36,8 +36,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Des2InstanceSpecificTaskHandler. Testing of :")
-public class Des2InstanceSpecificTaskHandlerTest {
+@DisplayName("Des2InstanceCustomTaskHandler. Testing of")
+public class Des2InstanceCustomTaskHandlerTest {
 
     private static final String NOT_VALID = "not valid";
     private static final String NUMBER_OF_MEMBERS_ARE_ZERO = "Number of members are zero";
@@ -45,7 +45,7 @@ public class Des2InstanceSpecificTaskHandlerTest {
     @DisplayName("check method - check valid")
     @Test
     void testCheckMethodNotValid() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
-        TestedClassWrapper tested = new TestedClassWrapper("specific");
+        TestedClassWrapper tested = new TestedClassWrapper("custom");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
@@ -68,7 +68,7 @@ public class Des2InstanceSpecificTaskHandlerTest {
     @DisplayName("doIt method - get members")
     @Test
     void testCheckMethodGetMembers() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
-        TestedClassWrapper tested = new TestedClassWrapper("specific");
+        TestedClassWrapper tested = new TestedClassWrapper("custom");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
@@ -113,16 +113,8 @@ public class Des2InstanceSpecificTaskHandlerTest {
 
         OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
-                new SKSimpleChecker<Class<?>>(
-                        int.class,
-                        Integer.class,
-                        boolean.class,
-                        Boolean.class,
-                        char.class,
-                        Character.class,
-                        String.class
-                ),
-                new SKSimpleChecker<String>(),
+                new SKSimpleChecker<Class<?>>(),
+                new SKSimpleChecker<String>("InnerTestClass"),
                 collectionTypeChecker,
                 mapTypeChecker
         );
@@ -131,8 +123,11 @@ public class Des2InstanceSpecificTaskHandlerTest {
 
         classContext.attachClass(TestClass.class);
         classProcessor.handle(classContext);
-
         classNodes.put("TestClass", (ObjectNode)classContext.getCollector().detachNode());
+
+        classContext.attachClass(InnerTestClass.class);
+        classProcessor.handle(classContext);
+        classNodes.put("InnerTestClass", (ObjectNode) classContext.getCollector().detachNode());
 
         OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
         InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(
@@ -147,23 +142,18 @@ public class Des2InstanceSpecificTaskHandlerTest {
         );
 
         TestClass original = new TestClass();
-        original.setIntValue(100);
-        original.setIntObject(123);
-        original.setBooleanValue(true);
-        original.setBooleanObject(false);
-        original.setCharValue('a');
-        original.setCharacterObject('b');
-        original.setStringObject("hello");
-        original.setWithoutAnnotation(333);
+        original.setInner(new InnerTestClass());
 
         instanceContext.attachInstance(original);
         instanceProcessor.handle(instanceContext);
 
         ObjectNode serData = (ObjectNode) instanceContext.getCollector().detachNode();
 
-        TestedClassWrapper tested = new TestedClassWrapper("specific");
+        TestedClassWrapper tested = new TestedClassWrapper("custom");
 
-        HashMap<String, Class<?>> map = new HashMap<>();
+        HashMap<String, Class<?>> map = new HashMap<>(){{
+            put("InnerTestClass", InnerTestClass.class);
+        }};
         Des2InstanceCxt context = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 classNodes,
@@ -191,11 +181,10 @@ public class Des2InstanceSpecificTaskHandlerTest {
 
         tested.doIt(context);
         TestClass restored = (TestClass) context.getContextStateCareTaker().peek().getInstance();
-        assertThat(restored.specialEquals(original)).isTrue();
-        assertThat(restored).isNotEqualTo(original);
+        assertThat(restored).isEqualTo(original);
     }
 
-    private static class TestedClassWrapper extends Des2InstanceSpecificTaskHandler{
+    private static class TestedClassWrapper extends Des2InstanceCustomTaskHandler{
         public TestedClassWrapper(String id) {
             super(id);
             simpleResult = new SKSimpleResult();
@@ -211,7 +200,7 @@ public class Des2InstanceSpecificTaskHandlerTest {
         }
 
         @Override
-        protected void doIt(Des2InstanceCxt context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        protected void doIt(Des2InstanceCxt context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
             super.doIt(context);
         }
     }
@@ -271,74 +260,40 @@ public class Des2InstanceSpecificTaskHandlerTest {
         }
     }
 
+    @SkeletonClass(name = "InnerTestClass")
+    public static class InnerTestClass{
+
+        private int intValue = 123;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            InnerTestClass that = (InnerTestClass) o;
+            return intValue == that.intValue;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(intValue);
+        }
+
+        @Override
+        public String toString() {
+            return "InnerTestClass{" +
+                    "intValue=" + intValue +
+                    '}';
+        }
+    }
+
     @SkeletonClass(name = "TestClass")
     private static class TestClass{
 
-        @SkeletonMember
-        private int intValue;
+        @SkeletonMember(name = "InnerTestClass")
+        private InnerTestClass inner;
 
-        @SkeletonMember
-        private Integer intObject;
-
-        @SkeletonMember
-        private boolean booleanValue;
-
-        @SkeletonMember
-        private Boolean booleanObject;
-
-        @SkeletonMember
-        private char charValue;
-
-        @SkeletonMember
-        private Character characterObject;
-
-        @SkeletonMember
-        private String stringObject;
-
-        private int withoutAnnotation;
-
-        public void setIntValue(int intValue) {
-            this.intValue = intValue;
-        }
-
-        public void setIntObject(Integer intObject) {
-            this.intObject = intObject;
-        }
-
-        public void setBooleanValue(boolean booleanValue) {
-            this.booleanValue = booleanValue;
-        }
-
-        public void setBooleanObject(Boolean booleanObject) {
-            this.booleanObject = booleanObject;
-        }
-
-        public void setCharValue(char charValue) {
-            this.charValue = charValue;
-        }
-
-        public void setCharacterObject(Character characterObject) {
-            this.characterObject = characterObject;
-        }
-
-        public void setStringObject(String stringObject) {
-            this.stringObject = stringObject;
-        }
-
-        public void setWithoutAnnotation(int withoutAnnotation) {
-            this.withoutAnnotation = withoutAnnotation;
-        }
-
-        public boolean specialEquals(TestClass o){
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            return intValue == o.intValue &&
-                    booleanValue == o.booleanValue &&
-                    charValue == o.charValue &&
-                    Objects.equals(intObject, o.intObject) &&
-                    Objects.equals(booleanObject, o.booleanObject) &&
-                    Objects.equals(characterObject, o.characterObject) &&
-                    Objects.equals(stringObject, o.stringObject);
+        public void setInner(InnerTestClass inner) {
+            this.inner = inner;
         }
 
         @Override
@@ -346,33 +301,18 @@ public class Des2InstanceSpecificTaskHandlerTest {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TestClass testClass = (TestClass) o;
-            return intValue == testClass.intValue &&
-                    booleanValue == testClass.booleanValue &&
-                    charValue == testClass.charValue &&
-                    withoutAnnotation == testClass.withoutAnnotation &&
-                    Objects.equals(intObject, testClass.intObject) &&
-                    Objects.equals(booleanObject, testClass.booleanObject) &&
-                    Objects.equals(characterObject, testClass.characterObject) &&
-                    Objects.equals(stringObject, testClass.stringObject);
+            return Objects.equals(inner, testClass.inner);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(intValue, intObject, booleanValue, booleanObject, charValue, characterObject, stringObject, withoutAnnotation);
+            return Objects.hash(inner);
         }
-
 
         @Override
         public String toString() {
             return "TestClass{" +
-                    "intValue=" + intValue +
-                    ", intObject=" + intObject +
-                    ", booleanValue=" + booleanValue +
-                    ", booleanObject=" + booleanObject +
-                    ", charValue=" + charValue +
-                    ", characterObject=" + characterObject +
-                    ", stringObject='" + stringObject + '\'' +
-                    ", withoutAnnotation=" + withoutAnnotation +
+                    "inner=" + inner +
                     '}';
         }
     }

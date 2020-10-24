@@ -57,7 +57,7 @@ abstract public class BaseContextTaskHandler<T extends Context<? extends Context
     protected void check(T context) throws ContextStateCareTakerIsEmpty {
     }
 
-    protected void doIt(T context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void doIt(T context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
     }
 
     private SimpleResult createSimpleResult() throws InvocationTargetException,
