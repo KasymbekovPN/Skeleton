@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -391,7 +391,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-        OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
@@ -399,7 +399,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 mapTypeChecker
         );
 
-        ClassContext classContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerialization.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
@@ -407,11 +407,11 @@ public class SKDes2InstanceContextStateMementoTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        classContext.attachClass(ClassWithValue.class);
-        classProcessor.handle(classContext);
+        oldClassContext.attachClass(ClassWithValue.class);
+        classProcessor.handle(oldClassContext);
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
-            put("ClassWithValue", (ObjectNode) classContext.getCollector().detachNode());
+            put("ClassWithValue", (ObjectNode) oldClassContext.getCollector().detachNode());
         }};
 
         OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
@@ -468,7 +468,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-        OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
@@ -476,7 +476,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 mapTypeChecker
         );
 
-        ClassContext classContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerialization.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
@@ -484,11 +484,11 @@ public class SKDes2InstanceContextStateMementoTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        classContext.attachClass(ClassWithChangedValue.class);
-        classProcessor.handle(classContext);
+        oldClassContext.attachClass(ClassWithChangedValue.class);
+        classProcessor.handle(oldClassContext);
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
-            put("ClassWithChangedValue", (ObjectNode) classContext.getCollector().detachNode());
+            put("ClassWithChangedValue", (ObjectNode) oldClassContext.getCollector().detachNode());
         }};
 
         OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();

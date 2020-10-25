@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class SKClassContext implements ClassContext {
+public class SKOldClassContext implements OldClassContext {
 
     private final ContextIds contextIds;
     private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
@@ -27,14 +27,14 @@ public class SKClassContext implements ClassContext {
     private Class<?> clazz;
     private Set<Field> fields;
 
-    public SKClassContext(ContextIds contextIds,
-                          Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                          List<String> classPartPath,
-                          List<String> membersPartPath,
-                          Class<?> clazz,
-                          Collector collector,
-                          ClassHeaderPartHandler classHeaderPartHandler,
-                          ClassMembersPartHandler classMembersPartHandler) {
+    public SKOldClassContext(ContextIds contextIds,
+                             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                             List<String> classPartPath,
+                             List<String> membersPartPath,
+                             Class<?> clazz,
+                             Collector collector,
+                             ClassHeaderPartHandler classHeaderPartHandler,
+                             ClassMembersPartHandler classMembersPartHandler) {
         this.contextIds = contextIds;
         this.annotationExtractor = annotationExtractor;
         this.classPartPath = classPartPath;

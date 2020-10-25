@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.classes.ClassProcessorTC0;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.util.*;
@@ -30,7 +30,7 @@ public class ClassProcessorTest {
                 .build();
 
 
-        ClassContext classContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerialization.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 ClassProcessorTC0.class,
@@ -38,7 +38,7 @@ public class ClassProcessorTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class, float.class),
                 new SKSimpleChecker<String>("InnerClassProcessorTC0"),
@@ -46,10 +46,10 @@ public class ClassProcessorTest {
                 mapTypeChecker
         );
 
-        classProcessor.handle(classContext);
+        classProcessor.handle(oldClassContext);
 
         //<
-        System.out.println(classContext.getCollector().getNode());
+        System.out.println(oldClassContext.getCollector().getNode());
         //<
     }
 }

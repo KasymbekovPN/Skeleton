@@ -9,7 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -47,7 +47,7 @@ public class Des2InstanceTaskHandlersComplexTest {
                 .setValueArgumentsTypes(String.class, Des2InstanceInnerTC0.class)
                 .build();
 
-        ClassContext classContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerialization.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
@@ -55,7 +55,7 @@ public class Des2InstanceTaskHandlersComplexTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(
                         int.class, float.class, double.class, boolean.class, char.class,
@@ -69,13 +69,13 @@ public class Des2InstanceTaskHandlersComplexTest {
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
-        classContext.attachClass(Des2InstanceInnerTC0.class);
-        classProcessor.handle(classContext);
-        classNodes.put("Des2InstanceInnerTC0", (ObjectNode) classContext.getCollector().detachNode());
+        oldClassContext.attachClass(Des2InstanceInnerTC0.class);
+        classProcessor.handle(oldClassContext);
+        classNodes.put("Des2InstanceInnerTC0", (ObjectNode) oldClassContext.getCollector().detachNode());
 
-        classContext.attachClass(Des2InstanceTC0.class);
-        classProcessor.handle(classContext);
-        classNodes.put("Des2InstanceTC0", (ObjectNode) classContext.getCollector().detachNode());
+        oldClassContext.attachClass(Des2InstanceTC0.class);
+        classProcessor.handle(oldClassContext);
+        classNodes.put("Des2InstanceTC0", (ObjectNode) oldClassContext.getCollector().detachNode());
 
         OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
         InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(

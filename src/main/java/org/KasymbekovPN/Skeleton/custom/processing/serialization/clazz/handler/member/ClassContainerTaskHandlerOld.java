@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member;
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * For collections and maps
  */
-public class ClassContainerTaskHandlerOld extends OldBaseContextTaskHandler<ClassContext> {
+public class ClassContainerTaskHandlerOld extends OldBaseContextTaskHandler<OldClassContext> {
 
     private final SimpleChecker<Field> fieldChecker;
 
@@ -41,7 +41,7 @@ public class ClassContainerTaskHandlerOld extends OldBaseContextTaskHandler<Clas
     }
 
     @Override
-    protected void check(ClassContext context) {
+    protected void check(OldClassContext context) {
 
         if (context.checkClassPart()){
             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
@@ -63,7 +63,7 @@ public class ClassContainerTaskHandlerOld extends OldBaseContextTaskHandler<Clas
     }
 
     @Override
-    protected void doIt(ClassContext context) {
+    protected void doIt(OldClassContext context) {
 
         Collector collector = context.getCollector();
         ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();

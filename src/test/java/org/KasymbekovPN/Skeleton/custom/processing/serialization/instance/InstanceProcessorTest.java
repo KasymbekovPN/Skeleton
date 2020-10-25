@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance;
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
@@ -37,7 +37,7 @@ public class InstanceProcessorTest {
                 .build();
 
 
-        ClassContext classContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerialization.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
@@ -45,7 +45,7 @@ public class InstanceProcessorTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        OldContextProcessor<ClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class, float.class),
                 new SKSimpleChecker<String>("InnerInstanceProcessorTC0"),
@@ -55,13 +55,13 @@ public class InstanceProcessorTest {
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
-        classContext.attachClass(InstanceProcessorTC0.class);
-        classProcessor.handle(classContext);
-        classNodes.put("InstanceProcessorTC0", (ObjectNode) classContext.getCollector().detachNode());
+        oldClassContext.attachClass(InstanceProcessorTC0.class);
+        classProcessor.handle(oldClassContext);
+        classNodes.put("InstanceProcessorTC0", (ObjectNode) oldClassContext.getCollector().detachNode());
 
-        classContext.attachClass(InnerInstanceProcessorTC0.class);
-        classProcessor.handle(classContext);
-        classNodes.put("InnerInstanceProcessorTC0", (ObjectNode) classContext.getCollector().detachNode());
+        oldClassContext.attachClass(InnerInstanceProcessorTC0.class);
+        classProcessor.handle(oldClassContext);
+        classNodes.put("InnerInstanceProcessorTC0", (ObjectNode) oldClassContext.getCollector().detachNode());
 
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 

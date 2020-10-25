@@ -3,8 +3,8 @@ package org.KasymbekovPN.Skeleton.util;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKOldClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
@@ -28,11 +28,11 @@ public class UClassSerialization {
     private static final String HANDLER_COLLECTION = "collection";
     private static final String HANDLER_MAP = "map";
 
-    static public ClassContext createClassContext(CollectorPath classPath,
-                                                  CollectorPath membersPath,
-                                                  Class<?> instance,
-                                                  ClassHeaderPartHandler classHeaderPartHandler,
-                                                  ClassMembersPartHandler classMembersPartHandler){
+    static public OldClassContext createClassContext(CollectorPath classPath,
+                                                     CollectorPath membersPath,
+                                                     Class<?> instance,
+                                                     ClassHeaderPartHandler classHeaderPartHandler,
+                                                     ClassMembersPartHandler classMembersPartHandler){
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
                 TASK_COMMON,
                 HANDLER_SIGNATURE,
@@ -42,7 +42,7 @@ public class UClassSerialization {
                 HANDLER_MAP
         );
 
-        return new SKClassContext(
+        return new SKOldClassContext(
                 contextIds,
                 new AnnotationExtractor(),
                 classPath.getPath(),
@@ -54,20 +54,20 @@ public class UClassSerialization {
         );
     }
 
-    static public OldContextProcessor<ClassContext> createClassProcessor(ClassHeaderPartHandler classHeaderPartHandler,
-                                                                         SKSimpleChecker<Class<?>> specificChecker,
-                                                                         SKSimpleChecker<String> customChecker,
-                                                                         SimpleChecker<Field> collectionTypeChecker,
-                                                                         SimpleChecker<Field> mapTypeChecker){
+    static public OldContextProcessor<OldClassContext> createClassProcessor(ClassHeaderPartHandler classHeaderPartHandler,
+                                                                            SKSimpleChecker<Class<?>> specificChecker,
+                                                                            SKSimpleChecker<String> customChecker,
+                                                                            SimpleChecker<Field> collectionTypeChecker,
+                                                                            SimpleChecker<Field> mapTypeChecker){
 
-        OLdContextTask<ClassContext> commonTask = new OLdContextTask<>(TASK_COMMON);
+        OLdContextTask<OldClassContext> commonTask = new OLdContextTask<>(TASK_COMMON);
         commonTask.add(new ClassSignatureTaskHandlerOld(HANDLER_SIGNATURE, classHeaderPartHandler))
                 .add(new ClassSpecificTaskHandlerOld(HANDLER_SPECIFIC, specificChecker))
                 .add(new ClassCustomTaskHandlerOld(HANDLER_CUSTOM, customChecker))
                 .add(new ClassContainerTaskHandlerOld(HANDLER_COLLECTION, collectionTypeChecker))
                 .add(new ClassContainerTaskHandlerOld(HANDLER_MAP, mapTypeChecker));
 
-        OldContextProcessor<ClassContext> processor
+        OldContextProcessor<OldClassContext> processor
                 = new OldContextProcessor<>();
         processor.add(commonTask);
 

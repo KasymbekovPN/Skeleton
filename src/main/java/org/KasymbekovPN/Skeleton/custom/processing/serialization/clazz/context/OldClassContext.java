@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
 
-public interface ClassContext extends OldContext {
+public interface OldClassContext extends OldContext {
     Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> getAnnotationExtractor();
     List<String> getClassPartPath();
     List<String> getMembersPartPath();

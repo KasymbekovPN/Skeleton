@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 
-public class ClassSignatureTaskHandlerOld extends OldBaseContextTaskHandler<ClassContext> {
+public class ClassSignatureTaskHandlerOld extends OldBaseContextTaskHandler<OldClassContext> {
 
     private final static String NON_ANNOTATION = "Annotation isn't exist";
 
@@ -35,7 +35,7 @@ public class ClassSignatureTaskHandlerOld extends OldBaseContextTaskHandler<Clas
     }
 
     @Override
-    protected void check(ClassContext context) {
+    protected void check(OldClassContext context) {
         Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> extractor
                 = context.getAnnotationExtractor();
         Class<?> clazz = context.getClazz();
@@ -54,7 +54,7 @@ public class ClassSignatureTaskHandlerOld extends OldBaseContextTaskHandler<Clas
     }
 
     @Override
-    protected void doIt(ClassContext context) {
+    protected void doIt(OldClassContext context) {
         Collector collector = context.getCollector();
 
         ObjectNode targetNode = (ObjectNode) collector.setTarget(context.getClassPartPath());

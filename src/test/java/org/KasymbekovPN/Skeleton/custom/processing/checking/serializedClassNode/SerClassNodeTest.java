@@ -13,8 +13,8 @@ import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.context.SerClassNodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeAggregateTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.checking.serializedClassNode.handler.SerClassNodeCheckingTaskHandlerOld;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.SKOldClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandlerOld;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandlerOld;
@@ -66,8 +66,8 @@ public class SerClassNodeTest {
 
     @Test
     void test() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
-        ClassContext context = createSerContext();
-        OldContextProcessor<ClassContext> serProcessor = createSerProcessor();
+        OldClassContext context = createSerContext();
+        OldContextProcessor<OldClassContext> serProcessor = createSerProcessor();
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
@@ -89,7 +89,7 @@ public class SerClassNodeTest {
         serClassNodeProcessor.handle(serClassNodeContext);
     }
 
-    private OldContextProcessor<ClassContext> createSerProcessor(){
+    private OldContextProcessor<OldClassContext> createSerProcessor(){
         Set<Class<?>> types = new HashSet<>(Arrays.asList(Set.class, List.class));
         Set<Class<?>> argumentTypes = new HashSet<>(Arrays.asList(String.class, Integer.class, Float.class));
         CollectionTypeChecker collectionTypeChecker = new CollectionTypeChecker(types, argumentTypes);
@@ -99,18 +99,18 @@ public class SerClassNodeTest {
         Set<Class<?>> valueArgTypes = new HashSet<>(Arrays.asList(Integer.class));
         MapTypeChecker mapTypeChecker = new MapTypeChecker(mTypes, keyArgTypes, valueArgTypes);
 
-        OLdContextTask<ClassContext> task = new OLdContextTask<>(TASK_COMMON);
+        OLdContextTask<OldClassContext> task = new OLdContextTask<>(TASK_COMMON);
         task.add(new ClassSignatureTaskHandlerOld(KIND_SIGNATURE, classHeaderPartHandler))
                 .add(new ClassSpecificTaskHandlerOld(KIND_SPECIFIC, new SKSimpleChecker<>(int.class, float.class)))
                 .add(new ClassCustomTaskHandlerOld(KIND_CUSTOM, new SKSimpleChecker<>("InnerSerTC0")))
                 .add(new ClassContainerTaskHandlerOld(KIND_COLLECTION, collectionTypeChecker))
                 .add(new ClassContainerTaskHandlerOld(KIND_MAP, mapTypeChecker));
 
-        return new OldContextProcessor<ClassContext>().add(task);
+        return new OldContextProcessor<OldClassContext>().add(task);
 
     }
 
-    private ClassContext createSerContext(){
+    private OldClassContext createSerContext(){
 
         SKCollector collector = new SKCollector();
         SKSimpleContextIds contextIds = new SKSimpleContextIds(
@@ -121,7 +121,7 @@ public class SerClassNodeTest {
                 KIND_COLLECTION,
                 KIND_MAP
         );
-        return new SKClassContext(
+        return new SKOldClassContext(
                 contextIds,
                 new AnnotationExtractor(),
                 Arrays.asList("class"),
