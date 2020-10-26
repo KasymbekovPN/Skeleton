@@ -30,7 +30,7 @@ public class ClassProcessorTest {
                 .build();
 
 
-        OldClassContext oldClassContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 ClassProcessorTC0.class,
@@ -38,7 +38,7 @@ public class ClassProcessorTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class, float.class),
                 new SKSimpleChecker<String>("InnerClassProcessorTC0"),

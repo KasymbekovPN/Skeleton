@@ -108,7 +108,7 @@ public class Des2InstanceCollectionTaskHandlerTest {
                 .setValueArgumentsTypes()
                 .build();
 
-        OldClassContext oldClassContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
@@ -116,7 +116,7 @@ public class Des2InstanceCollectionTaskHandlerTest {
                 USKClassMembersPartHandler.DEFAULT
         );
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(),
                 new SKSimpleChecker<String>(),

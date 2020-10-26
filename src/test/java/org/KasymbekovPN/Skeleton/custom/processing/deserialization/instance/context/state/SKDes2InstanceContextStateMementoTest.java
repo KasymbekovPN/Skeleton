@@ -391,7 +391,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
@@ -399,7 +399,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 mapTypeChecker
         );
 
-        OldClassContext oldClassContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
@@ -468,7 +468,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerialization.createClassProcessor(
+        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
                 USKClassHeaderPartHandler.DEFAULT,
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
@@ -476,7 +476,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 mapTypeChecker
         );
 
-        OldClassContext oldClassContext = UClassSerialization.createClassContext(
+        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 null,
