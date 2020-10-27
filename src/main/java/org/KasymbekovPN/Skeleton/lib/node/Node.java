@@ -10,10 +10,6 @@ import java.util.Optional;
  *  1. ImplementationName(Node parent)
  */
 public interface Node {
-
-    //< del
-//    void apply(Task<Node> task);
-
     Node getParent();
     Node deepCopy(Node parent);
     EntityItem getEI();

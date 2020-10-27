@@ -7,5 +7,6 @@ import java.util.Set;
 
 public interface ClassContextStateMemento extends ContextStateMemento {
     Class<?> getClazz();
+    String getClassName();
     Set<Field> getRemainingFields();
 }

@@ -28,6 +28,7 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
 
     private SimpleResult result;
     private Class<?> clazz;
+    private String className;
     private Set<Field> remainingFields;
 
     public SKClassContextStateMemento(Class<?> clazz,
@@ -60,6 +61,11 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
     }
 
     @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
     public Set<Field> getRemainingFields() {
         return remainingFields;
     }
@@ -82,7 +88,9 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
         if (result.isSuccess()){
             Optional<Annotation> maybeAnnotation
                     = annotationExtractor.extract(new MutablePair<>(SkeletonClass.class, clazz.getDeclaredAnnotations()));
-            if (maybeAnnotation.isEmpty()){
+            if (maybeAnnotation.isPresent()){
+                className = ((SkeletonClass) maybeAnnotation.get()).name();
+            } else {
                 result.setFailStatus("The clazz hasn't annotation");
             }
         }

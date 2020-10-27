@@ -3,6 +3,8 @@ package org.KasymbekovPN.Skeleton.lib.node;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 
+import java.util.Objects;
+
 public class InvalidNode implements Node {
 
     public static EntityItem ei(){
@@ -45,5 +47,19 @@ public class InvalidNode implements Node {
                 " status='" + status + '\'' +
                 ", raw='" + raw + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InvalidNode that = (InvalidNode) o;
+        return Objects.equals(status, that.status) &&
+                Objects.equals(raw, that.raw);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, raw);
     }
 }

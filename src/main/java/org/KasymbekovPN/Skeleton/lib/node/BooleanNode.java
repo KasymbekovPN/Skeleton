@@ -32,4 +32,6 @@ public class BooleanNode extends PrimitiveNode<Boolean> {
     public String toString() {
         return "BooleanNode{ " + value + " }";
     }
+
+
 }

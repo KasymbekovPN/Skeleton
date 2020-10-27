@@ -5,10 +5,7 @@ import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ObjectNode implements Node {
 
@@ -106,5 +103,18 @@ public class ObjectNode implements Node {
     @Override
     public String toString() {
         return "ObjectNode{ " + children + " }";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ObjectNode that = (ObjectNode) o;
+        return Objects.equals(children, that.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(children);
     }
 }
