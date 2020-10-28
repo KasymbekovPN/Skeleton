@@ -14,6 +14,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -100,10 +101,12 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
         if (result.isSuccess()){
             remainingFields = new HashSet<>();
             for (Field field : clazz.getDeclaredFields()) {
-                Optional<Annotation> maybeAnnotation
-                        = annotationExtractor.extract(new MutablePair<>(SkeletonMember.class, field.getDeclaredAnnotations()));
-                if (maybeAnnotation.isPresent()){
-                    remainingFields.add(field);
+                if (!Modifier.isStatic(field.getModifiers())){
+                    Optional<Annotation> maybeAnnotation
+                            = annotationExtractor.extract(new MutablePair<>(SkeletonMember.class, field.getDeclaredAnnotations()));
+                    if (maybeAnnotation.isPresent()){
+                        remainingFields.add(field);
+                    }
                 }
             }
 
