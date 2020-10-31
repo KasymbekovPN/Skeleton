@@ -24,8 +24,10 @@ public class MapTypeChecker implements SimpleChecker<Field> {
     @Override
     public boolean check(Field checkableValue) {
         boolean result = checkType(checkableValue);
-        result &= checkArgumentType(checkableValue, keyArgumentTypes, 0);
-        result &= checkArgumentType(checkableValue, valueArgumentTypes, 1);
+        if (result){
+            result = checkArgumentType(checkableValue, keyArgumentTypes, 0);
+            result &= checkArgumentType(checkableValue, valueArgumentTypes, 1);
+        }
 
         return result;
     }

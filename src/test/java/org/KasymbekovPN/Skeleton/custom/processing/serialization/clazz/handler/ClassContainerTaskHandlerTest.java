@@ -211,7 +211,7 @@ public class ClassContainerTaskHandlerTest {
         }
 
         @Override
-        protected void doIt(ClassContext context) {
+        protected void doIt(ClassContext context) throws NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty, InvocationTargetException {
             super.doIt(context);
         }
     }

@@ -24,9 +24,9 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class ClassCustomClassHandler extends BaseContextTaskHandler<ClassContext> {
+public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext> {
 
-    private static final Logger log = LoggerFactory.getLogger(ClassCustomClassHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ClassCustomTaskHandler.class);
 
     private static final String NOT_CONTAIN_CLASS_PART = "Not contain class part";
     private static final String NO_ONE_CUSTOM_FIELD = "No one custom field";
@@ -36,18 +36,18 @@ public class ClassCustomClassHandler extends BaseContextTaskHandler<ClassContext
 
     private Set<Pair<String, Field>> data = new HashSet<>();
 
-    public ClassCustomClassHandler(SimpleChecker<String> classNameChecker,
-                                   Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                   String id) {
+    public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
+                                  Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                  String id) {
         super(id);
         this.classNameChecker = classNameChecker;
         this.annotationExtractor = annotationExtractor;
     }
 
-    public ClassCustomClassHandler(SimpleChecker<String> classNameChecker,
-                                   Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                   String id,
-                                   SimpleResult simpleResult) {
+    public ClassCustomTaskHandler(SimpleChecker<String> classNameChecker,
+                                  Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                  String id,
+                                  SimpleResult simpleResult) {
         super(id, simpleResult);
         this.classNameChecker = classNameChecker;
         this.annotationExtractor = annotationExtractor;

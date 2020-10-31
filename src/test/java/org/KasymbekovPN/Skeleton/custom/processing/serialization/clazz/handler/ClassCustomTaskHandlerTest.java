@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.ClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomClassHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -95,7 +95,7 @@ public class ClassCustomTaskHandlerTest {
     void testCheckMethodInvalidMemento() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         SKSimpleChecker<String> checker = new SKSimpleChecker<>("InnerTestClass");
-        TestedClassWrapper tested = new TestedClassWrapper(checker, new AnnotationExtractor(), "custom");
+        TestedClassCustomTaskWrapper tested = new TestedClassCustomTaskWrapper(checker, new AnnotationExtractor(), "custom");
 
         ClassContext classContext = UClassSerialization.createClassContext(
                 new SKCollector(),
@@ -114,7 +114,7 @@ public class ClassCustomTaskHandlerTest {
     @Test
     void testCheckMethodNotContainClassPart() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         SKSimpleChecker<String> checker = new SKSimpleChecker<>("InnerTestClass");
-        TestedClassWrapper tested = new TestedClassWrapper(checker, new AnnotationExtractor(), "custom");
+        TestedClassCustomTaskWrapper tested = new TestedClassCustomTaskWrapper(checker, new AnnotationExtractor(), "custom");
 
         ClassContext classContext = UClassSerialization.createClassContext(
                 new SKCollector(),
@@ -133,7 +133,7 @@ public class ClassCustomTaskHandlerTest {
     @Test
     void testCheckMethodNoONeSpecific() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         SKSimpleChecker<String> checker = new SKSimpleChecker<>("InnerTestClass");
-        TestedClassWrapper tested = new TestedClassWrapper(checker, new AnnotationExtractor(), "custom");
+        TestedClassCustomTaskWrapper tested = new TestedClassCustomTaskWrapper(checker, new AnnotationExtractor(), "custom");
 
         ClassContext classContext = UClassSerialization.createClassContext(
                 new SKCollector(),
@@ -157,7 +157,7 @@ public class ClassCustomTaskHandlerTest {
     @MethodSource("getTestDataFotDoItMethod")
     void testDoItMethod(ObjectNode objectNode) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         SKSimpleChecker<String> checker = new SKSimpleChecker<>("InnerTestClass");
-        TestedClassWrapper tested = new TestedClassWrapper(checker, new AnnotationExtractor(), "custom");
+        TestedClassCustomTaskWrapper tested = new TestedClassCustomTaskWrapper(checker, new AnnotationExtractor(), "custom");
 
         SKCollector collector = new SKCollector();
         collector.setTarget(USKCollectorPath.DEFAULT_CLASS_PART_PATH.getPath());
@@ -181,14 +181,14 @@ public class ClassCustomTaskHandlerTest {
         assertThat(classContext.getCollector().getNode()).isEqualTo(objectNode);
     }
 
-    private static class TestedClassWrapper extends ClassCustomClassHandler {
+    private static class TestedClassCustomTaskWrapper extends ClassCustomTaskHandler {
 
-        public TestedClassWrapper(SimpleChecker<String> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id) {
+        public TestedClassCustomTaskWrapper(SimpleChecker<String> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id) {
             super(classNameChecker, annotationExtractor, id);
             this.simpleResult = new SKSimpleResult();
         }
 
-        public TestedClassWrapper(SimpleChecker<String> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id, SimpleResult simpleResult) {
+        public TestedClassCustomTaskWrapper(SimpleChecker<String> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id, SimpleResult simpleResult) {
             super(classNameChecker, annotationExtractor, id, simpleResult);
         }
 
