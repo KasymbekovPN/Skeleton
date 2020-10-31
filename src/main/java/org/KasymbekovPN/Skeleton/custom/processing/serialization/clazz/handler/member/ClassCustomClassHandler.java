@@ -94,7 +94,6 @@ public class ClassCustomClassHandler extends BaseContextTaskHandler<ClassContext
         data.clear();
     }
 
-
     private void checkValidation(ClassContextStateMemento memento){
         SimpleResult validationResult = memento.getValidationResult();
         if (simpleResult.isSuccess() && !validationResult.isSuccess()){

@@ -39,8 +39,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("ClassCustomClassHandler. Testing of")
-public class ClassCustomClassHandlerTest {
+@DisplayName("ClassCustomTaskHandler. Testing of")
+public class ClassCustomTaskHandlerTest {
 
     private static final String NOT_VALID = "not valid";
     private static final String NOT_CONTAIN_CLASS_PART = "Not contain class part";
