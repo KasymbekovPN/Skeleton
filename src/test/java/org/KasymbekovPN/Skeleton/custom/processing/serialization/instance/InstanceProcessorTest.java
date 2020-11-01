@@ -2,13 +2,18 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance;
 
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.util.*;
 import org.junit.jupiter.api.DisplayName;
@@ -36,32 +41,38 @@ public class InstanceProcessorTest {
                 .setValueArgumentsTypes(Integer.class, InnerInstanceProcessorTC0.class)
                 .build();
 
-
-        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
-                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
-                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
-                null,
-                USKClassHeaderPartHandler.DEFAULT,
-                USKClassMembersPartHandler.DEFAULT
+        ClassContext classContext = UClassSerialization.createClassContext(
+                new SKCollector(),
+                new SKContextStateCareTaker<>()
         );
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
-                USKClassHeaderPartHandler.DEFAULT,
+        Processor<ClassContext> classProcessor = UClassSerialization.createProcessor(
                 new SKSimpleChecker<Class<?>>(int.class, float.class),
                 new SKSimpleChecker<String>("InnerInstanceProcessorTC0"),
+                new AnnotationExtractor(),
                 collectionTypeChecker,
                 mapTypeChecker
         );
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>();
 
-        oldClassContext.attachClass(InstanceProcessorTC0.class);
-        classProcessor.handle(oldClassContext);
-        classNodes.put("InstanceProcessorTC0", (ObjectNode) oldClassContext.getCollector().detachNode());
+        classContext.getContextStateCareTaker().push(
+                new SKClassContextStateMemento(
+                        InstanceProcessorTC0.class,
+                        new AnnotationExtractor()
+                )
+        );
+        classProcessor.handle(classContext);
+        classNodes.put("InstanceProcessorTC0", (ObjectNode) classContext.getCollector().detachNode());
 
-        oldClassContext.attachClass(InnerInstanceProcessorTC0.class);
-        classProcessor.handle(oldClassContext);
-        classNodes.put("InnerInstanceProcessorTC0", (ObjectNode) oldClassContext.getCollector().detachNode());
+        classContext.getContextStateCareTaker().push(
+                new SKClassContextStateMemento(
+                        InnerInstanceProcessorTC0.class,
+                        new AnnotationExtractor()
+                )
+        );
+        classProcessor.handle(classContext);
+        classNodes.put("InnerInstanceProcessorTC0", (ObjectNode) classContext.getCollector().detachNode());
 
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 

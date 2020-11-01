@@ -5,13 +5,16 @@ import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.OldClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.KasymbekovPN.Skeleton.util.*;
@@ -391,27 +394,44 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
-                USKClassHeaderPartHandler.DEFAULT,
+        Processor<ClassContext> classProcessor = UClassSerialization.createProcessor(
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
+                new AnnotationExtractor(),
                 collectionTypeChecker,
                 mapTypeChecker
         );
+        //<
+//        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
+//                USKClassHeaderPartHandler.DEFAULT,
+//                new SKSimpleChecker<Class<?>>(int.class),
+//                new SKSimpleChecker<String>(""),
+//                collectionTypeChecker,
+//                mapTypeChecker
+//        );
 
-        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
-                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
-                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
-                null,
-                USKClassHeaderPartHandler.DEFAULT,
-                USKClassMembersPartHandler.DEFAULT
+//        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
+//                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
+//                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
+//                null,
+//                USKClassHeaderPartHandler.DEFAULT,
+//                USKClassMembersPartHandler.DEFAULT
+//        );
+        //<
+        ClassContext classContext = UClassSerialization.createClassContext(
+                new SKCollector(),
+                new SKContextStateCareTaker<>()
         );
 
-        oldClassContext.attachClass(ClassWithValue.class);
-        classProcessor.handle(oldClassContext);
-
+        classContext.getContextStateCareTaker().push(
+                new SKClassContextStateMemento(
+                        ClassWithValue.class,
+                        new AnnotationExtractor()
+                )
+        );
+        classProcessor.handle(classContext);
         HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
-            put("ClassWithValue", (ObjectNode) oldClassContext.getCollector().detachNode());
+            put("ClassWithValue", (ObjectNode) classContext.getCollector().detachNode());
         }};
 
         OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
@@ -468,27 +488,47 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
-                USKClassHeaderPartHandler.DEFAULT,
+//        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
+//                USKClassHeaderPartHandler.DEFAULT,
+//                new SKSimpleChecker<Class<?>>(int.class),
+//                new SKSimpleChecker<String>(""),
+//                collectionTypeChecker,
+//                mapTypeChecker
+//        );
+        //<
+        Processor<ClassContext> classProcessor = UClassSerialization.createProcessor(
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
+                new AnnotationExtractor(),
                 collectionTypeChecker,
                 mapTypeChecker
         );
 
-        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
-                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
-                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
-                null,
-                USKClassHeaderPartHandler.DEFAULT,
-                USKClassMembersPartHandler.DEFAULT
+//        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
+//                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
+//                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
+//                null,
+//                USKClassHeaderPartHandler.DEFAULT,
+//                USKClassMembersPartHandler.DEFAULT
+//        );
+        //<
+        ClassContext classContext = UClassSerialization.createClassContext(
+                new SKCollector(),
+                new SKContextStateCareTaker<>()
         );
 
-        oldClassContext.attachClass(ClassWithChangedValue.class);
-        classProcessor.handle(oldClassContext);
+//        oldClassContext.attachClass(ClassWithChangedValue.class);
+        //<
+        classContext.getContextStateCareTaker().push(
+                new SKClassContextStateMemento(
+                        ClassWithValue.class,
+                        new AnnotationExtractor()
+                )
+        );
+        classProcessor.handle(classContext);
 
         HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
-            put("ClassWithChangedValue", (ObjectNode) oldClassContext.getCollector().detachNode());
+            put("ClassWithChangedValue", (ObjectNode) classContext.getCollector().detachNode());
         }};
 
         OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
