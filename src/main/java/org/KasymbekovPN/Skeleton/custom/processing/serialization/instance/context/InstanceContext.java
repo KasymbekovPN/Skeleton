@@ -2,25 +2,22 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.conte
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
-import org.KasymbekovPN.Skeleton.lib.processing.context.OldContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
+import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-public interface InstanceContext extends OldContext {
-    ObjectNode getClassNode();
+public interface InstanceContext extends Context<InstanceContextStateMemento> {
+    Map<String, ObjectNode> getClassNodes();
     Collector getCollector();
-    Object attachInstance(Object instance);
-    Processor<InstanceContext> getProcessor();
-    Map<String, Object> getValues(String kind);
-    CollectorPath getClassPartPath();
-    CollectorPath getMembersPartPath();
+    CollectorPath getClassCollectorPath();
+    CollectorPath getMembersCollectorPath();
     ClassHeaderPartHandler getClassHeaderPartHandler();
     ClassMembersPartHandler getClassMembersPartHandler();
-    InstanceMembersPartHandler getInstanceMembersPartHandler();
-    boolean isValid();
+    void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty, InvocationTargetException;
 }

@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handl
 
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class InstanceHeaderTaskHandlerOld extends OldBaseContextTaskHandler<InstanceContext> {
+public class InstanceHeaderTaskHandlerOld extends OldBaseContextTaskHandler<InstanceContextOld> {
 
     private final static Logger log = LoggerFactory.getLogger(InstanceHeaderTaskHandlerOld.class);
 
@@ -29,7 +29,7 @@ public class InstanceHeaderTaskHandlerOld extends OldBaseContextTaskHandler<Inst
     }
 
     @Override
-    protected void check(InstanceContext context) {
+    protected void check(InstanceContextOld context) {
         if (context.isValid()){
             ObjectNode classNode = context.getClassNode();
             CollectorPath classPartPath = context.getClassPartPath();
@@ -59,7 +59,7 @@ public class InstanceHeaderTaskHandlerOld extends OldBaseContextTaskHandler<Inst
     }
 
     @Override
-    protected void doIt(InstanceContext context) {
+    protected void doIt(InstanceContextOld context) {
         CollectorPath classPartPath = context.getClassPartPath();
         ClassHeaderPartHandler classHeaderPartHandler = context.getClassHeaderPartHandler();
         Collector collector = context.getCollector();

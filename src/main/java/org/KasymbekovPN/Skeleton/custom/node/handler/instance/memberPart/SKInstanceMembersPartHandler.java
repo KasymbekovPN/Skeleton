@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart;
 
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.*;
@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 public class SKInstanceMembersPartHandler implements InstanceMembersPartHandler {
 
     @Override
-    public void set(ObjectNode objectNode, String property, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
+    public void set(ObjectNode objectNode, String property, Object value, InstanceContextOld instanceContextOld) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){
@@ -28,25 +28,25 @@ public class SKInstanceMembersPartHandler implements InstanceMembersPartHandler 
                 objectNode.addChild(property, new CharacterNode(objectNode, (Character) value));
                 break;
             default:
-                Object oldInstance = instanceContext.attachInstance(value);
-                Collector collector = instanceContext.getCollector();
+                Object oldInstance = instanceContextOld.attachInstance(value);
+                Collector collector = instanceContextOld.getCollector();
 
                 ObjectNode newNode = new ObjectNode(objectNode);
                 Pair<Node, Node> old = collector.attach(newNode, newNode);
 
-                instanceContext.getProcessor().handle(instanceContext);
+                instanceContextOld.getProcessor().handle(instanceContextOld);
 
                 collector.attach(old.getLeft(), old.getRight());
 
                 objectNode.addChild(property, newNode);
 
-                instanceContext.attachInstance(oldInstance);
+                instanceContextOld.attachInstance(oldInstance);
                 break;
         }
     }
 
     @Override
-    public void set(ArrayNode arrayNode, Object value, InstanceContext instanceContext) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
+    public void set(ArrayNode arrayNode, Object value, InstanceContextOld instanceContextOld) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty {
         Specific specific = calculateSpecificType(value);
 
         switch (specific){
@@ -63,18 +63,18 @@ public class SKInstanceMembersPartHandler implements InstanceMembersPartHandler 
                 arrayNode.addChild(new CharacterNode(arrayNode, (Character) value));
                 break;
             default:
-                Object oldInstance = instanceContext.attachInstance(value);
-                Collector collector = instanceContext.getCollector();
+                Object oldInstance = instanceContextOld.attachInstance(value);
+                Collector collector = instanceContextOld.getCollector();
 
                 ObjectNode newNode = new ObjectNode(arrayNode);
                 Pair<Node, Node> old = collector.attach(newNode, newNode);
 
-                instanceContext.getProcessor().handle(instanceContext);
+                instanceContextOld.getProcessor().handle(instanceContextOld);
 
                 collector.attach(old.getLeft(), old.getRight());
                 arrayNode.addChild(newNode);
 
-                instanceContext.attachInstance(oldInstance);
+                instanceContextOld.attachInstance(oldInstance);
                 break;
         }
     }

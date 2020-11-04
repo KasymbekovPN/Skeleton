@@ -12,7 +12,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.cont
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -139,8 +139,8 @@ public class Des2InstanceCustomTaskHandlerTest {
         classProcessor.handle(classContext);
         classNodes.put("InnerTestClass", (ObjectNode) classContext.getCollector().detachNode());
 
-        OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
-        InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(
+        OldContextProcessor<InstanceContextOld> instanceProcessor = UInstanceSerializationOld.createInstanceProcessor();
+        InstanceContextOld instanceContextOld = UInstanceSerializationOld.createInstanceContext(
                 classNodes,
                 instanceProcessor,
                 null,
@@ -154,10 +154,10 @@ public class Des2InstanceCustomTaskHandlerTest {
         TestClass original = new TestClass();
         original.setInner(new InnerTestClass());
 
-        instanceContext.attachInstance(original);
-        instanceProcessor.handle(instanceContext);
+        instanceContextOld.attachInstance(original);
+        instanceProcessor.handle(instanceContextOld);
 
-        ObjectNode serData = (ObjectNode) instanceContext.getCollector().detachNode();
+        ObjectNode serData = (ObjectNode) instanceContextOld.getCollector().detachNode();
 
         TestedClassWrapper tested = new TestedClassWrapper("custom");
 

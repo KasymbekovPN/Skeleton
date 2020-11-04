@@ -7,7 +7,7 @@ import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
@@ -401,23 +401,7 @@ public class SKDes2InstanceContextStateMementoTest {
                 collectionTypeChecker,
                 mapTypeChecker
         );
-        //<
-//        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
-//                USKClassHeaderPartHandler.DEFAULT,
-//                new SKSimpleChecker<Class<?>>(int.class),
-//                new SKSimpleChecker<String>(""),
-//                collectionTypeChecker,
-//                mapTypeChecker
-//        );
 
-//        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
-//                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
-//                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
-//                null,
-//                USKClassHeaderPartHandler.DEFAULT,
-//                USKClassMembersPartHandler.DEFAULT
-//        );
-        //<
         ClassContext classContext = UClassSerialization.createClassContext(
                 new SKCollector(),
                 new SKContextStateCareTaker<>()
@@ -434,10 +418,10 @@ public class SKDes2InstanceContextStateMementoTest {
             put("ClassWithValue", (ObjectNode) classContext.getCollector().detachNode());
         }};
 
-        OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
+        OldContextProcessor<InstanceContextOld> instanceProcessor = UInstanceSerializationOld.createInstanceProcessor();
 
         ClassWithValue classWithValue = new ClassWithValue();
-        InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(
+        InstanceContextOld instanceContextOld = UInstanceSerializationOld.createInstanceContext(
                 classNodes,
                 instanceProcessor,
                 classWithValue,
@@ -448,9 +432,9 @@ public class SKDes2InstanceContextStateMementoTest {
                 new SKInstanceMembersPartHandler()
         );
 
-        instanceProcessor.handle(instanceContext);
+        instanceProcessor.handle(instanceContextOld);
 
-        ObjectNode serData = (ObjectNode) instanceContext.getCollector().detachNode();
+        ObjectNode serData = (ObjectNode) instanceContextOld.getCollector().detachNode();
 
         ClassWithValue restored = new ClassWithValue();
         SKDes2InstanceContextStateMemento mem = new SKDes2InstanceContextStateMemento(
@@ -488,14 +472,6 @@ public class SKDes2InstanceContextStateMementoTest {
                 .setValueArgumentsTypes(Integer.class)
                 .build();
 
-//        OldContextProcessor<OldClassContext> classProcessor = UClassSerializationOld.createClassProcessor(
-//                USKClassHeaderPartHandler.DEFAULT,
-//                new SKSimpleChecker<Class<?>>(int.class),
-//                new SKSimpleChecker<String>(""),
-//                collectionTypeChecker,
-//                mapTypeChecker
-//        );
-        //<
         Processor<ClassContext> classProcessor = UClassSerialization.createProcessor(
                 new SKSimpleChecker<Class<?>>(int.class),
                 new SKSimpleChecker<String>(""),
@@ -504,21 +480,11 @@ public class SKDes2InstanceContextStateMementoTest {
                 mapTypeChecker
         );
 
-//        OldClassContext oldClassContext = UClassSerializationOld.createClassContext(
-//                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
-//                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
-//                null,
-//                USKClassHeaderPartHandler.DEFAULT,
-//                USKClassMembersPartHandler.DEFAULT
-//        );
-        //<
         ClassContext classContext = UClassSerialization.createClassContext(
                 new SKCollector(),
                 new SKContextStateCareTaker<>()
         );
 
-//        oldClassContext.attachClass(ClassWithChangedValue.class);
-        //<
         classContext.getContextStateCareTaker().push(
                 new SKClassContextStateMemento(
                         ClassWithValue.class,
@@ -531,9 +497,9 @@ public class SKDes2InstanceContextStateMementoTest {
             put("ClassWithChangedValue", (ObjectNode) classContext.getCollector().detachNode());
         }};
 
-        OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
+        OldContextProcessor<InstanceContextOld> instanceProcessor = UInstanceSerializationOld.createInstanceProcessor();
 
-        InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(
+        InstanceContextOld instanceContextOld = UInstanceSerializationOld.createInstanceContext(
                 classNodes,
                 instanceProcessor,
                 null,
@@ -546,15 +512,15 @@ public class SKDes2InstanceContextStateMementoTest {
 
         ClassWithChangedValue classWithValue123 = new ClassWithChangedValue();
         classWithValue123.setIntValue(123);
-        instanceContext.attachInstance(classWithValue123);
-        instanceProcessor.handle(instanceContext);
-        ObjectNode serData123 = (ObjectNode) instanceContext.getCollector().detachNode();
+        instanceContextOld.attachInstance(classWithValue123);
+        instanceProcessor.handle(instanceContextOld);
+        ObjectNode serData123 = (ObjectNode) instanceContextOld.getCollector().detachNode();
 
         ClassWithChangedValue classWithChangedValue = new ClassWithChangedValue();
         classWithChangedValue.setIntValue(456);
-        instanceContext.attachInstance(classWithChangedValue);
-        instanceProcessor.handle(instanceContext);
-        ObjectNode serData456 = (ObjectNode) instanceContext.getCollector().detachNode();
+        instanceContextOld.attachInstance(classWithChangedValue);
+        instanceProcessor.handle(instanceContextOld);
+        ObjectNode serData456 = (ObjectNode) instanceContextOld.getCollector().detachNode();
 
         SKDes2InstanceContextStateMemento mem = new SKDes2InstanceContextStateMemento(
                 classWithValue123,

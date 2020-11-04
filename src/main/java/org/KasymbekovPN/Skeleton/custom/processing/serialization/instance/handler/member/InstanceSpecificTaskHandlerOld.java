@@ -3,7 +3,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handl
 import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.InstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-public class InstanceSpecificTaskHandlerOld extends OldBaseContextTaskHandler<InstanceContext> {
+public class InstanceSpecificTaskHandlerOld extends OldBaseContextTaskHandler<InstanceContextOld> {
 
     private static final Logger log = LoggerFactory.getLogger(InstanceSpecificTaskHandlerOld.class);
 
@@ -29,7 +29,7 @@ public class InstanceSpecificTaskHandlerOld extends OldBaseContextTaskHandler<In
     }
 
     @Override
-    protected void check(InstanceContext context) {
+    protected void check(InstanceContextOld context) {
         if (context.isValid()){
             values = context.getValues(id);
         } else {
@@ -38,7 +38,7 @@ public class InstanceSpecificTaskHandlerOld extends OldBaseContextTaskHandler<In
     }
 
     @Override
-    protected void doIt(InstanceContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
+    protected void doIt(InstanceContextOld context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         InstanceMembersPartHandler instanceMembersPartHandler = context.getInstanceMembersPartHandler();
         CollectorPath membersPartPath = context.getMembersPartPath();
         Collector collector = context.getCollector();

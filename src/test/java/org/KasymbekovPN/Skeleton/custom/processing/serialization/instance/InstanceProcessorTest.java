@@ -8,7 +8,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.C
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InstanceProcessorTC0;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -76,9 +76,9 @@ public class InstanceProcessorTest {
 
         InstanceProcessorTC0 instance = new InstanceProcessorTC0();
 
-        OldContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createInstanceProcessor();
+        OldContextProcessor<InstanceContextOld> instanceProcessor = UInstanceSerializationOld.createInstanceProcessor();
 
-        InstanceContext instanceContext = UInstanceSerialization.createInstanceContext(
+        InstanceContextOld instanceContextOld = UInstanceSerializationOld.createInstanceContext(
                 classNodes,
                 instanceProcessor,
                 instance,
@@ -89,10 +89,10 @@ public class InstanceProcessorTest {
                 new SKInstanceMembersPartHandler()
         );
 
-        instanceProcessor.handle(instanceContext);
+        instanceProcessor.handle(instanceContextOld);
 
         //<
-        System.out.println(instanceContext.getCollector().getNode());
+        System.out.println(instanceContextOld.getCollector().getNode());
         //<
     }
 }
