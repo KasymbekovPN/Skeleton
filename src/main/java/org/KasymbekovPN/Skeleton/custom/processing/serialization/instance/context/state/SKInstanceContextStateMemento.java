@@ -161,7 +161,7 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
                     if (memberNamesByKind.containsKey(kind)){
                         memberNamesByKind.get(kind).add(name);
                     } else {
-                        memberNamesByKind.put(kind, new HashSet<>());
+                        memberNamesByKind.put(kind, new HashSet<>(){{add(name);}});
                     }
                 }
             }
