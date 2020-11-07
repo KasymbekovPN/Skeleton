@@ -27,7 +27,7 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler<ClassConte
     private static final Logger log = LoggerFactory.getLogger(ClassContainerTaskHandler.class);
 
     private static final String NOT_CONTAIN_CLASS_PART = "Not contain class part";
-    private static final String NO_ONE_CONTAINER_FIELD = "No one custom field";
+    private static final String NO_ONE_CONTAINER_FIELD = "No one container field";
 
     private final SimpleChecker<Field> fieldChecker;
 
