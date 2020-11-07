@@ -6,13 +6,16 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.contex
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
@@ -29,6 +32,7 @@ public class SKInstanceContext implements InstanceContext {
     private final CollectorPath membersPartCollectorPath;
     private final ClassHeaderPartHandler classHeaderPartHandler;
     private final ClassMembersPartHandler classMembersPartHandler;
+    private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
 
     public SKInstanceContext(ContextIds contextIds,
                              ContextStateCareTaker<InstanceContextStateMemento> careTaker,
@@ -38,7 +42,8 @@ public class SKInstanceContext implements InstanceContext {
                              CollectorPath classPartCollectorPath,
                              CollectorPath membersPartCollectorPath,
                              ClassHeaderPartHandler classHeaderPartHandler,
-                             ClassMembersPartHandler classMembersPartHandler) {
+                             ClassMembersPartHandler classMembersPartHandler,
+                             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor) {
         this.contextIds = contextIds;
         this.careTaker = careTaker;
         this.classNodes = classNodes;
@@ -48,6 +53,7 @@ public class SKInstanceContext implements InstanceContext {
         this.membersPartCollectorPath = membersPartCollectorPath;
         this.classHeaderPartHandler = classHeaderPartHandler;
         this.classMembersPartHandler = classMembersPartHandler;
+        this.annotationExtractor = annotationExtractor;
     }
 
     @Override
@@ -88,6 +94,12 @@ public class SKInstanceContext implements InstanceContext {
     @Override
     public ClassMembersPartHandler getClassMembersPartHandler() {
         return classMembersPartHandler;
+    }
+
+    // todo: test
+    @Override
+    public Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> getAnnotationExtractor() {
+        return annotationExtractor;
     }
 
     @Override

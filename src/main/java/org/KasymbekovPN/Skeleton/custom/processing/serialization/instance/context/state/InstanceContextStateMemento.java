@@ -8,4 +8,5 @@ public interface InstanceContextStateMemento extends ContextStateMemento {
     String getClassName();
     Number getClassModifiers();
     Map<String, Object> getFieldValues(String kind);
+    Map<String, String> getAnnotationNames(String kind);
 }

@@ -303,6 +303,11 @@ public class InstanceSpecificTaskHandlerTest {
         }
 
         @Override
+        public Map<String, String> getAnnotationNames(String kind) {
+            return null;
+        }
+
+        @Override
         public SimpleResult getValidationResult() {
             SKSimpleResult result = new SKSimpleResult();
             result.setFailStatus(NOT_VALID);
@@ -335,6 +340,11 @@ public class InstanceSpecificTaskHandlerTest {
         @Override
         public SimpleResult getValidationResult() {
             return new SKSimpleResult();
+        }
+
+        @Override
+        public Map<String, String> getAnnotationNames(String kind) {
+            return null;
         }
     }
 

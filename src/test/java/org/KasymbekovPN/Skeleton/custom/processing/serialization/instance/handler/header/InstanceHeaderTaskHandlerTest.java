@@ -183,6 +183,11 @@ public class InstanceHeaderTaskHandlerTest {
             result.setFailStatus(NOT_VALID);
             return result;
         }
+
+        @Override
+        public Map<String, String> getAnnotationNames(String kind) {
+            return null;
+        }
     }
 
     @SkeletonClass(name = "TestClass")

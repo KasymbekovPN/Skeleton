@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.util;
 
+import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SKInstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.InstanceContextStateMemento;
@@ -37,7 +38,8 @@ public class UInstanceSerialization {
                 USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
                 USKClassHeaderPartHandler.DEFAULT,
-                USKClassMembersPartHandler.DEFAULT
+                USKClassMembersPartHandler.DEFAULT,
+                new AnnotationExtractor()
         );
     }
 

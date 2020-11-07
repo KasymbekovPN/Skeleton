@@ -3,14 +3,19 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.conte
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -31,6 +36,7 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
     private String className;
     private Number classModifiers;
     private Map<String, Map<String, Object>> fieldValuesByKind = new HashMap<>();
+    private Map<String, Map<String, String>> annotationNames = new HashMap<>();
 
     public SKInstanceContextStateMemento(Object instance,
                                          ObjectNode classNode,
@@ -73,6 +79,12 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
     @Override
     public Map<String, Object> getFieldValues(String kind) {
         return fieldValuesByKind.getOrDefault(kind, new HashMap<>());
+    }
+
+    // todo: test
+    @Override
+    public Map<String, String> getAnnotationNames(String kind) {
+        return annotationNames.getOrDefault(kind, new HashMap<>());
     }
 
     private SimpleResult createResultInstance() throws NoSuchMethodException,
@@ -130,6 +142,7 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
         Map<String, Set<String>> memberNamesByKind = extractMemberNamesByKind(membersPart);
         Map<String, Field> fields = extractFields();
         fieldValuesByKind = extractFieldValues(memberNamesByKind, fields);
+        annotationNames = extractAnnotationNames(memberNamesByKind, fields);
     }
 
     private ObjectNode getMembersPart(){
@@ -199,6 +212,37 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
                                 values.put(kind, new HashMap<>());
                             }
                             values.get(kind).put(name, maybeValue.get());
+                        }
+                    }
+                }
+            }
+        }
+
+        return values;
+    }
+
+    private Map<String, Map<String, String>> extractAnnotationNames(Map<String, Set<String>> memberNamesByKind,
+                                                                    Map<String, Field> fields) {
+        HashMap<String, Map<String, String>> values = new HashMap<>();
+        Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor
+                = instanceContext.getAnnotationExtractor();
+        if (result.isSuccess()){
+            for (Map.Entry<String, Set<String>> entry : memberNamesByKind.entrySet()) {
+                String kind = entry.getKey();
+                Set<String> names = entry.getValue();
+
+                for (String memberName : names) {
+                    if (fields.containsKey(memberName)){
+                        Optional<Annotation> maybeAnnotation = annotationExtractor.extract(new MutablePair<>(
+                                SkeletonMember.class,
+                                fields.get(memberName).getDeclaredAnnotations()
+                        ));
+                        if (maybeAnnotation.isPresent()){
+                            String name = ((SkeletonMember) maybeAnnotation.get()).name();
+                            if (!values.containsKey(kind)){
+                                values.put(kind, new HashMap<>());
+                            }
+                            values.get(kind).put(memberName, name);
                         }
                     }
                 }
