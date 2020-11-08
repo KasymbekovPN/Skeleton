@@ -1,18 +1,40 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member;
 
+import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeaderPartHandler;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.SKInstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
+import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
+import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
+import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
+import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
-import org.KasymbekovPN.Skeleton.util.UHandlerIds;
-import org.KasymbekovPN.Skeleton.util.UInstanceSerialization;
+import org.KasymbekovPN.Skeleton.util.*;
+import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,123 +46,14 @@ public class InstanceCustomTaskHandlerTest {
     private static final String VALUES_IS_EMPTY = "Values by '%s' are empty";
     private static final String ANNOTATION_NAMES_IS_EMPTY = "Annotation names by %s are empty ";
 
-    //<
-//    private static Object[][] getDoItMethodTestData(){
-//        return new Object[][]{
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        true
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'z'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, true),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 123),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//                {
-//                        new MutablePair<Integer, Integer>(123, 1234),
-//                        new MutablePair<Boolean, Boolean>(true, false),
-//                        new MutablePair<Character, Character>('z', 'a'),
-//                        new MutablePair<String, String>("hello", "hello1"),
-//                        false
-//                },
-//        };
-//    }
+    private static Object[][] getDoItMethodTestData(){
+        return new Object[][]{
+                {new String[]{"firstInnerTC", "secondInnerTC"}, true},
+                {new String[]{"firstInnerTC1", "secondInnerTC1"}, false},
+                {new String[]{"firstInnerTC"}, false},
+                {new String[]{"firstInnerTC", "secondInnerTC", "thirdInnerTC"}, false}
+        };
+    }
 
     @DisplayName("check method - valid")
     @Test
@@ -190,78 +103,75 @@ public class InstanceCustomTaskHandlerTest {
         Assertions.assertThat(tested.getResult().getStatus()).isEqualTo(String.format(ANNOTATION_NAMES_IS_EMPTY, UHandlerIds.CUSTOM));
     }
 
-//    @DisplayName("doIt method")
-//    @ParameterizedTest
-//    @MethodSource("getDoItMethodTestData")
-//    void testDoItMethod(Pair<Integer, Integer> intPair,
-//                        Pair<Boolean, Boolean> booleanPair,
-//                        Pair<Character, Character> characterPair,
-//                        Pair<String, String> stringPair,
-//                        boolean result) throws Exception {
-//        InstanceSpecificTaskHandlerTest.Tested tested = new InstanceSpecificTaskHandlerTest.Tested(UHandlerIds.SPECIFIC);
-//        HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
-//            put("TestClass", getClassSerializedData(InstanceSpecificTaskHandlerTest.TestClass.class));
-//        }};
-//        InstanceContext instanceContext = UInstanceSerialization.createContext(
-//                new SKContextStateCareTaker<>(),
-//                classNodes,
-//                new SKCollector()
-//        );
-//
-//        InstanceSpecificTaskHandlerTest.TestClass instance = new InstanceSpecificTaskHandlerTest.TestClass(intPair.getLeft(), booleanPair.getLeft(), characterPair.getLeft(), stringPair.getLeft());
-//        instanceContext.getContextStateCareTaker().push(new SKInstanceContextStateMemento(
-//                instance,
-//                classNodes.get("TestClass"),
-//                instanceContext
-//        ));
-//        tested.check(instanceContext);
-//
-//        Assertions.assertThat(tested.getResult().isSuccess()).isTrue();
-//        Assertions.assertThat(tested.getResult().getStatus()).isEmpty();
-//
-//        tested.doIt(instanceContext);
-//        Node nodeFromContext = instanceContext.getCollector().detachNode();
-//
-//        SKCollector collector = new SKCollector();
-//        collector.setTarget(USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH.getPath());
-//        collector.addProperty("intValue", intPair.getRight());
-//        collector.addProperty("booleanValue", booleanPair.getRight());
-//        collector.addProperty("charValue", characterPair.getRight());
-//        collector.addProperty("stringObject", stringPair.getRight());
-//        collector.reset();
-//        Node checkNode = collector.detachNode();
-//        Assertions.assertThat(nodeFromContext.equals(checkNode)).isEqualTo(result);
-//    }
-//
-//    private ObjectNode getClassSerializedData(Class<?> clazz) throws Exception {
-//        CollectionTypeChecker collectionTypeChecker = new UCollectionTypeCheckerBuilder()
-//                .setTypes()
-//                .setArgumentTypes()
-//                .build();
-//        MapTypeChecker mapTypeChecker = new UMapTypeCheckerBuilder()
-//                .setTypes()
-//                .setKeyArgumentsTypes()
-//                .setValueArgumentsTypes()
-//                .build();
-//        Processor<ClassContext> classProcessor = UClassSerialization.createProcessor(
-//                new SKSimpleChecker<Class<?>>(int.class, boolean.class, char.class, String.class),
-//                new SKSimpleChecker<String>(),
-//                new AnnotationExtractor(),
-//                collectionTypeChecker,
-//                mapTypeChecker
-//        );
-//        ClassContext classContext = UClassSerialization.createClassContext(
-//                new SKCollector(),
-//                new SKContextStateCareTaker<>()
-//        );
-//        classContext.getContextStateCareTaker().push(new SKClassContextStateMemento(
-//                InstanceSpecificTaskHandlerTest.TestClass.class,
-//                new AnnotationExtractor()
-//        ));
-//        classProcessor.handle(classContext);
-//
-//        return (ObjectNode) classContext.getCollector().detachNode();
-//    }
+    @DisplayName("doIt method")
+    @ParameterizedTest
+    @MethodSource("getDoItMethodTestData")
+    void testDoItMethod(String[] memberNames, boolean result) throws Exception {
+        Tested tested = new Tested(UHandlerIds.CUSTOM);
+        HashMap<String, ObjectNode> classNodes = new HashMap<>() {{
+            put("TestClass", getClassSerializedData(TestClass.class));
+            put("FirstInnerTC", getClassSerializedData(FirstInnerTC.class));
+            put("SecondInnerTC", getClassSerializedData(SecondInnerTC.class));
+        }};
+
+        InstanceContext instanceContext = UInstanceSerialization.createContext(
+                new SKContextStateCareTaker<>(),
+                classNodes,
+                new SKCollector()
+        );
+
+        InstanceContextDecorator decorator = new InstanceContextDecorator(instanceContext, tested);
+
+        TestClass instance = new TestClass();
+        decorator.getContextStateCareTaker().push(new SKInstanceContextStateMemento(
+                instance,
+                classNodes.get("TestClass"),
+                decorator
+        ));
+        tested.handle(decorator);
+
+        SKCollector collector = new SKCollector();
+        collector.setTarget(USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH.getPath());
+        for (String memberName : memberNames) {
+            collector.beginObject(memberName);
+            collector.end();
+        }
+        collector.reset();
+
+        Node node = decorator.getCollector().getNode();
+        Node checkNode = collector.getNode();
+        Assertions.assertThat(node.equals(checkNode)).isEqualTo(result);
+    }
+
+    private ObjectNode getClassSerializedData(Class<?> clazz) throws Exception {
+        CollectionTypeChecker collectionTypeChecker = new UCollectionTypeCheckerBuilder()
+                .setTypes()
+                .setArgumentTypes()
+                .build();
+        MapTypeChecker mapTypeChecker = new UMapTypeCheckerBuilder()
+                .setTypes()
+                .setKeyArgumentsTypes()
+                .setValueArgumentsTypes()
+                .build();
+        Processor<ClassContext> classProcessor = UClassSerialization.createProcessor(
+                new SKSimpleChecker<Class<?>>(int.class, float.class),
+                new SKSimpleChecker<String>("FirstInnerTC", "SecondInnerTC"),
+                new AnnotationExtractor(),
+                collectionTypeChecker,
+                mapTypeChecker
+        );
+        ClassContext classContext = UClassSerialization.createClassContext(
+                new SKCollector(),
+                new SKContextStateCareTaker<>()
+        );
+        classContext.getContextStateCareTaker().push(new SKClassContextStateMemento(
+                clazz,
+                new AnnotationExtractor()
+        ));
+        classProcessor.handle(classContext);
+
+        return (ObjectNode) classContext.getCollector().detachNode();
+    }
 
     private static class Tested extends InstanceCustomTaskHandler {
 
@@ -385,27 +295,88 @@ public class InstanceCustomTaskHandlerTest {
         }
     }
 
-//    @SkeletonClass(name = "TestClass")
-//    private static class TestClass{
-//
-//        @SkeletonMember
-//        private int intValue;
-//
-//        @SkeletonMember
-//        private boolean booleanValue;
-//
-//        @SkeletonMember
-//        private char charValue;
-//
-//        @SkeletonMember
-//        private String stringObject;
-//
-//        public TestClass(int intValue, boolean booleanValue, char charValue, String stringObject) {
-//            this.intValue = intValue;
-//            this.booleanValue = booleanValue;
-//            this.charValue = charValue;
-//            this.stringObject = stringObject;
-//        }
-//    }
+    private static class InstanceContextDecorator implements InstanceContext{
 
+        private final InstanceContext context;
+        private final Tested tested;
+
+        public InstanceContextDecorator(InstanceContext context, Tested tested) {
+            this.context = context;
+            this.tested = tested;
+        }
+
+        @Override
+        public Map<String, ObjectNode> getClassNodes() {
+            return context.getClassNodes();
+        }
+
+        @Override
+        public Collector getCollector() {
+            return context.getCollector();
+        }
+
+        @Override
+        public CollectorPath getClassCollectorPath() {
+            return context.getClassCollectorPath();
+        }
+
+        @Override
+        public CollectorPath getMembersCollectorPath() {
+            return context.getMembersCollectorPath();
+        }
+
+        @Override
+        public ClassHeaderPartHandler getClassHeaderPartHandler() {
+            return context.getClassHeaderPartHandler();
+        }
+
+        @Override
+        public ClassMembersPartHandler getClassMembersPartHandler() {
+            return context.getClassMembersPartHandler();
+        }
+
+        @Override
+        public Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> getAnnotationExtractor() {
+            return context.getAnnotationExtractor();
+        }
+
+        @Override
+        public void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty, InvocationTargetException {
+            tested.handle(this);
+        }
+
+        @Override
+        public ContextIds getContextIds() {
+            return context.getContextIds();
+        }
+
+        @Override
+        public ContextStateCareTaker<InstanceContextStateMemento> getContextStateCareTaker() {
+            return context.getContextStateCareTaker();
+        }
+    }
+
+    @SkeletonClass(name = "TestClass")
+    private static class TestClass{
+
+        @SkeletonMember(name = "FirstInnerTC")
+        private FirstInnerTC firstInnerTC = new FirstInnerTC();
+
+        @SkeletonMember(name = "SecondInnerTC")
+        private SecondInnerTC secondInnerTC = new SecondInnerTC();
+    }
+
+    @SkeletonClass(name = "FirstInnerTC")
+    private static class FirstInnerTC{
+
+        @SkeletonMember
+        private int intValue = 123;
+    }
+
+    @SkeletonClass(name = "SecondInnerTC")
+    private static class SecondInnerTC{
+
+        @SkeletonMember
+        private float floatValue =0.256f;
+    }
 }
