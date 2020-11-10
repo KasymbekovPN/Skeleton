@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
-import org.KasymbekovPN.Skeleton.custom.node.handler.instance.memberPart.SKInstanceMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
@@ -12,7 +11,8 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.cont
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContextOld;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.SKInstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -22,7 +22,7 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
-import org.KasymbekovPN.Skeleton.lib.processing.processor.context.OldContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.KasymbekovPN.Skeleton.util.*;
@@ -126,17 +126,12 @@ public class Des2InstanceMapTaskHandlerTest {
 
         classNodes.put("TestClass", (ObjectNode) classContext.getCollector().detachNode());
 
-        OldContextProcessor<InstanceContextOld> instanceProcessor = UInstanceSerializationOld.createInstanceProcessor();
-        InstanceContextOld instanceContextOld = UInstanceSerializationOld.createInstanceContext(
+        InstanceContext instanceContext = UInstanceSerialization.createContext(
+                new SKContextStateCareTaker<>(),
                 classNodes,
-                instanceProcessor,
-                null,
-                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
-                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
-                USKClassHeaderPartHandler.DEFAULT,
-                USKClassMembersPartHandler.DEFAULT,
-                new SKInstanceMembersPartHandler()
+                new SKCollector()
         );
+        ContextProcessor<InstanceContext> instanceProcessor = UInstanceSerialization.createProcessor();
 
         TestClass original = new TestClass();
         original.setDoubleByStr(new HashMap<>(){{
@@ -153,10 +148,14 @@ public class Des2InstanceMapTaskHandlerTest {
             put(11, "eleven");
         }});
 
-        instanceContextOld.attachInstance(original);
-        instanceProcessor.handle(instanceContextOld);
+        instanceContext.getContextStateCareTaker().push(new SKInstanceContextStateMemento(
+                original,
+                classNodes.get("TestClass"),
+                instanceContext
+        ));
+        instanceProcessor.handle(instanceContext);
 
-        ObjectNode serData = (ObjectNode) instanceContextOld.getCollector().detachNode();
+        ObjectNode serData = (ObjectNode) instanceContext.getCollector().detachNode();
 
         TestedClassWrapper tested = new TestedClassWrapper("map");
 

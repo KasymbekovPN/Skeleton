@@ -224,9 +224,9 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
     private Map<String, Map<String, String>> extractAnnotationNames(Map<String, Set<String>> memberNamesByKind,
                                                                     Map<String, Field> fields) {
         HashMap<String, Map<String, String>> values = new HashMap<>();
-        Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor
-                = instanceContext.getAnnotationExtractor();
         if (result.isSuccess()){
+            Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor
+                    = instanceContext.getAnnotationExtractor();
             for (Map.Entry<String, Set<String>> entry : memberNamesByKind.entrySet()) {
                 String kind = entry.getKey();
                 Set<String> names = entry.getValue();

@@ -9,7 +9,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.h
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.classes.InnerInstanceProcessorTC0;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -37,7 +36,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Complex test of all ClassTaskHandlers")
 public class ClassTaskHandlerComplexTest {
@@ -140,7 +139,7 @@ public class ClassTaskHandlerComplexTest {
         private int intValue;
 
         @SkeletonMember(name = "InnerTestClass")
-        private InnerInstanceProcessorTC0 innerInstanceProcessorTC0;
+        private InnerTestClass innerInstanceProcessorTC0;
 
         @SkeletonMember
         private Set<Integer> intSet;
