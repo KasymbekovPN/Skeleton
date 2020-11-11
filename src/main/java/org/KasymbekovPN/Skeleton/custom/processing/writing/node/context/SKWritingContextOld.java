@@ -10,22 +10,22 @@ import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class SKWritingContext implements WritingContext {
+public class SKWritingContextOld implements WritingContextOld {
 
     private final ContextIds arrayNodeContextIds;
     private final ContextIds objectNodeContextIds;
     private final ContextIds primitiveNodeContextIds;
     private final WritingFormatterHandler writingFormatterHandler;
-    private final OldContextProcessor<WritingContext> oldContextProcessor;
+    private final OldContextProcessor<WritingContextOld> oldContextProcessor;
 
     private Node node;
 
-    public SKWritingContext(ContextIds arrayNodeContextIds,
-                            ContextIds objectNodeContextIds,
-                            ContextIds primitiveNodeContextIds,
-                            WritingFormatterHandler writingFormatterHandler,
-                            OldContextProcessor<WritingContext> oldContextProcessor,
-                            Node node) {
+    public SKWritingContextOld(ContextIds arrayNodeContextIds,
+                               ContextIds objectNodeContextIds,
+                               ContextIds primitiveNodeContextIds,
+                               WritingFormatterHandler writingFormatterHandler,
+                               OldContextProcessor<WritingContextOld> oldContextProcessor,
+                               Node node) {
         this.arrayNodeContextIds = arrayNodeContextIds;
         this.objectNodeContextIds = objectNodeContextIds;
         this.primitiveNodeContextIds = primitiveNodeContextIds;

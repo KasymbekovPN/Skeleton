@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler;
 
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContextOld;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Map;
 
-public class WritingObjectTaskHandlerOld extends OldBaseContextTaskHandler<WritingContext> {
+public class WritingObjectTaskHandlerOld extends OldBaseContextTaskHandler<WritingContextOld> {
 
     public WritingObjectTaskHandlerOld(String id) {
         super(id);
@@ -23,14 +23,14 @@ public class WritingObjectTaskHandlerOld extends OldBaseContextTaskHandler<Writi
     }
 
     @Override
-    protected void check(WritingContext context) {
+    protected void check(WritingContextOld context) {
         if (!context.getNode().is(ObjectNode.ei())){
             simpleResult.setSuccess(false);
         }
     }
 
     @Override
-    protected void doIt(WritingContext context) throws InvocationTargetException,
+    protected void doIt(WritingContextOld context) throws InvocationTargetException,
             NoSuchMethodException,
             InstantiationException,
             IllegalAccessException, ContextStateCareTakerIsEmpty {

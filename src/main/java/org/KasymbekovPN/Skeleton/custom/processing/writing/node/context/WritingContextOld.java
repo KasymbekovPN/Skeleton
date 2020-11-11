@@ -7,7 +7,7 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 
 import java.lang.reflect.InvocationTargetException;
 
-public interface WritingContext extends OldContext {
+public interface WritingContextOld extends OldContext {
     Node getNode();
     Node attachNode(Node node);
     WritingFormatterHandler getWritingFormatterHandler();

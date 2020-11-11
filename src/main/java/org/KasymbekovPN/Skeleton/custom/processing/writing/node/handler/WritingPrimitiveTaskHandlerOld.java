@@ -1,12 +1,12 @@
 package org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler;
 
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContextOld;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
-public class WritingPrimitiveTaskHandlerOld extends OldBaseContextTaskHandler<WritingContext> {
+public class WritingPrimitiveTaskHandlerOld extends OldBaseContextTaskHandler<WritingContextOld> {
 
     public WritingPrimitiveTaskHandlerOld(String id) {
         super(id);
@@ -17,7 +17,7 @@ public class WritingPrimitiveTaskHandlerOld extends OldBaseContextTaskHandler<Wr
     }
 
     @Override
-    protected void check(WritingContext context) {
+    protected void check(WritingContextOld context) {
         Node node = context.getNode();
         if (!node.is(BooleanNode.ei()) &&
             !node.is(CharacterNode.ei()) &&
@@ -29,7 +29,7 @@ public class WritingPrimitiveTaskHandlerOld extends OldBaseContextTaskHandler<Wr
     }
 
     @Override
-    protected void doIt(WritingContext context) {
+    protected void doIt(WritingContextOld context) {
         WritingFormatterHandler writingFormatterHandler = context.getWritingFormatterHandler();
         Node node = context.getNode();
         writingFormatterHandler.addValue(node);
