@@ -1,23 +1,23 @@
 package org.KasymbekovPN.Skeleton.lib.processing.context.ids;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-// todo :test
-public class SKMultiContextIds implements MultiContextIds {
+public class SKMultiContextIds<T> implements MultiContextIds<T> {
 
     private final ContextIds defaultContextIds;
-    private final Map<Object, ContextIds> contextIdsMap;
+    private final Map<T, ContextIds> contextIdsMap;
 
-    private Object key;
+    private T key;
 
-    private SKMultiContextIds(ContextIds defaultContextIds, Map<Object, ContextIds> contextIdsMap) {
+    private SKMultiContextIds(ContextIds defaultContextIds, Map<T, ContextIds> contextIdsMap) {
         this.defaultContextIds = defaultContextIds;
         this.contextIdsMap = contextIdsMap;
     }
 
     @Override
-    public void setKey(Object key) {
+    public void setKey(T key) {
         this.key = key;
     }
 
@@ -37,22 +37,22 @@ public class SKMultiContextIds implements MultiContextIds {
                 : contextIdsMap.get(key);
     }
 
-    public static class Builder{
+    public static class Builder<T>{
 
         private final ContextIds defaultContextIds;
-        private Map<Object, ContextIds> contextIdsMap;
+        private Map<T, ContextIds> contextIdsMap = new HashMap<>();
 
         public Builder(ContextIds defaultContextIds) {
             this.defaultContextIds = defaultContextIds;
         }
 
-        public Builder add(Object key, ContextIds contextIds){
+        public Builder<T> add(T key, ContextIds contextIds){
             contextIdsMap.put(key, contextIds);
             return this;
         }
 
-        SKMultiContextIds build(){
-            return new SKMultiContextIds(defaultContextIds, contextIdsMap);
+        SKMultiContextIds<T> build(){
+            return new SKMultiContextIds<T>(defaultContextIds, contextIdsMap);
         }
     }
 }
