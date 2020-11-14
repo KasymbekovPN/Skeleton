@@ -346,7 +346,7 @@ public class InstanceCustomTaskHandlerTest {
         }
 
         @Override
-        public ContextIds getContextIds() {
+        public ContextIds getContextIds() throws ContextStateCareTakerIsEmpty {
             return context.getContextIds();
         }
 

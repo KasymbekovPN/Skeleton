@@ -319,7 +319,7 @@ public class InstanceMapTaskHandlerTest {
         }
 
         @Override
-        public ContextIds getContextIds() {
+        public ContextIds getContextIds() throws ContextStateCareTakerIsEmpty {
             return context.getContextIds();
         }
 

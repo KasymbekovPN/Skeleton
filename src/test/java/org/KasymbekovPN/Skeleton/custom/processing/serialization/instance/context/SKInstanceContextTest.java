@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context;
 
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -52,7 +53,7 @@ public class SKInstanceContextTest {
 
     @DisplayName("getContextIds method")
     @Test
-    void testGetContextMethod(){
+    void testGetContextMethod() throws ContextStateCareTakerIsEmpty {
         Assertions.assertThat(instanceContext.getContextIds()).isEqualTo(contextIds);
     }
 

@@ -51,7 +51,7 @@ public class SKMultiContextIds<T> implements MultiContextIds<T> {
             return this;
         }
 
-        SKMultiContextIds<T> build(){
+        public SKMultiContextIds<T> build(){
             return new SKMultiContextIds<T>(defaultContextIds, contextIdsMap);
         }
     }

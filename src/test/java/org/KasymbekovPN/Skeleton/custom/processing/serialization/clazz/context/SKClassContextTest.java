@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context;
 
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.ClassContextStateMemento;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
@@ -60,7 +61,7 @@ public class SKClassContextTest {
 
     @DisplayName("getContextIds method")
     @Test
-    void testGetContextIds(){
+    void testGetContextIds() throws ContextStateCareTakerIsEmpty {
         assertThat(classContext.getContextIds()).isEqualTo(UClassSerialization.createContextIds());
     }
 

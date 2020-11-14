@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptC
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.util.USKClassHeaderPartHandler;
@@ -55,7 +56,7 @@ public class SKDes2InstanceCxtTest {
 
     @DisplayName("getContextIds method")
     @Test
-    void testGetContextIdsMethod(){
+    void testGetContextIdsMethod() throws ContextStateCareTakerIsEmpty {
         assertThat(context.getContextIds()).isEqualTo(USKDes2Instance.createContextIds());
     }
 
@@ -96,7 +97,7 @@ public class SKDes2InstanceCxtTest {
 
     @DisplayName("getContextIds method")
     @Test
-    void testGetContextIds(){
+    void testGetContextIds() throws ContextStateCareTakerIsEmpty {
         assertThat(context.getContextIds()).isEqualTo(USKDes2Instance.createContextIds());
     }
 
