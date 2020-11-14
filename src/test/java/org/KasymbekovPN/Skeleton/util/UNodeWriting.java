@@ -13,6 +13,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.ids.MultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKMultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 
 public class UNodeWriting {
@@ -33,6 +34,15 @@ public class UNodeWriting {
                 writingFormatterHandler,
                 processor,
                 careTaker
+        );
+    }
+
+    public static WritingContext createContext() throws Exception {
+        return new SKWritingContext(
+                createContextIds(),
+                createWritingFormatterHandler(),
+                createProcessor(),
+                new SKContextStateCareTaker<>()
         );
     }
 
