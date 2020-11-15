@@ -12,7 +12,6 @@ import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcess
 
 import java.lang.reflect.InvocationTargetException;
 
-// todo : test
 public class SKWritingContext implements WritingContext {
 
     private final MultiContextIds<EntityItem> contextIds;
