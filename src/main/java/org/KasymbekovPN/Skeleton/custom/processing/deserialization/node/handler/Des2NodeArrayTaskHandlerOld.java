@@ -2,17 +2,17 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler
 
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContextOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeModeOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.FinderOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItrOld;
 import org.KasymbekovPN.Skeleton.lib.node.ArrayNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class Des2NodeArrayTaskHandlerOld extends OldBaseContextTaskHandler<Des2NodeContext> {
+public class Des2NodeArrayTaskHandlerOld extends OldBaseContextTaskHandler<Des2NodeContextOld> {
 
     public Des2NodeArrayTaskHandlerOld(String id) {
         super(id);
@@ -23,15 +23,15 @@ public class Des2NodeArrayTaskHandlerOld extends OldBaseContextTaskHandler<Des2N
     }
 
     @Override
-    protected void check(Des2NodeContext context) {}
+    protected void check(Des2NodeContextOld context) {}
 
     @Override
-    protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
+    protected void doIt(Des2NodeContextOld context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         boolean done = false;
         State state = State.BEGIN_END;
-        Des2NodeCharItr iterator = context.iterator();
-        Finder finder = context.getFinder();
+        Des2NodeCharItrOld iterator = context.iterator();
+        FinderOld finderOld = context.getFinderOld();
         Node parent = context.getParent();
 
         ArrayNode arrayNode = new ArrayNode(parent);
@@ -42,9 +42,9 @@ public class Des2NodeArrayTaskHandlerOld extends OldBaseContextTaskHandler<Des2N
 
             switch (state){
                 case BEGIN_END:
-                    if (finder.findValueBegin(next, Des2NodeMode.ARRAY)){
+                    if (finderOld.findValueBegin(next, Des2NodeModeOld.ARRAY)){
                         state = State.MEMBER;
-                    } else if (finder.findValueEnd(next, Des2NodeMode.ARRAY)){
+                    } else if (finderOld.findValueEnd(next, Des2NodeModeOld.ARRAY)){
                         done = true;
                     }
                     break;
@@ -52,7 +52,7 @@ public class Des2NodeArrayTaskHandlerOld extends OldBaseContextTaskHandler<Des2N
                     iterator.dec();
 
                     state = State.BEGIN_END;
-                    context.setMode(Des2NodeMode.INIT);
+                    context.setMode(Des2NodeModeOld.INIT);
                     context.runProcessor();
 
                     Node node = context.getNode();

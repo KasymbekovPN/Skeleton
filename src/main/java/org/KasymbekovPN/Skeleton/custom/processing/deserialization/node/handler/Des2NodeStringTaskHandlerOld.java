@@ -1,17 +1,17 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler;
 
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContextOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeModeOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.FinderOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItrOld;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 
-public class Des2NodeStringTaskHandlerOld extends OldBaseContextTaskHandler<Des2NodeContext> {
+public class Des2NodeStringTaskHandlerOld extends OldBaseContextTaskHandler<Des2NodeContextOld> {
 
     private static final Character SHIELD = '\\';
 
@@ -24,15 +24,15 @@ public class Des2NodeStringTaskHandlerOld extends OldBaseContextTaskHandler<Des2
     }
 
     @Override
-    protected void check(Des2NodeContext context) {}
+    protected void check(Des2NodeContextOld context) {}
 
     @Override
-    protected void doIt(Des2NodeContext context) {
+    protected void doIt(Des2NodeContextOld context) {
 
-        Finder finder = context.getFinder();
-        Des2NodeCharItr iterator = context.iterator();
+        FinderOld finderOld = context.getFinderOld();
+        Des2NodeCharItrOld iterator = context.iterator();
         Node parent = context.getParent();
-        Converter<Node, Triple<Node, String, Des2NodeMode>> converter = context.getConverter();
+        Converter<Node, Triple<Node, String, Des2NodeModeOld>> converter = context.getConverter();
 
         boolean done = false;
         State state = State.BEGIN;
@@ -42,13 +42,13 @@ public class Des2NodeStringTaskHandlerOld extends OldBaseContextTaskHandler<Des2
 
             switch(state){
                 case BEGIN:
-                    if (finder.findValueBegin(next, Des2NodeMode.STRING)){
+                    if (finderOld.findValueBegin(next, Des2NodeModeOld.STRING)){
                         state = State.ADD;
                         raw.append(next);
                     }
                     break;
                 case ADD:
-                    if (finder.findValueEnd(next, Des2NodeMode.STRING)){
+                    if (finderOld.findValueEnd(next, Des2NodeModeOld.STRING)){
                         done = true;
                     } else if (next.equals(SHIELD)){
                         state = State.SHIELD;
@@ -63,7 +63,7 @@ public class Des2NodeStringTaskHandlerOld extends OldBaseContextTaskHandler<Des2
         }
 
         context.setNode(
-                converter.convert(new MutableTriple<>(parent, raw.toString(), Des2NodeMode.STRING))
+                converter.convert(new MutableTriple<>(parent, raw.toString(), Des2NodeModeOld.STRING))
         );
     }
 

@@ -2,17 +2,17 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler
 
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.OldBaseContextTaskHandler;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.Finder;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItr;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContextOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeModeOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.finder.FinderOld;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.itr.Des2NodeCharItrOld;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class Des2NodeObjectTaskHandlerOld extends OldBaseContextTaskHandler<Des2NodeContext> {
+public class Des2NodeObjectTaskHandlerOld extends OldBaseContextTaskHandler<Des2NodeContextOld> {
 
     public Des2NodeObjectTaskHandlerOld(String id) {
         super(id);
@@ -23,16 +23,16 @@ public class Des2NodeObjectTaskHandlerOld extends OldBaseContextTaskHandler<Des2
     }
 
     @Override
-    protected void check(Des2NodeContext context) {}
+    protected void check(Des2NodeContextOld context) {}
 
     @Override
-    protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
+    protected void doIt(Des2NodeContextOld context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         boolean done = false;
         StringBuilder name = new StringBuilder();
         State state = State.NAME_BEGIN_FINDING;
-        Des2NodeCharItr iterator = context.iterator();
-        Finder finder = context.getFinder();
+        Des2NodeCharItrOld iterator = context.iterator();
+        FinderOld finderOld = context.getFinderOld();
         Node parent = context.getParent();
 
         ObjectNode objectNode = new ObjectNode(parent);
@@ -43,24 +43,24 @@ public class Des2NodeObjectTaskHandlerOld extends OldBaseContextTaskHandler<Des2
 
             switch (state){
                 case NAME_BEGIN_FINDING:
-                    if (finder.findPropertyNameBegin(next)){
+                    if (finderOld.findPropertyNameBegin(next)){
                         state = State.NAME_END_FINDING;
                         name.setLength(0);
-                    } else if (finder.findValueEnd(next, Des2NodeMode.OBJECT)){
+                    } else if (finderOld.findValueEnd(next, Des2NodeModeOld.OBJECT)){
                         done = true;
                     }
                     break;
                 case NAME_END_FINDING:
-                    if (finder.findPropertyNameEnd(next)){
+                    if (finderOld.findPropertyNameEnd(next)){
                         state = State.SEPARATOR_FINDING;
                     } else {
                         name.append(next);
                     }
                     break;
                 case SEPARATOR_FINDING:
-                    if (finder.findNameValueSeparator(next)){
+                    if (finderOld.findNameValueSeparator(next)){
                         state = State.NAME_BEGIN_FINDING;
-                        context.setMode(Des2NodeMode.INIT);
+                        context.setMode(Des2NodeModeOld.INIT);
                         context.runProcessor();
 
                         Node node = context.getNode();

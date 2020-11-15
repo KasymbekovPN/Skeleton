@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.converter;
 
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeMode;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeModeOld;
 import org.KasymbekovPN.Skeleton.lib.converter.Converter;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.apache.commons.lang3.tuple.Triple;
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Str2NodeConverter implements Converter<Node, Triple<Node, String, Des2NodeMode>> {
+public class Str2NodeConverter implements Converter<Node, Triple<Node, String, Des2NodeModeOld>> {
 
     private static final Set<String> ALLOWED_BOOLEAN_VALUE = new HashSet<>(){{
         add("true");
@@ -19,11 +19,11 @@ public class Str2NodeConverter implements Converter<Node, Triple<Node, String, D
     private static final char NUMBER_SEPARATOR = '.';
 
     @Override
-    public Node convert(Triple<Node, String, Des2NodeMode> value) {
+    public Node convert(Triple<Node, String, Des2NodeModeOld> value) {
 
         Node parent = value.getLeft();
         String raw = value.getMiddle();
-        Des2NodeMode mode = value.getRight();
+        Des2NodeModeOld mode = value.getRight();
 
         switch (mode){
             case BOOLEAN:
@@ -94,7 +94,7 @@ public class Str2NodeConverter implements Converter<Node, Triple<Node, String, D
         return new InvalidNode(parent, "Value isn't char", raw);
     }
 
-    private Node handleInvalid(Node parent, Des2NodeMode mode){
+    private Node handleInvalid(Node parent, Des2NodeModeOld mode){
         return new InvalidNode(parent, "Wrong mode", mode.toString());
     }
 }
