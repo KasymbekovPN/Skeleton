@@ -6,6 +6,9 @@ import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingF
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.SKWritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.state.WritingContextStateMemento;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
@@ -15,6 +18,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 
 public class UNodeWriting {
 
@@ -47,13 +51,12 @@ public class UNodeWriting {
     }
 
     public static ContextProcessor<WritingContext> createProcessor(){
-        //<
-//        OLdContextTask<WritingContextOld> task = new OLdContextTask<>(TASK_COMMON);
-//        task.add(new WritingArrayTaskHandlerOld(WRAPPER_ARRAY))
-//                .add(new WritingObjectTaskHandlerOld(WRAPPER_OBJECT))
-//                .add(new WritingPrimitiveTaskHandlerOld(WRAPPER_PRIMITIVE));
+        ContextTask<WritingContext> task = new ContextTask<>(UTaskIds.COMMON);
+        task.add(new WritingArrayTaskHandler(UHandlerIds.ARRAY))
+                .add(new WritingObjectTaskHandler(UHandlerIds.OBJECT))
+                .add(new WritingPrimitiveTaskHandler(UHandlerIds.PRIMITIVE));
 
-        return new ContextProcessor<>();
+        return new ContextProcessor<WritingContext>().add(task);
     }
 
     public static WritingFormatterHandler createWritingFormatterHandler() throws Exception {
