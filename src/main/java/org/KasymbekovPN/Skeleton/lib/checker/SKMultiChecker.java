@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.checker;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class SKMultiChecker<K, T> implements MultiChecker<K, T> {
 
@@ -18,6 +19,16 @@ public class SKMultiChecker<K, T> implements MultiChecker<K, T> {
     @Override
     public void setKey(K key) {
         this.key = key;
+    }
+
+    @Override
+    public Optional<K> checkByAll(T checkedValue) {
+        for (Map.Entry<K, SimpleChecker<T>> entry : simpleCheckers.entrySet()) {
+            if (entry.getValue().check(checkedValue)){
+                return Optional.of(entry.getKey());
+            }
+        }
+        return Optional.empty();
     }
 
     @Override

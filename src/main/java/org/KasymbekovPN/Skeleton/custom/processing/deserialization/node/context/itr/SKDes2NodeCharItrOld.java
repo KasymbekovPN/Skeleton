@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context
 
 import java.util.NoSuchElementException;
 
+// TODO: 16.11.2020 del
 public class SKDes2NodeCharItrOld implements Des2NodeCharItrOld {
 
     private final String line;

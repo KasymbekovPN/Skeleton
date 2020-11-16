@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context
 
 import java.util.Iterator;
 
+//< todo: del
 public interface Des2NodeCharItrOld extends Iterator<Character> {
     void dec();
 }
