@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-// TODO: 16.11.2020 test
 public class SKDes2NodeContextStateMemento implements Des2NodeContextStateMemento {
 
     private static final Logger log = LoggerFactory.getLogger(SKDes2InstanceContextStateMemento.class);
