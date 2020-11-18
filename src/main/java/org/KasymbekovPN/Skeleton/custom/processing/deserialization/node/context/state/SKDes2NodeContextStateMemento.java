@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state;
 
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
@@ -15,7 +16,7 @@ public class SKDes2NodeContextStateMemento implements Des2NodeContextStateMement
     private static final Logger log = LoggerFactory.getLogger(SKDes2InstanceContextStateMemento.class);
 
     private static final Class<? extends SimpleResult> RESULT_CLASS = SKSimpleResult.class;
-    private static final String PARENT_NODE_IS_NULL = "The parent node is null";
+    private static final String PARENT_NODE_HAS_WRONG_TYPE = "The parent node has wrong type";
 
     private final Node parentNode;
 
@@ -66,8 +67,8 @@ public class SKDes2NodeContextStateMemento implements Des2NodeContextStateMement
     }
 
     void checkParentNode(){
-        if (result.isSuccess() && parentNode == null){
-            result.setFailStatus(PARENT_NODE_IS_NULL);
+        if (result.isSuccess() && parentNode != null && parentNode.is(NodeEI.invalidEI())){
+            result.setFailStatus(PARENT_NODE_HAS_WRONG_TYPE);
         }
     }
 }

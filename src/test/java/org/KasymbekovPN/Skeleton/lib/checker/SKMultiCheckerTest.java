@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.*;
+
 @DisplayName("SKMultiChecker. Testing of:")
 public class SKMultiCheckerTest {
 
@@ -43,6 +45,38 @@ public class SKMultiCheckerTest {
         };
     }
 
+    private static Object[][] getCheckByAllTestData(){
+        return new Object[][]{
+                {
+                        101,
+                        new HashMap<String, Set<Integer>>(){{
+                            put("zero", new HashSet<>(Arrays.asList(1,2,3)));
+                            put("one", new HashSet<>(Arrays.asList(101,102,103)));
+                        }},
+                        "one",
+                        true
+                },
+                {
+                        2,
+                        new HashMap<String, Set<Integer>>(){{
+                            put("zero", new HashSet<>(Arrays.asList(1,2,3)));
+                            put("one", new HashSet<>(Arrays.asList(101,102,103)));
+                        }},
+                        "zero",
+                        true
+                },
+                {
+                        0,
+                        new HashMap<String, Set<Integer>>(){{
+                            put("zero", new HashSet<>(Arrays.asList(1,2,3)));
+                            put("one", new HashSet<>(Arrays.asList(101,102,103)));
+                        }},
+                        "",
+                        false
+                }
+        };
+    }
+
     @ParameterizedTest
     @MethodSource("getIntegerTestData")
     void testInteger(String key, Integer checkedValue, boolean success){
@@ -53,5 +87,21 @@ public class SKMultiCheckerTest {
                 .build();
         multiChecker.setKey(key);
         Assertions.assertThat(multiChecker.check(checkedValue)).isEqualTo(success);
+    }
+
+    @ParameterizedTest
+    @MethodSource("getCheckByAllTestData")
+    void testCheckByAll(Integer checkedValue, Map<String, Set<Integer>> initMap, String key, boolean isPresent){
+        SKMultiChecker.Builder<String, Integer> builder = new SKMultiChecker.Builder<>(new SKSimpleChecker<>());
+        for (Map.Entry<String, Set<Integer>> entry : initMap.entrySet()) {
+            builder.add(entry.getKey(), new SKSimpleChecker<>(entry.getValue()));
+        }
+        MultiChecker<String, Integer> checker = builder.build();
+        Optional<String> maybeKey = checker.checkByAll(checkedValue);
+        boolean checkedIsPresent = maybeKey.isPresent();
+        Assertions.assertThat(checkedIsPresent).isEqualTo(isPresent);
+        if (checkedIsPresent){
+            Assertions.assertThat(maybeKey.get()).isEqualTo(key);
+        }
     }
 }

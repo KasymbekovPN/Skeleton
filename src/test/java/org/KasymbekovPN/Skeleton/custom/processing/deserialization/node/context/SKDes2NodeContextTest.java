@@ -5,6 +5,8 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
+import org.KasymbekovPN.Skeleton.lib.iterator.SKDecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.MultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
@@ -27,6 +29,7 @@ public class SKDes2NodeContextTest {
     static private SimpleChecker<Character> propertyNameEndChecker;
     static private SimpleChecker<Character> valueNameSeparator;
     static private ContextProcessor<Des2NodeContext> processor;
+    static private DecrementedCharIterator iterator;
     static private Des2NodeContext context;
 
     @BeforeAll
@@ -40,9 +43,12 @@ public class SKDes2NodeContextTest {
         propertyNameEndChecker = UDes2Node.createPropertyNameEndChecker();
         valueNameSeparator = UDes2Node.createValueNameSeparator();
         processor = UDes2Node.createProcessor();
+        iterator = new SKDecrementedCharIterator("hello");
         context = new SKDes2NodeContext(
                 contextIds,
                 careTaker,
+                iterator,
+                processor,
                 entityBeginChecker,
                 valueBeginChecker,
                 valueEndChecker,
@@ -50,6 +56,12 @@ public class SKDes2NodeContextTest {
                 propertyNameEndChecker,
                 valueNameSeparator
         );
+    }
+
+    @DisplayName("iterator method")
+    @Test
+    void testIterator(){
+        Assertions.assertThat(iterator).isEqualTo(context.iterator());
     }
 
     @DisplayName("getEntityBeginChecker method")
