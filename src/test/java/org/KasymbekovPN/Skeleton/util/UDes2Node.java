@@ -2,8 +2,6 @@ package org.KasymbekovPN.Skeleton.util;
 
 import org.KasymbekovPN.Skeleton.custom.checker.NumberCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.SKDes2NodeContext;
-import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.Des2NodeContextStateMemento;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SKMultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
@@ -13,7 +11,6 @@ import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.MultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKMultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
-import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 
 public class UDes2Node {
@@ -31,19 +28,6 @@ public class UDes2Node {
 
     public static ContextProcessor<Des2NodeContext> createProcessor(){
         return new ContextProcessor<>();
-    }
-
-    public static Des2NodeContext createContext(ContextStateCareTaker<Des2NodeContextStateMemento> careTaker){
-        return new SKDes2NodeContext(
-                createContextIds(),
-                careTaker,
-                createEntityBeginChecker(),
-                createValueBeginChecker(),
-                createValueEndChecker(),
-                createPropertyNameBeginChecker(),
-                createPropertyNameEndChecker(),
-                createValueNameSeparator()
-        );
     }
 
     public static MultiChecker<EntityItem, Character> createEntityBeginChecker(){

@@ -9,7 +9,6 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.MultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 
-// TODO: 16.11.2020 test
 public class SKDes2NodeContext implements Des2NodeContext {
 
     private final MultiContextIds<EntityItem> contextIds;
