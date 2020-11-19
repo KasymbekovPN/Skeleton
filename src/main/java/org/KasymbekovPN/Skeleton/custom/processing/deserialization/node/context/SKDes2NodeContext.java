@@ -86,7 +86,7 @@ public class SKDes2NodeContext implements Des2NodeContext {
     }
 
     @Override
-    public SimpleChecker<Character> getValueNameSeparator() {
+    public SimpleChecker<Character> getValueNameSeparatorChecker() {
         return valueNameSeparator;
     }
 

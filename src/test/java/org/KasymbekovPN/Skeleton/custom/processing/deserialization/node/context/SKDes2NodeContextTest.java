@@ -97,7 +97,7 @@ public class SKDes2NodeContextTest {
     @DisplayName("getValueNameSeparator method")
     @Test
     void testGetValueNameSeparator(){
-        Assertions.assertThat(valueNameSeparator).isEqualTo(context.getValueNameSeparator());
+        Assertions.assertThat(valueNameSeparator).isEqualTo(context.getValueNameSeparatorChecker());
     }
 
     @DisplayName("getContextIds method")
