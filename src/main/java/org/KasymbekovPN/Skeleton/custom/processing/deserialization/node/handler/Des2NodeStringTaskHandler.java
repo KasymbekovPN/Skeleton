@@ -9,44 +9,59 @@ import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.node.InvalidNode;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
-import org.KasymbekovPN.Skeleton.lib.node.NumberNode;
+import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class Des2NodeNumberTaskHandler extends Des2NodeBaseTaskHandler {
+public class Des2NodeStringTaskHandler extends Des2NodeBaseTaskHandler {
 
+    private static final Character SHIELD = '\\';
     private static final String WRONG_LINE = "wrong line";
-    private static final String HAS_INVALID_CHARACTER = "has invalid character; ";
-    private static final String HAS_MORE_THAN_ONE_SEPARATOR = "has more than one separator; ";
+    private static final char STRING_BORDER = '"';
 
-    private static final char NUMBER_SEPARATOR = '.';
-
-    public Des2NodeNumberTaskHandler(String id) {
+    public Des2NodeStringTaskHandler(String id) {
         super(id);
     }
 
-    public Des2NodeNumberTaskHandler(String id, SimpleResult simpleResult) {
+    public Des2NodeStringTaskHandler(String id, SimpleResult simpleResult) {
         super(id, simpleResult);
     }
 
     @Override
     protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
-        Des2NodeContextStateMemento memento = context.getContextStateCareTaker().peek();
         DecrementedCharIterator iterator = context.iterator();
-        MultiChecker<EntityItem, Character> valueEndChecker = context.getValueEndChecker(NodeEI.numberEI());
+        Des2NodeContextStateMemento memento = context.getContextStateCareTaker().peek();
+        MultiChecker<EntityItem, Character> valueBeginChecker = context.getValueBeginChecker(NodeEI.stringEI());
+        MultiChecker<EntityItem, Character> valueEndChecker = context.getValueEndChecker(NodeEI.stringEI());
 
         boolean done = false;
         StringBuilder line = new StringBuilder();
+        State state = State.BEGIN;
+
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
-            if (valueEndChecker.check(next)){
-                iterator.dec();
-                done = true;
-            } else {
-                line.append(next);
+            switch(state){
+                case BEGIN:
+                    if (valueBeginChecker.check(next)){
+                        line.append(next);
+                        state = State.ADD;
+                    }
+                    break;
+                case ADD:
+                    if (valueEndChecker.check(next)){
+                        done = true;
+                    } else if (next.equals(SHIELD)){
+                        state = State.SHIELD;
+                    }
+                    line.append(next);
+                    break;
+                case SHIELD:
+                    line.append(next);
+                    state = State.ADD;
+                    break;
             }
         }
 
@@ -55,27 +70,14 @@ public class Des2NodeNumberTaskHandler extends Des2NodeBaseTaskHandler {
 
     private Node convert(String line, Node parent){
         int length = line.length();
-        boolean hasInvalidCharacter = false;
-        int separatorCounter = 0;
-        for (int i = 0; i < length; i++) {
-            char ch = line.charAt(i);
-            if (ch == NUMBER_SEPARATOR){
-                separatorCounter++;
-            } else if (!Character.isDigit(ch)){
-                hasInvalidCharacter = true;
-            }
-        }
-
-        StringBuilder status = new StringBuilder();
-        if (hasInvalidCharacter){
-            status.append(HAS_INVALID_CHARACTER);
-        }
-        if (separatorCounter > 1){
-            status.append(HAS_MORE_THAN_ONE_SEPARATOR);
-        }
-
-        return status.length() == 0
-                ? new NumberNode(parent, Double.valueOf(line))
+        return length >= 2 && line.charAt(0) == STRING_BORDER && line.charAt(length - 1) == STRING_BORDER
+                ? new StringNode(parent, line.substring(1, length - 1))
                 : new InvalidNode(parent, WRONG_LINE, line);
+    }
+
+    private enum State{
+        BEGIN,
+        ADD,
+        SHIELD
     }
 }
