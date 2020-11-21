@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import java.util.HashSet;
 import java.util.Set;
 
+// TODO: 21.11.2020 del???
 public class Str2NodeConverter implements Converter<Node, Triple<Node, String, Des2NodeModeOld>> {
 
     private static final Set<String> ALLOWED_BOOLEAN_VALUE = new HashSet<>(){{
