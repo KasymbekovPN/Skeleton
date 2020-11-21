@@ -61,17 +61,20 @@ public class SKDes2NodeContext implements Des2NodeContext {
     }
 
     @Override
-    public MultiChecker<EntityItem, Character> getEntityBeginChecker() {
+    public MultiChecker<EntityItem, Character> getEntityBeginChecker(EntityItem ei) {
+        entityBeginChecker.setKey(ei);
         return entityBeginChecker;
     }
 
     @Override
-    public MultiChecker<EntityItem, Character> getValueBeginChecker() {
+    public MultiChecker<EntityItem, Character> getValueBeginChecker(EntityItem ei) {
+        valueBeginChecker.setKey(ei);
         return valueBeginChecker;
     }
 
     @Override
-    public MultiChecker<EntityItem, Character> getValueEndChecker() {
+    public MultiChecker<EntityItem, Character> getValueEndChecker(EntityItem ei) {
+        valueEndChecker.setKey(ei);
         return valueEndChecker;
     }
 

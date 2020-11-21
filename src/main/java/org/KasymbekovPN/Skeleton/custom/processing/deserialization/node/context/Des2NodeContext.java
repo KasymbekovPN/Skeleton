@@ -13,9 +13,9 @@ import java.lang.reflect.InvocationTargetException;
 public interface Des2NodeContext extends Context<Des2NodeContextStateMemento> {
     DecrementedCharIterator iterator();
     void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty, InvocationTargetException;
-    MultiChecker<EntityItem, Character> getEntityBeginChecker();
-    MultiChecker<EntityItem, Character> getValueBeginChecker();
-    MultiChecker<EntityItem, Character> getValueEndChecker();
+    MultiChecker<EntityItem, Character> getEntityBeginChecker(EntityItem ei);
+    MultiChecker<EntityItem, Character> getValueBeginChecker(EntityItem ei);
+    MultiChecker<EntityItem, Character> getValueEndChecker(EntityItem ei);
     SimpleChecker<Character> getPropertyNameBeginChecker();
     SimpleChecker<Character> getPropertyNameEndChecker();
     SimpleChecker<Character> getValueNameSeparatorChecker();

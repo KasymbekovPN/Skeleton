@@ -7,6 +7,7 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
@@ -30,7 +31,7 @@ public class Des2NodeObjectTaskHandler extends Des2NodeBaseTaskHandler{
         SimpleChecker<Character> propertyNameBeginChecker = context.getPropertyNameBeginChecker();
         SimpleChecker<Character> propertyNameEndChecker = context.getPropertyNameEndChecker();
 
-        MultiChecker<EntityItem, Character> valueEndChecker = context.getValueEndChecker();
+        MultiChecker<EntityItem, Character> valueEndChecker = context.getValueEndChecker(NodeEI.objectEI());
         valueEndChecker.setKey(ObjectNode.ei());
 
         SimpleChecker<Character> valueNameSeparatorChecker = context.getValueNameSeparatorChecker();

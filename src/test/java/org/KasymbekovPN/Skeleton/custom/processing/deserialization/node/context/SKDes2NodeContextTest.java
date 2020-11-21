@@ -67,19 +67,19 @@ public class SKDes2NodeContextTest {
     @DisplayName("getEntityBeginChecker method")
     @Test
     void testGetEntityBeginChecker(){
-        Assertions.assertThat(entityBeginChecker).isEqualTo(context.getEntityBeginChecker());
+        Assertions.assertThat(entityBeginChecker).isEqualTo(context.getEntityBeginChecker(null));
     }
 
     @DisplayName("getValueBeginChecker method")
     @Test
     void testGetValueBeginChecker(){
-        Assertions.assertThat(valueBeginChecker).isEqualTo(context.getValueBeginChecker());
+        Assertions.assertThat(valueBeginChecker).isEqualTo(context.getValueBeginChecker(null));
     }
 
     @DisplayName("getValueEndChecker method")
     @Test
     void testGetValueEndChecker(){
-        Assertions.assertThat(valueEndChecker).isEqualTo(context.getValueEndChecker());
+        Assertions.assertThat(valueEndChecker).isEqualTo(context.getValueEndChecker(null));
     }
 
     @DisplayName("getPropertyNameBeginChecker method")

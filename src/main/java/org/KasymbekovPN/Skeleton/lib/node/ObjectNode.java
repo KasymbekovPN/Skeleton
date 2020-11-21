@@ -26,6 +26,10 @@ public class ObjectNode implements Node {
 
     @Override
     public Optional<Node> addChild(String property, Node value) {
+        if (value == null){
+            return Optional.empty();
+        }
+
         if (children.containsKey(property)){
             return Optional.of(children.get(property));
         }

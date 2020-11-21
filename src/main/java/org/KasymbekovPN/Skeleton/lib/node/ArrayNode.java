@@ -47,6 +47,10 @@ public class ArrayNode implements Node {
 
     @Override
     public Optional<Node> addChild(Node value) {
+        if (value == null){
+            return Optional.empty();
+        }
+
         children.add(value);
         return Optional.of(value);
     }

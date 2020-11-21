@@ -23,7 +23,7 @@ public class Des2NodeInitTaskHandler extends Des2NodeBaseTaskHandler {
     @Override
     protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         DecrementedCharIterator iterator = context.iterator();
-        MultiChecker<EntityItem, Character> entityBeginChecker = context.getEntityBeginChecker();
+        MultiChecker<EntityItem, Character> entityBeginChecker = context.getEntityBeginChecker(null);
 
         Optional<EntityItem> maybeEI = Optional.empty();
         while (iterator.hasNext() && maybeEI.isEmpty()){
