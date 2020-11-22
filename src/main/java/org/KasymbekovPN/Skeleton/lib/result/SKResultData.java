@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+// TODO: 22.11.2020 test
 public class SKResultData implements ResultData {
 
     private final Map<String, Object> data = new HashMap<>();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+// TODO: 22.11.2020 test
 public class SKAggregateResult implements AggregateResult {
 
     private final Map<String, Result> results = new HashMap<>();

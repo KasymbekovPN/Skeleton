@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+// TODO: 22.11.2020 test
 public class StrType2CollectionOptConverter implements OptionalConverter<Collection<Object>, ObjectNode> {
 
     private static final Logger log = LoggerFactory.getLogger(StrType2CollectionOptConverter.class);

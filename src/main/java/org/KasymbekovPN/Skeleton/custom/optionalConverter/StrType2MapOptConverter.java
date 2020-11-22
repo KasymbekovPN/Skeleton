@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+// TODO: 22.11.2020 test
 public class StrType2MapOptConverter implements OptionalConverter<Map<Object, Object>, ObjectNode> {
 
     private static final Logger log = LoggerFactory.getLogger(StrType2MapOptConverter.class);

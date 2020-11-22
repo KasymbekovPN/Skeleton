@@ -7,6 +7,7 @@ import org.KasymbekovPN.Skeleton.lib.node.StringNode;
 import java.util.Objects;
 import java.util.Optional;
 
+// TODO: 22.11.2020 test
 public class SKClassHeaderPartHandler implements ClassHeaderPartHandler {
 
     private final String typePropertyName;

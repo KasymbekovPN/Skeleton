@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.lib.result;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+// TODO: 22.11.2020 test
 public class SKSimpleResult implements SimpleResult {
 
     private static final Class<? extends ResultData> RESULT_DATA_CLASS = SKResultData.class;

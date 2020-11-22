@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+// TODO: 22.11.2020 test
 public class SKMultiContextIds<T> implements MultiContextIds<T> {
 
     private final ContextIds defaultContextIds;

@@ -6,6 +6,7 @@ import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 
+// TODO: 22.11.2020 test
 public class ClassNameExtractor implements Extractor<String, Annotation[]> {
 
 

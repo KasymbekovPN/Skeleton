@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.iterator;
 
 import java.util.NoSuchElementException;
 
+// TODO: 22.11.2020 test
 public class SKDecrementedCharIterator implements DecrementedCharIterator {
 
     private final String line;

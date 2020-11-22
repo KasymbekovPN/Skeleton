@@ -8,6 +8,7 @@ import org.KasymbekovPN.Skeleton.lib.node.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 22.11.2020 test
 public class JsonInvalidWritingFormatter implements WritingFormatter {
 
     @Override

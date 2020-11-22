@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+// TODO: 22.11.2020 test
 public class SKContextStateCareTaker<T extends ContextStateMemento> implements ContextStateCareTaker<T> {
 
     private static final Logger log = LoggerFactory.getLogger(SKContextStateCareTaker.class);

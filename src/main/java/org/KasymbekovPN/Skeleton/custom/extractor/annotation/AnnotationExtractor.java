@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 
+// TODO: 22.11.2020 test
 public class AnnotationExtractor implements Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> {
 
     @Override

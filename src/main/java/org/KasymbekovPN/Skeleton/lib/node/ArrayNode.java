@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+// TODO: 22.11.2020 test
 public class ArrayNode implements Node {
 
     private Node parent;

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-//< !!! need test
+// TODO: 22.11.2020 test
 public class ContextTask<T extends Context<? extends ContextStateMemento>> implements Task<T> {
 
     private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SKAggregateResult.class;

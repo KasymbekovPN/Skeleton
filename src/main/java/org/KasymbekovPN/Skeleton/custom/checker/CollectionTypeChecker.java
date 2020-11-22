@@ -7,6 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
 
+// TODO: 22.11.2020 test
 public class CollectionTypeChecker implements SimpleChecker<Field> {
 
     private final Set<Class<?>> types;

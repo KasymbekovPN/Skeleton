@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.lib.node;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 
+// TODO: 22.11.2020 test
 public class StringNode extends PrimitiveNode<String> {
 
     public static EntityItem ei(){
