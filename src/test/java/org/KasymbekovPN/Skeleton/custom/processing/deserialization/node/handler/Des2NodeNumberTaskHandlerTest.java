@@ -102,6 +102,16 @@ public class Des2NodeNumberTaskHandlerTest {
     private static class NotValidMemento implements Des2NodeContextStateMemento {
 
         @Override
+        public void setKey(Object key) {
+
+        }
+
+        @Override
+        public Object getKey() {
+            return null;
+        }
+
+        @Override
         public void setNode(Node node) {
 
         }

@@ -26,7 +26,8 @@ public class SKDes2NodeContext implements Des2NodeContext {
     private final SimpleChecker<Character> propertyNameEndChecker;
     private final SimpleChecker<Character> valueNameSeparator;
 
-    private EntityItem key;
+    //<
+//    private EntityItem key;
 
     public SKDes2NodeContext(MultiContextIds<EntityItem> contextIds,
                              ContextStateCareTaker<Des2NodeContextStateMemento> careTaker,
@@ -57,24 +58,22 @@ public class SKDes2NodeContext implements Des2NodeContext {
 
     @Override
     public void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty, InvocationTargetException {
+        contextIds.setKey((EntityItem) careTaker.peek().getKey());
         processor.handle(this);
     }
 
     @Override
     public MultiChecker<EntityItem, Character> getEntityBeginChecker(EntityItem ei) {
-        entityBeginChecker.setKey(ei);
         return entityBeginChecker;
     }
 
     @Override
     public MultiChecker<EntityItem, Character> getValueBeginChecker(EntityItem ei) {
-        valueBeginChecker.setKey(ei);
         return valueBeginChecker;
     }
 
     @Override
     public MultiChecker<EntityItem, Character> getValueEndChecker(EntityItem ei) {
-        valueEndChecker.setKey(ei);
         return valueEndChecker;
     }
 
@@ -94,13 +93,7 @@ public class SKDes2NodeContext implements Des2NodeContext {
     }
 
     @Override
-    public void setKey(EntityItem key) {
-        this.key = key;
-    }
-
-    @Override
     public ContextIds getContextIds() throws ContextStateCareTakerIsEmpty {
-        contextIds.setKey(key);
         return contextIds;
     }
 

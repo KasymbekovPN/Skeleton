@@ -27,7 +27,7 @@ public class Des2NodeArrayTaskHandlerTest {
     private static Object[][] getTestData(){
         return new Object[][]{
                 {
-                        " [  ]",
+                        "  ]",
                         false,
                         ArrayNode.ei()
                 },
@@ -94,6 +94,16 @@ public class Des2NodeArrayTaskHandlerTest {
     }
 
     private static class NotValidMemento implements Des2NodeContextStateMemento {
+
+        @Override
+        public void setKey(Object key) {
+
+        }
+
+        @Override
+        public Object getKey() {
+            return null;
+        }
 
         @Override
         public void setNode(Node node) {

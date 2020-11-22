@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.util;
 import org.KasymbekovPN.Skeleton.custom.checker.NumberCharacterChecker;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.SKDes2NodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SKMultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
@@ -15,6 +16,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKMultiContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 
 public class UDes2Node {
 
@@ -30,7 +32,18 @@ public class UDes2Node {
     };
 
     public static ContextProcessor<Des2NodeContext> createProcessor(){
-        return new ContextProcessor<>();
+
+        ContextTask<Des2NodeContext> task = new ContextTask<>(UTaskIds.COMMON);
+
+        task.add(new Des2NodeInitTaskHandler(UHandlerIds.INIT))
+                .add(new Des2NodeObjectTaskHandler(UHandlerIds.OBJECT))
+                .add(new Des2NodeArrayTaskHandler(UHandlerIds.ARRAY))
+                .add(new Des2NodeBooleanTaskHandler(UHandlerIds.BOOLEAN))
+                .add(new Des2NodeCharacterTaskHandler(UHandlerIds.CHARACTER))
+                .add(new Des2NodeNumberTaskHandler(UHandlerIds.NUMBER))
+                .add(new Des2NodeStringTaskHandler(UHandlerIds.STRING));;
+
+        return new ContextProcessor<Des2NodeContext>().add(task);
     }
 
     public static Des2NodeContext createContext(DecrementedCharIterator iterator){

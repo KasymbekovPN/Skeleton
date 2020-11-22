@@ -44,14 +44,14 @@ public class Des2NodeCharacterTaskHandler extends Des2NodeBaseTaskHandler {
 
             switch (state){
                 case BEGIN:
-                    if (valueBeginChecker.check(next)){
+                    if (valueBeginChecker.check(NodeEI.characterEI(), next)){
                         line.append(next);
                         state = State.END;
                     }
                     break;
                 case END:
                     line.append(next);
-                    if (valueEndChecker.check(next)){
+                    if (valueEndChecker.check(NodeEI.characterEI(), next)){
                         done = true;
                     }
                     break;

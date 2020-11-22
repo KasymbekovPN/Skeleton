@@ -32,7 +32,6 @@ public class Des2NodeObjectTaskHandler extends Des2NodeBaseTaskHandler{
         SimpleChecker<Character> propertyNameEndChecker = context.getPropertyNameEndChecker();
 
         MultiChecker<EntityItem, Character> valueEndChecker = context.getValueEndChecker(NodeEI.objectEI());
-        valueEndChecker.setKey(ObjectNode.ei());
 
         SimpleChecker<Character> valueNameSeparatorChecker = context.getValueNameSeparatorChecker();
 
@@ -50,7 +49,7 @@ public class Des2NodeObjectTaskHandler extends Des2NodeBaseTaskHandler{
                     if (propertyNameBeginChecker.check(next)){
                         state = State.NAME_END_FINDING;
                         name.setLength(0);
-                    } else if (valueEndChecker.check(next)) {
+                    } else if (valueEndChecker.check(NodeEI.objectEI(), next)) {
                         done = true;
                     }
                     break;

@@ -42,7 +42,7 @@ public class Des2NodeNumberTaskHandler extends Des2NodeBaseTaskHandler {
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
-            if (valueEndChecker.check(next)){
+            if (valueEndChecker.check(NodeEI.numberEI(), next)){
                 iterator.dec();
                 done = true;
             } else {

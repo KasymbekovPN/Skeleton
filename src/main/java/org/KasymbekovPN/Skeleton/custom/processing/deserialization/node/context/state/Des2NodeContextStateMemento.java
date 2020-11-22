@@ -7,4 +7,6 @@ public interface Des2NodeContextStateMemento extends ContextStateMemento {
     void setNode(Node node);
     Node getNode();
     Node getParentNode();
+    void setKey(Object key);
+    Object getKey();
 }

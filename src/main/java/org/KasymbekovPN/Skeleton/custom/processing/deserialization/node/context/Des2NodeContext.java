@@ -19,5 +19,4 @@ public interface Des2NodeContext extends Context<Des2NodeContextStateMemento> {
     SimpleChecker<Character> getPropertyNameBeginChecker();
     SimpleChecker<Character> getPropertyNameEndChecker();
     SimpleChecker<Character> getValueNameSeparatorChecker();
-    void setKey(EntityItem key);
 }

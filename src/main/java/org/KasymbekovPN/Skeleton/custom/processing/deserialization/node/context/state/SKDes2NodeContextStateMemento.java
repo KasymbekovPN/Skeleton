@@ -20,6 +20,7 @@ public class SKDes2NodeContextStateMemento implements Des2NodeContextStateMement
 
     private final Node parentNode;
 
+    private Object key;
     private Node node;
     private SimpleResult result;
 
@@ -56,6 +57,16 @@ public class SKDes2NodeContextStateMemento implements Des2NodeContextStateMement
     @Override
     public Node getParentNode() {
         return parentNode;
+    }
+
+    @Override
+    public void setKey(Object key) {
+        this.key = key;
+    }
+
+    @Override
+    public Object getKey() {
+        return key;
     }
 
     private SimpleResult createResultInstance() throws NoSuchMethodException,

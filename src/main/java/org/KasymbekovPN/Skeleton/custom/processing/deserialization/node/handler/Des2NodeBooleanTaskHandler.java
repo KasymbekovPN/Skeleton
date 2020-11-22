@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.node.BooleanNode;
 import org.KasymbekovPN.Skeleton.lib.node.InvalidNode;
@@ -43,7 +44,7 @@ public class Des2NodeBooleanTaskHandler extends Des2NodeBaseTaskHandler {
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
-            if (valueEndChecker.check(next)){
+            if (valueEndChecker.check(NodeEI.booleanEI(), next)){
                 iterator.dec();
                 done = true;
             } else {

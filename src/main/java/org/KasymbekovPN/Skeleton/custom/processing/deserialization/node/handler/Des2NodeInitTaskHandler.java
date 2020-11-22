@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler;
 
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.Des2NodeContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
@@ -23,6 +24,7 @@ public class Des2NodeInitTaskHandler extends Des2NodeBaseTaskHandler {
     @Override
     protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         DecrementedCharIterator iterator = context.iterator();
+        Des2NodeContextStateMemento memento = context.getContextStateCareTaker().peek();
         MultiChecker<EntityItem, Character> entityBeginChecker = context.getEntityBeginChecker(null);
 
         Optional<EntityItem> maybeEI = Optional.empty();
@@ -32,7 +34,7 @@ public class Des2NodeInitTaskHandler extends Des2NodeBaseTaskHandler {
 
         if (maybeEI.isPresent()){
             iterator.dec();
-            context.setKey(maybeEI.get());
+            memento.setKey(maybeEI.get());
             context.runProcessor();
         }
     }
