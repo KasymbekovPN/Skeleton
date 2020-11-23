@@ -7,7 +7,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
-// TODO: 22.11.2020 test
 public class ObjectNode implements Node {
 
     private Node parent;
