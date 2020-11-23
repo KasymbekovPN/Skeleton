@@ -5,7 +5,6 @@ import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 
 import java.util.Objects;
 
-// TODO: 22.11.2020 test
 public class InvalidNode implements Node {
 
     public static EntityItem ei(){
