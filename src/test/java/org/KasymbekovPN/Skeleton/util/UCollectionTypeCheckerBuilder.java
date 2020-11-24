@@ -23,7 +23,10 @@ public class UCollectionTypeCheckerBuilder {
 
     public CollectionTypeChecker build() throws Exception {
         check();
-        return new CollectionTypeChecker(types, argumentTypes);
+        return (CollectionTypeChecker) new CollectionTypeChecker.Builder()
+                .addTypes(types)
+                .addArguments(argumentTypes)
+                .build();
     }
 
     private void check() throws Exception {

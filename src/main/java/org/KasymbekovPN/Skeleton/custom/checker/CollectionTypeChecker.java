@@ -5,15 +5,16 @@ import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
-// TODO: 22.11.2020 test
 public class CollectionTypeChecker implements SimpleChecker<Field> {
 
     private final Set<Class<?>> types;
     private final Set<Class<?>> arguments;
 
-    public CollectionTypeChecker(Set<Class<?>> types,
+    private CollectionTypeChecker(Set<Class<?>> types,
                                  Set<Class<?>> arguments) {
         this.types = types;
         this.arguments = arguments;
@@ -35,5 +36,32 @@ public class CollectionTypeChecker implements SimpleChecker<Field> {
     private boolean checkArgumentType(Field field){
         Type[] argumentTypes = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
         return argumentTypes.length == 1 && arguments.contains((Class<?>) argumentTypes[0]);
+    }
+
+    public static class Builder{
+        private Set<Class<?>> types = new HashSet<>();
+        private Set<Class<?>> arguments = new HashSet<>();
+
+        public Builder addTypes(Class<?>... types){
+            return addTypes(new HashSet<>(Arrays.asList(types)));
+        }
+
+        public Builder addTypes(Set<Class<?>> types){
+            this.types.addAll(types);
+            return this;
+        }
+
+        public Builder addArguments(Class<?>... arguments){
+            return addArguments(new HashSet<>(Arrays.asList(arguments)));
+        }
+
+        public Builder addArguments(Set<Class<?>> arguments){
+            this.arguments.addAll(arguments);
+            return this;
+        }
+
+        public SimpleChecker<Field> build(){
+            return new CollectionTypeChecker(types, arguments);
+        }
     }
 }
