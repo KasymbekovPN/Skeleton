@@ -29,7 +29,11 @@ public class UMapTypeCheckerBuilder {
 
     public MapTypeChecker build() throws Exception {
         check();
-        return new MapTypeChecker(types, keyArgumentsTypes, valueArgumentsTypes);
+        return (MapTypeChecker) new MapTypeChecker.Builder()
+                .addTypes(types)
+                .addKeyArgumentTypes(keyArgumentsTypes)
+                .addValueArgumentTypes(valueArgumentsTypes)
+                .build();
     }
 
     private void check() throws Exception {
