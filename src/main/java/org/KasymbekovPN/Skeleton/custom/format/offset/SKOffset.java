@@ -2,7 +2,6 @@ package org.KasymbekovPN.Skeleton.custom.format.offset;
 
 import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 
-// TODO: 22.11.2020 test
 public class SKOffset implements Offset {
 
     private static final String REPLACED_STRING = "%offset%";
