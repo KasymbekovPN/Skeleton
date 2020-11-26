@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 22.11.2020 test
 public class JsonNumberWritingFormatter implements WritingFormatter {
 
     private final Offset offset;
