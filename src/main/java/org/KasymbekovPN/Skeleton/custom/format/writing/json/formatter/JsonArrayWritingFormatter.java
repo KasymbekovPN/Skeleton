@@ -1,29 +1,26 @@
 package org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter;
 
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
-import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonArrayWritingFormatter implements WritingFormatter {
+public class JsonArrayWritingFormatter extends JsonBaseWritingFormatter {
 
     private static final String BEGIN_BORDER = "[\n";
     private static final String END_BORDER = "\n%offset%]";
     private static final String FIRST_DELIMITER = "%offset%";
     private static final String DELIMITER = ",\n%offset%";
 
-    private final Offset offset;
     private final String beginBorder;
     private final String endBorder;
     private final String firstDelimiter;
     private final String delimiter;
 
     public JsonArrayWritingFormatter(Offset offset) {
-        this.offset = offset;
+        super(offset);
         this.beginBorder = BEGIN_BORDER;
         this.endBorder = END_BORDER;
         this.firstDelimiter = FIRST_DELIMITER;
@@ -35,7 +32,7 @@ public class JsonArrayWritingFormatter implements WritingFormatter {
                                      String endBorder,
                                      String firstDelimiter,
                                      String delimiter) {
-        this.offset = offset;
+        super(offset);
         this.beginBorder = beginBorder;
         this.endBorder = endBorder;
         this.firstDelimiter = firstDelimiter;
@@ -53,16 +50,6 @@ public class JsonArrayWritingFormatter implements WritingFormatter {
     public StringDecoder getEndBorder() {
         offset.dec();
         return new StringStringDecoder(offset.prepareTemplate(endBorder));
-    }
-
-    @Override
-    public StringDecoder getValue(Node node) {
-        return new StringStringDecoder();
-    }
-
-    @Override
-    public StringDecoder getPropertyName(String propertyName) {
-        return new StringStringDecoder();
     }
 
     @Override

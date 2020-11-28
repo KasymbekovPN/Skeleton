@@ -10,6 +10,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingA
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
 import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHandler;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.MultiContextIds;
@@ -69,7 +70,19 @@ public class UNodeWriting {
                 .addFormatter(CharacterNode.ei(), new JsonCharacterWritingFormatter(offset))
                 .addFormatter(NumberNode.ei(), new JsonNumberWritingFormatter(offset))
                 .addFormatter(StringNode.ei(), new JsonStringWritingFormatter(offset))
-                .addFormatter(InvalidNode.ei(), new JsonInvalidWritingFormatter())
+                .addFormatter(InvalidNode.ei(), new JsonInvalidWritingFormatter(offset))
+                .build();
+    }
+
+    public static WritingFormatterHandler createWritingFormatterHandler(Offset offset) throws Exception {
+       return new JsonWritingFormatterHandler.Builder(offset)
+                .addFormatter(ObjectNode.ei(), new JsonObjectWritingFormatter(offset))
+                .addFormatter(ArrayNode.ei(), new JsonArrayWritingFormatter(offset))
+                .addFormatter(BooleanNode.ei(), new JsonBooleanWritingFormatter(offset))
+                .addFormatter(CharacterNode.ei(), new JsonCharacterWritingFormatter(offset))
+                .addFormatter(NumberNode.ei(), new JsonNumberWritingFormatter(offset))
+                .addFormatter(StringNode.ei(), new JsonStringWritingFormatter(offset))
+                .addFormatter(InvalidNode.ei(), new JsonInvalidWritingFormatter(offset))
                 .build();
     }
 }

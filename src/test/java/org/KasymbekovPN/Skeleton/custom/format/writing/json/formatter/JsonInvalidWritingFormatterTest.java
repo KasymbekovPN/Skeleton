@@ -1,6 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter;
 
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
+import org.KasymbekovPN.Skeleton.custom.format.offset.SKOffset;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("JsonInvalidWritingFormatter. Testing of:")
 public class JsonInvalidWritingFormatterTest {
+
+    private static final String OFFSET = "    ";
 
     private static Object[][] getTestData(){
         return new Object[][]{
@@ -26,35 +29,35 @@ public class JsonInvalidWritingFormatterTest {
     @ParameterizedTest
     @MethodSource("getTestData")
     void testGetValue(Node node, String check){
-        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter();
+        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter(new SKOffset(OFFSET));
         Assertions.assertThat(formatter.getValue(node).getString()).isEqualTo(check);
     }
 
     @DisplayName("getBeginBorder method")
     @Test
     void testGetBeginBorder(){
-        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter();
+        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter(new SKOffset(OFFSET));
         Assertions.assertThat(formatter.getBeginBorder()).isEqualTo(new StringStringDecoder());
     }
 
     @DisplayName("getEndBorder method")
     @Test
     void testGetEndBorder(){
-        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter();
+        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter(new SKOffset(OFFSET));
         Assertions.assertThat(formatter.getEndBorder()).isEqualTo(new StringStringDecoder());
     }
 
     @DisplayName("getPropertyName method")
     @Test
     void testGetPropertyName(){
-        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter();
+        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter(new SKOffset(OFFSET));
         Assertions.assertThat(formatter.getPropertyName("")).isEqualTo(new StringStringDecoder());
     }
 
     @DisplayName("getDelimiters method")
     @Test
     void testGetDelimiters(){
-        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter();
+        JsonInvalidWritingFormatter formatter = new JsonInvalidWritingFormatter(new SKOffset(OFFSET));
         Assertions.assertThat(formatter.getDelimiters(10)).isEmpty();
     }
 }

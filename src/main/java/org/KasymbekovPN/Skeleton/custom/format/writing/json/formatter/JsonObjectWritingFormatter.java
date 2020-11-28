@@ -1,15 +1,13 @@
 package org.KasymbekovPN.Skeleton.custom.format.writing.json.formatter;
 
 import org.KasymbekovPN.Skeleton.custom.format.deserialization.StringStringDecoder;
-import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.format.deserialization.StringDecoder;
 import org.KasymbekovPN.Skeleton.lib.format.offset.Offset;
-import org.KasymbekovPN.Skeleton.lib.format.writing.formatter.WritingFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonObjectWritingFormatter implements WritingFormatter {
+public class JsonObjectWritingFormatter extends JsonBaseWritingFormatter {
 
     private static final String BEGIN_BORDER = "{\n";
     private static final String END_BORDER = "\n%offset%}";
@@ -18,7 +16,6 @@ public class JsonObjectWritingFormatter implements WritingFormatter {
     private static final String FIRST_DELIMITER = "";
     private static final String DELIMITER = ",\n";
 
-    private final Offset offset;
     private final String beginBorder;
     private final String endBorder;
     private final String beginNameBorder;
@@ -27,7 +24,7 @@ public class JsonObjectWritingFormatter implements WritingFormatter {
     private final String delimiter;
 
     public JsonObjectWritingFormatter(Offset offset) {
-        this.offset = offset;
+        super(offset);
         this.beginBorder = BEGIN_BORDER;
         this.endBorder = END_BORDER;
         this.beginNameBorder = BEGIN_NAME_BORDER;
@@ -43,7 +40,7 @@ public class JsonObjectWritingFormatter implements WritingFormatter {
                                       String endNameBorder,
                                       String firstDelimiter,
                                       String delimiter) {
-        this.offset = offset;
+        super(offset);
         this.beginBorder = beginBorder;
         this.endBorder = endBorder;
         this.beginNameBorder = beginNameBorder;
@@ -63,11 +60,6 @@ public class JsonObjectWritingFormatter implements WritingFormatter {
     public StringDecoder getEndBorder() {
         offset.dec();
         return new StringStringDecoder(offset.prepareTemplate(endBorder));
-    }
-
-    @Override
-    public StringDecoder getValue(Node node) {
-        return new StringStringDecoder();
     }
 
     @Override

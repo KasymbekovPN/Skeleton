@@ -12,7 +12,6 @@ import org.KasymbekovPN.Skeleton.lib.format.writing.handler.WritingFormatterHand
 
 import java.util.*;
 
-// TODO: 22.11.2020 test
 public class JsonWritingFormatterHandler implements WritingFormatterHandler {
 
     private static final int RESET_BUFFER_LEN = 0;
@@ -20,7 +19,7 @@ public class JsonWritingFormatterHandler implements WritingFormatterHandler {
     private final Map<EntityItem, WritingFormatter> formatters;
     private final Offset offset;
 
-    private StringBuilder buffer = new StringBuilder();
+    private final StringBuilder buffer = new StringBuilder();
 
     private JsonWritingFormatterHandler(Map<EntityItem, WritingFormatter> formatters, Offset offset) {
         this.formatters = formatters;
