@@ -5,11 +5,17 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.SKClassMem
 
 public class USKClassMembersPartHandler {
 
+    public static final String KIND = "kind";
+    public static final String TYPE = "type";
+    public static final String CLASS_NODE = "className";
+    public static final String MODIFIERS = "modifiers";
+    public static final String ARGUMENTS = "arguments";
+
     public static final ClassMembersPartHandler DEFAULT = new SKClassMembersPartHandler(
-            "kind",
-            "type",
-            "className",
-            "modifiers",
-            "arguments"
+            KIND,
+            TYPE,
+            CLASS_NODE,
+            MODIFIERS,
+            ARGUMENTS
     );
 }
