@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-// TODO: 22.11.2020 test
+// TODO: 22.11.2020 del
 public class ClassName2Instance implements OptionalConverter<Object, String> {
 
     private static final Logger log = LoggerFactory.getLogger(ClassName2Instance.class);

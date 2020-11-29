@@ -1,10 +1,11 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context;
 
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2CollectionOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.CollectionGeneratorBuildNoOneGenerator;
+import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.CollectionGeneratorBuildSomeGeneratorsReturnNull;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
@@ -28,7 +29,7 @@ public class SKDes2InstanceCxtTest {
     private static SKContextStateCareTaker<Des2InstanceContextStateMemento> careTaker;
 
     @BeforeAll
-    private static void beforeAll(){
+    private static void beforeAll() throws CollectionGeneratorBuildNoOneGenerator, CollectionGeneratorBuildSomeGeneratorsReturnNull {
         Map<String, Class<?>> map = createMap();
         careTaker = new SKContextStateCareTaker<>();
         context = USKDes2Instance.createContext(
@@ -60,11 +61,11 @@ public class SKDes2InstanceCxtTest {
         assertThat(context.getContextIds()).isEqualTo(USKDes2Instance.createContextIds());
     }
 
-    @DisplayName("getStrType2CollectionConverter method")
+    @DisplayName("getCollectionGenerator method")
     @Test
-    void testGetStrType2CollectionConverter(){
-        assertThat(context.getStrType2CollectionConverter())
-                .isEqualTo(new StrType2CollectionOptConverter(USKClassMembersPartHandler.DEFAULT));
+    void testGetCollectionGeneratorMethod() throws CollectionGeneratorBuildNoOneGenerator, CollectionGeneratorBuildSomeGeneratorsReturnNull {
+        assertThat(context.getCollectionGenerator())
+                .isEqualTo(USKDes2Instance.createCollectionGenerator());
     }
 
     @DisplayName("getStrType2MapConverter method")

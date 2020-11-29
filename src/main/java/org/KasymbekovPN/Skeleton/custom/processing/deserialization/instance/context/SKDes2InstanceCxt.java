@@ -25,7 +25,7 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
     private final ContextIds contextIds;
     private final Map<String, ObjectNode> classNodes;
     private final ClassMembersPartHandler classMembersPartHandler;
-    private final OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter;
+    private final OptionalConverter<Collection<Object>, String> collectionGenerator;
     private final OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter;
     private final OptionalConverter<Object, String> className2InstanceConverter;
     private final OptionalConverter<Object, ObjectNode> toInstanceConverter;
@@ -36,7 +36,7 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
                              Map<String, ObjectNode> classNodes,
                              Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
                              ClassMembersPartHandler classMembersPartHandler,
-                             OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter,
+                             OptionalConverter<Collection<Object>, String> collectionGenerator,
                              OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter,
                              OptionalConverter<Object, String> className2InstanceConverter,
                              OptionalConverter<Object, ObjectNode> toInstanceConverter,
@@ -45,7 +45,7 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
         this.contextIds = contextIds;
         this.classNodes = classNodes;
         this.classMembersPartHandler = classMembersPartHandler;
-        this.strType2CollectionConverter = strType2CollectionConverter;
+        this.collectionGenerator = collectionGenerator;
         this.strType2MapConverter = strType2MapConverter;
         this.className2InstanceConverter = className2InstanceConverter;
         this.toInstanceConverter = toInstanceConverter;
@@ -59,8 +59,8 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
     }
 
     @Override
-    public OptionalConverter<Collection<Object>, ObjectNode> getStrType2CollectionConverter() {
-        return strType2CollectionConverter;
+    public OptionalConverter<Collection<Object>, String> getCollectionGenerator() {
+        return collectionGenerator;
     }
 
     @Override

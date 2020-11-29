@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface Des2InstanceCxt extends Context<Des2InstanceContextStateMemento> {
     Map<String, ObjectNode> getClassNodes();
-    OptionalConverter<Collection<Object>, ObjectNode> getStrType2CollectionConverter();
+    OptionalConverter<Collection<Object>, String> getCollectionGenerator();
     OptionalConverter<Map<Object, Object>, ObjectNode> getStrType2MapConverter();
     OptionalConverter<Object, String> getClassName2InstanceConverter();
     OptionalConverter<Object, ObjectNode> getToInstanceConverter();

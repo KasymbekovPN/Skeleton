@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler;
 
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
@@ -49,8 +50,10 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
             NoSuchMethodException,
             InstantiationException,
             IllegalAccessException, ContextStateCareTakerIsEmpty {
-            OptionalConverter<Collection<Object>, ObjectNode> strType2CollectionConverter
-                    = context.getStrType2CollectionConverter();
+
+        ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
+        OptionalConverter<Collection<Object>, String> collectionGenerator
+                    = context.getCollectionGenerator();
 
             for (Triple<Field, Node, ObjectNode> member : members) {
                 Field field = member.getLeft();
@@ -58,19 +61,24 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
                 ObjectNode classMember = member.getRight();
                 String name = field.getName();
 
-                Optional<Collection<Object>> maybeCollection = strType2CollectionConverter.convert(classMember);
-                if (maybeCollection.isPresent()){
-                    if (memberNode.is(ArrayNode.ei())){
-                        Collection<Object> collection = maybeCollection.get();
-                        ArrayNode arrayNode = (ArrayNode) memberNode;
+                Optional<String> maybeClassName = classMembersPartHandler.getClassName(classMember);
+                if (maybeClassName.isPresent()){
+                    Optional<Collection<Object>> maybeCollection = collectionGenerator.convert(maybeClassName.get());
+                    if (maybeCollection.isPresent()){
+                        if (memberNode.is(ArrayNode.ei())){
+                            Collection<Object> collection = maybeCollection.get();
+                            ArrayNode arrayNode = (ArrayNode) memberNode;
 
-                        fillCollection(collection, arrayNode, context);
-                        setField(field, collection);
+                            fillCollection(collection, arrayNode, context);
+                            setField(field, collection);
+                        } else {
+                            log.warn("'{}' : memberNode has wrong type - isn't ArrayNode", name);
+                        }
                     } else {
-                        log.warn("'{}' : memberNode has wrong type - isn't ArrayNode", name);
+                        log.warn("'{}' : failure attempt of collection creation", name);
                     }
                 } else {
-                    log.warn("'{}' : failure attempt of collection creation", name);
+                    log.warn("'{}' : failure attempt of getting of classname", name);
                 }
             }
     }
