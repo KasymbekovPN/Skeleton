@@ -1,8 +1,7 @@
 package org.KasymbekovPN.Skeleton.util;
 
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.CollectionGenerator;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.StrType2MapOptConverter;
+import org.KasymbekovPN.Skeleton.custom.functional.generator.InstanceGenerator;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SKDes2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
@@ -10,8 +9,9 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.hand
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceMapTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.CollectionGeneratorBuildNoOneGenerator;
-import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.CollectionGeneratorBuildSomeGeneratorsReturnNull;
+import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildNoOneGenerator;
+import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildSomeGeneratorsReturnNull;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
@@ -20,10 +20,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTa
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class USKDes2Instance {
 
@@ -45,10 +42,10 @@ public class USKDes2Instance {
 
     static public Des2InstanceCxt createContext(ContextIds contextIds,
                                                  Map<String, ObjectNode> classNodes,
-                                                 OptionalConverter<Object, String> className2InstanceConverter,
+                                                 OptFunction<String, Object> instanceGenerator,
                                                  OptionalConverter<Object, ObjectNode> toInstanceConverter,
                                                  ContextProcessor<Des2InstanceCxt> processor,
-                                                 ContextStateCareTaker<Des2InstanceContextStateMemento> contextStateCareTaker) throws CollectionGeneratorBuildNoOneGenerator, CollectionGeneratorBuildSomeGeneratorsReturnNull {
+                                                 ContextStateCareTaker<Des2InstanceContextStateMemento> contextStateCareTaker) throws InstanceGeneratorBuildNoOneGenerator, InstanceGeneratorBuildSomeGeneratorsReturnNull {
 
         return new SKDes2InstanceCxt(
                 contextIds,
@@ -56,19 +53,14 @@ public class USKDes2Instance {
                 new AnnotationExtractor(),
                 USKClassMembersPartHandler.DEFAULT,
                 createCollectionGenerator(),
-                new StrType2MapOptConverter(USKClassMembersPartHandler.DEFAULT),
-                className2InstanceConverter,
+//                new MapGenerator(USKClassMembersPartHandler.DEFAULT),
+                //<
+                createMapGenerator(),
+                instanceGenerator,
                 toInstanceConverter,
                 processor,
                 contextStateCareTaker
         );
-    }
-
-    public static OptionalConverter<Collection<Object>, String> createCollectionGenerator() throws CollectionGeneratorBuildNoOneGenerator, CollectionGeneratorBuildSomeGeneratorsReturnNull {
-        return new CollectionGenerator.Builder()
-                .add("java.util.Set", HashSet::new)
-                .add("java.util.List", ArrayList::new)
-                .build();
     }
 
     static public ContextProcessor<Des2InstanceCxt> createProcessor(){
@@ -79,5 +71,24 @@ public class USKDes2Instance {
                 .add(new Des2InstanceMapTaskHandler(HANDLER_MAP));
 
         return new ContextProcessor<Des2InstanceCxt>().add(task);
+    }
+
+    static public InstanceGenerator<Object> createDummyObjectInstanceGenerator() throws InstanceGeneratorBuildSomeGeneratorsReturnNull, InstanceGeneratorBuildNoOneGenerator {
+        return new InstanceGenerator.Builder<Object>()
+                .add("dummy", Object::new)
+                .build();
+    }
+
+    static public InstanceGenerator<Map<Object, Object>> createMapGenerator() throws InstanceGeneratorBuildSomeGeneratorsReturnNull, InstanceGeneratorBuildNoOneGenerator {
+        return new InstanceGenerator.Builder<Map<Object,Object>>()
+                .add("java.util.Map", HashMap::new)
+                .build();
+    }
+
+    static public InstanceGenerator<Collection<Object>> createCollectionGenerator() throws InstanceGeneratorBuildSomeGeneratorsReturnNull, InstanceGeneratorBuildNoOneGenerator {
+        return new InstanceGenerator.Builder<Collection<Object>>()
+                .add("java.util.Set", HashSet::new)
+                .add("java.util.List", ArrayList::new)
+                .build();
     }
 }

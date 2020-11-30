@@ -4,7 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
+import org.KasymbekovPN.Skeleton.custom.functional.generator.InstanceGenerator;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
@@ -173,13 +173,17 @@ public class Des2InstanceTaskHandlersComplexTest {
 
         ContextProcessor<Des2InstanceCxt> des2InstanceProcessor = USKDes2Instance.createProcessor();
 
+        InstanceGenerator<Object> instanceGenerator = new InstanceGenerator.Builder<Object>()
+                .add("Des2InstanceInnerTC0", Des2InstanceInnerTC0::new)
+                .build();
+
         HashMap<String, Class<?>> map = new HashMap<>(){{
             put("Des2InstanceInnerTC0", Des2InstanceInnerTC0.class);
         }};
         Des2InstanceCxt des2InstanceContext = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 classNodes,
-                new ClassName2Instance(map),
+                instanceGenerator,
                 new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 des2InstanceProcessor,
                 new SKContextStateCareTaker<>()

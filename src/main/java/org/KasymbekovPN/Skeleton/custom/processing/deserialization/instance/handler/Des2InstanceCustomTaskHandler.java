@@ -4,9 +4,9 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.Triple;
@@ -48,7 +48,9 @@ public class Des2InstanceCustomTaskHandler extends BaseContextTaskHandler<Des2In
     protected void doIt(Des2InstanceCxt context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
-        OptionalConverter<Object, String> className2InstanceConverter = context.getClassName2InstanceConverter();
+//        OptionalConverter<Object, String> className2InstanceConverter = context.getClassName2InstanceConverter();
+        //<
+        OptFunction<String, Object> instanceGenerator = context.getInstanceGenerator();
 
         for (Triple<Field, Node, ObjectNode> member : members) {
             Field field = member.getLeft();
@@ -60,7 +62,9 @@ public class Des2InstanceCustomTaskHandler extends BaseContextTaskHandler<Des2In
             if (maybeClassName.isPresent()){
                 String className = maybeClassName.get();
 
-                Optional<Object> maybeInstance = className2InstanceConverter.convert(className);
+//                Optional<Object> maybeInstance = className2InstanceConverter.convert(className);
+                //<
+                Optional<Object> maybeInstance = instanceGenerator.apply(className);
                 if (maybeInstance.isPresent()){
                     Object newInstance = maybeInstance.get();
                     fillInstance(newInstance, context, newSerData);

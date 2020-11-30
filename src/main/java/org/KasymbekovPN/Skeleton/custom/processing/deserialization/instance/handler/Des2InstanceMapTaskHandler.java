@@ -1,8 +1,10 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler;
 
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
@@ -45,7 +47,10 @@ public class Des2InstanceMapTaskHandler extends BaseContextTaskHandler<Des2Insta
 
     @Override
     protected void doIt(Des2InstanceCxt context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
-        OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter = context.getStrType2MapConverter();
+//        OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter = context.getStrType2MapConverter();
+        //<
+        OptFunction<String, Map<Object, Object>> mapGenerator = context.getMapGenerator();
+        ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
 
         for (Triple<Field, Node, ObjectNode> member : members) {
             Field field = member.getLeft();
@@ -53,19 +58,25 @@ public class Des2InstanceMapTaskHandler extends BaseContextTaskHandler<Des2Insta
             Node memberNode = member.getMiddle();
             ObjectNode classMember = member.getRight();
 
-            Optional<Map<Object, Object>> maybeMap = strType2MapConverter.convert(classMember);
-            if (maybeMap.isPresent()){
-                if (memberNode.is(ArrayNode.ei())){
-                    Map<Object, Object> map = maybeMap.get();
-                    ArrayNode arrayNode = (ArrayNode) memberNode;
+            Optional<String> maybeClassName = classMembersPartHandler.getClassName(classMember);
+            if (maybeClassName.isPresent()){
+                Optional<Map<Object, Object>> maybeMap = mapGenerator.apply(maybeClassName.get());
+                if (maybeMap.isPresent()){
+                    if (memberNode.is(ArrayNode.ei())){
+                        Map<Object, Object> map = maybeMap.get();
+                        ArrayNode arrayNode = (ArrayNode) memberNode;
 
-                    fillMap(map, arrayNode, context);
-                    setField(field, map);
+                        fillMap(map, arrayNode, context);
+                        setField(field, map);
+                    } else {
+                        log.warn("{} : memberNode has wrong type - isn't ArrayNode", fieldName);
+                    }
                 } else {
-                    log.warn("{} : memberNode has wrong type - isn't ArrayNode", fieldName);
+                    log.warn("{} : failure attempt of map creation", fieldName);
                 }
-            } else {
-                log.warn("{} : failure attempt of map creation", fieldName);
+            }
+            else {
+                log.warn("'{}' : failure attempt of getting of classname", fieldName);
             }
         }
     }

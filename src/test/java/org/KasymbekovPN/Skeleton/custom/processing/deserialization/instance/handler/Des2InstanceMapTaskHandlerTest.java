@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.ClassName2Instance;
 import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
@@ -13,8 +12,8 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.C
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.SKInstanceContextStateMemento;
-import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.CollectionGeneratorBuildNoOneGenerator;
-import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.CollectionGeneratorBuildSomeGeneratorsReturnNull;
+import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildNoOneGenerator;
+import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildSomeGeneratorsReturnNull;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
@@ -45,14 +44,14 @@ public class Des2InstanceMapTaskHandlerTest {
 
     @DisplayName("check method - check valid")
     @Test
-    void testCheckMethodNotValid() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty, CollectionGeneratorBuildNoOneGenerator, CollectionGeneratorBuildSomeGeneratorsReturnNull {
+    void testCheckMethodNotValid() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty, InstanceGeneratorBuildNoOneGenerator, InstanceGeneratorBuildSomeGeneratorsReturnNull {
         TestedClassWrapper tested = new TestedClassWrapper("map");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 new HashMap<>(),
-                new ClassName2Instance(map),
+                USKDes2Instance.createDummyObjectInstanceGenerator(),
                 new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 new SKContextStateCareTaker<>()
@@ -68,14 +67,14 @@ public class Des2InstanceMapTaskHandlerTest {
 
     @DisplayName("doIt method - get members")
     @Test
-    void testCheckMethodGetMembers() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty, CollectionGeneratorBuildNoOneGenerator, CollectionGeneratorBuildSomeGeneratorsReturnNull {
+    void testCheckMethodGetMembers() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ContextStateCareTakerIsEmpty, InstanceGeneratorBuildNoOneGenerator, InstanceGeneratorBuildSomeGeneratorsReturnNull {
         TestedClassWrapper tested = new TestedClassWrapper("map");
 
         HashMap<String, Class<?>> map = new HashMap<>();
         Des2InstanceCxt context = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 new HashMap<>(),
-                new ClassName2Instance(map),
+                USKDes2Instance.createDummyObjectInstanceGenerator(),
                 new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 new SKContextStateCareTaker<>()
@@ -165,7 +164,7 @@ public class Des2InstanceMapTaskHandlerTest {
         Des2InstanceCxt context = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 classNodes,
-                new ClassName2Instance(map),
+                USKDes2Instance.createDummyObjectInstanceGenerator(),
                 new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 new SKContextStateCareTaker<>()

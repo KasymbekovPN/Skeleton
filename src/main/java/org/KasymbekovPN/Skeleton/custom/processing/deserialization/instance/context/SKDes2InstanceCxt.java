@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
@@ -25,9 +26,13 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
     private final ContextIds contextIds;
     private final Map<String, ObjectNode> classNodes;
     private final ClassMembersPartHandler classMembersPartHandler;
-    private final OptionalConverter<Collection<Object>, String> collectionGenerator;
-    private final OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter;
-    private final OptionalConverter<Object, String> className2InstanceConverter;
+    private final OptFunction<String, Collection<Object>> collectionGenerator;
+//    private final OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter;
+    //<
+    private final OptFunction<String, Map<Object,Object>> mapGenerator;
+//    private final OptionalConverter<Object, String> className2InstanceConverter;
+    //<
+    private final OptFunction<String, Object> instanceGenerator;
     private final OptionalConverter<Object, ObjectNode> toInstanceConverter;
     private final ContextProcessor<Des2InstanceCxt> processor;
     private final ContextStateCareTaker<Des2InstanceContextStateMemento> contextStateCareTaker;
@@ -36,9 +41,9 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
                              Map<String, ObjectNode> classNodes,
                              Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
                              ClassMembersPartHandler classMembersPartHandler,
-                             OptionalConverter<Collection<Object>, String> collectionGenerator,
-                             OptionalConverter<Map<Object, Object>, ObjectNode> strType2MapConverter,
-                             OptionalConverter<Object, String> className2InstanceConverter,
+                             OptFunction<String, Collection<Object>> collectionGenerator,
+                             OptFunction<String, Map<Object,Object>> mapGenerator,
+                             OptFunction<String, Object> instanceGenerator,
                              OptionalConverter<Object, ObjectNode> toInstanceConverter,
                              ContextProcessor<Des2InstanceCxt> processor,
                              ContextStateCareTaker<Des2InstanceContextStateMemento> contextStateCareTaker) {
@@ -46,8 +51,8 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
         this.classNodes = classNodes;
         this.classMembersPartHandler = classMembersPartHandler;
         this.collectionGenerator = collectionGenerator;
-        this.strType2MapConverter = strType2MapConverter;
-        this.className2InstanceConverter = className2InstanceConverter;
+        this.mapGenerator = mapGenerator;
+        this.instanceGenerator = instanceGenerator;
         this.toInstanceConverter = toInstanceConverter;
         this.processor = processor;
         this.contextStateCareTaker = contextStateCareTaker;
@@ -59,18 +64,32 @@ public class SKDes2InstanceCxt implements Des2InstanceCxt {
     }
 
     @Override
-    public OptionalConverter<Collection<Object>, String> getCollectionGenerator() {
+    public OptFunction<String, Collection<Object>> getCollectionGenerator() {
         return collectionGenerator;
     }
 
-    @Override
-    public OptionalConverter<Map<Object, Object>, ObjectNode> getStrType2MapConverter() {
-        return strType2MapConverter;
-    }
+//    @Override
+//    public OptionalConverter<Map<Object, Object>, ObjectNode> getStrType2MapConverter() {
+//        return strType2MapConverter;
+//    }
+    //<
 
     @Override
-    public OptionalConverter<Object, String> getClassName2InstanceConverter() {
-        return className2InstanceConverter;
+    public OptFunction<String, Map<Object, Object>> getMapGenerator() {
+        return mapGenerator;
+    }
+
+
+//    @Override
+//    public OptionalConverter<Object, String> getClassName2InstanceConverter() {
+//        return className2InstanceConverter;
+//    }
+    //<
+
+
+    @Override
+    public OptFunction<String, Object> getInstanceGenerator() {
+        return instanceGenerator;
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
@@ -52,10 +53,12 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
             IllegalAccessException, ContextStateCareTakerIsEmpty {
 
         ClassMembersPartHandler classMembersPartHandler = context.getClassMembersPartHandler();
-        OptionalConverter<Collection<Object>, String> collectionGenerator
-                    = context.getCollectionGenerator();
+//        OptionalConverter<Collection<Object>, String> collectionGenerator
+//                    = context.getCollectionGenerator();
+        //<
+        OptFunction<String, Collection<Object>> collectionGenerator = context.getCollectionGenerator();
 
-            for (Triple<Field, Node, ObjectNode> member : members) {
+        for (Triple<Field, Node, ObjectNode> member : members) {
                 Field field = member.getLeft();
                 Node memberNode = member.getMiddle();
                 ObjectNode classMember = member.getRight();
@@ -63,7 +66,7 @@ public class Des2InstanceCollectionTaskHandler extends BaseContextTaskHandler<De
 
                 Optional<String> maybeClassName = classMembersPartHandler.getClassName(classMember);
                 if (maybeClassName.isPresent()){
-                    Optional<Collection<Object>> maybeCollection = collectionGenerator.convert(maybeClassName.get());
+                    Optional<Collection<Object>> maybeCollection = collectionGenerator.apply(maybeClassName.get());
                     if (maybeCollection.isPresent()){
                         if (memberNode.is(ArrayNode.ei())){
                             Collection<Object> collection = maybeCollection.get();
