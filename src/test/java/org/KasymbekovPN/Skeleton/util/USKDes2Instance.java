@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.util;
 
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.functional.generator.InstanceGenerator;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.SKDes2InstanceCxt;
@@ -13,7 +12,6 @@ import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator
 import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildSomeGeneratorsReturnNull;
 import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
-import org.KasymbekovPN.Skeleton.lib.optionalConverter.OptionalConverter;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
@@ -43,21 +41,18 @@ public class USKDes2Instance {
     static public Des2InstanceCxt createContext(ContextIds contextIds,
                                                  Map<String, ObjectNode> classNodes,
                                                  OptFunction<String, Object> instanceGenerator,
-                                                 OptionalConverter<Object, ObjectNode> toInstanceConverter,
                                                  ContextProcessor<Des2InstanceCxt> processor,
                                                  ContextStateCareTaker<Des2InstanceContextStateMemento> contextStateCareTaker) throws InstanceGeneratorBuildNoOneGenerator, InstanceGeneratorBuildSomeGeneratorsReturnNull {
 
         return new SKDes2InstanceCxt(
                 contextIds,
                 classNodes,
-                new AnnotationExtractor(),
+                USKClassHeaderPartHandler.DEFAULT,
                 USKClassMembersPartHandler.DEFAULT,
                 createCollectionGenerator(),
-//                new MapGenerator(USKClassMembersPartHandler.DEFAULT),
-                //<
                 createMapGenerator(),
                 instanceGenerator,
-                toInstanceConverter,
+                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
                 processor,
                 contextStateCareTaker
         );

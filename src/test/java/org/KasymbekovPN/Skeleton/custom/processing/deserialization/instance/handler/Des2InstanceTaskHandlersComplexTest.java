@@ -5,7 +5,6 @@ import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
 import org.KasymbekovPN.Skeleton.custom.functional.generator.InstanceGenerator;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
@@ -184,7 +183,6 @@ public class Des2InstanceTaskHandlersComplexTest {
                 USKDes2Instance.createContextIds(),
                 classNodes,
                 instanceGenerator,
-                new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 des2InstanceProcessor,
                 new SKContextStateCareTaker<>()
         );

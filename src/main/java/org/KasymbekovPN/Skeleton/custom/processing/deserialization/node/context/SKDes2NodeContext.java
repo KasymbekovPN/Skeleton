@@ -26,9 +26,6 @@ public class SKDes2NodeContext implements Des2NodeContext {
     private final SimpleChecker<Character> propertyNameEndChecker;
     private final SimpleChecker<Character> valueNameSeparator;
 
-    //<
-//    private EntityItem key;
-
     public SKDes2NodeContext(MultiContextIds<EntityItem> contextIds,
                              ContextStateCareTaker<Des2NodeContextStateMemento> careTaker,
                              DecrementedCharIterator iterator,

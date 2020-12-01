@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
@@ -52,7 +51,6 @@ public class Des2InstanceMapTaskHandlerTest {
                 USKDes2Instance.createContextIds(),
                 new HashMap<>(),
                 USKDes2Instance.createDummyObjectInstanceGenerator(),
-                new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 new SKContextStateCareTaker<>()
         );
@@ -75,7 +73,6 @@ public class Des2InstanceMapTaskHandlerTest {
                 USKDes2Instance.createContextIds(),
                 new HashMap<>(),
                 USKDes2Instance.createDummyObjectInstanceGenerator(),
-                new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 new SKContextStateCareTaker<>()
         );
@@ -165,7 +162,6 @@ public class Des2InstanceMapTaskHandlerTest {
                 USKDes2Instance.createContextIds(),
                 classNodes,
                 USKDes2Instance.createDummyObjectInstanceGenerator(),
-                new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 new SKContextStateCareTaker<>()
         );

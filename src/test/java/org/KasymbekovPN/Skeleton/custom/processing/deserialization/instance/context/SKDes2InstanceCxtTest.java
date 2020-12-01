@@ -1,15 +1,12 @@
 package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context;
 
-import org.KasymbekovPN.Skeleton.custom.optionalConverter.ToInstanceOC;
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.Des2InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildNoOneGenerator;
 import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildSomeGeneratorsReturnNull;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
-import org.KasymbekovPN.Skeleton.util.USKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.util.USKClassMembersPartHandler;
-import org.KasymbekovPN.Skeleton.util.USKCollectorPath;
 import org.KasymbekovPN.Skeleton.util.USKDes2Instance;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -33,10 +30,7 @@ public class SKDes2InstanceCxtTest {
         context = USKDes2Instance.createContext(
                 USKDes2Instance.createContextIds(),
                 createClassNodes(),
-//                new ClassName2Instance(map),
-                //<
                 USKDes2Instance.createDummyObjectInstanceGenerator(),
-                new ToInstanceOC(map, USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH),
                 USKDes2Instance.createProcessor(),
                 careTaker
         );
@@ -64,32 +58,22 @@ public class SKDes2InstanceCxtTest {
     @DisplayName("getCollectionGenerator method")
     @Test
     void testGetCollectionGeneratorMethod() throws InstanceGeneratorBuildNoOneGenerator, InstanceGeneratorBuildSomeGeneratorsReturnNull {
-//        assertThat(context.getCollectionGenerator())
-//                .isEqualTo(USKDes2Instance.createCollectionGenerator());
-        //<
+        assertThat(context.getCollectionGenerator())
+                .isEqualTo(USKDes2Instance.createCollectionGenerator());
     }
 
-    @DisplayName("getStrType2MapConverter method")
+    @DisplayName("getMapGenerator method")
     @Test
-    void testGetStrType2MapConverter(){
-        //<
-//        assertThat(context.getStrType2MapConverter())
-//                .isEqualTo(new MapGenerator(USKClassMembersPartHandler.DEFAULT));
+    void testGetMapGeneratorMethod() throws InstanceGeneratorBuildSomeGeneratorsReturnNull, InstanceGeneratorBuildNoOneGenerator {
+        assertThat(context.getMapGenerator())
+                .isEqualTo(USKDes2Instance.createMapGenerator());
     }
 
-    @DisplayName("getClassName2InstanceConverter method")
+    @DisplayName("getInstanceGenerator method")
     @Test
-    void testGetClassName2InstanceConverter(){
-        //<
-//        assertThat(context.getClassName2InstanceConverter())
-//                .isEqualTo(new ClassName2Instance(createMap()));
-    }
-
-    @DisplayName("getToInstanceConverter method")
-    @Test
-    void testGetToInstanceConverter(){
-        assertThat(context.getToInstanceConverter())
-                .isEqualTo(new ToInstanceOC(createMap(), USKClassHeaderPartHandler.DEFAULT, USKCollectorPath.DEFAULT_CLASS_PART_PATH));
+    void testGetInstanceGeneratorMethod() throws InstanceGeneratorBuildSomeGeneratorsReturnNull, InstanceGeneratorBuildNoOneGenerator {
+        assertThat(context.getInstanceGenerator())
+                .isEqualTo(USKDes2Instance.createDummyObjectInstanceGenerator());
     }
 
     @DisplayName("getClassMembersPartHandler method")

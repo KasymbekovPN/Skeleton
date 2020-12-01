@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -35,6 +36,19 @@ public class InstanceGenerator<R> implements OptFunction<String, R> {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InstanceGenerator<?> that = (InstanceGenerator<?>) o;
+        return Objects.equals(generators, that.generators);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(generators);
     }
 
     public static class Builder<R>{
