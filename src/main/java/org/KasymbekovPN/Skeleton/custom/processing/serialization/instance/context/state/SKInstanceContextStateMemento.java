@@ -81,7 +81,6 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
         return fieldValuesByKind.getOrDefault(kind, new HashMap<>());
     }
 
-    // todo: test
     @Override
     public Map<String, String> getAnnotationNames(String kind) {
         return annotationNames.getOrDefault(kind, new HashMap<>());

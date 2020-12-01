@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.Set;
 
-public class Des2InstanceBaseTaskHandler extends BaseContextTaskHandler<Des2InstanceCxt> {
+abstract public class Des2InstanceBaseTaskHandler extends BaseContextTaskHandler<Des2InstanceCxt> {
 
     private static final Logger log = LoggerFactory.getLogger(Des2InstanceBaseTaskHandler.class);
 

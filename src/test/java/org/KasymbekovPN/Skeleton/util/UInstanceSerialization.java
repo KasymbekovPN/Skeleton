@@ -10,13 +10,16 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handle
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceMapTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.handler.member.InstanceSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
+import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 public class UInstanceSerialization {
@@ -46,6 +49,24 @@ public class UInstanceSerialization {
                 USKClassHeaderPartHandler.DEFAULT,
                 USKClassMembersPartHandler.DEFAULT,
                 new AnnotationExtractor()
+        );
+    }
+
+    static public InstanceContext createContext(ContextStateCareTaker<InstanceContextStateMemento> careTaker,
+                                                Map<String, ObjectNode> classNodes,
+                                                Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                                Collector collector){
+        return new SKInstanceContext(
+                createContextIds(),
+                careTaker,
+                classNodes,
+                collector,
+                createProcessor(),
+                USKCollectorPath.DEFAULT_CLASS_PART_PATH,
+                USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH,
+                USKClassHeaderPartHandler.DEFAULT,
+                USKClassMembersPartHandler.DEFAULT,
+                annotationExtractor
         );
     }
 

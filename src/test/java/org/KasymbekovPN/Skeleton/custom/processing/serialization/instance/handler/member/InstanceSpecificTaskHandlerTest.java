@@ -36,7 +36,7 @@ import java.util.Map;
 public class InstanceSpecificTaskHandlerTest {
 
     private static final String NOT_VALID = "not valid";
-    private static final String IS_EMPTY = "Values by '%s' is empty";
+    private static final String IS_EMPTY = "Values by '%s' are empty";
 
     private static Object[][] getDoItMethodTestData(){
         return new Object[][]{

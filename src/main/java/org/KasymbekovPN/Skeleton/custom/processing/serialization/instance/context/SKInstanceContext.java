@@ -96,7 +96,6 @@ public class SKInstanceContext implements InstanceContext {
         return classMembersPartHandler;
     }
 
-    // todo: test
     @Override
     public Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> getAnnotationExtractor() {
         return annotationExtractor;

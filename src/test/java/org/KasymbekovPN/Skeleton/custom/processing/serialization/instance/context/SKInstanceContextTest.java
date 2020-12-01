@@ -1,9 +1,11 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context;
 
+import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
+import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
@@ -13,11 +15,13 @@ import org.KasymbekovPN.Skeleton.util.UInstanceSerialization;
 import org.KasymbekovPN.Skeleton.util.USKClassHeaderPartHandler;
 import org.KasymbekovPN.Skeleton.util.USKClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.util.USKCollectorPath;
+import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +34,7 @@ public class SKInstanceContextTest {
     private static InstanceContext instanceContext;
     private static Map<String, ObjectNode> classNodes;
     private static Collector collector;
+    private static Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
 
     @BeforeAll
     private static void beforeAll(){
@@ -38,9 +43,11 @@ public class SKInstanceContextTest {
         contextIds = UInstanceSerialization.createContextIds();
         processor = UInstanceSerialization.createProcessor();
         careTaker = new SKContextStateCareTaker<>();
+        annotationExtractor = new AnnotationExtractor();
         instanceContext = UInstanceSerialization.createContext(
                 careTaker,
                 classNodes,
+                annotationExtractor,
                 collector
         );
     }
@@ -97,5 +104,11 @@ public class SKInstanceContextTest {
     @Test
     void testGetClassMembersPartHandler(){
         Assertions.assertThat(instanceContext.getClassMembersPartHandler()).isEqualTo(USKClassMembersPartHandler.DEFAULT);
+    }
+
+    @DisplayName("getAnnotationExtractor method")
+    @Test
+    void testGetAnnotationExtractorMethod(){
+        Assertions.assertThat(instanceContext.getAnnotationExtractor()).isEqualTo(annotationExtractor);
     }
 }
