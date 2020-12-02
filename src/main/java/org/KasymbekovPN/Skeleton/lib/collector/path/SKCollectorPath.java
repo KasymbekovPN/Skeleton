@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-// TODO: 22.11.2020 test
 public class SKCollectorPath implements CollectorPath {
 
     private List<String> path;
