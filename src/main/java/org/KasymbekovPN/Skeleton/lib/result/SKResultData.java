@@ -3,6 +3,7 @@ package org.KasymbekovPN.Skeleton.lib.result;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 // TODO: 22.11.2020 test
 public class SKResultData implements ResultData {
@@ -35,5 +36,18 @@ public class SKResultData implements ResultData {
     @Override
     public void clear() {
         data.clear();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKResultData that = (SKResultData) o;
+        return Objects.equals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(data);
     }
 }

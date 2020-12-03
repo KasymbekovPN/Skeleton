@@ -2,6 +2,7 @@ package org.KasymbekovPN.Skeleton.lib.result;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 public class SKSimpleResult implements SimpleResult {
 
@@ -65,6 +66,21 @@ public class SKSimpleResult implements SimpleResult {
         if (resultData != null){
             resultData.clear();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SKSimpleResult that = (SKSimpleResult) o;
+        return success == that.success &&
+                Objects.equals(resultData, that.resultData) &&
+                Objects.equals(status, that.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(resultData, success, status);
     }
 
     private ResultData createResultData() throws NoSuchMethodException,
