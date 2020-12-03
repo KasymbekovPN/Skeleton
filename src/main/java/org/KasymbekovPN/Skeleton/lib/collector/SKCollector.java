@@ -7,7 +7,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 22.11.2020 test
 public class SKCollector implements Collector {
 
     private Node root;
