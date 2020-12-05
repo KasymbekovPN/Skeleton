@@ -11,8 +11,6 @@ import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-
-//< !!! need test
 abstract public class BaseContextTaskHandler<T extends Context<? extends ContextStateMemento>> implements TaskHandler<T> {
 
     private static final Class<? extends SimpleResult> SIMPLE_RESULT_CLASS = SKSimpleResult.class;
