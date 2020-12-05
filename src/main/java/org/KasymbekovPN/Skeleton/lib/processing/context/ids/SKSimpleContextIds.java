@@ -2,7 +2,6 @@ package org.KasymbekovPN.Skeleton.lib.processing.context.ids;
 
 import java.util.*;
 
-// TODO: 22.11.2020 test
 public class SKSimpleContextIds implements ContextIds {
 
     private final List<String> taskIds = new ArrayList<>();
