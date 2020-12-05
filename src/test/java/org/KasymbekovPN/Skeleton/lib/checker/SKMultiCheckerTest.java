@@ -85,7 +85,7 @@ public class SKMultiCheckerTest {
                 .add("one", new SKSimpleChecker<Integer>(100, 101, 102, 103, 104, 105))
                 .add("two", new SKSimpleChecker<Integer>(200, 201, 202, 203, 204, 205))
                 .build();
-        Assertions.assertThat(multiChecker.check(key, checkedValue)).isEqualTo(success);
+        Assertions.assertThat(multiChecker.apply(key, checkedValue)).isEqualTo(success);
     }
 
     @ParameterizedTest
@@ -96,7 +96,7 @@ public class SKMultiCheckerTest {
             builder.add(entry.getKey(), new SKSimpleChecker<>(entry.getValue()));
         }
         MultiChecker<String, Integer> checker = builder.build();
-        Optional<String> maybeKey = checker.checkByAll(checkedValue);
+        Optional<String> maybeKey = checker.applyByAll(checkedValue);
         boolean checkedIsPresent = maybeKey.isPresent();
         Assertions.assertThat(checkedIsPresent).isEqualTo(isPresent);
         if (checkedIsPresent){

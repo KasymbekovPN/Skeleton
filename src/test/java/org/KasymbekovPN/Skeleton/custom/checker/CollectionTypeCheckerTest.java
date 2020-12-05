@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 @DisplayName("CollectionTypeChecker. Testing of:")
 public class CollectionTypeCheckerTest {
@@ -21,23 +21,23 @@ public class CollectionTypeCheckerTest {
         Field stringSetField = tc0Class.getDeclaredField("stringSet");
         Field stringListField = tc0Class.getDeclaredField("stringList");
 
-        SimpleChecker<Field> allChecker = new CollectionTypeChecker.Builder()
+        Function<Field, Boolean> allChecker = new CollectionTypeChecker.Builder()
                 .addTypes(Set.class, List.class)
                 .addArguments(Integer.class, String.class)
                 .build();
-        SimpleChecker<Field> setChecker = new CollectionTypeChecker.Builder()
+        Function<Field, Boolean> setChecker = new CollectionTypeChecker.Builder()
                 .addTypes(Set.class)
                 .addArguments(Integer.class, String.class)
                 .build();
-        SimpleChecker<Field> listChecker = new CollectionTypeChecker.Builder()
+        Function<Field, Boolean> listChecker = new CollectionTypeChecker.Builder()
                 .addTypes(List.class)
                 .addArguments(Integer.class, String.class)
                 .build();
-        SimpleChecker<Field> intChecker = new CollectionTypeChecker.Builder()
+        Function<Field, Boolean> intChecker = new CollectionTypeChecker.Builder()
                 .addTypes(Set.class, List.class)
                 .addArguments(Integer.class)
                 .build();
-        SimpleChecker<Field> strChecker = new CollectionTypeChecker.Builder()
+        Function<Field, Boolean> strChecker = new CollectionTypeChecker.Builder()
                 .addTypes(Set.class, List.class)
                 .addArguments(String.class)
                 .build();
@@ -73,8 +73,8 @@ public class CollectionTypeCheckerTest {
 
     @ParameterizedTest
     @MethodSource("getTestData")
-    void test(SimpleChecker<Field> checker, Field field, boolean result){
-        Assertions.assertThat(checker.check(field)).isEqualTo(result);
+    void test(Function<Field, Boolean> checker, Field field, boolean result){
+        Assertions.assertThat(checker.apply(field)).isEqualTo(result);
     }
 
     private static class TC0{

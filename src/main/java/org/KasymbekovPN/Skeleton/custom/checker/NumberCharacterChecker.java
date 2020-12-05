@@ -1,11 +1,10 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
+import java.util.function.Function;
 
-public class NumberCharacterChecker implements SimpleChecker<Character> {
-
+public class NumberCharacterChecker implements Function<Character, Boolean> {
     @Override
-    public boolean check(Character checkableValue) {
-        return Character.isDigit(checkableValue);
+    public Boolean apply(Character character) {
+        return Character.isDigit(character);
     }
 }

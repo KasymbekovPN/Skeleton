@@ -29,7 +29,7 @@ public class Des2NodeInitTaskHandler extends Des2NodeBaseTaskHandler {
 
         Optional<EntityItem> maybeEI = Optional.empty();
         while (iterator.hasNext() && maybeEI.isEmpty()){
-            maybeEI = entityBeginChecker.checkByAll(iterator.next());
+            maybeEI = entityBeginChecker.applyByAll(iterator.next());
         }
 
         if (maybeEI.isPresent()){

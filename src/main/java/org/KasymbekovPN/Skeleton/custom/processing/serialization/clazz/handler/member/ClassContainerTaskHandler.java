@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.ClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -18,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * For collections and maps
@@ -29,16 +29,16 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler<ClassConte
     private static final String NOT_CONTAIN_CLASS_PART = "Not contain class part";
     private static final String NO_ONE_CONTAINER_FIELD = "No one container field";
 
-    private final SimpleChecker<Field> fieldChecker;
+    private final Function<Field, Boolean> fieldChecker;
 
-    private Set<Field> containerFields = new HashSet<>();
+    private final Set<Field> containerFields = new HashSet<>();
 
-    public ClassContainerTaskHandler(SimpleChecker<Field> fieldChecker, String id) {
+    public ClassContainerTaskHandler(Function<Field, Boolean> fieldChecker, String id) {
         super(id);
         this.fieldChecker = fieldChecker;
     }
 
-    public ClassContainerTaskHandler(SimpleChecker<Field> fieldChecker, String id, SimpleResult simpleResult) {
+    public ClassContainerTaskHandler(Function<Field, Boolean> fieldChecker, String id, SimpleResult simpleResult) {
         super(id, simpleResult);
         this.fieldChecker = fieldChecker;
     }
@@ -77,7 +77,7 @@ public class ClassContainerTaskHandler extends BaseContextTaskHandler<ClassConte
             containerFields.clear();
             Set<Field> remainingFields = memento.getRemainingFields();
             for (Field field : remainingFields) {
-                if (fieldChecker.check(field)){
+                if (fieldChecker.apply(field)){
                     containerFields.add(field);
                 }
             }

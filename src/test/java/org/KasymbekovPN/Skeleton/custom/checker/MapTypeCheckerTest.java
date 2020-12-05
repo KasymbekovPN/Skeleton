@@ -1,6 +1,5 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.function.Function;
 
 @DisplayName("MapTypeChecker. Testing of:")
 public class MapTypeCheckerTest {
@@ -20,42 +20,42 @@ public class MapTypeCheckerTest {
         Field intByStr = tc0Class.getDeclaredField("intByStr");
         Field strByStr = tc0Class.getDeclaredField("strByStr");
 
-        SimpleChecker<Field> allChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> allChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addKeyArgumentTypes(Integer.class, String.class)
                 .addValueArgumentTypes(Integer.class, String.class)
                 .build();
 
-        SimpleChecker<Field> intKeyChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> intKeyChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addKeyArgumentTypes(Integer.class)
                 .addValueArgumentTypes(Integer.class, String.class)
                 .build();
 
-        SimpleChecker<Field> strKeyChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> strKeyChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addKeyArgumentTypes(String.class)
                 .addValueArgumentTypes(Integer.class, String.class)
                 .build();
 
-        SimpleChecker<Field> noneKeyChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> noneKeyChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addValueArgumentTypes(Integer.class, String.class)
                 .build();
 
-        SimpleChecker<Field> intValueChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> intValueChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addKeyArgumentTypes(Integer.class, String.class)
                 .addValueArgumentTypes(Integer.class)
                 .build();
 
-        SimpleChecker<Field> strValueChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> strValueChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addKeyArgumentTypes(Integer.class, String.class)
                 .addValueArgumentTypes(String.class)
                 .build();
 
-        SimpleChecker<Field> noneValueChecker = new MapTypeChecker.Builder()
+        Function<Field, Boolean> noneValueChecker = new MapTypeChecker.Builder()
                 .addTypes(Map.class)
                 .addKeyArgumentTypes(Integer.class, String.class)
                 .build();
@@ -101,8 +101,8 @@ public class MapTypeCheckerTest {
 
     @ParameterizedTest
     @MethodSource("getTestData")
-    void test(SimpleChecker<Field> checker, Field field, boolean result) {
-        Assertions.assertThat(checker.check(field)).isEqualTo(result);
+    void test(Function<Field, Boolean> checker, Field field, boolean result) {
+        Assertions.assertThat(checker.apply(field)).isEqualTo(result);
     }
 
     private static class TC0{

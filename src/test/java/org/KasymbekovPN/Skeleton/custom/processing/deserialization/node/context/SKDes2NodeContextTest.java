@@ -3,7 +3,6 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.Des2NodeContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.iterator.SKDecrementedCharIterator;
@@ -17,6 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Function;
+
 @DisplayName("SKDes2NodeContext. Testing of:")
 public class SKDes2NodeContextTest {
 
@@ -25,9 +26,9 @@ public class SKDes2NodeContextTest {
     static private MultiChecker<EntityItem, Character> entityBeginChecker;
     static private MultiChecker<EntityItem, Character> valueBeginChecker;
     static private MultiChecker<EntityItem, Character> valueEndChecker;
-    static private SimpleChecker<Character> propertyNameBeginChecker;
-    static private SimpleChecker<Character> propertyNameEndChecker;
-    static private SimpleChecker<Character> valueNameSeparator;
+    static private Function<Character, Boolean> propertyNameBeginChecker;
+    static private Function<Character, Boolean> propertyNameEndChecker;
+    static private Function<Character, Boolean> valueNameSeparator;
     static private ContextProcessor<Des2NodeContext> processor;
     static private DecrementedCharIterator iterator;
     static private Des2NodeContext context;

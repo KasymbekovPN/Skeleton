@@ -1,15 +1,14 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
-public class MapTypeChecker implements SimpleChecker<Field> {
+public class MapTypeChecker implements Function<Field, Boolean> {
 
     private final Set<Class<?>> types;
     private final Set<Class<?>> keyArgumentTypes;
@@ -24,11 +23,11 @@ public class MapTypeChecker implements SimpleChecker<Field> {
     }
 
     @Override
-    public boolean check(Field checkableValue) {
-        boolean result = checkType(checkableValue);
+    public Boolean apply(Field field) {
+        boolean result = checkType(field);
         if (result){
-            result = checkArgumentType(checkableValue, keyArgumentTypes, 0);
-            result &= checkArgumentType(checkableValue, valueArgumentTypes, 1);
+            result = checkArgumentType(field, keyArgumentTypes, 0);
+            result &= checkArgumentType(field, valueArgumentTypes, 1);
         }
 
         return result;
@@ -47,9 +46,9 @@ public class MapTypeChecker implements SimpleChecker<Field> {
 
     public static class Builder{
 
-        private Set<Class<?>> types = new HashSet<>();
-        private Set<Class<?>> keyArgumentTypes = new HashSet<>();
-        private Set<Class<?>> valueArgumentTypes = new HashSet<>();
+        private final Set<Class<?>> types = new HashSet<>();
+        private final Set<Class<?>> keyArgumentTypes = new HashSet<>();
+        private final Set<Class<?>> valueArgumentTypes = new HashSet<>();
 
         public Builder addTypes(Class<?>... types){
             return addTypes(new HashSet<>(Arrays.asList(types)));
@@ -78,7 +77,7 @@ public class MapTypeChecker implements SimpleChecker<Field> {
             return this;
         }
 
-        public SimpleChecker<Field> build(){
+        public Function<Field, Boolean> build(){
             return new MapTypeChecker(types, keyArgumentTypes, valueArgumentTypes);
         }
     }

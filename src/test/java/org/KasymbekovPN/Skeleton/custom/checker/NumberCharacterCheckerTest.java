@@ -1,11 +1,12 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.function.Function;
 
 @DisplayName("NumberCharacterChecker. Testing of:")
 public class NumberCharacterCheckerTest {
@@ -77,7 +78,7 @@ public class NumberCharacterCheckerTest {
         };
     }
 
-    private static SimpleChecker<Character> checker;
+    private static Function<Character, Boolean> checker;
 
     @BeforeAll
     static void init(){
@@ -87,6 +88,6 @@ public class NumberCharacterCheckerTest {
     @ParameterizedTest
     @MethodSource("getTestData")
     void test(char ch, boolean result){
-        Assertions.assertThat(checker.check(ch)).isEqualTo(result);
+        Assertions.assertThat(checker.apply(ch)).isEqualTo(result);
     }
 }

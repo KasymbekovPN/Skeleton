@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.h
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassContainerTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassCustomTaskHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
@@ -22,6 +21,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.function.Function;
 
 public class UClassSerialization {
 
@@ -53,11 +53,11 @@ public class UClassSerialization {
         );
     }
 
-    public static Processor<ClassContext> createProcessor(SimpleChecker<Class<?>> specificChecker,
-                                                          SimpleChecker<String> customChecker,
+    public static Processor<ClassContext> createProcessor(Function<Class<?>, Boolean> specificChecker,
+                                                          Function<String, Boolean> customChecker,
                                                           Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                                          SimpleChecker<Field> collectionChecker,
-                                                          SimpleChecker<Field> mapChecker){
+                                                          Function<Field, Boolean> collectionChecker,
+                                                          Function<Field, Boolean> mapChecker){
 
         Task<ClassContext> task = new ContextTask<>(UTaskIds.COMMON);
         task

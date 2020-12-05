@@ -3,8 +3,9 @@ package org.KasymbekovPN.Skeleton.lib.checker;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
-public class SKSimpleChecker<T> implements SimpleChecker<T> {
+public class SKSimpleChecker<T> implements Function<T, Boolean> {
 
     private final Set<T> allowedValues;
 
@@ -18,7 +19,7 @@ public class SKSimpleChecker<T> implements SimpleChecker<T> {
     }
 
     @Override
-    public boolean check(T checkableValue) {
-        return allowedValues.contains(checkableValue);
+    public Boolean apply(T t) {
+        return allowedValues.contains(t);
     }
 }

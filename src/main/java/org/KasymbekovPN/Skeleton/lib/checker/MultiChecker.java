@@ -1,8 +1,9 @@
 package org.KasymbekovPN.Skeleton.lib.checker;
 
 import java.util.Optional;
+import java.util.function.Function;
 
-public interface MultiChecker<K, T> extends SimpleChecker<T> {
-    boolean check(K key, T checkableValue);
-    Optional<K> checkByAll(T checkableValue);
+public interface MultiChecker<K, T> extends Function<T, Boolean> {
+    boolean apply(K key, T checkableValue);
+    Optional<K> applyByAll(T checkableValue);
 }

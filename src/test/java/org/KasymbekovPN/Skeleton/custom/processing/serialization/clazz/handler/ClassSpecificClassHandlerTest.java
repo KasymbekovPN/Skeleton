@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -185,12 +185,12 @@ public class ClassSpecificClassHandlerTest {
 
     private static class TestedClassWrapper extends ClassSpecificTaskHandler {
 
-        public TestedClassWrapper(SimpleChecker<Class<?>> fieldChecker, String id) {
+        public TestedClassWrapper(Function<Class<?>, Boolean> fieldChecker, String id) {
             super(fieldChecker, id);
             simpleResult = new SKSimpleResult();
         }
 
-        public TestedClassWrapper(SimpleChecker<Class<?>> fieldChecker, String id, SimpleResult simpleResult) {
+        public TestedClassWrapper(Function<Class<?>, Boolean> fieldChecker, String id, SimpleResult simpleResult) {
             super(fieldChecker, id, simpleResult);
         }
 

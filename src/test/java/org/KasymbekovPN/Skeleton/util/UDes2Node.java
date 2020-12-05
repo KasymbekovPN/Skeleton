@@ -7,7 +7,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SKMultiChecker;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
@@ -17,6 +16,8 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+
+import java.util.function.Function;
 
 public class UDes2Node {
 
@@ -91,15 +92,15 @@ public class UDes2Node {
                 .build();
     }
 
-    public static SimpleChecker<Character> createPropertyNameBeginChecker() {
+    public static Function<Character, Boolean> createPropertyNameBeginChecker() {
         return new SKSimpleChecker<>('"');
     }
 
-    public static SimpleChecker<Character> createPropertyNameEndChecker() {
+    public static Function<Character, Boolean> createPropertyNameEndChecker() {
         return new SKSimpleChecker<>('"');
     }
 
-    public static SimpleChecker<Character> createValueNameSeparator() {
+    public static Function<Character, Boolean> createValueNameSeparator() {
         return new SKSimpleChecker<>(':');
     }
 }

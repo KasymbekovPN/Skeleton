@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -30,6 +29,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -196,12 +196,12 @@ public class ClassContainerTaskHandlerTest {
 
     private static class TestedClassWrapper extends ClassContainerTaskHandler {
 
-        public TestedClassWrapper(SimpleChecker<Field> fieldChecker, String id) {
+        public TestedClassWrapper(Function<Field, Boolean> fieldChecker, String id) {
             super(fieldChecker, id);
             simpleResult = new SKSimpleResult();
         }
 
-        public TestedClassWrapper(SimpleChecker<Field> fieldChecker, String id, SimpleResult simpleResult) {
+        public TestedClassWrapper(Function<Field, Boolean> fieldChecker, String id, SimpleResult simpleResult) {
             super(fieldChecker, id, simpleResult);
         }
 

@@ -44,7 +44,7 @@ public class Des2NodeBooleanTaskHandler extends Des2NodeBaseTaskHandler {
         while (iterator.hasNext() && !done){
             Character next = iterator.next();
 
-            if (valueEndChecker.check(NodeEI.booleanEI(), next)){
+            if (valueEndChecker.apply(NodeEI.booleanEI(), next)){
                 iterator.dec();
                 done = true;
             } else {

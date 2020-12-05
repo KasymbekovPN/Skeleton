@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.ClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 public class ClassSpecificTaskHandler extends BaseContextTaskHandler<ClassContext> {
 
@@ -27,16 +27,16 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler<ClassContex
     private static final String NOT_CONTAIN_CLASS_PART = "Not contain class part";
     private static final String NO_ONE_SPECIFIC_FIELD = "No one specific ";
 
-    private final SimpleChecker<Class<?>> fieldChecker;
+    private final Function<Class<?>, Boolean> fieldChecker;
 
-    private Set<Field> specificFields = new HashSet<>();
+    private final Set<Field> specificFields = new HashSet<>();
 
-    public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker, String id) {
+    public ClassSpecificTaskHandler(Function<Class<?>, Boolean> fieldChecker, String id) {
         super(id);
         this.fieldChecker = fieldChecker;
     }
 
-    public ClassSpecificTaskHandler(SimpleChecker<Class<?>> fieldChecker,
+    public ClassSpecificTaskHandler(Function<Class<?>, Boolean> fieldChecker,
                                     String id,
                                     SimpleResult simpleResult) {
         super(id, simpleResult);
@@ -100,7 +100,7 @@ public class ClassSpecificTaskHandler extends BaseContextTaskHandler<ClassContex
             specificFields.clear();
             Set<Field> remainingFields = memento.getRemainingFields();
             for (Field field : remainingFields) {
-                if (fieldChecker.check(field.getType())){
+                if (fieldChecker.apply(field.getType())){
                     specificFields.add(field);
                 }
             }

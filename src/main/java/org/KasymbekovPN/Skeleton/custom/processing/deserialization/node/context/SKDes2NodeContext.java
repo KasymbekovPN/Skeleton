@@ -3,7 +3,6 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.Des2NodeContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
@@ -12,6 +11,7 @@ import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTa
 import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
 
 public class SKDes2NodeContext implements Des2NodeContext {
 
@@ -22,9 +22,9 @@ public class SKDes2NodeContext implements Des2NodeContext {
     private final MultiChecker<EntityItem, Character> entityBeginChecker;
     private final MultiChecker<EntityItem, Character> valueBeginChecker;
     private final MultiChecker<EntityItem, Character> valueEndChecker;
-    private final SimpleChecker<Character> propertyNameBeginChecker;
-    private final SimpleChecker<Character> propertyNameEndChecker;
-    private final SimpleChecker<Character> valueNameSeparator;
+    private final Function<Character, Boolean> propertyNameBeginChecker;
+    private final Function<Character, Boolean> propertyNameEndChecker;
+    private final Function<Character, Boolean> valueNameSeparator;
 
     public SKDes2NodeContext(MultiContextIds<EntityItem> contextIds,
                              ContextStateCareTaker<Des2NodeContextStateMemento> careTaker,
@@ -33,9 +33,9 @@ public class SKDes2NodeContext implements Des2NodeContext {
                              MultiChecker<EntityItem, Character> entityBeginChecker,
                              MultiChecker<EntityItem, Character> valueBeginChecker,
                              MultiChecker<EntityItem, Character> valueEndChecker,
-                             SimpleChecker<Character> propertyNameBeginChecker,
-                             SimpleChecker<Character> propertyNameEndChecker,
-                             SimpleChecker<Character> valueNameSeparator) {
+                             Function<Character, Boolean> propertyNameBeginChecker,
+                             Function<Character, Boolean> propertyNameEndChecker,
+                             Function<Character, Boolean> valueNameSeparator) {
         this.contextIds = contextIds;
         this.careTaker = careTaker;
         this.iterator = iterator;
@@ -75,17 +75,17 @@ public class SKDes2NodeContext implements Des2NodeContext {
     }
 
     @Override
-    public SimpleChecker<Character> getPropertyNameBeginChecker() {
+    public Function<Character, Boolean> getPropertyNameBeginChecker() {
         return propertyNameBeginChecker;
     }
 
     @Override
-    public SimpleChecker<Character> getPropertyNameEndChecker() {
+    public Function<Character, Boolean> getPropertyNameEndChecker() {
         return propertyNameEndChecker;
     }
 
     @Override
-    public SimpleChecker<Character> getValueNameSeparatorChecker() {
+    public Function<Character, Boolean> getValueNameSeparatorChecker() {
         return valueNameSeparator;
     }
 

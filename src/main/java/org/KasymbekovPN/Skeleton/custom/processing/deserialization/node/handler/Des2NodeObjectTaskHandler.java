@@ -5,7 +5,6 @@ import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.SKDes2NodeContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
@@ -13,6 +12,7 @@ import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
 
 public class Des2NodeObjectTaskHandler extends Des2NodeBaseTaskHandler{
 
@@ -28,12 +28,12 @@ public class Des2NodeObjectTaskHandler extends Des2NodeBaseTaskHandler{
     protected void doIt(Des2NodeContext context) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty {
         Des2NodeContextStateMemento memento = context.getContextStateCareTaker().peek();
         DecrementedCharIterator iterator = context.iterator();
-        SimpleChecker<Character> propertyNameBeginChecker = context.getPropertyNameBeginChecker();
-        SimpleChecker<Character> propertyNameEndChecker = context.getPropertyNameEndChecker();
+        Function<Character, Boolean> propertyNameBeginChecker = context.getPropertyNameBeginChecker();
+        Function<Character, Boolean> propertyNameEndChecker = context.getPropertyNameEndChecker();
 
         MultiChecker<EntityItem, Character> valueEndChecker = context.getValueEndChecker(NodeEI.objectEI());
 
-        SimpleChecker<Character> valueNameSeparatorChecker = context.getValueNameSeparatorChecker();
+        Function<Character, Boolean> valueNameSeparatorChecker = context.getValueNameSeparatorChecker();
 
         boolean done = false;
         StringBuilder name = new StringBuilder();
@@ -46,22 +46,22 @@ public class Des2NodeObjectTaskHandler extends Des2NodeBaseTaskHandler{
 
             switch (state){
                 case NAME_BEGIN_FINDING:
-                    if (propertyNameBeginChecker.check(next)){
+                    if (propertyNameBeginChecker.apply(next)){
                         state = State.NAME_END_FINDING;
                         name.setLength(0);
-                    } else if (valueEndChecker.check(NodeEI.objectEI(), next)) {
+                    } else if (valueEndChecker.apply(NodeEI.objectEI(), next)) {
                         done = true;
                     }
                     break;
                 case NAME_END_FINDING:
-                    if (propertyNameEndChecker.check(next)){
+                    if (propertyNameEndChecker.apply(next)){
                         state = State.SEPARATOR_FINDING;
                     } else {
                         name.append(next);
                     }
                     break;
                 case SEPARATOR_FINDING:
-                    if (valueNameSeparatorChecker.check(next)){
+                    if (valueNameSeparatorChecker.apply(next)){
                         context.getContextStateCareTaker().push(new SKDes2NodeContextStateMemento(objectNode));
                         context.runProcessor();
 

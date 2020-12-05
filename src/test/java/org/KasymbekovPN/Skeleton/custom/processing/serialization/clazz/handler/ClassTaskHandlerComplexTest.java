@@ -13,7 +13,6 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
@@ -35,6 +34,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -82,11 +82,11 @@ public class ClassTaskHandlerComplexTest {
     }
 
     private void handleComplex(Collector collector,
-                                     SimpleChecker<Class<?>> specificChecker,
-                                     SimpleChecker<String> customChecker,
+                                     Function<Class<?>, Boolean> specificChecker,
+                                     Function<String, Boolean> customChecker,
                                      Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                     SimpleChecker<Field> collectionChecker,
-                                     SimpleChecker<Field> mapChecker) throws Exception {
+                                     Function<Field, Boolean> collectionChecker,
+                                     Function<Field, Boolean> mapChecker) throws Exception {
         ClassContext classContext = UClassSerialization.createClassContext(
                 collector,
                 new SKContextStateCareTaker<>()
@@ -183,7 +183,7 @@ public class ClassTaskHandlerComplexTest {
 
     private static class ClassSpecificTaskHandlerWrapper extends ClassSpecificTaskHandler implements Wrapper {
 
-        public ClassSpecificTaskHandlerWrapper(SimpleChecker<Class<?>> fieldChecker, String id) {
+        public ClassSpecificTaskHandlerWrapper(Function<Class<?>, Boolean> fieldChecker, String id) {
             super(fieldChecker, id);
             simpleResult = new SKSimpleResult();
         }
@@ -206,7 +206,7 @@ public class ClassTaskHandlerComplexTest {
 
     private static class ClassContainerTaskHandlerWrapper extends ClassContainerTaskHandler implements Wrapper{
 
-        public ClassContainerTaskHandlerWrapper(SimpleChecker<Field> fieldChecker, String id) {
+        public ClassContainerTaskHandlerWrapper(Function<Field, Boolean> fieldChecker, String id) {
             super(fieldChecker, id);
             simpleResult = new SKSimpleResult();
         }
@@ -229,7 +229,7 @@ public class ClassTaskHandlerComplexTest {
 
     private static class ClassCustomTaskHandlerWrapper extends ClassCustomTaskHandler implements Wrapper{
 
-        public ClassCustomTaskHandlerWrapper(SimpleChecker<String> classNameChecker,
+        public ClassCustomTaskHandlerWrapper(Function<String, Boolean> classNameChecker,
                                              Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
                                              String id) {
             super(classNameChecker, annotationExtractor, id);

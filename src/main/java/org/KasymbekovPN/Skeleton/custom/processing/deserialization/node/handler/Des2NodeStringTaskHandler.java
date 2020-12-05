@@ -45,13 +45,13 @@ public class Des2NodeStringTaskHandler extends Des2NodeBaseTaskHandler {
 
             switch(state){
                 case BEGIN:
-                    if (valueBeginChecker.check(NodeEI.stringEI(), next)){
+                    if (valueBeginChecker.apply(NodeEI.stringEI(), next)){
                         line.append(next);
                         state = State.ADD;
                     }
                     break;
                 case ADD:
-                    if (valueEndChecker.check(NodeEI.stringEI(), next)){
+                    if (valueEndChecker.apply(NodeEI.stringEI(), next)){
                         done = true;
                     } else if (next.equals(SHIELD)){
                         state = State.SHIELD;

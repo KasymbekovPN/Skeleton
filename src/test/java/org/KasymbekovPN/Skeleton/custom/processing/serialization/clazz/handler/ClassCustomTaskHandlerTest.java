@@ -10,7 +10,6 @@ import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextState
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
-import org.KasymbekovPN.Skeleton.lib.checker.SimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -67,7 +67,7 @@ public class ClassCustomTaskHandlerTest {
                             = annotationExtractor.extract(new MutablePair<>(SkeletonMember.class, field.getAnnotations()));
                     if (maybeAnnotation.isPresent()){
                         String className = ((SkeletonMember) maybeAnnotation.get()).name();
-                        if (checker.check(className)){
+                        if (checker.apply(className)){
                             String type = field.getType().getTypeName();
                             int modifiers = field.getModifiers();
                             ArrayList<String> path = new ArrayList<>(USKCollectorPath.DEFAULT_MEMBERS_PATH_PATH.getPath());
@@ -183,12 +183,12 @@ public class ClassCustomTaskHandlerTest {
 
     private static class TestedClassCustomTaskWrapper extends ClassCustomTaskHandler {
 
-        public TestedClassCustomTaskWrapper(SimpleChecker<String> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id) {
+        public TestedClassCustomTaskWrapper(Function<String, Boolean> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id) {
             super(classNameChecker, annotationExtractor, id);
             this.simpleResult = new SKSimpleResult();
         }
 
-        public TestedClassCustomTaskWrapper(SimpleChecker<String> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id, SimpleResult simpleResult) {
+        public TestedClassCustomTaskWrapper(Function<String, Boolean> classNameChecker, Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor, String id, SimpleResult simpleResult) {
             super(classNameChecker, annotationExtractor, id, simpleResult);
         }
 

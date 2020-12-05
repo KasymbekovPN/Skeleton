@@ -39,9 +39,9 @@ public class Des2NodeArrayTaskHandler extends Des2NodeBaseTaskHandler {
 
             switch (state){
                 case BEGIN_END:
-                    if (valueBeginChecker.check(NodeEI.arrayEI(), next)){
+                    if (valueBeginChecker.apply(NodeEI.arrayEI(), next)){
                         state = State.MEMBER;
-                    } else if (valueEndChecker.check(NodeEI.arrayEI(), next)) {
+                    } else if (valueEndChecker.apply(NodeEI.arrayEI(), next)) {
                         done = true;
                     }
                     break;

@@ -58,21 +58,21 @@ public class SKSimpleCheckerTest {
     @ParameterizedTest
     @MethodSource("getIntegerTestData")
     void testWithInteger(Integer testedValue, Integer[] allowedValues, boolean result){
-        assertThat(new SKSimpleChecker<>(allowedValues).check(testedValue)).isEqualTo(result);
+        assertThat(new SKSimpleChecker<>(allowedValues).apply(testedValue)).isEqualTo(result);
     }
 
     @DisplayName("with String")
     @ParameterizedTest
     @MethodSource("getStringTestData")
     void testWithString(String testedValue, String[] allowedValues, boolean result){
-        assertThat(new SKSimpleChecker<>(allowedValues).check(testedValue)).isEqualTo(result);
+        assertThat(new SKSimpleChecker<>(allowedValues).apply(testedValue)).isEqualTo(result);
     }
 
     @DisplayName("with Class")
     @ParameterizedTest
     @MethodSource("getClassTestData")
     void testWithClass(Class<?> testedValue, Class<?>[] allowedValues, boolean result){
-        assertThat(new SKSimpleChecker<>(allowedValues).check(testedValue)).isEqualTo(result);
+        assertThat(new SKSimpleChecker<>(allowedValues).apply(testedValue)).isEqualTo(result);
     }
 
     private static class Class1{}
