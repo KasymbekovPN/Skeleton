@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
-// TODO: 22.11.2020 test
 public class ContextProcessor<T extends Context<? extends ContextStateMemento>> implements Processor<T> {
     private static final Class<? extends AggregateResult> AGGREGATE_RESULT_CLASS = SKAggregateResult.class;
     private static final Logger log = LoggerFactory.getLogger(ContextProcessor.class);
