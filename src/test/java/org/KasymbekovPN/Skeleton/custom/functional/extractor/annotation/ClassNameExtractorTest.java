@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.extractor.annotation;
+package org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation;
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.assertj.core.api.Assertions;
@@ -29,7 +29,7 @@ public class ClassNameExtractorTest {
     @ParameterizedTest
     @MethodSource("getTestData")
     void test(String name, Class<?> clazz, boolean result){
-        Optional<String> maybeName = classNameExtractor.extract(clazz.getDeclaredAnnotations());
+        Optional<String> maybeName = classNameExtractor.apply(clazz.getDeclaredAnnotations());
 
         boolean r = false;
         if (maybeName.isPresent()){

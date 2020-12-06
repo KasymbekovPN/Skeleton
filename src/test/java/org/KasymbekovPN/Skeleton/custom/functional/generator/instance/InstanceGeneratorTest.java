@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.generator.instance;
+package org.KasymbekovPN.Skeleton.custom.functional.generator.instance;
 
 import org.KasymbekovPN.Skeleton.custom.functional.generator.InstanceGenerator;
 import org.KasymbekovPN.Skeleton.exception.optionalConverter.CollectionGenerator.InstanceGeneratorBuildNoOneGenerator;

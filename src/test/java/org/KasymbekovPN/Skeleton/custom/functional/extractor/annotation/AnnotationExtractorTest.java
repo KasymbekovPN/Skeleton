@@ -1,6 +1,5 @@
-package org.KasymbekovPN.Skeleton.custom.extractor.annotation;
+package org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation;
 
-import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.assertj.core.api.Assertions;

@@ -4,7 +4,6 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart.ClassHeader
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
 import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
@@ -33,7 +32,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     private final Object instance;
     private final ObjectNode serData;
     private final Map<String, ObjectNode> classNodes;
-    private final Extractor<String, Annotation[]> annotationNameExtractor;
+    private final OptFunction<Annotation[], String> annotationNameExtractor;
     private final ClassHeaderPartHandler classHeaderPartHandler;
     private final ClassMembersPartHandler classMembersPartHandler;
     private final CollectorPath classPath;
@@ -48,7 +47,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     public SKDes2InstanceContextStateMemento(Object instance,
                                              ObjectNode serData,
                                              Map<String, ObjectNode> classNodes,
-                                             Extractor<String, Annotation[]> annotationNameExtractor,
+                                             OptFunction<Annotation[], String> annotationNameExtractor,
                                              ClassHeaderPartHandler classHeaderPartHandler,
                                              ClassMembersPartHandler classMembersPartHandler,
                                              CollectorPath classPath,
@@ -151,7 +150,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     private void extractClassName(){
         if (result.isSuccess()){
             Optional<String> maybeClassName
-                    = annotationNameExtractor.extract(instance.getClass().getDeclaredAnnotations());
+                    = annotationNameExtractor.apply(instance.getClass().getDeclaredAnnotations());
             if (maybeClassName.isPresent()){
                 className = maybeClassName.get();
             } else {
