@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-// TODO: 05.12.2020 change with functional interface
 public class SKClassMembersPartHandler implements ClassMembersPartHandler {
 
     private final String kindPropertyName;
