@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.util;
 
-import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.functional.checker.MapTypeChecker;
 
 import java.util.Arrays;
 import java.util.HashSet;

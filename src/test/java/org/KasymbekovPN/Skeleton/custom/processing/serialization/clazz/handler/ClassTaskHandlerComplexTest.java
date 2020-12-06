@@ -1,7 +1,7 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler;
 
-import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
-import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.functional.checker.CollectionTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.functional.checker.MapTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
@@ -12,7 +12,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
-import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;

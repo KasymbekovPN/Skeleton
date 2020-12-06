@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.custom.checker;
+package org.KasymbekovPN.Skeleton.custom.functional.checker;
 
 import java.util.function.Function;
 

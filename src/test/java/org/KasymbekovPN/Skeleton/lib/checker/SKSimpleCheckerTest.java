@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.lib.checker;
 
+import org.KasymbekovPN.Skeleton.lib.functional.checker.SKSimpleChecker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

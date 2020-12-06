@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
+import org.KasymbekovPN.Skeleton.custom.functional.checker.NumberCharacterChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

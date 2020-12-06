@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler;
 
-import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.functional.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;

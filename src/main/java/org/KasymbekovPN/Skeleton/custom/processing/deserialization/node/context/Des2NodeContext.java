@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context
 
 import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.Des2NodeContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
-import org.KasymbekovPN.Skeleton.lib.checker.MultiChecker;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.MultiChecker;
 import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
 import org.KasymbekovPN.Skeleton.lib.iterator.DecrementedCharIterator;
 import org.KasymbekovPN.Skeleton.lib.processing.context.Context;

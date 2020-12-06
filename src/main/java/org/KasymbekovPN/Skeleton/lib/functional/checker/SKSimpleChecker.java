@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.checker;
+package org.KasymbekovPN.Skeleton.lib.functional.checker;
 
 import java.util.Arrays;
 import java.util.HashSet;

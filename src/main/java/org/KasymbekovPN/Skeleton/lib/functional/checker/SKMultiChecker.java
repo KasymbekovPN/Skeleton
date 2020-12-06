@@ -1,4 +1,4 @@
-package org.KasymbekovPN.Skeleton.lib.checker;
+package org.KasymbekovPN.Skeleton.lib.functional.checker;
 
 import java.util.HashMap;
 import java.util.Map;

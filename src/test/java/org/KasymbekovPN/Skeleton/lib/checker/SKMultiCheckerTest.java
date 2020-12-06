@@ -1,5 +1,8 @@
 package org.KasymbekovPN.Skeleton.lib.checker;
 
+import org.KasymbekovPN.Skeleton.lib.functional.checker.MultiChecker;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.SKMultiChecker;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.SKSimpleChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

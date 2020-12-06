@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.checker;
 
+import org.KasymbekovPN.Skeleton.custom.functional.checker.CollectionTypeChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.util;
 
-import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
+import org.KasymbekovPN.Skeleton.custom.functional.checker.CollectionTypeChecker;
 
 import java.util.Arrays;
 import java.util.HashSet;
