@@ -2,8 +2,8 @@ package org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.con
 
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.extractor.annotation.ClassNameExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;

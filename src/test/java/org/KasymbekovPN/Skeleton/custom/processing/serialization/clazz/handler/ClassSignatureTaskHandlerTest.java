@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler;
 
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.ClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
@@ -46,7 +46,7 @@ public class ClassSignatureTaskHandlerTest {
         {
             Class<?> clazz = classes[i];
             Optional<Annotation> maybeAnnotation
-                    = annotationExtractor.extract(new MutablePair<>(SkeletonClass.class, clazz.getDeclaredAnnotations()));
+                    = annotationExtractor.apply(new MutablePair<>(SkeletonClass.class, clazz.getDeclaredAnnotations()));
             String name = maybeAnnotation.map(annotation -> ((SkeletonClass) annotation).name()).orElse("");
 
             collector.setTarget(USKCollectorPath.DEFAULT_CLASS_PART_PATH.getPath());

@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.contex
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.SKInstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.*;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
@@ -77,9 +77,9 @@ abstract public class InstanceBaseTaskHandler extends BaseContextTaskHandler<Ins
             return Optional.of(new NumberNode(parent, (Number) object));
         } else {
 
-            Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor
+            OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor
                     = context.getAnnotationExtractor();
-            Optional<Annotation> maybeAnnotation = annotationExtractor.extract(
+            Optional<Annotation> maybeAnnotation = annotationExtractor.apply(
                     new MutablePair<>(SkeletonClass.class, object.getClass().getDeclaredAnnotations())
             );
             if (maybeAnnotation.isPresent()){

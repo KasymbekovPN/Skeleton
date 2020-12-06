@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.
 
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -25,7 +25,7 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
 
     private static final Class<? extends SimpleResult> RESULT_CLASS = SKSimpleResult.class;
 
-    private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
+    private final OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor;
 
     private SimpleResult result;
     private Class<?> clazz;
@@ -33,7 +33,7 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
     private Set<Field> remainingFields;
 
     public SKClassContextStateMemento(Class<?> clazz,
-                                      Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor) {
+                                      OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor) {
         this.clazz = clazz;
         this.annotationExtractor = annotationExtractor;
     }
@@ -88,7 +88,7 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
     private void checkClazzAnnotation(){
         if (result.isSuccess()){
             Optional<Annotation> maybeAnnotation
-                    = annotationExtractor.extract(new MutablePair<>(SkeletonClass.class, clazz.getDeclaredAnnotations()));
+                    = annotationExtractor.apply(new MutablePair<>(SkeletonClass.class, clazz.getDeclaredAnnotations()));
             if (maybeAnnotation.isPresent()){
                 className = ((SkeletonClass) maybeAnnotation.get()).name();
             } else {
@@ -103,7 +103,7 @@ public class SKClassContextStateMemento implements ClassContextStateMemento {
             for (Field field : clazz.getDeclaredFields()) {
                 if (!Modifier.isStatic(field.getModifiers())){
                     Optional<Annotation> maybeAnnotation
-                            = annotationExtractor.extract(new MutablePair<>(SkeletonMember.class, field.getDeclaredAnnotations()));
+                            = annotationExtractor.apply(new MutablePair<>(SkeletonMember.class, field.getDeclaredAnnotations()));
                     if (maybeAnnotation.isPresent()){
                         remainingFields.add(field);
                     }

@@ -9,6 +9,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.m
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.member.ClassSpecificTaskHandler;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
@@ -55,7 +56,7 @@ public class UClassSerialization {
 
     public static Processor<ClassContext> createProcessor(Function<Class<?>, Boolean> specificChecker,
                                                           Function<String, Boolean> customChecker,
-                                                          Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                                          OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor,
                                                           Function<Field, Boolean> collectionChecker,
                                                           Function<Field, Boolean> mapChecker){
 

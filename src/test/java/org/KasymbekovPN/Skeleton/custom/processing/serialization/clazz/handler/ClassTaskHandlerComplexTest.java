@@ -2,7 +2,7 @@ package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler;
 
 import org.KasymbekovPN.Skeleton.custom.checker.CollectionTypeChecker;
 import org.KasymbekovPN.Skeleton.custom.checker.MapTypeChecker;
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.SKClassContextStateMemento;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler.header.ClassSignatureTaskHandler;
@@ -15,7 +15,7 @@ import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.checker.SKSimpleChecker;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
 import org.KasymbekovPN.Skeleton.lib.processing.processor.Processor;
@@ -82,11 +82,11 @@ public class ClassTaskHandlerComplexTest {
     }
 
     private void handleComplex(Collector collector,
-                                     Function<Class<?>, Boolean> specificChecker,
-                                     Function<String, Boolean> customChecker,
-                                     Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
-                                     Function<Field, Boolean> collectionChecker,
-                                     Function<Field, Boolean> mapChecker) throws Exception {
+                               Function<Class<?>, Boolean> specificChecker,
+                               Function<String, Boolean> customChecker,
+                               OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor,
+                               Function<Field, Boolean> collectionChecker,
+                               Function<Field, Boolean> mapChecker) throws Exception {
         ClassContext classContext = UClassSerialization.createClassContext(
                 collector,
                 new SKContextStateCareTaker<>()
@@ -112,7 +112,7 @@ public class ClassTaskHandlerComplexTest {
 
     private void handleWrapper(Collector collector,
                                Wrapper wrapper,
-                               Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor) throws InvocationTargetException, NoSuchMethodException, InstantiationException, ContextStateCareTakerIsEmpty, IllegalAccessException {
+                               OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor) throws InvocationTargetException, NoSuchMethodException, InstantiationException, ContextStateCareTakerIsEmpty, IllegalAccessException {
         ClassContext classContext = UClassSerialization.createClassContext(
                 collector,
                 new SKContextStateCareTaker<>()
@@ -230,7 +230,7 @@ public class ClassTaskHandlerComplexTest {
     private static class ClassCustomTaskHandlerWrapper extends ClassCustomTaskHandler implements Wrapper{
 
         public ClassCustomTaskHandlerWrapper(Function<String, Boolean> classNameChecker,
-                                             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                             OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor,
                                              String id) {
             super(classNameChecker, annotationExtractor, id);
             simpleResult = new SKSimpleResult();

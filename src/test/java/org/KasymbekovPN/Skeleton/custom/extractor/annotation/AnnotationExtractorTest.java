@@ -1,5 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.extractor.annotation;
 
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.assertj.core.api.Assertions;
@@ -32,7 +33,7 @@ public class AnnotationExtractorTest {
     @MethodSource("getTestData")
     void test(Class<? extends Annotation> annotation, Class<?> clazz, boolean result){
         Optional<Annotation> maybeAnnotation
-                = annotationExtractor.extract(new MutablePair<>(annotation, clazz.getDeclaredAnnotations()));
+                = annotationExtractor.apply(new MutablePair<>(annotation, clazz.getDeclaredAnnotations()));
 
         boolean r = false;
         if (maybeAnnotation.isPresent()){

@@ -6,7 +6,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.contex
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.Context;
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,6 +22,6 @@ public interface InstanceContext extends Context<InstanceContextStateMemento> {
     CollectorPath getMembersCollectorPath();
     ClassHeaderPartHandler getClassHeaderPartHandler();
     ClassMembersPartHandler getClassMembersPartHandler();
-    Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> getAnnotationExtractor();
+    OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> getAnnotationExtractor();
     void runProcessor() throws NoSuchMethodException, InstantiationException, IllegalAccessException, ContextStateCareTakerIsEmpty, InvocationTargetException;
 }

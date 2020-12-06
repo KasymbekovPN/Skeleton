@@ -5,6 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
@@ -37,7 +38,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
     private final ClassMembersPartHandler classMembersPartHandler;
     private final CollectorPath classPath;
     private final CollectorPath membersPath;
-    private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
+    private final OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor;
 
     private SimpleResult result;
     private String className;
@@ -52,7 +53,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
                                              ClassMembersPartHandler classMembersPartHandler,
                                              CollectorPath classPath,
                                              CollectorPath membersPath,
-                                             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor) {
+                                             OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor) {
         this.instance = instance;
         this.serData = serData;
         this.classNodes = classNodes;
@@ -236,7 +237,7 @@ public class SKDes2InstanceContextStateMemento implements Des2InstanceContextSta
             Field[] declaredFields = instance.getClass().getDeclaredFields();
             for (Field declaredField : declaredFields) {
                 if (!Modifier.isStatic(declaredField.getModifiers())){
-                    Optional<Annotation> maybeAnnotation = annotationExtractor.extract(new MutablePair<>(
+                    Optional<Annotation> maybeAnnotation = annotationExtractor.apply(new MutablePair<>(
                             SkeletonMember.class,
                             declaredField.getDeclaredAnnotations()
                     ));

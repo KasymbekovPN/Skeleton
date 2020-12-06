@@ -1,11 +1,12 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context;
 
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.InstanceContextStateMemento;
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
 import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
@@ -34,7 +35,7 @@ public class SKInstanceContextTest {
     private static InstanceContext instanceContext;
     private static Map<String, ObjectNode> classNodes;
     private static Collector collector;
-    private static Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
+    private static OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor;
 
     @BeforeAll
     private static void beforeAll(){

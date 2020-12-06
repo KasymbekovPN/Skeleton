@@ -5,7 +5,7 @@ import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembe
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.result.SKSimpleResult;
@@ -224,7 +224,7 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
                                                                     Map<String, Field> fields) {
         HashMap<String, Map<String, String>> values = new HashMap<>();
         if (result.isSuccess()){
-            Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor
+            OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor
                     = instanceContext.getAnnotationExtractor();
             for (Map.Entry<String, Set<String>> entry : memberNamesByKind.entrySet()) {
                 String kind = entry.getKey();
@@ -232,7 +232,7 @@ public class SKInstanceContextStateMemento implements InstanceContextStateMement
 
                 for (String memberName : names) {
                     if (fields.containsKey(memberName)){
-                        Optional<Annotation> maybeAnnotation = annotationExtractor.extract(new MutablePair<>(
+                        Optional<Annotation> maybeAnnotation = annotationExtractor.apply(new MutablePair<>(
                                 SkeletonMember.class,
                                 fields.get(memberName).getDeclaredAnnotations()
                         ));

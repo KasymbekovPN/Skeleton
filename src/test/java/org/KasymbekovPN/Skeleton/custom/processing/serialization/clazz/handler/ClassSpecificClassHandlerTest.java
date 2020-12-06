@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.handler;
 
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart.ClassMembersPartHandler;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.ClassContext;
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state.ClassContextStateMemento;
@@ -62,7 +62,7 @@ public class ClassSpecificClassHandlerTest {
             for (Field field : declaredFields) {
                 if (!Modifier.isStatic(field.getModifiers())){
                     Optional<Annotation> maybeAnnotation
-                            = annotationExtractor.extract(new MutablePair<>(SkeletonMember.class, field.getAnnotations()));
+                            = annotationExtractor.apply(new MutablePair<>(SkeletonMember.class, field.getAnnotations()));
                     if (maybeAnnotation.isPresent()){
                         String type = field.getType().getTypeName();
                         int modifiers = field.getModifiers();

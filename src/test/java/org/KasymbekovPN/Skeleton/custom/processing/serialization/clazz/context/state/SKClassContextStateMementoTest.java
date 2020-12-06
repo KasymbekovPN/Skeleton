@@ -1,6 +1,6 @@
 package org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.state;
 
-import org.KasymbekovPN.Skeleton.custom.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.result.SimpleResult;
@@ -52,7 +52,7 @@ public class SKClassContextStateMementoTest {
             Field[] declaredFields = clazz.getDeclaredFields();
             for (Field field : declaredFields) {
                 Optional<Annotation> maybeAnnotation
-                        = extractor.extract(new MutablePair<>(SkeletonMember.class, field.getDeclaredAnnotations()));
+                        = extractor.apply(new MutablePair<>(SkeletonMember.class, field.getDeclaredAnnotations()));
                 if (maybeAnnotation.isPresent()){
                     fields.add(field);
                 }

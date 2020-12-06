@@ -6,7 +6,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.clazz.context.s
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.Node;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.handler.context.BaseContextTaskHandler;
@@ -32,12 +32,12 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext>
     private static final String NO_ONE_CUSTOM_FIELD = "No one custom field";
 
     private final Function<String, Boolean> classNameChecker;
-    private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
+    private final OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor;
 
     private Set<Pair<String, Field>> data = new HashSet<>();
 
     public ClassCustomTaskHandler(Function<String, Boolean> classNameChecker,
-                                  Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                  OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor,
                                   String id) {
         super(id);
         this.classNameChecker = classNameChecker;
@@ -45,7 +45,7 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext>
     }
 
     public ClassCustomTaskHandler(Function<String, Boolean> classNameChecker,
-                                  Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor,
+                                  OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor,
                                   String id,
                                   SimpleResult simpleResult) {
         super(id, simpleResult);
@@ -117,7 +117,7 @@ public class ClassCustomTaskHandler extends BaseContextTaskHandler<ClassContext>
             Set<Field> remainingFields = memento.getRemainingFields();
             for (Field field : remainingFields) {
                 Optional<Annotation> maybeAnnotation
-                        = annotationExtractor.extract(new MutablePair<>(SkeletonMember.class, field.getAnnotations()));
+                        = annotationExtractor.apply(new MutablePair<>(SkeletonMember.class, field.getAnnotations()));
                 if (maybeAnnotation.isPresent()){
                     String className = ((SkeletonMember) maybeAnnotation.get()).name();
                     if (classNameChecker.apply(className)){

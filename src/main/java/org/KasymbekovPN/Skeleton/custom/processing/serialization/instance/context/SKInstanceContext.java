@@ -6,7 +6,7 @@ import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.contex
 import org.KasymbekovPN.Skeleton.exception.processing.context.state.ContextStateCareTakerIsEmpty;
 import org.KasymbekovPN.Skeleton.lib.collector.Collector;
 import org.KasymbekovPN.Skeleton.lib.collector.path.CollectorPath;
-import org.KasymbekovPN.Skeleton.lib.extractor.Extractor;
+import org.KasymbekovPN.Skeleton.lib.functional.OptFunction;
 import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids.ContextIds;
 import org.KasymbekovPN.Skeleton.lib.processing.context.state.ContextStateCareTaker;
@@ -32,7 +32,7 @@ public class SKInstanceContext implements InstanceContext {
     private final CollectorPath membersPartCollectorPath;
     private final ClassHeaderPartHandler classHeaderPartHandler;
     private final ClassMembersPartHandler classMembersPartHandler;
-    private final Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor;
+    private final OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor;
 
     public SKInstanceContext(ContextIds contextIds,
                              ContextStateCareTaker<InstanceContextStateMemento> careTaker,
@@ -43,7 +43,7 @@ public class SKInstanceContext implements InstanceContext {
                              CollectorPath membersPartCollectorPath,
                              ClassHeaderPartHandler classHeaderPartHandler,
                              ClassMembersPartHandler classMembersPartHandler,
-                             Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> annotationExtractor) {
+                             OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> annotationExtractor) {
         this.contextIds = contextIds;
         this.careTaker = careTaker;
         this.classNodes = classNodes;
@@ -97,7 +97,7 @@ public class SKInstanceContext implements InstanceContext {
     }
 
     @Override
-    public Extractor<Annotation, Pair<Class<? extends Annotation>, Annotation[]>> getAnnotationExtractor() {
+    public OptFunction<Pair<Class<? extends Annotation>, Annotation[]>, Annotation> getAnnotationExtractor() {
         return annotationExtractor;
     }
 
