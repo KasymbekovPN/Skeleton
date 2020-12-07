@@ -75,7 +75,7 @@ public class SKClassMembersPartHandlerTest {
         maybeClassName = classMembersPartHandler.getClassName(objectNode);
         Assertions.assertThat(maybeClassName).isPresent();
         Assertions.assertThat(className).isEqualTo(
-                ((StringNode) objectNode.getChildren().get(USKClassMembersPartHandler.CLASS_NODE)).getValue()
+                ((StringNode) objectNode.getChildren().get(USKClassMembersPartHandler.CLASS_NAME)).getValue()
         );
     }
 
