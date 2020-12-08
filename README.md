@@ -222,7 +222,6 @@ class Demo {
 }
 ```
 ## Сериализация экземпляра
-
 ### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
 ```java
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids;
@@ -241,7 +240,6 @@ class Demo{
 }
 ```
 ### 2. Создание контекстного процессора.
-
 ```java
 import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
 import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
@@ -336,7 +334,6 @@ class Demo {
    }
 }
 ```
-
 ### 6. Сериализация
 
 ```java
@@ -374,7 +371,104 @@ class Demo {
 }
 ```
 
-## todo : node writing 
+## Запись узла
+### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
+
+```java
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKMultiContextIds;
+
+class Demo() {
+   void run() {
+      SKMultiContextIds<EntityItem> contextIds = new SKMultiContextIds.Builder<EntityItem>("taskId", "private")
+              .add(ArrayNode.ei(), new SKSimpleContextIds("taskId", "array"))
+              .add(ObjectNode.ei(), new SKSimpleContextIds("taskId", "object"))
+              .build();
+   }
+}
+```
+### 2. Создание формат-обработчика записи
+
+```java
+import org.KasymbekovPN.Skeleton.custom.format.offset.SKOffset;
+import org.KasymbekovPN.Skeleton.custom.format.writing.json.handler.JsonWritingFormatterHandler;
+
+class Demo() {
+   void run() {
+      SKOffset offset = new SKOffset("    ");
+
+      JsonWritingFormatterHandler writingFormatterHandler = new JsonWritingFormatterHandler.Builder(offset)
+              .addFormatter(ObjectNode.ei(), new JsonObjectWritingFormatter(offset))
+              .addFormatter(ArrayNode.ei(), new JsonArrayWritingFormatter(offset))
+              .addFormatter(BooleanNode.ei(), new JsonBooleanWritingFormatter(offset))
+              .addFormatter(CharacterNode.ei(), new JsonCharacterWritingFormatter(offset))
+              .addFormatter(NumberNode.ei(), new JsonNumberWritingFormatter(offset))
+              .addFormatter(StringNode.ei(), new JsonStringWritingFormatter(offset))
+              .addFormatter(InvalidNode.ei(), new JsonInvalidWritingFormatter(offset))
+              .build();
+   }
+}
+```
+### 3. Создание контекстного процессора.
+
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.WritingContext;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingArrayTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingObjectTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.handler.WritingPrimitiveTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+
+class Demo {
+   void run() {
+      ContextTask<WritingContext> task = new ContextTask<>("taskId");
+      task.add(new WritingArrayTaskHandler("array"))
+              .add(new WritingObjectTaskHandler("object"))
+              .add(new WritingPrimitiveTaskHandler("private"));
+
+      ContextProcessor<WritingContext> processor = new ContextProcessor<WritingContext>();
+      processor.add(task);
+   }
+}
+```
+### 4. Создание контекста
+
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.SKWritingContext;
+import org.KasymbekovPN.Skeleton.custom.processing.writing.node.context.state.SKWritingContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+
+class Demo {
+   void test() {
+      SKWritingContext context = new SKWritingContext(
+              contextIds,
+              writingFormatterHandler,
+              processor,
+              new SKContextStateCareTaker<>()
+      );
+   }
+}
+```
+### 5. Запись
+```java
+class Demo{
+    void run(){
+       Node node;
+       /* get node for writing*/
+   
+       context.getContextStateCareTaker().push(
+               new SKWritingContextStateMemento(
+                       node
+               )
+       );
+       processor.handle(context);
+   
+       /* wrote string*/
+       String string = writingFormatterHandler.getDecoder().getString();
+    }
+}
+```
+
 
 ## todo : node deserialization
 
