@@ -213,12 +213,166 @@ class Demo {
    private static class TestClass {
 
       @SkeletonMember
-      private int intValue = 123;
+      private int intValue;
+
+      public TestClass(int intValue){
+         this.intValue = intValue;
+      }
+   }
+}
+```
+## Сериализация экземпляра
+
+### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
+```java
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids;
+
+class Demo{
+    void run(){
+       ContextIds contextIds = new SKSimpleContextIds(
+               "taskId",
+               "header",
+               "specific",
+               "custom",
+               "collection",
+               "map"
+       );
+    }
+}
+```
+### 2. Создание контекстного процессора.
+
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.InstanceContext;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+
+class Demo {
+   void run() {
+      ContextTask<InstanceContext> task = new ContextTask<>("taskId");
+      task
+              .add(new InstanceHeaderTaskHandler("header"))
+              .add(new InstanceSpecificTaskHandler("specific"))
+              .add(new InstanceCustomTaskHandler("custom"))
+              .add(new InstanceCollectionTaskHandler("collection"))
+              .add(new InstanceMapTaskHandler("map"));
+
+      ContextProcessor<InstanceContext> processor = new ContextProcessor<InstanceContext>();
+      processor.add(task);
+   }
+}
+```
+### 3. Создание путей для работы с коллектором
+```java
+import org.KasymbekovPN.Skeleton.lib.collector.path;
+
+class Demo{
+    void run(){
+        CollectorPath classPath = new SKCollectorPath(
+                Collections.singletonList("class"),
+                ObjectNode.ei()
+        );
+
+        CollectorPath membersPath = new SKCollectorPath(
+                Collections.singletonList("members"),
+                ObjectNode.ei()
+        );       
+    }
+}
+```
+### 4. Создание обработчиков частей
+```java
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart;
+
+class Demo{
+    void run(){
+        
+        ClassHeaderPartHandler classHeaderPartHandler = new SKClassHeaderPartHandler(
+                "type",
+                "name",
+                "modifiers"
+        );
+
+
+        ClassMembersPartHandler classMembersPartHandler = new SKClassMembersPartHandler(
+                "kind",
+                "type",
+                "className",
+                "modifiers",
+                "arguments"
+        );
+    }
+}
+```
+### 5. Создание контекста
+
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.SKInstanceContext;
+import org.KasymbekovPN.Skeleton.custom.processing.serialization.instance.context.state.SKInstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.collector.SKCollector;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+
+import java.util.HashMap;
+
+class Demo {
+   void run() {
+
+      HashMap<String, ObjectNode> classNodes = new HashMap<>();
+      /* fill classNodes */
+
+      SKInstanceContext context = new SKInstanceContext(
+              contextIds,
+              new SKContextStateCareTaker<>(),
+              classNodes,
+              new SKCollector(),
+              processor,
+              classPath,
+              membersPath,
+              classHeaderPartHandler,
+              classMembersPartHandler,
+              new AnnotationExtractor()
+      );
    }
 }
 ```
 
-## todo : instance serialization
+### 6. Сериализация
+
+```java
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonClass;
+import org.KasymbekovPN.Skeleton.lib.annotation.SkeletonMember;
+
+class Demo {
+   void run() {
+
+      TestClass testClass = new TestClass(123);
+      context.getContextStateCareTaker().push(
+              new SKInstanceContextStateMemento(
+                      testClass,
+                      classNodes.get("TestClass"),
+                      context
+              )
+      );
+       
+      processor.handle(context);
+
+      /* node contains serialized data */
+      Node node = context.getCollector().getNode();
+   }
+
+   @SkeletonClass(name = "TestClass")
+   private static class TestClass {
+
+      @SkeletonMember
+      private int intValue;
+
+      public TestClass(int intValue){
+          this.intValue = intValue;
+      }
+   }
+}
+```
 
 ## todo : node writing 
 
@@ -228,5 +382,4 @@ class Demo {
 
 ## todo : instance serialization
 
-## todo : other
 
