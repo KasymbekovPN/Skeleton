@@ -48,7 +48,6 @@ class ExampleClass{
 ```
 
 ## Сериализация класса
-
 ### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
 ```java
 import org.KasymbekovPN.Skeleton.lib.processing.context.ids;
@@ -66,7 +65,6 @@ class Demo{
     }
 }
 ```
-
 ### 2. Создание путей для работы с коллектором
 ```java
 import org.KasymbekovPN.Skeleton.lib.collector.path;
@@ -85,7 +83,6 @@ class Demo{
     }
 }
 ```
-
 ### 3. Создание обработчиков частей
 ```java
 import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart;
@@ -111,7 +108,6 @@ class Demo{
     }
 }
 ```
-
 ### 4. Создание контекста
 
 ```java
@@ -136,7 +132,6 @@ class Demo {
    }
 }
 ```
-
 ### 5. Создание чекеров
 
 ```java
@@ -163,7 +158,6 @@ class Demo {
    }
 }
 ```
-
 ### 6. Создание контекстного процессора.
 
 ```java
@@ -186,7 +180,6 @@ class Demo {
    }
 }
 ```
-
 ### 7. Сериализация
 
 ```java
@@ -370,7 +363,6 @@ class Demo {
    }
 }
 ```
-
 ## Запись узла
 ### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
 
@@ -469,11 +461,139 @@ class Demo{
 }
 ```
 
+## Десериализация узла
+### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
 
-## todo : node deserialization
+```java
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKMultiContextIds;
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+
+class Demo {
+   void run() {
+      SKMultiContextIds<EntityItem> contextIds = new SKMultiContextIds.Builder<EntityItem>(new SKSimpleContextIds("taskId", "init"))
+              .add(NodeEI.objectEI(), new SKSimpleContextIds("taskId", "object"))
+              .add(NodeEI.arrayEI(), new SKSimpleContextIds("taskId", "array"))
+              .add(NodeEI.booleanEI(), new SKSimpleContextIds("taskId", "boolean"))
+              .add(NodeEI.characterEI(), new SKSimpleContextIds("taskId", "character"))
+              .add(NodeEI.numberEI(), new SKSimpleContextIds("taskId", "number"))
+              .add(NodeEI.stringEI(), new SKSimpleContextIds("taskId", "string"))
+              .build();
+   }
+}
+```
+### 2. Создание контекстного процессора
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.Des2NodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.handler.*;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+
+class Demo {
+   void run() {
+      ContextTask<Des2NodeContext> task = new ContextTask<>("taskId");
+      task.add(new Des2NodeInitTaskHandler("init"))
+              .add(new Des2NodeObjectTaskHandler("object"))
+              .add(new Des2NodeArrayTaskHandler("array"))
+              .add(new Des2NodeBooleanTaskHandler("boolean"))
+              .add(new Des2NodeCharacterTaskHandler("character"))
+              .add(new Des2NodeNumberTaskHandler("number"))
+              .add(new Des2NodeStringTaskHandler("string"));
+
+      ContextTask<Des2NodeContext> processor = new ContextTask<Des2NodeContext>();
+      processor.add(task);
+   }
+}
+```
+### 3. Создание чекеров
+```java
+import org.KasymbekovPN.Skeleton.custom.functional.checker.NumberCharacterChecker;
+import org.KasymbekovPN.Skeleton.lib.entity.EntityItem;
+import org.KasymbekovPN.Skeleton.lib.entity.node.NodeEI;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.MultiChecker;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.SKMultiChecker;
+import org.KasymbekovPN.Skeleton.lib.functional.checker.SKSimpleChecker;
+
+class Demo {
+   void run() {
+      MultiChecker<EntityItem, Character> entityBeginChecker = new SKMultiChecker.Builder<EntityItem, Character>()
+              .add(NodeEI.arrayEI(), new SKSimpleChecker<>('['))
+              .add(NodeEI.booleanEI(), new SKSimpleChecker<>('T', 't', 'F', 'f'))
+              .add(NodeEI.characterEI(), new SKSimpleChecker<>('\''))
+              .add(NodeEI.objectEI(), new SKSimpleChecker<>('{'))
+              .add(NodeEI.stringEI(), new SKSimpleChecker<>('"'))
+              .add(NodeEI.numberEI(), new NumberCharacterChecker())
+              .build();
+
+      MultiChecker<EntityItem, Character> valueBeginChecker = new SKMultiChecker.Builder<EntityItem, Character>(new SKSimpleChecker<>())
+              .add(NodeEI.arrayEI(), new SKSimpleChecker<>('[', ','))
+              .add(NodeEI.characterEI(), new SKSimpleChecker<>('\''))
+              .add(NodeEI.stringEI(), new SKSimpleChecker<>('"'))
+              .build();
+
+      MultiChecker<EntityItem, Character> valueEndChecker = new SKMultiChecker.Builder<EntityItem, Character>(new SKSimpleChecker<>())
+              .add(NodeEI.numberEI(), new SKSimpleChecker<>(',', ']', '}'))
+              .add(NodeEI.booleanEI(), new SKSimpleChecker<>(',', ']', '}'))
+              .add(NodeEI.characterEI(), new SKSimpleChecker<>('\''))
+              .add(NodeEI.stringEI(), new SKSimpleChecker<>('"'))
+              .add(NodeEI.arrayEI(), new SKSimpleChecker<>(']'))
+              .add(NodeEI.objectEI(), new SKSimpleChecker<>('}'))
+              .build();
+
+      SKSimpleChecker<Character> propertyNameBeginChecker = new SKSimpleChecker<>('"');
+      SKSimpleChecker<Character> propertyNameEndChecker = new SKSimpleChecker<>('"');
+      SKSimpleChecker<Character> valueNameSeparator = new SKSimpleChecker<>(':');
+   }
+}
+```
+### 4. Создание контекста
+
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.SKDes2NodeContext;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.node.context.state.SKDes2NodeContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.iterator.SKDecrementedCharIterator;
+import org.KasymbekovPN.Skeleton.lib.node.Node;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+
+class Demo {
+   void run() {
+
+      String line;
+      /* fill line*/
+
+      SKDecrementedCharIterator iterator = new SKDecrementedCharIterator(line);
+      SKDes2NodeContext context = new SKDes2NodeContext(
+              contextIds,
+              new SKContextStateCareTaker<>(),
+              it,
+              processor,
+              entityBeginChecker,
+              valueBeginChecker,
+              valueEndChecker,
+              propertyNameBeginChecker,
+              propertyNameEndChecker,
+              valueNameSeparator
+      );
+   }
+}
+```
+### 5. Десериализация
+```java
+class Demo{
+    void run(){
+       context.getContextStateCareTaker().push(
+               new SKDes2NodeContextStateMemento(null)
+       );
+       processor.handle(context);
+
+       /* deserialized data*/
+       Node node = context.getContextStateCareTaker().peek().getNode();
+    }
+}
+```
+
+
 
 ## todo : instance deserialization
-
-## todo : instance serialization
 
 
