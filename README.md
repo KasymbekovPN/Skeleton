@@ -79,7 +79,7 @@ class Demo{
         CollectorPath membersPath = new SKCollectorPath(
                 Collections.singletonList("members"),
                 ObjectNode.ei()
-        );       
+        );
     }
 }
 ```
@@ -418,7 +418,7 @@ class Demo {
               .add(new WritingObjectTaskHandler("object"))
               .add(new WritingPrimitiveTaskHandler("private"));
 
-      ContextProcessor<WritingContext> processor = new ContextProcessor<WritingContext>();
+      ContextProcessor<WritingContext> processor = new ContextProcessor<>();
       processor.add(task);
    }
 }
@@ -594,6 +594,165 @@ class Demo{
 
 
 
-## todo : instance deserialization
+## Десериализация экземпляра
+### 1. Создание экземпляра с идентификаторами задачи (task) и обработчиков (handler).
+
+```java
+import org.KasymbekovPN.Skeleton.lib.processing.context.ids.SKSimpleContextIds;
+
+class Demo {
+   void run() {
+
+      SKSimpleContextIds contextIds = new SKSimpleContextIds(
+              "taskId",
+              "specific",
+              "collection",
+              "custom",
+              "map"
+      );
+   }
+}
+```
+### 2. Создаем генераторы
+```java
+import org.KasymbekovPN.Skeleton.custom.functional.generator.InstanceGenerator;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+class Demo {
+   void run() {
+      InstanceGenerator<Object> objectGenerator = new InstanceGenerator.Builder<Object>()
+              .add("SomeClass", SomeClass.class)
+              .build();
+
+      InstanceGenerator<Map<Object, Object>> mapGenerator = new InstanceGenerator.Builder<Map<Object, Object>>()
+              .add("java.util.Map", HashMap::new)
+              .build();
+
+      InstanceGenerator<Collection<Object>> collectionGenerator = new InstanceGenerator.Builder<Collection<Object>>()
+              .add("java.util.Set", HashSet::new)
+              .add("java.util.List", ArrayList::new)
+              .build();
+   }
+}
+```
+### 3. Создание контекстного процессора
+
+```java
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCollectionTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceCustomTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceMapTaskHandler;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.handler.Des2InstanceSpecificTaskHandler;
+import org.KasymbekovPN.Skeleton.lib.processing.processor.context.ContextProcessor;
+import org.KasymbekovPN.Skeleton.lib.processing.task.context.ContextTask;
+
+class Demo {
+   void run() {
+      ContextTask<Des2InstanceCxt> task = new ContextTask<>("taskId");
+      task.add(new Des2InstanceSpecificTaskHandler("specific"))
+              .add(new Des2InstanceCustomTaskHandler("custom"))
+              .add(new Des2InstanceCollectionTaskHandler("collection"))
+              .add(new Des2InstanceMapTaskHandler("map"));
+
+      ContextProcessor<Des2InstanceCxt> processor = new ContextProcessor<>();
+      processor.add(task);
+   }
+}
+```
+### 4. Создание путей для работы с коллектором
+```java
+import org.KasymbekovPN.Skeleton.lib.collector.path;
+
+class Demo{
+    void run(){
+        CollectorPath classPath = new SKCollectorPath(
+                Collections.singletonList("class"),
+                ObjectNode.ei()
+        );
+
+       CollectorPath membersPath = new SKCollectorPath(
+               Collections.singletonList("members"),
+               ObjectNode.ei()
+       );
+    }
+}
+```
+### 5. Создание обработчиков частей
+```java
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.classPart;
+import org.KasymbekovPN.Skeleton.custom.node.handler.clazz.memberPart;
+
+class Demo{
+    void run(){
+        
+        ClassHeaderPartHandler classHeaderPartHandler = new SKClassHeaderPartHandler(
+                "type",
+                "name",
+                "modifiers"
+        );
 
 
+        ClassMembersPartHandler classMembersPartHandler = new SKClassMembersPartHandler(
+                "kind",
+                "type",
+                "className",
+                "modifiers",
+                "arguments"
+        );
+    }
+}
+```
+### 6. Создание контекста
+
+```java
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.AnnotationExtractor;
+import org.KasymbekovPN.Skeleton.custom.functional.extractor.annotation.ClassNameExtractor;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.Des2InstanceCxt;
+import org.KasymbekovPN.Skeleton.custom.processing.deserialization.instance.context.state.SKDes2InstanceContextStateMemento;
+import org.KasymbekovPN.Skeleton.lib.node.ObjectNode;
+import org.KasymbekovPN.Skeleton.lib.processing.context.state.SKContextStateCareTaker;
+
+import java.util.HashMap;
+
+class Demo {
+   void run() {
+
+      HashMap<String, ObjectNode> classNodes = new HashMap<>();
+      ObjectNode serData = new ObjectNode(null);
+      /* fill it */
+
+      Des2InstanceCxt context = new Des2InstanceCxt(
+              contextIds,
+              classNodes,
+              classHeaderPartHandler,
+              classMembersPartHandler,
+              classPath,
+              collectiongenerator,
+              mapGenerator,
+              objectGenerator,
+              classPath,
+              new SKContextStateCareTaker<>()
+      );
+
+      SomeClass instance = new SomeClass();
+      context.getContextStateCareTaker().push(
+              new SKDes2InstanceContextStateMemento(
+                      instance,
+                      serData,
+                      classNodes,
+                      new ClassNameExtractor(),
+                      classHeaderPartHandler,
+                      classMembersPartHandler,
+                      classPath,
+                      memberPath,
+                      new AnnotationExtractor()
+              )
+      );
+      processor.handle(context);
+
+      Object restoredInstance = context.getContextStateCareTaker().peek().getInstance();
+   }
+}
+```
